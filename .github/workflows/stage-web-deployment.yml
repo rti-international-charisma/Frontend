@@ -19,6 +19,6 @@ jobs:
       - run: cp -R build/web/* web_public/public/
       - uses: w9jds/firebase-action@master
         with:
-          args: deploy --only hosting
+          args: deploy --only hosting -P rti-charisma
         env:
           GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
