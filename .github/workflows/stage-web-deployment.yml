@@ -18,7 +18,6 @@ jobs:
       - run: flutter build web
       - uses: w9jds/firebase-action@master
         with:
-          args: deploy --only hosting -P rti-charisma
+          args: deploy --only hosting
         env:
           GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
-          PROJECT_PATH: "./web_stage"
