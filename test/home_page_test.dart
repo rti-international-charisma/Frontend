@@ -15,7 +15,7 @@ void main() {
     // Build our app and trigger a frame.
     await tester.pumpWidget(CharismaApp());
 
-    expect(find.text('Hello World'), findsOneWidget);
+    expect(find.text('Hello World. This is Charisma.'), findsOneWidget);
 
   });
 }
