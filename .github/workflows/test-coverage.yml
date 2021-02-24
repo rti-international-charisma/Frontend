@@ -6,7 +6,7 @@ on:
       - master
   pull_request:
     branches:
-      - *
+      - master
 
 jobs:
   build:
@@ -19,10 +19,10 @@ jobs:
           flutter-version: '1.22.0-12.1.pre'
           channel: 'beta'
       - name: Install dependencies
-        - run: flutter config --enable-web
-        - run: flutter pub get
+      - run: flutter config --enable-web
+      - run: flutter pub get
       - name: Run tests
-        - run: flutter test --coverage
+      - run: flutter test --coverage
       - uses: devmasx/coverage-check-action@v1.2.0
         with:
           type: lcov
