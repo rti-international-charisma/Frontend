@@ -1,4 +1,4 @@
-name: Web App Stage Deployment
+name: Web Deployment
 
 on:
   workflow_dispatch:
@@ -13,10 +13,12 @@ jobs:
         with:
           flutter-version: '1.22.0-12.1.pre'
           channel: 'beta'
-      - run: flutter config --enable-web
-      - run: flutter pub get
-      - run: flutter build web
-      - run: cp -R build/web/* web_public/public/
+      - name: Install dependencies
+          - run: flutter config --enable-web
+          - run: flutter pub get
+      - name: Build
+          - run: flutter build web
+          - run: cp -R build/web/* web_public/public/
       - uses: w9jds/firebase-action@master
         with:
           args: deploy --only hosting -P rti-charisma
