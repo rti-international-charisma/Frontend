@@ -1,0 +1,38 @@
+import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:contentful/contentful.dart';
+
+part 'page.g.dart';
+
+
+@JsonSerializable()
+class Page extends Entry<PageFields> {
+  Page({
+    SystemFields sys,
+    PageFields fields,
+  }) : super(sys: sys, fields: fields);
+
+  static Page fromJson(Map<String, dynamic> json) => _$PageFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PageToJson(this);
+}
+
+@JsonSerializable()
+class PageFields extends Equatable {
+  PageFields({
+    this.title,
+    this.pageid,
+    this.relations,
+  }) : super([title, pageid, relations]);
+
+  final String title;
+  final String pageid;
+  final List<Page> relations;
+
+  static PageFields fromJson(Map<String, dynamic> json) =>
+      _$PageFieldsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PageFieldsToJson(this);
+
+
+}
