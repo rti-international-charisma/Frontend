@@ -1,10 +1,18 @@
+import 'package:charisma/apiclient/api_client.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
-  runApp(CharismaApp());
+  const API_BASEURL = String.fromEnvironment('API_BASEURL', defaultValue: 'http://0.0.0.0:8080');
+  runApp(CharismaApp(ApiClient(http.Client(), API_BASEURL)));
 }
 
 class CharismaApp extends StatelessWidget {
+
+  final ApiClient _apiClient;
+
+  const CharismaApp(this._apiClient);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

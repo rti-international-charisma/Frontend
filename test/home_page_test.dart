@@ -5,17 +5,21 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
+import 'package:charisma/apiclient/api_client.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:charisma/main.dart';
+import 'package:mockito/mockito.dart';
 
 void main() {
   testWidgets('It displays Hello World text', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(CharismaApp());
+
+    final apiClient = MockApiClient();
+    await tester.pumpWidget(CharismaApp(apiClient));
 
     expect(find.text('Hello World. This is Charisma.'), findsOneWidget);
 
   });
 }
+
+class MockApiClient extends Mock implements ApiClient{}
