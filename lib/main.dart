@@ -1,6 +1,12 @@
 import 'package:charisma/apiclient/api_client.dart';
+import 'package:charisma/common/network_image_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'constants.dart';
+import 'home/home_page_widget.dart';
 
 void main() {
   const API_BASEURL = String.fromEnvironment('API_BASEURL', defaultValue: 'http://0.0.0.0:8080');
@@ -16,29 +22,34 @@ class CharismaApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Charisma',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: HomePage(title: 'Home Page'),
+    return MultiProvider (
+      providers: [
+        Provider<NetworkImageBuilder>(create: (context) => NetworkImageBuilder()),
+        Provider<Future<SharedPreferences>>(create: (_) => SharedPreferences.getInstance()),
+      ],
+      child: MaterialApp(
+        title: 'Charisma',
+        theme: ThemeData(
+          scaffoldBackgroundColor: backgroundColor,
+          primaryColor: primaryColor,
+          secondaryHeaderColor: secondaryColor,
+          backgroundColor: backgroundColor,
+          textTheme: Theme.of(context).textTheme.apply(bodyColor: textColor),
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          canvasColor: backgroundColor,
+          inputDecorationTheme: Theme.of(context).inputDecorationTheme.copyWith(
+            border: InputBorder.none,
+            labelStyle: TextStyle(
+              color: textColor,
+            ),
+            hintStyle: TextStyle(
+                color: textColor.withOpacity(.6)
+            ),
+          ),
+        ),
+        home: HomePageWidget(title: 'Home Page', apiClient:_apiClient),
+      )
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-
-  @override
-  Widget build(BuildContext context) {
-    return Text("Hello World. This is Charisma.");
-  }
-}
