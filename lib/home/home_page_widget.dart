@@ -24,39 +24,71 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(widget.title,
-                    style: Theme.of(context).textTheme.headline3.copyWith(
-                        color: textColor
-                    )),
-                Provider.of<NetworkImageBuilder>(context).build('https://picsum.photos/250'),
-                Text("""Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam aliquet tellus et tincidunt suscipit.
-            Aenean semper luctus magna non dictum. Ut sollicitudin tempor fermentum.
-             Nunc vehicula at nulla quis mattis. Suspendisse iaculis dolor ut massa tincidunt,
-             at imperdiet magna dignissim. Nam ultrices tempus massa ut ultricies. Morbi nibh erat, suscipit sed ante sed, mollis aliquet nunc.
-              Vestibulum luctus luctus erat, non aliquet sapien pulvinar in."""
+    return FutureBuilder<Map<String, dynamic>>(
+        future: widget.apiClient.get<Map<String,dynamic>>('/content'),
+        builder: (context, data) {
+          if (data.hasData) {
+            var homeData = data.data;
+            return Scaffold(
+              body: SafeArea(
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(homeData['textFields']['title'],
+                            style: Theme.of(context).textTheme.headline3.copyWith(
+                                color: textColor
+                            )),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                  height: 300,
+                                  width: 300,
+                                  child: Provider.of<NetworkImageBuilder>(context).build('https://${homeData['assetFields']['heroImage'][0]['url']}')
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                  child: Container(
+                                    child: Text(homeData['textFields']['contentBody']),
+                                  )
+                              ),
+                            ]
+                        ),
+                        SizedBox(width: 30),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: homeData['assetFields']['videos'].map<Widget>(
+                                  (video) =>
+                                  Expanded(
+                                    child: Container(
+                                        padding: EdgeInsets.all(10),
+                                        height: 350,
+                                        width: 400,
+                                        child: VideoPlayerWidget('https://${video['url']}'
+                                        )
+                                    ),
+                                  )
+                          ).toList(),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
-               Row(
-                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                 children: [
-                   Expanded(child: VideoPlayerWidget("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")),
-                   SizedBox(width: 10),
-                   Expanded(child: VideoPlayerWidget("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"))
-                 ],
-               )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+              ),
+            );
+          } else if(data.hasError) {
+            return Scaffold(
+              body: Center(
+                child: Text("Something went wrong"),
+              )
+            );
+          }
+          return Transform.scale(scale: 0.1, child: CircularProgressIndicator());
+        });
   }
 }
