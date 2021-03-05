@@ -39,7 +39,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(homeData['textFields']['title'],
+                        Text(homeData['textContent']['title'],
                             style: Theme.of(context).textTheme.headline3.copyWith(
                                 color: textColor
                             )),
@@ -49,12 +49,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               Container(
                                   height: 300,
                                   width: 300,
-                                  child: Provider.of<NetworkImageBuilder>(context).build('https://${homeData['assetFields']['heroImage'][0]['url']}')
+                                  child: Provider.of<NetworkImageBuilder>(context).build('${homeData['assets']['heroImage'][0]['url']}')
                               ),
                               SizedBox(width: 10),
                               Expanded(
                                   child: Container(
-                                    child: Text(homeData['textFields']['contentBody']),
+                                    child: Text(homeData['textContent']['contentBody']),
                                   )
                               ),
                             ]
@@ -62,14 +62,14 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         SizedBox(width: 30),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: homeData['assetFields']['videos'].map<Widget>(
+                          children: homeData['assets']['videos'].map<Widget>(
                                   (video) =>
                                   Expanded(
                                     child: Container(
                                         padding: EdgeInsets.all(10),
                                         height: 350,
                                         width: 400,
-                                        child: VideoPlayerWidget('https://${video['url']}'
+                                        child: VideoPlayerWidget('${video['url']}'
                                         )
                                     ),
                                   )
