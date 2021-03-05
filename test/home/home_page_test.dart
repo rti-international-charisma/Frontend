@@ -20,16 +20,17 @@ import '../util/network_image_builder_mock.dart';
 void main() {
 
   var contentResponse = {
-    "textFields" : {
+    "textContent": {
       "title": "Welcome to Charisma",
-      "contentBody" : "Lorem ipsum doler sit amet"
+      "pageid": "charisma-home",
+      "contentBody": "Lorem ipsum dolor sit amet"
     },
-    "assetFields" : {
+    "assets": {
       "heroImage": [
         {
           "id": "6Od9v3wzLOysiMum0Wkmme",
           "title": "Woman with black hat",
-          "url": "//images.ctfassets.net/5lkmroeaw7nj/6Od9v3wzLOysiMum0Wkmme/28062c87c8e64d95e7d75791ab740c7d/cameron-kirby-88711.jpg",
+          "url": "https://images.ctfassets.net/5lkmroeaw7nj/6Od9v3wzLOysiMum0Wkmme/28062c87c8e64d95e7d75791ab740c7d/cameron-kirby-88711.jpg",
           "mimeType": "image/jpeg"
         }
       ],
@@ -37,14 +38,20 @@ void main() {
         {
           "id": "xBarxc8wiWc2srCvoq3Si",
           "title": "file example MP4 1920 18MG",
-          "url": "//videos.ctfassets.net/5lkmroeaw7nj/xBarxc8wiWc2srCvoq3Si/63dab1060a7abd3d6f6f61018c51217a/file_example_MP4_1920_18MG.mp4",
+          "url": "https://videos.ctfassets.net/5lkmroeaw7nj/xBarxc8wiWc2srCvoq3Si/63dab1060a7abd3d6f6f61018c51217a/file_example_MP4_1920_18MG.mp4",
           "mimeType": "video/mp4"
         },
         {
-          "id": "xBarxc8wiWc2srCvoq3Si",
-          "title": "file example MP4 1920 18MG",
-          "url": "//videos.ctfassets.net/5lkmroeaw7nj/xBarxc8wiWc2srCvoq3Si/63dab1060a7abd3d6f6f61018c51217a/file_example_MP4_1920_18MG.mp4",
-          "mimeType": "video/mp4"
+          "id": "1nxExEyhry3xV7ndhMtRVD",
+          "title": "file example AVI 1920 2 3MG",
+          "url": "https://videos.ctfassets.net/5lkmroeaw7nj/1nxExEyhry3xV7ndhMtRVD/7e69a56f87babc45e5c526ef4247ac17/file_example_AVI_1920_2_3MG.avi",
+          "mimeType": "video/x-msvideo"
+        },
+        {
+          "id": "fYSQRqjUaZ5KILfIHkDbL",
+          "title": "file example OGG 1920 13 3mg",
+          "url": "https://videos.ctfassets.net/5lkmroeaw7nj/fYSQRqjUaZ5KILfIHkDbL/6aef1473d1774964d2bb0dfac7755a10/file_example_OGG_1920_13_3mg.ogg",
+          "mimeType": "video/ogg"
         }
       ]
     }
