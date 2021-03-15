@@ -3,8 +3,6 @@ frontend:
   phases:
     preBuild:
       commands:
-        - echo $PWD
-        - echo $CODEBUILD_SRC_DIR
         - cd /root
         - mkdir flutter-sdk
         - cd flutter-sdk
@@ -14,7 +12,6 @@ frontend:
         - cd $CODEBUILD_SRC_DIR/charisma-dart
     build:
       commands: 
-        - echo $PWD
         - flutter pub get
         - flutter build web --dart-define=API_BASEURL=https://charisma-api-xva3j6u7ba-uk.a.run.app
   artifacts:
