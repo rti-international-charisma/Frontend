@@ -1,0 +1,33 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - echo $PWD
+        - echo $CODEBUILD_SRC_DIR
+        - cd /root
+        - mkdir flutter-sdk
+        - cd flutter-sdk
+        - git clone https://github.com/flutter/flutter.git -b stable --depth 1
+        - export PATH="$PATH:`pwd`/flutter/bin"
+        - flutter config --enable-web
+        - cd $CODEBUILD_SRC_DIR/charisma-dart
+    build:
+      commands: 
+        - echo $PWD
+        - flutter pub get
+        - flutter build web --dart-define=API_BASEURL=https://charisma-api-xva3j6u7ba-uk.a.run.app
+  artifacts:
+    baseDirectory: ./build/web/
+    files:
+      - '**/*'
+  cache:
+    paths: 
+      - /root/flutter-sdk
+  test:
+    phases:
+      test:
+        commands:
+          - flutter test --coverage
+    artifacts:
+      configFilePath: /coverage
