@@ -10,21 +10,15 @@ frontend:
         - export PATH="$PATH:`pwd`/flutter/bin"
         - flutter config --enable-web
         - cd $CODEBUILD_SRC_DIR/charisma-dart
-    build:
-      commands: 
         - flutter pub get
+        - flutter test
+    build:
+      commands:
         - flutter build web --dart-define=API_BASEURL=https://charisma-api-xva3j6u7ba-uk.a.run.app
   artifacts:
     baseDirectory: ./build/web/
     files:
       - '**/*'
   cache:
-    paths: 
+    paths:
       - /root/flutter-sdk
-  test:
-    phases:
-      test:
-        commands:
-          - flutter test --coverage
-    artifacts:
-      configFilePath: /coverage
