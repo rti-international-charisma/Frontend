@@ -70,7 +70,7 @@ void main() {
 
     await tester.pumpWidget(HomePageWidget(title: "Welcome to Charisma", apiClient: apiClient).wrapWithMaterial());
     await tester.pump();
-    expect(find.text('Welcome to Charisma'), findsOneWidget);
+    expect(find.text('Welcome to Charisma..'), findsOneWidget);
 
   });
 
