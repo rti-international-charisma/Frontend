@@ -1,3 +1,5 @@
+import 'dart:html';
+import 'dart:ui';
 
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/network_image_builder.dart';
@@ -7,11 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomePageWidget extends StatefulWidget {
-  HomePageWidget({
-    Key key,
-    this.title,
-    this.apiClient
-  }) : super(key: key);
+  HomePageWidget({Key key, this.title, this.apiClient}) : super(key: key);
 
   final String title;
   final ApiClient apiClient;
@@ -21,74 +19,72 @@ class HomePageWidget extends StatefulWidget {
 }
 
 class _HomePageWidgetState extends State<HomePageWidget> {
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Map<String, dynamic>>(
-        future: widget.apiClient.get<Map<String,dynamic>>('/content'),
+        future: widget.apiClient.get<Map<String, dynamic>>('/content'),
         builder: (context, data) {
           if (data.hasData) {
             var homeData = data.data;
             return Scaffold(
+              appBar: AppBar(
+                title: Image.asset('assets/images/charisma_logo.png',
+                    fit: BoxFit.cover),
+                leading: IconButton(
+                  icon: Icon(Icons.menu),
+                  onPressed: () {},
+                ),
+                actions: <Widget>[
+                  Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.all(10),
+                      child: Text(
+                        'Login',
+                        style: TextStyle(color: Color(0xff2DA4FA)),
+                      ))
+                ],
+              ),
               body: SafeArea(
                 child: Container(
-                  padding: EdgeInsets.all(10),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(homeData['textContent']['title'],
-                            style: Theme.of(context).textTheme.headline3.copyWith(
-                                color: textColor
-                            )),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Container(
-                                  height: 300,
-                                  width: 300,
-                                  child: Provider.of<NetworkImageBuilder>(context).build('${homeData['assets']['heroImage'][0]['url']}')
-                              ),
-                              SizedBox(width: 10),
-                              Expanded(
-                                  child: Container(
-                                    child: Text(homeData['textContent']['contentBody']),
-                                  )
-                              ),
-                            ]
-                        ),
-                        SizedBox(width: 30),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: homeData['assets']['videos'].map<Widget>(
-                                  (video) =>
-                                  Expanded(
-                                    child: Container(
-                                        padding: EdgeInsets.all(10),
-                                        height: 350,
-                                        width: 400,
-                                        child: VideoPlayerWidget('${video['url']}'
-                                        )
-                                    ),
-                                  )
-                          ).toList(),
-                        )
+                        Stack(children: <Widget>[
+                          new Image.network(
+                            "${homeData['assets']['heroImage'][0]['url']}",
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            alignment: Alignment.center,
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            child: Container(
+                              height: 400,
+                              width: MediaQuery.of(context).size.width,
+                              alignment: Alignment.bottomCenter,
+                              padding: EdgeInsets.all(20),
+                              child: Text(
+                                  homeData['textContent']['heroImageText'],
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(color: Colors.white)),
+                            ),
+                          )
+                        ]),
                       ],
                     ),
                   ),
                 ),
               ),
             );
-          } else if(data.hasError) {
+          } else if (data.hasError) {
             return Scaffold(
-              body: Center(
-                child: Text("Something went wrong"),
-              )
-            );
+                body: Center(
+              child: Text("Something went wrong"),
+            ));
           }
-          return Transform.scale(scale: 0.1, child: CircularProgressIndicator());
+          return Transform.scale(
+              scale: 0.1, child: CircularProgressIndicator());
         });
   }
 }

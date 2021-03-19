@@ -9,12 +9,12 @@ import 'constants.dart';
 import 'home/home_page_widget.dart';
 
 void main() {
-  const API_BASEURL = String.fromEnvironment('API_BASEURL', defaultValue: 'http://0.0.0.0:8080');
+  const API_BASEURL = String.fromEnvironment('API_BASEURL',
+      defaultValue: 'http://0.0.0.0:8080');
   runApp(CharismaApp(ApiClient(http.Client(), API_BASEURL)));
 }
 
 class CharismaApp extends StatelessWidget {
-
   final ApiClient _apiClient;
 
   const CharismaApp(this._apiClient);
@@ -22,34 +22,33 @@ class CharismaApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider (
-      providers: [
-        Provider<NetworkImageBuilder>(create: (context) => NetworkImageBuilder()),
-        Provider<Future<SharedPreferences>>(create: (_) => SharedPreferences.getInstance()),
-      ],
-      child: MaterialApp(
-        title: 'Charisma',
-        theme: ThemeData(
-          scaffoldBackgroundColor: backgroundColor,
-          primaryColor: primaryColor,
-          secondaryHeaderColor: secondaryColor,
-          backgroundColor: backgroundColor,
-          textTheme: Theme.of(context).textTheme.apply(bodyColor: textColor),
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          canvasColor: backgroundColor,
-          inputDecorationTheme: Theme.of(context).inputDecorationTheme.copyWith(
-            border: InputBorder.none,
-            labelStyle: TextStyle(
-              color: textColor,
-            ),
-            hintStyle: TextStyle(
-                color: textColor.withOpacity(.6)
-            ),
+    return MultiProvider(
+        providers: [
+          Provider<NetworkImageBuilder>(
+              create: (context) => NetworkImageBuilder()),
+          Provider<Future<SharedPreferences>>(
+              create: (_) => SharedPreferences.getInstance()),
+        ],
+        child: MaterialApp(
+          title: 'Charisma',
+          theme: ThemeData(
+            scaffoldBackgroundColor: backgroundColor,
+            primaryColor: backgroundColor,
+            secondaryHeaderColor: secondaryColor,
+            backgroundColor: backgroundColor,
+            textTheme: Theme.of(context).textTheme.apply(bodyColor: textColor),
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+            canvasColor: backgroundColor,
+            inputDecorationTheme:
+                Theme.of(context).inputDecorationTheme.copyWith(
+                      border: InputBorder.none,
+                      labelStyle: TextStyle(
+                        color: textColor,
+                      ),
+                      hintStyle: TextStyle(color: textColor.withOpacity(.6)),
+                    ),
           ),
-        ),
-        home: HomePageWidget(title: 'Home Page', apiClient:_apiClient),
-      )
-    );
+          home: HomePageWidget(title: 'Home Page', apiClient: _apiClient),
+        ));
   }
 }
-
