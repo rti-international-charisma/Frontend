@@ -48,7 +48,7 @@ class CharismaApp extends StatelessWidget {
                       hintStyle: TextStyle(color: textColor.withOpacity(.6)),
                     ),
           ),
-          home: HomePageWidget(title: 'Home Page', apiClient: _apiClient),
+          home: HomePageWidget(apiClient: _apiClient),
         ));
   }
 }

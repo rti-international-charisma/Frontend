@@ -8,9 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomePageWidget extends StatefulWidget {
-  HomePageWidget({Key key, this.title, this.apiClient}) : super(key: key);
+  HomePageWidget({Key key, this.apiClient}) : super(key: key);
 
-  final String title;
   final ApiClient apiClient;
 
   @override
@@ -25,10 +24,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         builder: (context, data) {
           if (data.hasData) {
             var homeData = data.data;
+            print(homeData['assets']['heroImage']);
             return Scaffold(
               appBar: AppBar(
                 title: Image.asset('assets/images/charisma_logo.png',
-                    fit: BoxFit.cover),
+                    key: ValueKey('CharismaLogo'), fit: BoxFit.cover),
                 leading: IconButton(
                   icon: Icon(Icons.menu),
                   onPressed: () {},
@@ -39,6 +39,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       margin: EdgeInsets.all(10),
                       child: Text(
                         'Login',
+                        key: ValueKey('LoginLink'),
                         style: TextStyle(color: Color(0xff2DA4FA)),
                       ))
                 ],
@@ -55,6 +56,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             fit: BoxFit.cover,
                             width: double.infinity,
                             alignment: Alignment.center,
+                            key: ValueKey('HeroImage'),
                           ),
                           Positioned(
                             bottom: 0,
@@ -65,6 +67,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               padding: EdgeInsets.all(20),
                               child: Text(
                                   homeData['textContent']['heroImageText'],
+                                  key: ValueKey('HeroImageText'),
                                   textAlign: TextAlign.left,
                                   style: TextStyle(color: Colors.white)),
                             ),
@@ -102,6 +105,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                       left: 30,
                                       child: Text(
                                         '1',
+                                        key: ValueKey('Step1'),
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 32,
@@ -116,6 +120,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 Flexible(
                                   child: Text(
                                     "${homeData['textContent']['step1']}",
+                                    key: ValueKey('Step1Text'),
                                     style: TextStyle(
                                         fontSize: 16, fontFamily: 'Lato'),
                                   ),
@@ -143,6 +148,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                       left: 30,
                                       child: Text(
                                         '2',
+                                        key: ValueKey('Step2'),
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 32,
@@ -157,6 +163,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 Flexible(
                                   child: Text(
                                     "${homeData['textContent']['step2']}",
+                                    key: ValueKey('Step2Text'),
                                     style: TextStyle(
                                         fontSize: 16, fontFamily: 'Lato'),
                                   ),
@@ -184,6 +191,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                       left: 30,
                                       child: Text(
                                         '3',
+                                        key: ValueKey('Step3'),
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 32,
@@ -198,6 +206,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 Flexible(
                                   child: Text(
                                     "${homeData['textContent']['step3']}",
+                                    key: ValueKey('Step3Text'),
                                     style: TextStyle(
                                         fontSize: 16, fontFamily: 'Lato'),
                                   ),
@@ -225,6 +234,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                       left: 30,
                                       child: Text(
                                         '4',
+                                        key: ValueKey('Step4'),
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 32,
@@ -241,12 +251,14 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                   children: [
                                     Text(
                                       "${homeData['textContent']['step4']}",
+                                      key: ValueKey('Step4Text'),
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                           fontSize: 16, fontFamily: 'Lato'),
                                     ),
                                     Text(
                                       "${homeData['textContent']['step4SubText']}",
+                                      key: ValueKey('Step4SubText'),
                                       style: TextStyle(
                                           fontSize: 12, fontFamily: 'Roboto'),
                                     ),
