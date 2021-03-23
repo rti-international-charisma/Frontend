@@ -150,7 +150,7 @@ void main() {
         find.byKey(ValueKey('HeroImageText')).evaluate().single.widget as Text;
     expect(find.byKey(ValueKey('HeroImageText')), findsOneWidget);
     expect(heroImageText.data,
-        equals(contentResponse['textContent']['heroImageText']));
+        equals(contentResponse['textContent']!['heroImageText']));
   });
 
   testWidgets('It displays different steps for how Charisma works',

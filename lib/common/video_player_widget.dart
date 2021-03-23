@@ -14,17 +14,15 @@ class VideoPlayerWidget extends StatefulWidget {
 }
 
 class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
-  ChewieController _chewieController;
-  VideoPlayerController _videoController;
+  late ChewieController _chewieController;
+  late VideoPlayerController _videoController;
   bool isFullscreen = false;
   bool isVideoFinished = false;
 
   @override
   void initState() {
     super.initState();
-    _videoController = VideoPlayerController.network(
-        widget.videoUrl
-    );
+    _videoController = VideoPlayerController.network(widget.videoUrl);
 
     _chewieController = ChewieController(
       deviceOrientationsAfterFullScreen: [DeviceOrientation.portraitUp],
@@ -48,17 +46,19 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     );
 
     _chewieController.deviceOrientationsAfterFullScreen.clear();
-    _chewieController.deviceOrientationsAfterFullScreen.add(DeviceOrientation.portraitUp);
+    _chewieController.deviceOrientationsAfterFullScreen
+        .add(DeviceOrientation.portraitUp);
 
     _videoController.addListener(() {
       var duration = _videoController.value.duration;
       var position = _videoController.value.position;
-      if ((_chewieController != null && _chewieController.isFullScreen) && (position >= (duration - Duration(seconds: 1)))) {
+      if ((_chewieController != null && _chewieController.isFullScreen) &&
+          (position >= (duration - Duration(seconds: 1)))) {
         _chewieController.exitFullScreen();
-         videoFinished();
+        videoFinished();
       }
 
-      if (position == duration){
+      if (position == duration) {
         videoFinished();
       }
     });
@@ -72,7 +72,6 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       child: Chewie(
         controller: _chewieController,
@@ -86,5 +85,4 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     _chewieController.dispose();
     super.dispose();
   }
-
 }

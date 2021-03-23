@@ -8,9 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomePageWidget extends StatefulWidget {
-  HomePageWidget({Key key, this.apiClient}) : super(key: key);
+  HomePageWidget({Key? key, this.apiClient}) : super(key: key);
 
-  final ApiClient apiClient;
+  final ApiClient? apiClient;
 
   @override
   _HomePageWidgetState createState() => _HomePageWidgetState();
@@ -20,11 +20,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Map<String, dynamic>>(
-        future: widget.apiClient.get<Map<String, dynamic>>('/content'),
+        future: widget.apiClient!.get<Map<String, dynamic>>('/content'),
         builder: (context, data) {
           if (data.hasData) {
             var homeData = data.data;
-            print(homeData['assets']['heroImage']);
+
             return Scaffold(
               appBar: AppBar(
                 title: Image.asset('assets/images/charisma_logo.png',
@@ -52,7 +52,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       children: [
                         Stack(children: <Widget>[
                           new Image.network(
-                            "${homeData['assets']['heroImage'][0]['url']}",
+                            "${homeData!['assets']['heroImage'][0]['url']}",
                             fit: BoxFit.cover,
                             width: double.infinity,
                             alignment: Alignment.center,
