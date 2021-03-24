@@ -19,12 +19,13 @@ class HomePageWidget extends StatefulWidget {
 class _HomePageWidgetState extends State<HomePageWidget> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Map<String, dynamic>>(
-        future: widget.apiClient!.get<Map<String, dynamic>>('/content'),
+    return FutureBuilder<Map<String, dynamic>?>(
+        future: widget.apiClient?.get<Map<String, dynamic>>('/content'),
         builder: (context, data) {
           if (data.hasData) {
+            print('ALJSFGLJASKLJGFLASJGJALSJ');
             var homeData = data.data;
-
+            print(homeData);
             return Scaffold(
               appBar: AppBar(
                 title: Image.asset('assets/images/charisma_logo.png',
