@@ -4,6 +4,9 @@ import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/network_image_builder.dart';
 import 'package:charisma/common/video_player_widget.dart';
 import 'package:charisma/constants.dart';
+import 'package:charisma/home/hero_image_widget.dart';
+import 'package:charisma/home/home_page_videos_widget.dart';
+import 'package:charisma/home/how_charisma_works_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,9 +26,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         future: widget.apiClient?.get<Map<String, dynamic>>('/content'),
         builder: (context, data) {
           if (data.hasData) {
-            print('ALJSFGLJASKLJGFLASJGJALSJ');
             var homeData = data.data;
-            print(homeData);
+
             return Scaffold(
               appBar: AppBar(
                 title: Image.asset('assets/images/charisma_logo.png',
@@ -51,227 +53,21 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     scrollDirection: Axis.vertical,
                     child: Column(
                       children: [
-                        Stack(children: <Widget>[
-                          new Image.network(
-                            "${homeData!['assets']['heroImage'][0]['url']}",
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            alignment: Alignment.center,
-                            key: ValueKey('HeroImage'),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            child: Container(
-                              height: 400,
-                              width: MediaQuery.of(context).size.width,
-                              alignment: Alignment.bottomCenter,
-                              padding: EdgeInsets.all(20),
-                              child: Text(
-                                  homeData['textContent']['heroImageText'],
-                                  key: ValueKey('HeroImageText'),
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(color: Colors.white)),
-                            ),
-                          )
-                        ]),
+                        HeroImageWidget(
+                          heroImageData: homeData,
+                        ),
                         SizedBox(
                           height: 40,
                         ),
-                        Column(
-                          children: [
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              padding: EdgeInsets.all(20),
-                              child: Text(
-                                homeData['textContent']['howCharismaWorks'],
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w700, fontSize: 20),
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Stack(
-                                  children: [
-                                    new Image.network(
-                                      "${homeData['assets']['stepImage'][0]['url']}",
-                                    ),
-                                    new Image.network(
-                                      "${homeData['assets']['stepImage'][1]['url']}",
-                                    ),
-                                    Positioned(
-                                      bottom: 20,
-                                      left: 30,
-                                      child: Text(
-                                        '1',
-                                        key: ValueKey('Step1'),
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 32,
-                                            fontWeight: FontWeight.w700),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Flexible(
-                                  child: Text(
-                                    "${homeData['textContent']['step1']}",
-                                    key: ValueKey('Step1Text'),
-                                    style: TextStyle(
-                                        fontSize: 16, fontFamily: 'Lato'),
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Stack(
-                                  children: [
-                                    new Image.network(
-                                      "${homeData['assets']['stepImage'][2]['url']}",
-                                    ),
-                                    new Image.network(
-                                      "${homeData['assets']['stepImage'][3]['url']}",
-                                    ),
-                                    Positioned(
-                                      bottom: 20,
-                                      left: 30,
-                                      child: Text(
-                                        '2',
-                                        key: ValueKey('Step2'),
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 32,
-                                            fontWeight: FontWeight.w700),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Flexible(
-                                  child: Text(
-                                    "${homeData['textContent']['step2']}",
-                                    key: ValueKey('Step2Text'),
-                                    style: TextStyle(
-                                        fontSize: 16, fontFamily: 'Lato'),
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Stack(
-                                  children: [
-                                    new Image.network(
-                                      "${homeData['assets']['stepImage'][4]['url']}",
-                                    ),
-                                    new Image.network(
-                                      "${homeData['assets']['stepImage'][5]['url']}",
-                                    ),
-                                    Positioned(
-                                      bottom: 20,
-                                      left: 30,
-                                      child: Text(
-                                        '3',
-                                        key: ValueKey('Step3'),
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 32,
-                                            fontWeight: FontWeight.w700),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Flexible(
-                                  child: Text(
-                                    "${homeData['textContent']['step3']}",
-                                    key: ValueKey('Step3Text'),
-                                    style: TextStyle(
-                                        fontSize: 16, fontFamily: 'Lato'),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Stack(
-                                  children: [
-                                    new Image.network(
-                                      "${homeData['assets']['stepImage'][6]['url']}",
-                                    ),
-                                    new Image.network(
-                                      "${homeData['assets']['stepImage'][7]['url']}",
-                                    ),
-                                    Positioned(
-                                      bottom: 20,
-                                      left: 30,
-                                      child: Text(
-                                        '4',
-                                        key: ValueKey('Step4'),
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 32,
-                                            fontWeight: FontWeight.w700),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "${homeData['textContent']['step4']}",
-                                      key: ValueKey('Step4Text'),
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          fontSize: 16, fontFamily: 'Lato'),
-                                    ),
-                                    Text(
-                                      "${homeData['textContent']['step4SubText']}",
-                                      key: ValueKey('Step4SubText'),
-                                      style: TextStyle(
-                                          fontSize: 12, fontFamily: 'Roboto'),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 40,
-                            ),
-                          ],
-                        )
+                        HowCharismaWorks(
+                          data: homeData,
+                        ),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        HomePageVideos(
+                          data: homeData,
+                        ),
                       ],
                     ),
                   ),

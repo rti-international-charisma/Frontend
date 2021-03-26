@@ -21,16 +21,37 @@ import '../util/network_image_builder_mock.dart';
 void main() {
   var contentResponse = {
     "textContent": {
-      "step4": "Get professional help",
-      "heroImageText":
-          "Want to check the status of your relationship and protect yourself?\n\nCHARISMA’s here to support you! \n\nTake a quiz about your relationship and get tailored support, or browse content on Healthy relationships, using PrEP in your relationships, \ngood communication with your partner and others, and relationship safety.",
+      "videoSummary1":
+          "All relationships have challenges, but it’s important to know what’s healthy or not. Read more to learn about healthy and unhealthy relationship qualities. It requires you to reflect on your own relationships using what you have learned.",
+      "videoSummary2":
+          "Communication is more than just the words you speak. Often we are not “heard” because we struggle to separate our feelings from facts when we’re upset. This section will give you skills to communicate better with your partner and use conflict to actually get what you both want and need in your relationship.",
+      "video1Link":
+          "https://drive.google.com/file/d/1SC3uUnbNLqIjPpwVCXzvob3E7NDGM6Bi/view?usp=sharing",
       "howCharismaWorks": "How Charisma works...",
-      "step4SubText": "Legal, relationship, mental health",
       "title": "Welcome to Charisma",
       "pageid": "charisma-home",
+      "videoSummary3":
+          "Are you on PrEP or would like to be on PrEP but don’t know how to tell your partner about it? We’ve got you. Read more to learn about ways other women tell their male partners. And if you’re not ready you can also learn how to use PrEP without telling your partner. ",
+      "videoSummary4":
+          "Tension and conflict is common in relationships, but it should not lead to physical abuse. Are you aware that abuse is not only physical? Read more to find out what you can do if you suspect you are in an abusive relationship. It’s good to have a back-up plan to make sure you stay safe even if you’re not ready to seek help. ",
+      "heroImageText":
+          "Want to check the status of your relationship and protect yourself?\n\nCHARISMA’s here to support you! \n\nTake a quiz about your relationship and get tailored support, or browse content on Healthy relationships, using PrEP in your relationships, \ngood communication with your partner and others, and relationship safety.",
+      "videoSectionSubHeadline":
+          "Here are some videos, activities and reading material for you",
+      "video3Link":
+          "https://drive.google.com/file/d/1Nfguavz85EMcapPm6wujWlfN6KDs902o/view?usp=sharing",
+      "step4": "Get professional help",
+      "videoSectionHeadline": "Build a healthy relationship with your partner",
+      "videoHeading1": "How’s the health of your relationship?",
+      "step4SubText": "Legal, relationship, mental health",
+      "videoHeading2": "Do you know the different ways of communicating?",
       "step2": "Take the test",
+      "videoHeading3": "Discussing PrEP Use with Partners",
       "step3": "Complete a Charisma recommended module",
-      "step1": "Login"
+      "videoHeading4": "Staying safe in a violent relationship",
+      "step1": "Login",
+      "video2Link":
+          "https://drive.google.com/file/d/1qNc_sIdo71N6TpRewlYqOSPd6dA6bBBz/view?usp=sharing"
     },
     "assets": {
       "heroImage": [
@@ -44,18 +65,11 @@ void main() {
       ],
       "videos": [
         {
-          "id": "xBarxc8wiWc2srCvoq3Si",
+          "id": "53HE5PKJqQNSvTvBD9zN1P",
           "title": "file example MP4 1920 18MG",
           "url":
-              "https://videos.ctfassets.net/5lkmroeaw7nj/xBarxc8wiWc2srCvoq3Si/63dab1060a7abd3d6f6f61018c51217a/file_example_MP4_1920_18MG.mp4",
+              "https://videos.ctfassets.net/5lkmroeaw7nj/53HE5PKJqQNSvTvBD9zN1P/e7b08af41183cc2ba08b146e288459be/file_example_MP4_1920_18MG.mp4",
           "mimeType": "video/mp4"
-        },
-        {
-          "id": "fYSQRqjUaZ5KILfIHkDbL",
-          "title": "file example OGG 1920 13 3mg",
-          "url":
-              "https://videos.ctfassets.net/5lkmroeaw7nj/fYSQRqjUaZ5KILfIHkDbL/6aef1473d1774964d2bb0dfac7755a10/file_example_OGG_1920_13_3mg.ogg",
-          "mimeType": "video/ogg"
         }
       ],
       "stepImage": [

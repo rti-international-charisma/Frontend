@@ -27,7 +27,6 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     _chewieController = ChewieController(
       deviceOrientationsAfterFullScreen: [DeviceOrientation.portraitUp],
       videoPlayerController: _videoController,
-      aspectRatio: 16 / 9,
       autoPlay: false,
       looping: false,
       isLive: false,
