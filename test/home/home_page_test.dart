@@ -220,20 +220,58 @@ void main() {
         equals('Legal, relationship, mental health'));
   });
 
-  // testWidgets('It should render 2 Video Players', (WidgetTester tester) async {
+  testWidgets('It displays videos widget', (WidgetTester tester) async {
+    final apiClient = MockApiClient();
 
-  //   final apiClient = MockApiClient();
-  //   when(apiClient.get("/content"))
-  //       .thenAnswer(
-  //           (realInvocation) {
-  //         return Future<Map<String, dynamic>>.value(contentResponse);
-  //       }
-  //   );
-  //   await tester.pumpWidget(HomePageWidget(title: "Welcome to Charisma", apiClient: apiClient).wrapWithMaterial());
-  //   await tester.pump();
-  //   expect(find.byType(VideoPlayerWidget), findsWidgets);
+    when(apiClient.get("/content")).thenAnswer((realInvocation) {
+      return Future<Map<String, dynamic>>.value(contentResponse);
+    });
 
-  // });
+    await tester
+        .pumpWidget(HomePageWidget(apiClient: apiClient).wrapWithMaterial());
+    await mockNetworkImagesFor(() => tester.pump());
+
+    expect(find.byKey(ValueKey('VideoSection')), findsOneWidget);
+    expect(find.byKey(ValueKey('VideoSectionHeadline')), findsOneWidget);
+    expect(find.byKey(ValueKey('VideoSectionSubHeadline')), findsOneWidget);
+    expect(find.byKey(ValueKey('VideoCarousel')), findsOneWidget);
+    expect(find.byKey(ValueKey('VideoModules')), findsNWidgets(2));
+  });
+
+  testWidgets(
+      'It displays a title, a summary and a video player on each video module',
+      (WidgetTester tester) async {
+    final apiClient = MockApiClient();
+
+    when(apiClient.get("/content")).thenAnswer((realInvocation) {
+      return Future<Map<String, dynamic>>.value(contentResponse);
+    });
+
+    await tester
+        .pumpWidget(HomePageWidget(apiClient: apiClient).wrapWithMaterial());
+    await mockNetworkImagesFor(() => tester.pump());
+
+    var videoModule = find.byKey(ValueKey('VideoModules')).first;
+    var videoHeading = find.descendant(
+        of: videoModule, matching: find.byKey(ValueKey('VideoHeading1')));
+    var videoSummary = find.descendant(
+        of: videoModule, matching: find.byKey(ValueKey('VideoSummary1')));
+    var videoPlayer = find.descendant(
+        of: videoModule, matching: find.byType(VideoPlayerWidget));
+
+    expect(videoHeading, findsOneWidget);
+    expect((videoHeading.evaluate().single.widget as Text).data,
+        equals(contentResponse['textContent']!['videoHeading1']));
+
+    expect(videoSummary, findsOneWidget);
+    expect((videoSummary.evaluate().single.widget as Text).data,
+        equals(contentResponse['textContent']!['videoSummary1']));
+    expect(videoPlayer, findsWidgets);
+    expect(
+        (videoPlayer.evaluate().single.widget as VideoPlayerWidget).videoUrl,
+        equals((contentResponse['assets']!['videos'] as List)
+            .elementAt(0)['url']));
+  });
 }
 
 class MockApiClient extends Mock implements ApiClient {}

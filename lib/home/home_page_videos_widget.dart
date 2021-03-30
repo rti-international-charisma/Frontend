@@ -17,6 +17,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      key: ValueKey("VideoSection"),
       children: <Widget>[
         Container(
           height: 525,
@@ -52,7 +53,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
             alignment: Alignment.topCenter,
             padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
             child: Text(widget.data['textContent']['videoSectionSubHeadline'],
-                key: ValueKey('VideoSectionHeadline'),
+                key: ValueKey('VideoSectionSubHeadline'),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.white,
@@ -64,6 +65,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
           top: 200,
           width: MediaQuery.of(context).size.width,
           child: CarouselSlider.builder(
+            key: ValueKey('VideoCarousel'),
             itemCount: 4,
             options: CarouselOptions(
               height: 280,
@@ -71,6 +73,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
               viewportFraction: 0.85,
             ),
             itemBuilder: (context, index, realIndex) => Container(
+              key: ValueKey('VideoModules'),
               margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
@@ -101,6 +104,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
                           ),
+                          key: ValueKey('VideoHeading${index + 1}'),
                         ),
                       ),
                       SizedBox(
@@ -123,6 +127,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
                             ),
                             softWrap: true,
                             overflow: TextOverflow.fade,
+                            key: ValueKey('VideoSummary${index + 1}'),
                           ),
                         ),
                       ),
@@ -158,25 +163,3 @@ class _HomePageVideosState extends State<HomePageVideos> {
     );
   }
 }
-
-// List<Widget> getVideosList(dynamic videoData) {
-//   List<Widget> videosList;
-
-//   videosList = videoData
-//       .map((data) => Container(
-//             child: ClipRRect(
-//               borderRadius: BorderRadius.all(Radius.circular(5.0)),
-//               child: Stack(
-//                 children: <Widget>[Text('sdhsdg')],
-//               ),
-//             ),
-//           ))
-//       .toList();
-
-//   return videosList;
-// }
-
-/*
-VideoPlayerWidget(
-                              data['assets']['videos'][0]['url'])
-                              */
