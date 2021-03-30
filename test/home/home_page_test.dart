@@ -9,6 +9,7 @@ import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/network_image_builder.dart';
 import 'package:charisma/common/video_player_widget.dart';
 import 'package:charisma/home/home_page_widget.dart';
+import 'package:charisma/navigation/router_delegate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:network_image_mock/network_image_mock.dart';
@@ -280,7 +281,10 @@ extension on Widget {
   Widget wrapWithMaterial() => MultiProvider(
         providers: [
           Provider<NetworkImageBuilder>(
-              create: (ctx) => MockNetworkImageBuilder())
+              create: (ctx) => MockNetworkImageBuilder()),
+          InheritedProvider<CharismaRouterDelegate>(
+            create: (ctx) => CharismaRouterDelegate(MockApiClient())
+          )
         ],
         child: MaterialApp(
             home: Scaffold(
