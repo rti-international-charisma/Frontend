@@ -7,6 +7,8 @@ import 'package:charisma/constants.dart';
 import 'package:charisma/home/hero_image_widget.dart';
 import 'package:charisma/home/home_page_videos_widget.dart';
 import 'package:charisma/home/how_charisma_works_widget.dart';
+import 'package:charisma/navigation/router_delegate.dart';
+import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +24,7 @@ class HomePageWidget extends StatefulWidget {
 class _HomePageWidgetState extends State<HomePageWidget> {
   @override
   Widget build(BuildContext context) {
+    final routerDelegate = Provider.of<CharismaRouterDelegate>(context);
     return FutureBuilder<Map<String, dynamic>?>(
         future: widget.apiClient?.get<Map<String, dynamic>>('/content'),
         builder: (context, data) {
@@ -40,11 +43,14 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   Container(
                       alignment: Alignment.center,
                       margin: EdgeInsets.all(10),
-                      child: Text(
-                        'Login',
+                      child: InkWell(
+                        child: Text("Login"),
                         key: ValueKey('LoginLink'),
-                        style: TextStyle(color: Color(0xff2DA4FA)),
-                      ))
+                        onTap: () {
+                          routerDelegate.push(SignUpConfig);
+                        },
+                      ),
+                  )
                 ],
               ),
               body: SafeArea(
