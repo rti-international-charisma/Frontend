@@ -43,10 +43,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   Container(
                       alignment: Alignment.center,
                       margin: EdgeInsets.all(10),
-                      child: InkWell(
+                      child: TextButton(
                         child: Text("Login"),
                         key: ValueKey('LoginLink'),
-                        onTap: () {
+                        onPressed: () {
                           routerDelegate.push(SignUpConfig);
                         },
                       ),
