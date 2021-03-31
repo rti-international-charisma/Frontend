@@ -13,7 +13,7 @@ import 'constants.dart';
 
 void main() {
   const API_BASEURL = String.fromEnvironment('API_BASEURL',
-      defaultValue: 'http://0.0.0.0:5000');
+      defaultValue: 'https://charisma-api-xva3j6u7ba-uk.a.run.app/');
   Provider.debugCheckInvalidValueType = null;
   runApp(CharismaApp(ApiClient(http.Client(), API_BASEURL)));
 }
@@ -33,7 +33,6 @@ class CharismaApp extends StatelessWidget {
     _routerDelegate.setNewRoutePath(HomePageConfig);
   }
 
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -43,8 +42,7 @@ class CharismaApp extends StatelessWidget {
               create: (context) => NetworkImageBuilder()),
           Provider<Future<SharedPreferences>>(
               create: (_) => SharedPreferences.getInstance()),
-          Provider<CharismaRouterDelegate>(
-              create: (_) => _routerDelegate),
+          Provider<CharismaRouterDelegate>(create: (_) => _routerDelegate),
         ],
         child: MaterialApp.router(
             title: 'Charisma',
@@ -53,21 +51,21 @@ class CharismaApp extends StatelessWidget {
               primaryColor: backgroundColor,
               secondaryHeaderColor: secondaryColor,
               backgroundColor: backgroundColor,
-              textTheme: Theme.of(context).textTheme.apply(bodyColor: textColor),
+              textTheme:
+                  Theme.of(context).textTheme.apply(bodyColor: textColor),
               visualDensity: VisualDensity.adaptivePlatformDensity,
               canvasColor: backgroundColor,
               inputDecorationTheme:
-              Theme.of(context).inputDecorationTheme.copyWith(
-                border: InputBorder.none,
-                labelStyle: TextStyle(
-                  color: textColor,
-                ),
-                hintStyle: TextStyle(color: textColor.withOpacity(.6)),
-              ),
+                  Theme.of(context).inputDecorationTheme.copyWith(
+                        border: InputBorder.none,
+                        labelStyle: TextStyle(
+                          color: textColor,
+                        ),
+                        hintStyle: TextStyle(color: textColor.withOpacity(.6)),
+                      ),
             ),
             backButtonDispatcher: _backButtonDispatcher,
             routeInformationParser: _parser,
-            routerDelegate: _routerDelegate)
-    );
+            routerDelegate: _routerDelegate));
   }
 }

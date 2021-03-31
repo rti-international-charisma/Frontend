@@ -20,7 +20,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
       key: ValueKey("VideoSection"),
       children: <Widget>[
         Container(
-          height: 525,
+          height: 540,
           decoration: BoxDecoration(
               gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -68,7 +68,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
             key: ValueKey('VideoCarousel'),
             itemCount: 4,
             options: CarouselOptions(
-              height: 280,
+              height: 300,
               enableInfiniteScroll: false,
               viewportFraction: 0.85,
             ),
@@ -113,7 +113,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
                       new ConstrainedBox(
                         constraints: expandedDescriptionIndex == index
                             ? new BoxConstraints()
-                            : new BoxConstraints(maxHeight: 40),
+                            : new BoxConstraints(maxHeight: 25),
                         child: Container(
                           alignment: Alignment.topCenter,
                           child: Text(
@@ -152,6 +152,29 @@ class _HomePageVideosState extends State<HomePageVideos> {
                           ),
                         ],
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ButtonTheme(
+                              height: 322,
+                              child: ElevatedButton(
+                                  onPressed: () {},
+                                  child: Text(widget.data['textContent']
+                                      ['video${index + 1}ActionButtonText']),
+                                  style: ElevatedButton.styleFrom(
+                                      shape: new RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(8),
+                                      ),
+                                      primary: Color(0xff244E74),
+                                      minimumSize: Size(0, 45))),
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),

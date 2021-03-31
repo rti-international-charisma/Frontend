@@ -29,18 +29,21 @@ void main() {
       "video1Link":
           "https://drive.google.com/file/d/1SC3uUnbNLqIjPpwVCXzvob3E7NDGM6Bi/view?usp=sharing",
       "howCharismaWorks": "How Charisma works...",
+      "video3ActionButtonText": "Read more",
       "title": "Welcome to Charisma",
       "pageid": "charisma-home",
       "videoSummary3":
           "Are you on PrEP or would like to be on PrEP but don’t know how to tell your partner about it? We’ve got you. Read more to learn about ways other women tell their male partners. And if you’re not ready you can also learn how to use PrEP without telling your partner. ",
       "videoSummary4":
           "Tension and conflict is common in relationships, but it should not lead to physical abuse. Are you aware that abuse is not only physical? Read more to find out what you can do if you suspect you are in an abusive relationship. It’s good to have a back-up plan to make sure you stay safe even if you’re not ready to seek help. ",
+      "video2ActionButtonText": "Read more",
       "heroImageText":
           "Want to check the status of your relationship and protect yourself?\n\nCHARISMA’s here to support you! \n\nTake a quiz about your relationship and get tailored support, or browse content on Healthy relationships, using PrEP in your relationships, \ngood communication with your partner and others, and relationship safety.",
       "videoSectionSubHeadline":
           "Here are some videos, activities and reading material for you",
       "video3Link":
           "https://drive.google.com/file/d/1Nfguavz85EMcapPm6wujWlfN6KDs902o/view?usp=sharing",
+      "video4ActionButtonText": "Read more",
       "step4": "Get professional help",
       "videoSectionHeadline": "Build a healthy relationship with your partner",
       "videoHeading1": "How’s the health of your relationship?",
@@ -52,7 +55,8 @@ void main() {
       "videoHeading4": "Staying safe in a violent relationship",
       "step1": "Login",
       "video2Link":
-          "https://drive.google.com/file/d/1qNc_sIdo71N6TpRewlYqOSPd6dA6bBBz/view?usp=sharing"
+          "https://drive.google.com/file/d/1qNc_sIdo71N6TpRewlYqOSPd6dA6bBBz/view?usp=sharing",
+      "video1ActionButtonText": "Take the Quiz"
     },
     "assets": {
       "heroImage": [
@@ -240,7 +244,7 @@ void main() {
   });
 
   testWidgets(
-      'It displays a title, a summary and a video player on each video module',
+      'It displays a title, a summary, a video player and an action button on each video module',
       (WidgetTester tester) async {
     final apiClient = MockApiClient();
 
@@ -259,6 +263,8 @@ void main() {
         of: videoModule, matching: find.byKey(ValueKey('VideoSummary1')));
     var videoPlayer = find.descendant(
         of: videoModule, matching: find.byType(VideoPlayerWidget));
+    var videoActionButton =
+        find.descendant(of: videoModule, matching: find.byType(ElevatedButton));
 
     expect(videoHeading, findsOneWidget);
     expect((videoHeading.evaluate().single.widget as Text).data,
@@ -272,6 +278,12 @@ void main() {
         (videoPlayer.evaluate().single.widget as VideoPlayerWidget).videoUrl,
         equals((contentResponse['assets']!['videos'] as List)
             .elementAt(0)['url']));
+    expect(videoActionButton, findsOneWidget);
+    expect(
+        ((videoActionButton.evaluate().single.widget as ElevatedButton).child
+                as Text)
+            .data,
+        contentResponse['textContent']!['video1ActionButtonText']);
   });
 }
 
