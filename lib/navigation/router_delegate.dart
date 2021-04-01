@@ -85,7 +85,7 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
       case Pages.Home:
         return PageData(HomePageWidget(apiClient: _apiClient), HomePageConfig);
       case Pages.SignUp:
-        return PageData(SignUpWidget(), SignUpConfig);
+        return PageData(SignUpWidget(_apiClient), SignUpConfig);
       case Pages.Login:
         return PageData(LoginWidget(), LoginPageConfig);
       case Pages.Profile:

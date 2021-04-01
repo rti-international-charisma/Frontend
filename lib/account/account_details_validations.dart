@@ -8,6 +8,7 @@ extension Validations on String {
   }
 
   String? get passwordValidation {
-    return null;
+    return RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$')
+        .hasMatch(this) ? null : 'Check the password criteria';
   }
 }
