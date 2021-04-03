@@ -101,5 +101,14 @@ class CharismaDropDownItem {
   String identifier;
   String displayValue;
 
+  @override
+  bool operator ==(other) {
+    return  other is CharismaDropDownItem && other.identifier == identifier && other.displayValue == displayValue;
+  }
+
   CharismaDropDownItem(this.identifier, this.displayValue);
+
+  @override
+  int get hashCode => identifier.hashCode ^ displayValue.hashCode;
+
 }

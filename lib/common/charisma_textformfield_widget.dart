@@ -24,6 +24,8 @@ class CharismaTextFormField extends StatefulWidget {
 
   String? Function(String?)? validator;
 
+  var errorText;
+
   FocusNode? focusNode;
 
   CharismaTextFormField({
@@ -37,7 +39,8 @@ class CharismaTextFormField extends StatefulWidget {
     this.textFieldAlignment= MainAxisAlignment.start,
     this.controller,
     this.validator,
-    this.focusNode
+    this.focusNode,
+    this.errorText
   });
 
 
@@ -64,6 +67,7 @@ class _CharismaTextFieldState extends State<CharismaTextFormField> {
           Container(
             height: 36,
             child: TextFormField(
+              controller: widget.controller,
               focusNode: widget.focusNode,
               obscureText: widget.obscureText,
               validator: widget.validator,
@@ -73,6 +77,7 @@ class _CharismaTextFieldState extends State<CharismaTextFormField> {
                         color: textBorderColor
                     )
                 ),
+                errorText: widget.errorText
               ),
             ),
           )
