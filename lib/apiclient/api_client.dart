@@ -25,7 +25,7 @@ class ApiClient {
       return convert.jsonDecode(response.body) as T;
     }
     print(response.body);
-    throw response.statusCode;
+    throw ErrorBody(response.statusCode, response.body);
   }
 
   Future<T> post<T>(String path, Map<String,dynamic> body) async{
@@ -45,4 +45,11 @@ class ApiClient {
   ApiClient withAdditionalHeaders(Map<String, String> headers) {
     return ApiClient._(_client, _baseUrl, headers);
   }
+}
+
+class ErrorBody<T> {
+  int? code;
+  T? body;
+
+  ErrorBody(this.code, this.body);
 }

@@ -6,6 +6,7 @@ import 'package:charisma/navigation/router_delegate.dart';
 import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'account_details_validations.dart' show Validations;
 
 class SignUpWidget extends StatefulWidget {
@@ -32,13 +33,34 @@ class _SignupWidgetState extends State<SignUpWidget> {
   List allSecurityQuestions = [];
 
   final _usernameFocusNode = FocusNode();
-  bool isUsernameAvailable = false;
+  final _passwordFocusNode = FocusNode();
+  final _confirmPasswordFocusNode = FocusNode();
+  bool _isUsernameAvailable = false;
 
   @override
   void initState() {
     getAllSecurityQuestions();
     _usernameFocusNode.addListener(() {
-      checkUsernameAvailability(_usernameCtrl.text);
+      if(!_usernameFocusNode.hasFocus) {
+        validateUsername(_usernameCtrl.text);
+      }
+    });
+
+    _passwordFocusNode.addListener(() {
+      if(!_passwordFocusNode.hasFocus && _passwordCtrl.text.passwordValidation != null) {
+        showPasswordCriteriaDialog();
+      }
+    });
+
+    _confirmPasswordFocusNode.addListener(() {
+      if(!_confirmPasswordFocusNode.hasFocus && (_passwordCtrl.text != _passwordConfirmCtrl.text)) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content: Text('Passwords do not match'),
+              backgroundColor: Colors.red,
+            )
+        );
+      }
     });
   }
 
@@ -76,27 +98,36 @@ class _SignupWidgetState extends State<SignUpWidget> {
                         ),
                         SizedBox(height: 24),
                         CharismaTextFormField(
-                            key: ValueKey('username'),
-                            fieldName: 'Create Username',
-                            infoText: 'Your username can be anything you want, but...\nDO make sure it’s something you will remember when you want to sign in.\nDO NOT use your Name, Phone number or Email ID',
-                            controller: _usernameCtrl,
-                            validator: (String? value) => value?.basicValidation,
-                        focusNode: _usernameFocusNode,),
+                          key: ValueKey('username'),
+                          fieldName: 'Create Username',
+                          infoText: 'Your username can be anything you want, but...\nDO make sure it’s something you will remember when you want to sign in.\nDO NOT use your Name, Phone number or Email ID',
+                          controller: _usernameCtrl,
+                          errorText: showUsernameErrorText(_usernameCtrl.text, _isUsernameAvailable),
+                          validator: (value) {
+                            if (value?.basicValidation != null ) {
+                              return value?.basicValidation;
+                            } else if (_isUsernameAvailable) {
+                              return null;
+                            } else {
+                              return 'Username entered already exists';
+                            }
+                          },
+                          focusNode: _usernameFocusNode,),
                         SizedBox(height: 24),
                         CharismaTextFormField(
-                            key: ValueKey('password'),
-                            obscureText: true,
-                            fieldName: 'Create Password',
-                            controller: _passwordCtrl,
-                            validator: (String? value) => value?.passwordValidation
+                          key: ValueKey('password'),
+                          obscureText: true,
+                          fieldName: 'Create Password',
+                          controller: _passwordCtrl,
+                          focusNode: _passwordFocusNode,
                         ),
                         SizedBox(height: 24),
                         CharismaTextFormField(
-                            key: ValueKey('confirmpassword'),
-                            fieldName: 'Confirm Password',
-                            obscureText: true,
-                            controller: _passwordConfirmCtrl,
-                            validator: (String? value) => value?.passwordValidation
+                          key: ValueKey('confirmpassword'),
+                          fieldName: 'Confirm Password',
+                          obscureText: true,
+                          controller: _passwordConfirmCtrl,
+                          focusNode: _confirmPasswordFocusNode,
                         ),
                         SizedBox(height: 24),
                         CharismaDropdown(
@@ -120,13 +151,13 @@ class _SignupWidgetState extends State<SignUpWidget> {
                         SizedBox(height: 24),
                         ElevatedButton(
                             onPressed: () {
-                              print('Register Clicked ${_passwordCtrl.text}');
-                              if (_formKey.currentState!.validate()) {
-
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Snackk')));
-                              } else {
-                                print('Password ${_passwordCtrl.text}');
-                              }
+                              print('Register Clicked');
+                              validateUsername(_usernameCtrl.text).then((value) => {
+                                if (_formKey.currentState!.validate() && value && (_passwordCtrl.text == _passwordConfirmCtrl.text)) {
+                                  print('All things good'),
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Snackk')))
+                                }
+                              });
                             },
                             child: Text('Register')
                         ),
@@ -165,7 +196,7 @@ class _SignupWidgetState extends State<SignUpWidget> {
           SnackBar(
             content: Text('Error while fetching questions.'),
             backgroundColor: Colors.red,
-      ))
+          ))
     });
   }
 
@@ -173,7 +204,48 @@ class _SignupWidgetState extends State<SignUpWidget> {
     return allSecurityQuestions.map((e) => CharismaDropDownItem(e['id'].toString(), e['question'])).toList();
   }
 
-  void checkUsernameAvailability(String text) {
+  Future<bool> validateUsername(String uname) async {
+    await widget._apiClient.get('/user/availability/$uname')?.
+    then((value) => {
+      setState(() {
+        _isUsernameAvailable = value?['available'];
+      })
+    }).
+    catchError((error) => {
+      print('Error ${(error as ErrorBody).body}'),
+      _isUsernameAvailable = false
+    });
+    return _isUsernameAvailable;
+  }
 
+  String? showUsernameErrorText(String text, bool isUsernameAvailable) {
+    if (text.isEmpty) return null;
+
+    if (!_isUsernameAvailable) {
+      return 'Username entered already exists';
+    }
+  }
+
+  Future<void> showPasswordCriteriaDialog() async{
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('! make sure password has the below'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: [
+                Text('1. Should be more than 8 characters'),
+                Text('2. At least 1 capital letter'),
+                Text('3. At least 1 lowercase letter'),
+                Text('4. At least 1 digit'),
+                Text('5. At least 1 special symbol (e.g. @#\$%), For example:Ab1@5')
+              ],
+            ),
+          ),
+        );
+      }
+    );
   }
 }
