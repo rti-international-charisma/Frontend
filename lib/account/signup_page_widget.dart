@@ -53,7 +53,7 @@ class _SignupWidgetState extends State<SignUpWidget> {
     });
 
     _confirmPasswordFocusNode.addListener(() {
-      if(!_confirmPasswordFocusNode.hasFocus && (_passwordCtrl.text != _passwordConfirmCtrl.text)) {
+      if(!_confirmPasswordFocusNode.hasFocus && _passwordConfirmCtrl.text.isNotEmpty && !doPasswordsMatch()) {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
                 content: Text('Passwords do not match'),
@@ -152,8 +152,8 @@ class _SignupWidgetState extends State<SignUpWidget> {
                         ElevatedButton(
                             onPressed: () {
                               print('Register Clicked');
-                              validateUsername(_usernameCtrl.text).then((value) => {
-                                if (_formKey.currentState!.validate() && value && (_passwordCtrl.text == _passwordConfirmCtrl.text)) {
+                              validateUsername(_usernameCtrl.text).then((usernameAvailable) => {
+                                if (_formKey.currentState!.validate() && usernameAvailable && validatePasswords()) {
                                   print('All things good'),
                                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Snackk')))
                                 }
@@ -186,6 +186,8 @@ class _SignupWidgetState extends State<SignUpWidget> {
     );
   }
 
+  bool doPasswordsMatch() => (_passwordCtrl.text == _passwordConfirmCtrl.text);
+
   void getAllSecurityQuestions() async {
     widget._apiClient.get('/securityquestions/')?.then((value) => {
       setState(() {
@@ -217,6 +219,22 @@ class _SignupWidgetState extends State<SignUpWidget> {
     });
     return _isUsernameAvailable;
   }
+
+  bool validatePasswords() {
+    if (_passwordCtrl.text.passwordValidation != null) {
+       showPasswordCriteriaDialog();
+       return false;
+    } else if (!doPasswordsMatch()) {
+      ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
+          SnackBar(
+            content: Text('Passwords do not match'),
+            backgroundColor: Colors.red,
+          ));
+      return false;
+    }
+    return true;
+  }
+
 
   String? showUsernameErrorText(String text, bool isUsernameAvailable) {
     if (text.isEmpty) return null;
