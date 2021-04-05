@@ -31,7 +31,7 @@ class ApiClient {
   Future<T> post<T>(String path, Map<String,dynamic> body) async{
     var api = _baseUrl.endsWith("/") ? _baseUrl.substring(0, _baseUrl.length-1) : _baseUrl;
     var processedPath = path.startsWith("/") ? path : "/$path";
-    print("Path: $api$processedPath");
+    print("Path: $api$processedPath Body:$body");
     var response = await _client.post(Uri.parse("$api$processedPath"), headers: {"Content-Type": ContentType.json.mimeType,..._headers}, body: convert.jsonEncode(body));
     print("$path : ${response.statusCode}");
     print("Response : ${response.body}");
@@ -39,7 +39,7 @@ class ApiClient {
       return (response.body.isEmpty ? response.body : convert.jsonDecode(response.body)) as T;
     }
 
-    throw response.statusCode;
+    throw ErrorBody(response.statusCode, response.body);
   }
 
   ApiClient withAdditionalHeaders(Map<String, String> headers) {
