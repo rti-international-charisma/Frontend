@@ -155,7 +155,18 @@ class _SignupWidgetState extends State<SignUpWidget> {
                               validateUsername(_usernameCtrl.text).then((usernameAvailable) => {
                                 if (_formKey.currentState!.validate() && usernameAvailable && validatePasswords()) {
                                   print('All things good'),
-                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Snackk')))
+                                  widget._apiClient.post<Map<String, dynamic>>('/signup', {
+                                    "username": _usernameCtrl.text.toLowerCase(),
+                                    "password": _passwordCtrl.text,
+                                    "secQuestionId": selectedItem?.identifier,
+                                    "secQuestionAnswer" : _securityQuestionAnswerCtrl.text.toLowerCase()
+                                  }).then((value) => {
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('You have been successfully registered'))),
+                                    routerDelegate.push(LoginPageConfig)
+                                  }).catchError((error) => {
+                                    print("Signup Error : $error"),
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('We were unable to register you, please try again later')))
+                                  })
                                 }
                               });
                             },
