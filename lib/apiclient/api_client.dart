@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:http/http.dart';
 import 'dart:convert' as convert;
 
@@ -23,6 +25,20 @@ class ApiClient {
       return convert.jsonDecode(response.body) as T;
     }
     print(response.body);
+    throw response.statusCode;
+  }
+
+  Future<T> post<T>(String path, Map<String,dynamic> body) async{
+    var api = _baseUrl.endsWith("/") ? _baseUrl.substring(0, _baseUrl.length-1) : _baseUrl;
+    var processedPath = path.startsWith("/") ? path : "/$path";
+    print("Path: $api$processedPath");
+    var response = await _client.post(Uri.parse("$api$processedPath"), headers: {"Content-Type": ContentType.json.mimeType,..._headers}, body: convert.jsonEncode(body));
+    print("$path : ${response.statusCode}");
+    print("Response : ${response.body}");
+    if (response.statusCode >= 200 && response.statusCode < 300){
+      return (response.body.isEmpty ? response.body : convert.jsonDecode(response.body)) as T;
+    }
+
     throw response.statusCode;
   }
 

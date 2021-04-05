@@ -53,4 +53,76 @@ void main() {
     var data = await response;
     expect(data, [1, 2, 3, 4]);
   });
+
+  test("post should make the request for a given URL and pass the json body",()async{
+
+    var api = "http://somedomain.com/";
+    var path ="/data";
+
+    var mockClient = MockClient((request) async {
+      if (!request.headers["Content-Type"]!.contains(ContentType.json.mimeType)){
+        return Response("", HttpStatus.badRequest);
+      }
+      if (request.method != "POST"){
+        return Response("", HttpStatus.methodNotAllowed);
+      }
+      if (request.url.toString() != "http://somedomain.com/data"){
+        return Response("", HttpStatus.notImplemented);
+      }
+      if (request.body != convert.jsonEncode({"jsonKey" : "hello"})){
+        return Response("", HttpStatus.badRequest);
+      }
+      return Response(
+          "",
+          HttpStatus.created,
+          headers: {'content-type': 'application/json'}
+      );
+    });
+
+    var client = ApiClient(mockClient, api);
+    Future<String> response = client.post<String>(path, {"jsonKey" : "hello"});
+    var data = await response;
+    expect(data, "");
+  });
+
+
+  test("post should return status code as error on api failure",()async{
+
+    var api = "http://somedomain.com/";
+    var path ="/data";
+
+    var mockClient = MockClient((request) async {
+      return Response("", HttpStatus.badRequest);
+    });
+
+    var client = ApiClient(mockClient, api);
+    Future<String> response = client.post<String>(path, {"jsonKey" : "hello"});
+    expect(response, throwsA(400));
+
+  });
+
+  test("withAdditionalHeaders should return return ApiClient that sends post request with given additional headers",()async{
+    var api = "http://somedomain.com/";
+    var path ="/data";
+
+    var mockClient = MockClient((request) async {
+      if (!request.headers["Content-Type"]!.contains(ContentType.json.mimeType)){
+        return Response("", HttpStatus.badRequest);
+      }
+      if (request.headers["HeaderKey"] != "HeaderValue"){
+        return Response("", HttpStatus.badRequest);
+      }
+      return Response(
+          convert.jsonEncode({"id":"1"}),
+          HttpStatus.ok,
+          headers: {'content-type': 'application/json'}
+      );
+    });
+
+    var client = ApiClient(mockClient, api);
+    var clientWithAdditionalHeaders = client.withAdditionalHeaders({"HeaderKey":"HeaderValue"});
+    Map<String, dynamic> response = await clientWithAdditionalHeaders.post<Map<String, dynamic>>(path,{});
+    expect({"id":"1"}, response);
+  });
+
 }
