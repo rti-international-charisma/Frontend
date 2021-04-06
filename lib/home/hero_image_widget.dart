@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html/style.dart';
 
 class HeroImageWidget extends StatelessWidget {
-  const HeroImageWidget({Key? key, this.heroImageData}) : super(key: key);
+  const HeroImageWidget({Key? key, this.data, this.apiBaseUrl})
+      : super(key: key);
 
-  final heroImageData;
+  final data;
+  final apiBaseUrl;
 
   @override
   Widget build(BuildContext context) {
     return Stack(children: <Widget>[
       new Image.network(
-        "${heroImageData!['assets']['heroImage'][0]['url']}",
+        "$apiBaseUrl/assets/${data!['heroimage']['id']}",
         fit: BoxFit.cover,
         width: double.infinity,
         alignment: Alignment.center,
@@ -22,10 +26,11 @@ class HeroImageWidget extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           alignment: Alignment.bottomCenter,
           padding: EdgeInsets.all(20),
-          child: Text(heroImageData['textContent']['heroImageText'],
-              key: ValueKey('HeroImageText'),
-              textAlign: TextAlign.left,
-              style: TextStyle(color: Colors.white)),
+          child: Html(
+            data: data!['heroimage_text'],
+            key: ValueKey('HeroImageText'),
+            style: {'body': Style(color: Colors.white)},
+          ),
         ),
       )
     ]);

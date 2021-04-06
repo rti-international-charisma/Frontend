@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class HowCharismaWorks extends StatelessWidget {
-  const HowCharismaWorks({Key? key, this.data}) : super(key: key);
+  const HowCharismaWorks({Key? key, this.data, this.apiBaseUrl})
+      : super(key: key);
 
   final data;
+  final apiBaseUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -13,183 +15,79 @@ class HowCharismaWorks extends StatelessWidget {
           alignment: Alignment.centerLeft,
           padding: EdgeInsets.all(20),
           child: Text(
-            data!['textContent']['howCharismaWorks'],
+            'How Charisma works',
             style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
           ),
         ),
-        Row(
-          children: [
-            SizedBox(
-              width: 20,
-            ),
-            Stack(
-              children: [
-                new Image.network(
-                  "${data['assets']['stepImage'][0]['url']}",
-                ),
-                new Image.network(
-                  "${data['assets']['stepImage'][1]['url']}",
-                ),
-                Positioned(
-                  bottom: 20,
-                  left: 30,
-                  child: Text(
-                    '1',
-                    key: ValueKey('Step1'),
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 32,
-                        fontWeight: FontWeight.w700),
-                  ),
-                )
-              ],
-            ),
-            SizedBox(
-              width: 15,
-            ),
-            Flexible(
-              child: Text(
-                "${data['textContent']['step1']}",
-                key: ValueKey('Step1Text'),
-                style: TextStyle(fontSize: 16, fontFamily: 'Lato'),
-              ),
-            )
-          ],
-        ),
         SizedBox(
-          height: 20,
-        ),
-        Row(
-          children: [
-            SizedBox(
-              width: 20,
-            ),
-            Stack(
+          height: 400,
+          child: new ListView.builder(
+            itemCount: data['charisma_steps'].length,
+            itemBuilder: (BuildContext context, int index) => Column(
               children: [
-                new Image.network(
-                  "${data['assets']['stepImage'][2]['url']}",
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Stack(
+                      children: [
+                        new Image.network(
+                          "$apiBaseUrl/assets/${data['charisma_steps'][index]['number_image']}",
+                        ),
+                        new Image.network(
+                          "$apiBaseUrl/assets/${data['charisma_steps'][index]['number_background_image']}",
+                        ),
+                        Positioned(
+                          bottom: 20,
+                          left: 30,
+                          child: Text(
+                            data['charisma_steps'][index]['id'].toString(),
+                            key: ValueKey('Step${index + 1}'),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 32,
+                                fontWeight: FontWeight.w700),
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    if (index == 3)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            data['charisma_steps'][index]['text'],
+                            key: ValueKey('Step${index + 1}Text'),
+                            style: TextStyle(fontSize: 16, fontFamily: 'Lato'),
+                          ),
+                          Text(
+                            data['charisma_steps'][index]['sub_text'],
+                            key: ValueKey('Step${index + 1}SubText'),
+                            style:
+                                TextStyle(fontSize: 12, fontFamily: 'Roboto'),
+                          ),
+                        ],
+                      )
+                    else
+                      Flexible(
+                        child: Text(
+                          data['charisma_steps'][index]['text'],
+                          key: ValueKey('Step${index + 1}Text'),
+                          style: TextStyle(fontSize: 16, fontFamily: 'Lato'),
+                        ),
+                      ),
+                  ],
                 ),
-                new Image.network(
-                  "${data['assets']['stepImage'][3]['url']}",
+                SizedBox(
+                  height: 20,
                 ),
-                Positioned(
-                  bottom: 20,
-                  left: 30,
-                  child: Text(
-                    '2',
-                    key: ValueKey('Step2'),
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 32,
-                        fontWeight: FontWeight.w700),
-                  ),
-                )
               ],
             ),
-            SizedBox(
-              width: 15,
-            ),
-            Flexible(
-              child: Text(
-                "${data['textContent']['step2']}",
-                key: ValueKey('Step2Text'),
-                style: TextStyle(fontSize: 16, fontFamily: 'Lato'),
-              ),
-            )
-          ],
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Row(
-          children: [
-            SizedBox(
-              width: 20,
-            ),
-            Stack(
-              children: [
-                new Image.network(
-                  "${data['assets']['stepImage'][4]['url']}",
-                ),
-                new Image.network(
-                  "${data['assets']['stepImage'][5]['url']}",
-                ),
-                Positioned(
-                  bottom: 20,
-                  left: 30,
-                  child: Text(
-                    '3',
-                    key: ValueKey('Step3'),
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 32,
-                        fontWeight: FontWeight.w700),
-                  ),
-                )
-              ],
-            ),
-            SizedBox(
-              width: 15,
-            ),
-            Flexible(
-              child: Text(
-                "${data['textContent']['step3']}",
-                key: ValueKey('Step3Text'),
-                style: TextStyle(fontSize: 16, fontFamily: 'Lato'),
-              ),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Row(
-          children: [
-            SizedBox(
-              width: 20,
-            ),
-            Stack(
-              children: [
-                new Image.network(
-                  "${data['assets']['stepImage'][6]['url']}",
-                ),
-                new Image.network(
-                  "${data['assets']['stepImage'][7]['url']}",
-                ),
-                Positioned(
-                  bottom: 20,
-                  left: 30,
-                  child: Text(
-                    '4',
-                    key: ValueKey('Step4'),
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 32,
-                        fontWeight: FontWeight.w700),
-                  ),
-                )
-              ],
-            ),
-            SizedBox(
-              width: 15,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "${data['textContent']['step4']}",
-                  key: ValueKey('Step4Text'),
-                  textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 16, fontFamily: 'Lato'),
-                ),
-                Text(
-                  "${data['textContent']['step4SubText']}",
-                  key: ValueKey('Step4SubText'),
-                  style: TextStyle(fontSize: 12, fontFamily: 'Roboto'),
-                ),
-              ],
-            )
-          ],
+          ),
         ),
       ],
     );

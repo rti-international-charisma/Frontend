@@ -1,9 +1,6 @@
 import 'dart:ui';
 
 import 'package:charisma/apiclient/api_client.dart';
-import 'package:charisma/common/network_image_builder.dart';
-import 'package:charisma/common/video_player_widget.dart';
-import 'package:charisma/constants.dart';
 import 'package:charisma/home/hero_image_widget.dart';
 import 'package:charisma/home/home_page_videos_widget.dart';
 import 'package:charisma/home/how_charisma_works_widget.dart';
@@ -22,14 +19,17 @@ class HomePageWidget extends StatefulWidget {
 }
 
 class _HomePageWidgetState extends State<HomePageWidget> {
+  static const apiBaseUrl = String.fromEnvironment('API_BASEURL',
+      defaultValue: 'http://0.0.0.0:5000');
+
   @override
   Widget build(BuildContext context) {
     final routerDelegate = Provider.of<CharismaRouterDelegate>(context);
     return FutureBuilder<Map<String, dynamic>?>(
-        future: widget.apiClient?.get<Map<String, dynamic>>('/content'),
+        future: widget.apiClient?.get<Map<String, dynamic>>('/homepage'),
         builder: (context, data) {
           if (data.hasData) {
-            var homeData = data.data;
+            var homeData = data.data!['data'];
 
             return Scaffold(
               appBar: AppBar(
@@ -39,17 +39,18 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   icon: Icon(Icons.menu),
                   onPressed: () {},
                 ),
+                backgroundColor: Colors.white,
                 actions: <Widget>[
                   Container(
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.all(10),
-                      child: TextButton(
-                        child: Text("Login"),
-                        key: ValueKey('LoginLink'),
-                        onPressed: () {
-                          routerDelegate.push(SignUpConfig);
-                        },
-                      ),
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.all(10),
+                    child: TextButton(
+                      child: Text("Login"),
+                      key: ValueKey('LoginLink'),
+                      onPressed: () {
+                        routerDelegate.push(SignUpConfig);
+                      },
+                    ),
                   )
                 ],
               ),
@@ -60,19 +61,22 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     child: Column(
                       children: [
                         HeroImageWidget(
-                          heroImageData: homeData,
+                          data: homeData,
+                          apiBaseUrl: apiBaseUrl,
                         ),
                         SizedBox(
-                          height: 40,
+                          height: 30,
                         ),
                         HowCharismaWorks(
                           data: homeData,
+                          apiBaseUrl: apiBaseUrl,
                         ),
                         SizedBox(
-                          height: 40,
+                          height: 30,
                         ),
                         HomePageVideos(
                           data: homeData,
+                          apiBaseUrl: apiBaseUrl,
                         ),
                       ],
                     ),

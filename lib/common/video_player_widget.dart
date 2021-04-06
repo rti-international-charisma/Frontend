@@ -2,6 +2,8 @@ import 'package:chewie/chewie.dart';
 import 'package:chewie/src/chewie_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_html/style.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerWidget extends StatefulWidget {
@@ -42,6 +44,14 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
       ),
       autoInitialize: true,
       fullScreenByDefault: false,
+      errorBuilder: (BuildContext context, String errorMessage) => Container(
+        alignment: Alignment.bottomCenter,
+        padding: EdgeInsets.all(10),
+        child: Text(
+          'Oops, looks like something went wrong, please reload',
+          style: TextStyle(color: Colors.white, fontSize: 10),
+        ),
+      ),
     );
 
     _chewieController.deviceOrientationsAfterFullScreen.clear();
@@ -51,7 +61,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     _videoController.addListener(() {
       var duration = _videoController.value.duration;
       var position = _videoController.value.position;
-      if ((_chewieController != null && _chewieController.isFullScreen) &&
+      if (_chewieController.isFullScreen &&
           (position >= (duration - Duration(seconds: 1)))) {
         _chewieController.exitFullScreen();
         videoFinished();
