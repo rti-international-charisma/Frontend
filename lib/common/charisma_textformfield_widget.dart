@@ -28,19 +28,21 @@ class CharismaTextFormField extends StatefulWidget {
 
   FocusNode? focusNode;
 
+  var isObscurable;
+
   CharismaTextFormField({
     required Key key,
     required this.fieldName,
     this.hintText = '',
     this.infoText = '',
     this.keyboardType = TextInputType.text,
-    this.obscureText = false,
     this.onChanged,
     this.textFieldAlignment= MainAxisAlignment.start,
     this.controller,
     this.validator,
     this.focusNode,
-    this.errorText
+    this.errorText,
+    this.isObscurable = false
   });
 
 
@@ -50,6 +52,19 @@ class CharismaTextFormField extends StatefulWidget {
 }
 
 class _CharismaTextFieldState extends State<CharismaTextFormField> {
+  bool _obscureText = false;
+
+  void _toggle(){
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
+  @override
+  void initState() {
+    _obscureText = widget.isObscurable;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -69,15 +84,16 @@ class _CharismaTextFieldState extends State<CharismaTextFormField> {
             child: TextFormField(
               controller: widget.controller,
               focusNode: widget.focusNode,
-              obscureText: widget.obscureText,
+              obscureText:_obscureText,
               validator: widget.validator,
               decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: textBorderColor
-                    )
-                ),
-                errorText: widget.errorText
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: textBorderColor
+                      )
+                  ),
+                  errorText: widget.errorText,
+                  suffixIcon: getSuffixIcon()
               ),
             ),
           )
@@ -106,5 +122,17 @@ class _CharismaTextFieldState extends State<CharismaTextFormField> {
         SizedBox(height: 4)
       ],
     );
+  }
+
+  getSuffixIcon() {
+    if(widget.isObscurable) {
+      return IconButton(
+        icon: Icon(
+          _obscureText ? Icons.visibility_off : Icons.visibility,
+        ),
+        onPressed: _toggle,
+        color: infoTextColor,
+      );
+    }
   }
 }

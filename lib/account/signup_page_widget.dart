@@ -6,7 +6,7 @@ import 'package:charisma/navigation/router_delegate.dart';
 import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import '../constants.dart';
 import 'account_details_validations.dart' show Validations;
 
 class SignUpWidget extends StatefulWidget {
@@ -116,7 +116,7 @@ class _SignupWidgetState extends State<SignUpWidget> {
                         SizedBox(height: 24),
                         CharismaTextFormField(
                           key: ValueKey('password'),
-                          obscureText: true,
+                          isObscurable: true,
                           fieldName: 'Create Password',
                           controller: _passwordCtrl,
                           focusNode: _passwordFocusNode,
@@ -125,7 +125,7 @@ class _SignupWidgetState extends State<SignUpWidget> {
                         CharismaTextFormField(
                           key: ValueKey('confirmpassword'),
                           fieldName: 'Confirm Password',
-                          obscureText: true,
+                          isObscurable: true,
                           controller: _passwordConfirmCtrl,
                           focusNode: _confirmPasswordFocusNode,
                         ),
@@ -149,28 +149,35 @@ class _SignupWidgetState extends State<SignUpWidget> {
                             validator: (String? value) => value?.basicValidation
                         ),
                         SizedBox(height: 24),
-                        ElevatedButton(
-                            onPressed: () {
-                              print('Register Clicked');
-                              validateUsername(_usernameCtrl.text).then((usernameAvailable) => {
-                                if (_formKey.currentState!.validate() && usernameAvailable && validatePasswords()) {
-                                  print('All things good'),
-                                  widget._apiClient.post<Map<String, dynamic>>('/signup', {
-                                    "username": _usernameCtrl.text.toLowerCase(),
-                                    "password": _passwordCtrl.text,
-                                    "secQuestionId": selectedItem?.identifier,
-                                    "secQuestionAnswer" : _securityQuestionAnswerCtrl.text.toLowerCase()
-                                  }).then((value) => {
-                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('You have been successfully registered'))),
-                                    routerDelegate.push(LoginPageConfig)
-                                  }).catchError((error) => {
-                                    print("Signup Error : $error"),
-                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('We were unable to register you, please try again later')))
-                                  })
-                                }
-                              });
-                            },
-                            child: Text('Register')
+                        SizedBox(
+                          height: 39,
+                          width: double.infinity,
+                          child: ElevatedButton(
+                              onPressed: () {
+                                print('Register Clicked');
+                                validateUsername(_usernameCtrl.text).then((usernameAvailable) => {
+                                  if (_formKey.currentState!.validate() && usernameAvailable && validatePasswords()) {
+                                    print('All things good'),
+                                    widget._apiClient.post<Map<String, dynamic>>('/signup', {
+                                      "username": _usernameCtrl.text.toLowerCase(),
+                                      "password": _passwordCtrl.text,
+                                      "secQuestionId": selectedItem?.identifier,
+                                      "secQuestionAnswer" : _securityQuestionAnswerCtrl.text.toLowerCase()
+                                    }).then((value) => {
+                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('You have been successfully registered'), backgroundColor: Colors.lightGreen)),
+                                      routerDelegate.push(LoginPageConfig)
+                                    }).catchError((error) => {
+                                      print("Signup Error : $error"),
+                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('We were unable to register you, please try again later')))
+                                    })
+                                  }
+                                });
+                              },
+                              child: Text('Register'),
+                            style: ElevatedButton.styleFrom(
+                              primary: buttonColor,
+                            ),
+                          ),
                         ),
                         SizedBox(height: 24),
                         Row(
@@ -252,6 +259,8 @@ class _SignupWidgetState extends State<SignUpWidget> {
 
     if (!_isUsernameAvailable) {
       return 'Username entered already exists';
+    } else {
+      return null;
     }
   }
 
