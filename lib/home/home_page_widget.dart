@@ -20,7 +20,7 @@ class HomePageWidget extends StatefulWidget {
 
 class _HomePageWidgetState extends State<HomePageWidget> {
   static const apiBaseUrl = String.fromEnvironment('API_BASEURL',
-      defaultValue: 'http://0.0.0.0:5000');
+      defaultValue: 'http://0.0.0.0:8080');
 
   @override
   Widget build(BuildContext context) {

@@ -33,10 +33,10 @@ class HowCharismaWorks extends StatelessWidget {
                     Stack(
                       children: [
                         new Image.network(
-                          "$apiBaseUrl/assets/${data['charisma_steps'][index]['number_image']}",
+                          "$apiBaseUrl/assets/${data['charisma_steps'][index]['number_image']['id']}",
                         ),
                         new Image.network(
-                          "$apiBaseUrl/assets/${data['charisma_steps'][index]['number_background_image']}",
+                          "$apiBaseUrl/assets/${data['charisma_steps'][index]['number_background_image']['id']}",
                         ),
                         Positioned(
                           bottom: 20,

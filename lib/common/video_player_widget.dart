@@ -33,6 +33,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
       looping: false,
       isLive: false,
       showControls: true,
+      aspectRatio: 4 / 3,
       materialProgressColors: ChewieProgressColors(
         playedColor: Colors.transparent,
         handleColor: Colors.transparent,

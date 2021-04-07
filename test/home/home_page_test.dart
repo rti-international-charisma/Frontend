@@ -25,171 +25,103 @@ void main() {
     "data": {
       "id": "homepage",
       "status": "published",
-      "date_created": "2021-03-24T21:38:09Z",
-      "date_updated": "2021-04-06T09:16:29Z",
-      "heroimage_text":
-          "<p><strong><span style=\"font-size: 14pt;\">Want to check the status of your relationship and protect yourself?</span></strong></p>\n<p>CHARISMA&rsquo;s here to support you!&nbsp;</p>\n<p>Take a quiz about your relationship and get tailored support, or browse content on Healthy relationships, using PrEP in your relationships, good communication with your partner and others, and relationship safety.</p>",
-      "video_section_headline":
-          "Build a healthy relationship with your partner",
-      "video_section_sub_headline":
-          "Here are some videos, activities and reading material for you",
-      "user_created": {
-        "id": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-        "first_name": null,
-        "last_name": null,
-        "email": "admin@charisma.com",
-        "password": "**********",
-        "location": null,
-        "title": null,
-        "description": null,
-        "tags": null,
-        "avatar": null,
-        "language": "en-US",
-        "theme": "auto",
-        "tfa_secret": null,
-        "status": "active",
-        "role": "10606a22-4089-469e-8406-313741213b91",
-        "token": null,
-        "last_access": "2021-04-06T09:19:33Z",
-        "last_page": "/collections/homepage"
+      "video_section": {
+        "id": "video_section",
+        "status": "published",
+        "headline": "Build a healthy relationship with your partner",
+        "sub_headline":
+            "Here are some videos, activities and reading material for you",
+        "videos": [
+          {
+            "id": "homepage_video",
+            "status": "published",
+            "videofile": "f5930b41-f299-4728-b035-919156a06675",
+            "actiontext": "Learn More",
+            "title": "How’s the health of your relationship?",
+            "description":
+                "All relationships have challenges, but it’s important to know what’s healthy or not. Read more to learn about healthy and unhealthy relationship qualities. It requires you to reflect on your own relationships using what you have learned.",
+            "module_image": null,
+            "video_section": "video_section"
+          },
+          {
+            "id": "video_module2",
+            "status": "published",
+            "videofile": "9fd45ac0-e7e3-4d26-b75f-62c0125bf6ec",
+            "actiontext": "Learn More",
+            "title": "Do you know the different ways of communicating?",
+            "description":
+                "Communication is more than just the words you speak. Often we are not “heard” because we struggle to separate our feelings from facts when we’re upset. This section will give you skills to communicate better with your partner and use conflict to actually get what you both want and need in your relationship.",
+            "module_image": null,
+            "video_section": "video_section"
+          },
+          {
+            "id": "video_module3",
+            "status": "published",
+            "videofile": "2b22ad56-c682-4167-817b-e8c55aff51e0",
+            "actiontext": "Learn More",
+            "title": "Discussing PrEP Use with Partners",
+            "description":
+                "Are you on PrEP or would like to be on PrEP but don’t know how to tell your partner about it? We’ve got you. Read more to learn about ways other women tell their male partners. And if you’re not ready you can also learn how to use PrEP without telling your partner.",
+            "module_image": null,
+            "video_section": "video_section"
+          },
+          {
+            "id": "video_module4",
+            "status": "published",
+            "videofile": null,
+            "actiontext": "Learn More",
+            "title": "Staying safe in a violent relationship",
+            "description":
+                "Tension and conflict is common in relationships, but it should not lead to physical abuse. Are you aware that abuse is not only physical? Read more to find out what you can do if you suspect you are in an abusive relationship. It’s good to have a back-up plan to make sure you stay safe even if you’re not ready to seek help.",
+            "module_image": "b2974a8b-0b59-47da-9538-466cf4d0307f",
+            "video_section": "video_section"
+          }
+        ]
       },
-      "user_updated": {
-        "id": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-        "first_name": null,
-        "last_name": null,
-        "email": "admin@charisma.com",
-        "password": "**********",
-        "location": null,
-        "title": null,
-        "description": null,
-        "tags": null,
-        "avatar": null,
-        "language": "en-US",
-        "theme": "auto",
-        "tfa_secret": null,
-        "status": "active",
-        "role": "10606a22-4089-469e-8406-313741213b91",
-        "token": null,
-        "last_access": "2021-04-06T09:19:33Z",
-        "last_page": "/collections/homepage"
-      },
-      "heroimage": {
-        "id": "2aa4d98d-e05d-4726-a8aa-bb5e86cec098",
-        "storage": "local",
-        "filename_disk": "2aa4d98d-e05d-4726-a8aa-bb5e86cec098.png",
-        "filename_download": "image 9.png",
-        "title": "Image 9",
-        "type": "image/png",
-        "folder": null,
-        "uploaded_by": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-        "uploaded_on": "2021-04-05T05:15:39Z",
-        "modified_by": null,
-        "modified_on": "2021-04-05T05:15:39Z",
-        "charset": null,
-        "filesize": 115468,
-        "width": 320,
-        "height": 449,
-        "duration": null,
-        "embed": null,
-        "description": null,
-        "location": null,
-        "tags": null,
-        "metadata": {}
-      },
-      "videos": [
-        {
-          "id": "homepage_video",
-          "status": "published",
-          "user_created": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-          "date_created": "2021-04-01T09:56:20Z",
-          "user_updated": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-          "date_updated": "2021-04-06T09:16:29Z",
-          "videofile": "f5930b41-f299-4728-b035-919156a06675",
-          "actiontext": "Learn More",
-          "page": "homepage",
-          "title": "How’s the health of your relationship?",
-          "description":
-              "All relationships have challenges, but it’s important to know what’s healthy or not. Read more to learn about healthy and unhealthy relationship qualities. It requires you to reflect on your own relationships using what you have learned.",
-          "module_image": null
-        },
-        {
-          "id": "video_module2",
-          "status": "published",
-          "user_created": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-          "date_created": "2021-04-06T03:33:51Z",
-          "user_updated": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-          "date_updated": "2021-04-06T09:16:29Z",
-          "videofile": "9fd45ac0-e7e3-4d26-b75f-62c0125bf6ec",
-          "actiontext": "Learn More",
-          "page": "homepage",
-          "title": "Do you know the different ways of communicating?",
-          "description":
-              "Communication is more than just the words you speak. Often we are not “heard” because we struggle to separate our feelings from facts when we’re upset. This section will give you skills to communicate better with your partner and use conflict to actually get what you both want and need in your relationship.",
-          "module_image": null
-        },
-        {
-          "id": "video_module3",
-          "status": "published",
-          "user_created": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-          "date_created": "2021-04-06T03:34:50Z",
-          "user_updated": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-          "date_updated": "2021-04-06T09:16:29Z",
-          "videofile": "2b22ad56-c682-4167-817b-e8c55aff51e0",
-          "actiontext": "Learn More",
-          "page": "homepage",
-          "title": "Discussing PrEP Use with Partners",
-          "description":
-              "Are you on PrEP or would like to be on PrEP but don’t know how to tell your partner about it? We’ve got you. Read more to learn about ways other women tell their male partners. And if you’re not ready you can also learn how to use PrEP without telling your partner.",
-          "module_image": null
-        },
-        {
-          "id": "video_module4",
-          "status": "published",
-          "user_created": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-          "date_created": "2021-04-06T03:35:47Z",
-          "user_updated": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-          "date_updated": "2021-04-06T09:16:29Z",
-          "videofile": null,
-          "actiontext": "Learn More",
-          "page": "homepage",
-          "title": "Staying safe in a violent relationship",
-          "description":
-              "Tension and conflict is common in relationships, but it should not lead to physical abuse. Are you aware that abuse is not only physical? Read more to find out what you can do if you suspect you are in an abusive relationship. It’s good to have a back-up plan to make sure you stay safe even if you’re not ready to seek help.",
-          "module_image": "b2974a8b-0b59-47da-9538-466cf4d0307f"
-        }
-      ],
       "charisma_steps": [
         {
           "id": 1,
           "text": "Login",
-          "number_background_image": "a1152951-3280-4725-9ff2-bc0d4b66b9be",
-          "number_image": "09141bd8-7008-4f81-8fc3-5f20dea47c2e",
-          "page": "homepage",
+          "number_background_image": {
+            "id": "a1152951-3280-4725-9ff2-bc0d4b66b9be"
+          },
+          "number_image": {"id": "09141bd8-7008-4f81-8fc3-5f20dea47c2e"},
           "sub_text": null
         },
         {
           "id": 2,
           "text": "Take the test",
-          "number_background_image": "1a8ccc34-9b0d-4fd7-9a37-95688b768e4b",
-          "number_image": "b4b8343d-c967-4c66-bebd-60d6a16e2d53",
-          "page": "homepage",
+          "number_background_image": {
+            "id": "1a8ccc34-9b0d-4fd7-9a37-95688b768e4b"
+          },
+          "number_image": {"id": "b4b8343d-c967-4c66-bebd-60d6a16e2d53"},
           "sub_text": null
         },
         {
           "id": 3,
           "text": "Complete a Charisma recommended module",
-          "number_background_image": "56cc6703-0099-42c5-b3fd-d401b99235a5",
-          "number_image": "60034689-1340-4684-acad-7ab3cafa985d",
-          "page": "homepage",
+          "number_background_image": {
+            "id": "56cc6703-0099-42c5-b3fd-d401b99235a5"
+          },
+          "number_image": {"id": "60034689-1340-4684-acad-7ab3cafa985d"},
           "sub_text": null
         },
         {
           "id": 4,
           "text": "Get professional help",
-          "number_background_image": "4bb2c9ee-1922-4d76-9e83-6477f6f13b57",
-          "number_image": "de72b5a9-0981-47c1-9818-1d446530f9c6",
-          "page": "homepage",
+          "number_background_image": {
+            "id": "4bb2c9ee-1922-4d76-9e83-6477f6f13b57"
+          },
+          "number_image": {"id": "de72b5a9-0981-47c1-9818-1d446530f9c6"},
           "sub_text": "Legal, relationship, mental health"
+        }
+      ],
+      "hero_image": [
+        {
+          "id": 1,
+          "image": {"id": "f55512a0-a3bc-45f9-85ca-8f19fa7bd2bf"},
+          "text":
+              "<div><strong><span style=\"font-size: 14pt;\">Want to check the status of your relationship and protect yourself?</span></strong></div>\n<div>&nbsp;</div>\n<div>\n<p>CHARISMA&rsquo;s here to support you!&nbsp;</p>\n<p>Take a quiz about your relationship and get tailored support, or browse content on Healthy relationships, using PrEP in your relationships,&nbsp;<br />good communication with your partner and others, and relationship safety.</p>\n</div>",
         }
       ]
     }
@@ -226,7 +158,9 @@ void main() {
         find.byKey(ValueKey('HeroImageText')).evaluate().single.widget as Html;
     expect(find.byKey(ValueKey('HeroImageText')), findsOneWidget);
     expect(
-        heroImageText.data, equals(contentResponse['data']!['heroimage_text']));
+        heroImageText.data,
+        equals((contentResponse['data']!['hero_image'] as List)
+            .elementAt(0)['text']));
   });
 
   testWidgets('It displays different steps for how Charisma works',
@@ -323,30 +257,30 @@ void main() {
     var videoActionButton =
         find.descendant(of: videoModule, matching: find.byType(ElevatedButton));
 
+    var videoSectionData =
+        contentResponse['data']!['video_section'] as Map<String, dynamic>;
+
     expect(videoHeading, findsOneWidget);
-    expect(
-        (videoHeading.evaluate().single.widget as Text).data,
-        equals((contentResponse['data']!['videos'] as List)
-            .elementAt(0)['title']));
+    expect((videoHeading.evaluate().single.widget as Text).data,
+        equals((videoSectionData['videos'] as List).elementAt(0)['title']));
 
     expect(videoSummary, findsOneWidget);
     expect(
         (videoSummary.evaluate().single.widget as Text).data,
-        equals((contentResponse['data']!['videos'] as List)
-            .elementAt(0)['description']));
+        equals(
+            (videoSectionData['videos'] as List).elementAt(0)['description']));
 
     String videoUrl =
-        (contentResponse['data']!['videos'] as List).elementAt(0)['videofile'];
+        (videoSectionData['videos'] as List).elementAt(0)['videofile'];
     expect(videoPlayer, findsWidgets);
     expect((videoPlayer.evaluate().single.widget as VideoPlayerWidget).videoUrl,
-        equals('http://0.0.0.0:5000/assets/$videoUrl'));
+        equals('http://0.0.0.0:8080/assets/$videoUrl'));
     expect(videoActionButton, findsOneWidget);
     expect(
         ((videoActionButton.evaluate().single.widget as ElevatedButton).child
                 as Text)
             .data,
-        (contentResponse['data']!['videos'] as List)
-            .elementAt(0)['actiontext']);
+        (videoSectionData['videos'] as List).elementAt(0)['actiontext']);
   });
 }
 
