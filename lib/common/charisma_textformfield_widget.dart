@@ -30,8 +30,10 @@ class CharismaTextFormField extends StatefulWidget {
 
   var isObscurable;
 
+  String? fieldKey;
+
   CharismaTextFormField({
-    required Key key,
+    required this.fieldKey,
     required this.fieldName,
     this.hintText = '',
     this.infoText = '',
@@ -63,11 +65,13 @@ class _CharismaTextFieldState extends State<CharismaTextFormField> {
   @override
   void initState() {
     _obscureText = widget.isObscurable;
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: Key(widget.fieldKey!),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
