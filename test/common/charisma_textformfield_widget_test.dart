@@ -8,7 +8,7 @@ void main() {
 
   testWidgets('it should have one TextFormField', (WidgetTester tester) async {
     await tester.pumpWidget(CharismaTextFormField(
-      key: ValueKey('key'),
+      fieldKey: 'key',
       fieldName: 'fieldName',
     ).wrapWithMaterial());
 
@@ -17,7 +17,7 @@ void main() {
 
   testWidgets('it should not have InfoText Text when infoText is not provided', (WidgetTester tester) async {
     await tester.pumpWidget(CharismaTextFormField(
-        key: ValueKey('key'),
+        fieldKey: 'key',
         fieldName: 'fieldName'
     ).wrapWithMaterial());
 
@@ -26,7 +26,7 @@ void main() {
 
   testWidgets('it should have InfoText Text when infoText is provided', (WidgetTester tester) async {
     await tester.pumpWidget(CharismaTextFormField(
-      key: ValueKey('key'),
+      fieldKey: 'key',
       fieldName: 'fieldName',
       infoText: 'InfoText',
     ).wrapWithMaterial());

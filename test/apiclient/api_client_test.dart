@@ -96,9 +96,10 @@ void main() {
     });
 
     var client = ApiClient(mockClient, api);
-    Future<String> response = client.post<String>(path, {"jsonKey" : "hello"});
-    expect(response, throwsA(400));
-
+    Future response = client.post(path, {"jsonKey" : "hello"});
+    await response.catchError((error) => {
+      expect(error.code, 400)
+    });
   });
 
   test("withAdditionalHeaders should return return ApiClient that sends post request with given additional headers",()async{

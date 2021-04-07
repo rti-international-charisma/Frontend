@@ -69,20 +69,21 @@ class _SignupWidgetState extends State<SignUpWidget> {
     final routerDelegate = Provider.of<CharismaRouterDelegate>(context);
     return Form(
       key: _formKey,
-      child: Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          toolbarHeight: 98,
-          backgroundColor: Colors.white,
-          title: Image.asset('assets/images/charisma_logo.png',
-            fit: BoxFit.cover,
+      child: SafeArea(
+        child: Scaffold(
+          key: _scaffoldKey,
+          appBar: AppBar(
+            toolbarHeight: 98,
+            backgroundColor: Colors.white,
+            title: Image.asset('assets/images/charisma_logo.png',
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        body: SafeArea(
-          child: Container(
+          body: Container(
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Container(
+                key: ValueKey('MainContainerKey'),
                 child: Center(
                   child: Padding(
                     padding: EdgeInsets.only(left: 20, right: 20),
@@ -98,7 +99,7 @@ class _SignupWidgetState extends State<SignUpWidget> {
                         ),
                         SizedBox(height: 24),
                         CharismaTextFormField(
-                          key: ValueKey('username'),
+                          fieldKey: 'username',
                           fieldName: 'Create Username',
                           infoText: 'Your username can be anything you want, but...\nDO make sure it’s something you will remember when you want to sign in.\nDO NOT use your Name, Phone number or Email ID',
                           controller: _usernameCtrl,
@@ -115,7 +116,7 @@ class _SignupWidgetState extends State<SignUpWidget> {
                           focusNode: _usernameFocusNode,),
                         SizedBox(height: 24),
                         CharismaTextFormField(
-                          key: ValueKey('password'),
+                          fieldKey: 'password',
                           isObscurable: true,
                           fieldName: 'Create Password',
                           controller: _passwordCtrl,
@@ -123,7 +124,7 @@ class _SignupWidgetState extends State<SignUpWidget> {
                         ),
                         SizedBox(height: 24),
                         CharismaTextFormField(
-                          key: ValueKey('confirmpassword'),
+                          fieldKey: 'confirmpassword',
                           fieldName: 'Confirm Password',
                           isObscurable: true,
                           controller: _passwordConfirmCtrl,
@@ -143,7 +144,7 @@ class _SignupWidgetState extends State<SignUpWidget> {
                         ),
                         SizedBox(height: 24),
                         CharismaTextFormField(
-                            key: ValueKey('securityquestionsanswer'),
+                            fieldKey: 'SecurityQuestionsAnswer',
                             fieldName: 'Security Questions Answer',
                             controller: _securityQuestionAnswerCtrl,
                             validator: (String? value) => value?.basicValidation
@@ -153,6 +154,7 @@ class _SignupWidgetState extends State<SignUpWidget> {
                           height: 39,
                           width: double.infinity,
                           child: ElevatedButton(
+                            key: Key('RegisterButtonKey'),
                               onPressed: () {
                                 print('Register Clicked');
                                 validateUsername(_usernameCtrl.text).then((usernameAvailable) => {
@@ -185,6 +187,7 @@ class _SignupWidgetState extends State<SignUpWidget> {
                           children: [
                             Text('Already have an account?'),
                             TextButton(
+                              key: Key('loginButtonkey'),
                                 onPressed: () {
                                   routerDelegate.push(LoginPageConfig);
                                 },
