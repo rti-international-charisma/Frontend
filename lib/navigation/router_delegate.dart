@@ -1,5 +1,6 @@
 
 
+import 'package:charisma/account/forgot_password_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:charisma/account/login_page_widget.dart';
 import 'package:charisma/account/profile_page_widget.dart';
@@ -87,9 +88,11 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
       case Pages.SignUp:
         return PageData(SignUpWidget(_apiClient), SignUpConfig);
       case Pages.Login:
-        return PageData(LoginWidget(), LoginPageConfig);
+        return PageData(LoginWidget(_apiClient), LoginPageConfig);
       case Pages.Profile:
         return PageData(ProfileWidget(), ProfileConfig);
+      case Pages.ForgotPassword:
+        return PageData(ForgotPasswordWidget(), ForgotPasswordConfig);
     }
   }
 

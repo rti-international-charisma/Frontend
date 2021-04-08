@@ -23,6 +23,8 @@ class CharismaParser extends RouteInformationParser<PageConfiguration> {
         return SignUpConfig;
       case ProfilePath:
         return ProfileConfig;
+      case ForgotPasswordPath:
+        return ForgotPasswordConfig;
       default:
         return HomePageConfig;
     }
