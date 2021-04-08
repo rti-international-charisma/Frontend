@@ -4,12 +4,14 @@ const String HomePagePath = '/home';
 const String LoginPath = '/login';
 const String SignUpPath = '/singUp';
 const String ProfilePath = '/profile';
+const String ForgotPasswordPath = '/forgotpassword';
 
 enum Pages {
   Home,
   Login,
   SignUp,
-  Profile
+  Profile,
+  ForgotPassword
 }
 
 class PageConfiguration {
@@ -24,3 +26,4 @@ const PageConfiguration HomePageConfig = PageConfiguration(key: 'Home', path: Ho
 const PageConfiguration LoginPageConfig = PageConfiguration(key: 'Login', path: LoginPath, uiPage: Pages.Login);
 const PageConfiguration SignUpConfig = PageConfiguration(key: 'SignUp', path: SignUpPath, uiPage: Pages.SignUp);
 const PageConfiguration ProfileConfig = PageConfiguration(key: 'Profile', path: ProfilePath, uiPage: Pages.Profile);
+const PageConfiguration ForgotPasswordConfig = PageConfiguration(key: 'ForgotPassword', path: ForgotPasswordPath, uiPage: Pages.ForgotPassword);

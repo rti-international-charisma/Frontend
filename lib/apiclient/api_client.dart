@@ -25,10 +25,10 @@ class ApiClient {
       return convert.jsonDecode(response.body) as T;
     }
     print(response.body);
-    throw ErrorBody(response.statusCode, response.body);
+    throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
   }
 
-  Future<T> post<T>(String path, Map<String,dynamic> body) async{
+  Future<T?> post<T>(String path, Map<String,dynamic> body) async{
     var api = _baseUrl.endsWith("/") ? _baseUrl.substring(0, _baseUrl.length-1) : _baseUrl;
     var processedPath = path.startsWith("/") ? path : "/$path";
     print("Path: $api$processedPath Body:$body");
@@ -39,7 +39,7 @@ class ApiClient {
       return (response.body.isEmpty ? response.body : convert.jsonDecode(response.body)) as T;
     }
 
-    throw ErrorBody(response.statusCode, response.body);
+    throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
   }
 
   ApiClient withAdditionalHeaders(Map<String, String> headers) {
@@ -47,9 +47,9 @@ class ApiClient {
   }
 }
 
-class ErrorBody<T> {
+class ErrorBody {
   int? code;
-  T? body;
+  Map<String, dynamic> body;
 
   ErrorBody(this.code, this.body);
 }
