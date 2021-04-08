@@ -28,13 +28,28 @@ void main() {
       "video_section": {
         "id": "video_section",
         "status": "published",
+        "date_created": "2021-04-06T12:36:37Z",
+        "date_updated": "2021-04-07T06:15:29Z",
         "headline": "Build a healthy relationship with your partner",
         "sub_headline":
             "Here are some videos, activities and reading material for you",
+        "homepage": [
+          {
+            "id": "homepage",
+            "status": "published",
+            "video_section": "video_section",
+            "hero_image": ["score image"],
+            "charisma_steps": [1, 2, 3, 4]
+          }
+        ],
         "videos": [
           {
             "id": "homepage_video",
             "status": "published",
+            "user_created": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
+            "date_created": "2021-04-01T09:56:20Z",
+            "user_updated": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
+            "date_updated": "2021-04-07T06:15:29Z",
             "videofile": "f5930b41-f299-4728-b035-919156a06675",
             "actiontext": "Learn More",
             "title": "How’s the health of your relationship?",
@@ -46,6 +61,10 @@ void main() {
           {
             "id": "video_module2",
             "status": "published",
+            "user_created": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
+            "date_created": "2021-04-06T03:33:51Z",
+            "user_updated": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
+            "date_updated": "2021-04-07T06:15:29Z",
             "videofile": "9fd45ac0-e7e3-4d26-b75f-62c0125bf6ec",
             "actiontext": "Learn More",
             "title": "Do you know the different ways of communicating?",
@@ -57,6 +76,10 @@ void main() {
           {
             "id": "video_module3",
             "status": "published",
+            "user_created": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
+            "date_created": "2021-04-06T03:34:50Z",
+            "user_updated": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
+            "date_updated": "2021-04-07T06:15:29Z",
             "videofile": "2b22ad56-c682-4167-817b-e8c55aff51e0",
             "actiontext": "Learn More",
             "title": "Discussing PrEP Use with Partners",
@@ -68,6 +91,10 @@ void main() {
           {
             "id": "video_module4",
             "status": "published",
+            "user_created": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
+            "date_created": "2021-04-06T03:35:47Z",
+            "user_updated": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
+            "date_updated": "2021-04-07T06:15:29Z",
             "videofile": null,
             "actiontext": "Learn More",
             "title": "Staying safe in a violent relationship",
@@ -83,45 +110,255 @@ void main() {
           "id": 1,
           "text": "Login",
           "number_background_image": {
-            "id": "a1152951-3280-4725-9ff2-bc0d4b66b9be"
+            "id": "a1152951-3280-4725-9ff2-bc0d4b66b9be",
+            "storage": "local",
+            "filename_disk": "a1152951-3280-4725-9ff2-bc0d4b66b9be.png",
+            "filename_download": "Ellipse 9.png",
+            "title": "Ellipse 9",
+            "type": "image/png",
+            "folder": null,
+            "uploaded_by": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
+            "uploaded_on": "2021-04-05T10:16:19Z",
+            "modified_by": null,
+            "modified_on": "2021-04-05T10:16:19Z",
+            "charset": null,
+            "filesize": 1389,
+            "width": 80,
+            "height": 80,
+            "duration": null,
+            "embed": null,
+            "description": null,
+            "location": null,
+            "tags": null,
+            "metadata": {}
           },
-          "number_image": {"id": "09141bd8-7008-4f81-8fc3-5f20dea47c2e"},
+          "number_image": {
+            "id": "09141bd8-7008-4f81-8fc3-5f20dea47c2e",
+            "storage": "local",
+            "filename_disk": "09141bd8-7008-4f81-8fc3-5f20dea47c2e.png",
+            "filename_download": "Ellipse 3.png",
+            "title": "Ellipse 3",
+            "type": "image/png",
+            "folder": null,
+            "uploaded_by": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
+            "uploaded_on": "2021-04-05T10:16:26Z",
+            "modified_by": null,
+            "modified_on": "2021-04-05T10:16:26Z",
+            "charset": null,
+            "filesize": 16100,
+            "width": 80,
+            "height": 80,
+            "duration": null,
+            "embed": null,
+            "description": null,
+            "location": null,
+            "tags": null,
+            "metadata": {}
+          },
+          "page": {
+            "id": "homepage",
+            "status": "published",
+            "video_section": "video_section",
+            "hero_image": ["score image"],
+            "charisma_steps": [1, 2, 3, 4]
+          },
           "sub_text": null
         },
         {
           "id": 2,
           "text": "Take the test",
           "number_background_image": {
-            "id": "1a8ccc34-9b0d-4fd7-9a37-95688b768e4b"
+            "id": "1a8ccc34-9b0d-4fd7-9a37-95688b768e4b",
+            "storage": "local",
+            "filename_disk": "1a8ccc34-9b0d-4fd7-9a37-95688b768e4b.png",
+            "filename_download": "Ellipse 4 (1).png",
+            "title": "Ellipse 4 (1)",
+            "type": "image/png",
+            "folder": null,
+            "uploaded_by": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
+            "uploaded_on": "2021-04-05T10:20:25Z",
+            "modified_by": null,
+            "modified_on": "2021-04-05T10:20:25Z",
+            "charset": null,
+            "filesize": 1332,
+            "width": 80,
+            "height": 80,
+            "duration": null,
+            "embed": null,
+            "description": null,
+            "location": null,
+            "tags": null,
+            "metadata": {}
           },
-          "number_image": {"id": "b4b8343d-c967-4c66-bebd-60d6a16e2d53"},
+          "number_image": {
+            "id": "b4b8343d-c967-4c66-bebd-60d6a16e2d53",
+            "storage": "local",
+            "filename_disk": "b4b8343d-c967-4c66-bebd-60d6a16e2d53.png",
+            "filename_download": "Ellipse 10.png",
+            "title": "Ellipse 10",
+            "type": "image/png",
+            "folder": null,
+            "uploaded_by": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
+            "uploaded_on": "2021-04-05T10:19:15Z",
+            "modified_by": null,
+            "modified_on": "2021-04-05T10:19:16Z",
+            "charset": null,
+            "filesize": 13600,
+            "width": 80,
+            "height": 80,
+            "duration": null,
+            "embed": null,
+            "description": null,
+            "location": null,
+            "tags": null,
+            "metadata": {}
+          },
+          "page": {
+            "id": "homepage",
+            "status": "published",
+            "video_section": "video_section",
+            "hero_image": ["score image"],
+            "charisma_steps": [1, 2, 3, 4]
+          },
           "sub_text": null
         },
         {
           "id": 3,
           "text": "Complete a Charisma recommended module",
           "number_background_image": {
-            "id": "56cc6703-0099-42c5-b3fd-d401b99235a5"
+            "id": "56cc6703-0099-42c5-b3fd-d401b99235a5",
+            "storage": "local",
+            "filename_disk": "56cc6703-0099-42c5-b3fd-d401b99235a5.png",
+            "filename_download": "Ellipse 6.png",
+            "title": "Ellipse 6",
+            "type": "image/png",
+            "folder": null,
+            "uploaded_by": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
+            "uploaded_on": "2021-04-05T10:21:27Z",
+            "modified_by": null,
+            "modified_on": "2021-04-05T10:21:27Z",
+            "charset": null,
+            "filesize": 1311,
+            "width": 80,
+            "height": 80,
+            "duration": null,
+            "embed": null,
+            "description": null,
+            "location": null,
+            "tags": null,
+            "metadata": {}
           },
-          "number_image": {"id": "60034689-1340-4684-acad-7ab3cafa985d"},
+          "number_image": {
+            "id": "60034689-1340-4684-acad-7ab3cafa985d",
+            "storage": "local",
+            "filename_disk": "60034689-1340-4684-acad-7ab3cafa985d.png",
+            "filename_download": "Ellipse 11.png",
+            "title": "Ellipse 11",
+            "type": "image/png",
+            "folder": null,
+            "uploaded_by": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
+            "uploaded_on": "2021-04-05T10:21:33Z",
+            "modified_by": null,
+            "modified_on": "2021-04-05T10:21:33Z",
+            "charset": null,
+            "filesize": 13799,
+            "width": 80,
+            "height": 80,
+            "duration": null,
+            "embed": null,
+            "description": null,
+            "location": null,
+            "tags": null,
+            "metadata": {}
+          },
+          "page": {
+            "id": "homepage",
+            "status": "published",
+            "video_section": "video_section",
+            "hero_image": ["score image"],
+            "charisma_steps": [1, 2, 3, 4]
+          },
           "sub_text": null
         },
         {
           "id": 4,
           "text": "Get professional help",
           "number_background_image": {
-            "id": "4bb2c9ee-1922-4d76-9e83-6477f6f13b57"
+            "id": "4bb2c9ee-1922-4d76-9e83-6477f6f13b57",
+            "storage": "local",
+            "filename_disk": "4bb2c9ee-1922-4d76-9e83-6477f6f13b57.png",
+            "filename_download": "Ellipse 7.png",
+            "title": "Ellipse 7",
+            "type": "image/png",
+            "folder": null,
+            "uploaded_by": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
+            "uploaded_on": "2021-04-05T10:23:25Z",
+            "modified_by": null,
+            "modified_on": "2021-04-05T10:23:25Z",
+            "charset": null,
+            "filesize": 1487,
+            "width": 80,
+            "height": 80,
+            "duration": null,
+            "embed": null,
+            "description": null,
+            "location": null,
+            "tags": null,
+            "metadata": {}
           },
-          "number_image": {"id": "de72b5a9-0981-47c1-9818-1d446530f9c6"},
+          "number_image": {
+            "id": "de72b5a9-0981-47c1-9818-1d446530f9c6",
+            "storage": "local",
+            "filename_disk": "de72b5a9-0981-47c1-9818-1d446530f9c6.png",
+            "filename_download": "Ellipse 12.png",
+            "title": "Ellipse 12",
+            "type": "image/png",
+            "folder": null,
+            "uploaded_by": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
+            "uploaded_on": "2021-04-05T10:23:29Z",
+            "modified_by": null,
+            "modified_on": "2021-04-05T10:23:29Z",
+            "charset": null,
+            "filesize": 8879,
+            "width": 80,
+            "height": 80,
+            "duration": null,
+            "embed": null,
+            "description": null,
+            "location": null,
+            "tags": null,
+            "metadata": {}
+          },
+          "page": {
+            "id": "homepage",
+            "status": "published",
+            "video_section": "video_section",
+            "hero_image": ["score image"],
+            "charisma_steps": [1, 2, 3, 4]
+          },
           "sub_text": "Legal, relationship, mental health"
         }
       ],
       "hero_image": [
         {
-          "id": 1,
-          "image": {"id": "f55512a0-a3bc-45f9-85ca-8f19fa7bd2bf"},
-          "text":
-              "<div><strong><span style=\"font-size: 14pt;\">Want to check the status of your relationship and protect yourself?</span></strong></div>\n<div>&nbsp;</div>\n<div>\n<p>CHARISMA&rsquo;s here to support you!&nbsp;</p>\n<p>Take a quiz about your relationship and get tailored support, or browse content on Healthy relationships, using PrEP in your relationships,&nbsp;<br />good communication with your partner and others, and relationship safety.</p>\n</div>",
+          "name": "score image",
+          "status": "published",
+          "user_created": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
+          "date_created": "2021-04-07T12:36:40Z",
+          "user_updated": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
+          "date_updated": "2021-04-08T08:57:19Z",
+          "title": "Hero Image",
+          "summary": "",
+          "introduction":
+              "<div><span style=\"font-size: 18pt;\"><strong>Want to check the status of your relationship and protect yourself?</strong></span></div>\n<div>&nbsp;</div>\n<div>\n<p><span style=\"font-size: 14pt;\">CHARISMA&rsquo;s here to support you!&nbsp;</span></p>\n<p><span style=\"font-size: 14pt;\">Take a quiz about your relationship and get tailored support, or browse content on Healthy relationships, using PrEP in your relationships,&nbsp;</span><br /><span style=\"font-size: 14pt;\">good communication with your partner and others, and relationship safety.</span></p>\n</div>",
+          "image_file": "1b15d1ca-e7e9-4c82-9905-5a8664bd8047",
+          "page_id": {
+            "id": "homepage",
+            "status": "published",
+            "video_section": "video_section",
+            "hero_image": ["score image"],
+            "charisma_steps": [1, 2, 3, 4]
+          }
         }
       ]
     }
@@ -160,7 +397,7 @@ void main() {
     expect(
         heroImageText.data,
         equals((contentResponse['data']!['hero_image'] as List)
-            .elementAt(0)['text']));
+            .elementAt(0)['introduction']));
   });
 
   testWidgets('It displays different steps for how Charisma works',

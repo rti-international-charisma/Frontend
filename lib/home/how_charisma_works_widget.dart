@@ -40,7 +40,7 @@ class HowCharismaWorks extends StatelessWidget {
                         ),
                         Positioned(
                           bottom: 20,
-                          left: 30,
+                          left: 32,
                           child: Text(
                             data['charisma_steps'][index]['id'].toString(),
                             key: ValueKey('Step${index + 1}'),
