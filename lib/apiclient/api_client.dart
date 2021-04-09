@@ -28,7 +28,7 @@ class ApiClient {
     throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
   }
 
-  Future<T?> post<T>(String path, Map<String,dynamic> body) async{
+  Future<T>? post<T>(String path, Map<String,dynamic> body) async{
     var api = _baseUrl.endsWith("/") ? _baseUrl.substring(0, _baseUrl.length-1) : _baseUrl;
     var processedPath = path.startsWith("/") ? path : "/$path";
     print("Path: $api$processedPath Body:$body");

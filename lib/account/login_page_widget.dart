@@ -99,13 +99,14 @@ class _LoginWidgetState extends State<LoginWidget> {
                                     widget._apiClient.post<Map<String, dynamic>>('/login', {
                                       "username": _usernameCtrl.text,
                                       "password": _passwordCtrl.text
-                                    }).then((value) => {
+                                    })?.then((value) => {
                                       routerDelegate.push(ProfileConfig)
                                     }).catchError((error) => {
                                       print("Login Error : $error"),
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
-                                          content: Text((((error as ErrorBody).body))['body'])
+                                          content: Text((((error as ErrorBody).body))['body']),
+                                          backgroundColor: Colors.red
                                       ))
                                     });
                                   }

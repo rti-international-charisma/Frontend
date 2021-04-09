@@ -165,7 +165,7 @@ class _SignupWidgetState extends State<SignUpWidget> {
                                       "password": _passwordCtrl.text,
                                       "secQuestionId": selectedItem?.identifier,
                                       "secQuestionAnswer" : _securityQuestionAnswerCtrl.text.toLowerCase()
-                                    }).then((value) => {
+                                    })?.then((value) => {
                                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('You have been successfully registered'), backgroundColor: Colors.lightGreen)),
                                       routerDelegate.push(LoginPageConfig)
                                     }).catchError((error) => {

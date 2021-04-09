@@ -69,8 +69,8 @@ void main() {
 
     expect(find.text('Cannot be empty'), findsOneWidget);
   });
-/*
-  testWidgets('should show error if login fails', (WidgetTester tester) async {
+
+  testWidgets('should go to Profile Page on successful login', (WidgetTester tester) async {
 
     var username = 'username';
     var password = 'password';
@@ -79,12 +79,22 @@ void main() {
       "password": password
     };
 
-    when(apiClient.post<Map<String,dynamic>>('/login', loginData))
-        .thenAnswer(
-            (invocation) => Future<Map<String, dynamic>>.value(<String, dynamic>{"s":"b"})
-    );
+    var futureResponse = Future<Map<String, dynamic>>.value({
+      "user": {
+        "id": 1,
+        "username": "username",
+        "sec_q_id": 1,
+        "loginAttemptsLeft": 5
+      },
+      "token": "some.jwt.token"
+    });
 
-    await tester.pumpWidget(LoginWidget(apiClient).wrapWithMaterial());
+    var future = apiClient.post('/login',loginData);
+
+
+    when(apiClient.post('/login',loginData)).thenAnswer( (_) async => futureResponse );
+
+    await tester.pumpWidget(LoginWidget(apiClient).wrapWithMaterialMockRouter(routerDelegate));
 
     await tester.enterText(find.byKey(ValueKey('LoginUNameKey')), username);
     await tester.pump();
@@ -95,9 +105,8 @@ void main() {
     await tester.tap(find.byKey(ValueKey('LoginLoginBtnKey')), warnIfMissed: false);
     await tester.pump();
 
-    expect(find.text('some error'), findsOneWidget);
+    verify(routerDelegate.push(ProfileConfig));
   });
-  */
 
 }
 
