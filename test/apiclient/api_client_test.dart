@@ -80,7 +80,7 @@ void main() {
     });
 
     var client = ApiClient(mockClient, api);
-    Future<String> response = client.post<String>(path, {"jsonKey" : "hello"});
+    Future<String>? response = client.post<String>(path, {"jsonKey" : "hello"});
     var data = await response;
     expect(data, "");
   });
@@ -92,13 +92,14 @@ void main() {
     var path ="/data";
 
     var mockClient = MockClient((request) async {
-      return Response("", HttpStatus.badRequest);
+      return Response('''{"body": "Some error"}''',
+          HttpStatus.badRequest);
     });
 
     var client = ApiClient(mockClient, api);
-    Future response = client.post(path, {"jsonKey" : "hello"});
-    await response.catchError((error) => {
-      expect(error.code, 400)
+    Future? response = client.post(path, {"jsonKey" : "hello"});
+    await response?.catchError((e) {
+      expect((e as ErrorBody).code, 400);
     });
   });
 
@@ -122,7 +123,7 @@ void main() {
 
     var client = ApiClient(mockClient, api);
     var clientWithAdditionalHeaders = client.withAdditionalHeaders({"HeaderKey":"HeaderValue"});
-    Map<String, dynamic> response = await clientWithAdditionalHeaders.post<Map<String, dynamic>>(path,{});
+    Map<String, dynamic>? response = await clientWithAdditionalHeaders.post<Map<String, dynamic>>(path,{});
     expect({"id":"1"}, response);
   });
 
