@@ -68,7 +68,7 @@ void main() {
     await tester.drag(find.byKey(ValueKey('MainContainerKey')), Offset(0.0, -200));
     await tester.pump();
 
-    await tester.tap(find.byKey(ValueKey('loginButtonkey')), warnIfMissed: false);
+    await tester.tap(find.byKey(ValueKey('loginButtonkey')));
     await tester.pump();
 
     verify (routerDelegate.push(LoginPageConfig));
@@ -154,7 +154,7 @@ void main() {
     await tester.pump(Duration(seconds: 1));
 
     //Tap on different widget to loose focus
-    await tester.tap(find.byKey(ValueKey('SecurityQuestionsAnswer')), warnIfMissed: false);
+    await tester.tap(find.byKey(ValueKey('SecurityQuestionsAnswer')));
     await tester.pump();
 
     expect(find.text('Passwords do not match'), findsOneWidget);

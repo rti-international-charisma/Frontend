@@ -28,7 +28,7 @@ void main() {
 
     await tester.pumpWidget(LoginWidget(apiClient).wrapWithMaterialMockRouter(routerDelegate));
 
-    await tester.tap(find.byKey(ValueKey('LoginRegisterBtnKey')), warnIfMissed: false);
+    await tester.tap(find.byKey(ValueKey('LoginRegisterBtnKey')));
     await tester.pump();
 
     verify (routerDelegate.push(SignUpConfig));
@@ -38,7 +38,7 @@ void main() {
 
     await tester.pumpWidget(LoginWidget(apiClient).wrapWithMaterialMockRouter(routerDelegate));
 
-    await tester.tap(find.byKey(ValueKey('LoginForgotPWordKey')), warnIfMissed: false);
+    await tester.tap(find.byKey(ValueKey('LoginForgotPWordKey')));
     await tester.pump();
 
     verify (routerDelegate.push(ForgotPasswordConfig));
@@ -51,7 +51,7 @@ void main() {
     await tester.enterText(find.byKey(ValueKey('LoginPWordKey')), 'password');
     await tester.pump();
 
-    await tester.tap(find.byKey(ValueKey('LoginLoginBtnKey')), warnIfMissed: false);
+    await tester.tap(find.byKey(ValueKey('LoginLoginBtnKey')));
     await tester.pump();
 
     expect(find.text('Cannot be empty'), findsOneWidget);
@@ -64,7 +64,7 @@ void main() {
     await tester.enterText(find.byKey(ValueKey('LoginUNameKey')), 'username');
     await tester.pump();
 
-    await tester.tap(find.byKey(ValueKey('LoginLoginBtnKey')), warnIfMissed: false);
+    await tester.tap(find.byKey(ValueKey('LoginLoginBtnKey')));
     await tester.pump();
 
     expect(find.text('Cannot be empty'), findsOneWidget);
@@ -102,7 +102,7 @@ void main() {
     await tester.enterText(find.byKey(ValueKey('LoginPWordKey')), password);
     await tester.pump();
 
-    await tester.tap(find.byKey(ValueKey('LoginLoginBtnKey')), warnIfMissed: false);
+    await tester.tap(find.byKey(ValueKey('LoginLoginBtnKey')));
     await tester.pump();
 
     verify(routerDelegate.push(ProfileConfig));
