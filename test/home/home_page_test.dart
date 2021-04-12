@@ -1,10 +1,3 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility that Flutter provides. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/network_image_builder.dart';
 import 'package:charisma/common/video_player_widget.dart';
@@ -38,7 +31,7 @@ void main() {
             "id": "homepage",
             "status": "published",
             "video_section": "video_section",
-            "hero_image": ["score image"],
+            "hero_image": "score image",
             "charisma_steps": [1, 2, 3, 4]
           }
         ],
@@ -105,61 +98,32 @@ void main() {
           }
         ]
       },
+      "hero_image": {
+        "name": "score image",
+        "status": "published",
+        "user_created": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
+        "date_created": "2021-04-07T12:36:40Z",
+        "user_updated": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
+        "date_updated": "2021-04-09T09:53:27Z",
+        "title": "Hero Image",
+        "summary": "",
+        "introduction":
+            "<div><span style=\"font-size: 18pt;\"><strong>Want to check the status of your relationship and protect yourself?</strong></span></div>\n<div>\n<p><span style=\"font-size: 14pt;\">CHARISMA&rsquo;s here to support you!&nbsp;</span></p>\n<p><span style=\"font-size: 14pt;\">Take a quiz about your relationship and get tailored support, or browse content on Healthy relationships, using PrEP in your relationships,&nbsp;</span><br /><span style=\"font-size: 14pt;\">good communication with your partner and others, and relationship safety.</span></p>\n</div>",
+        "image_file": "1b15d1ca-e7e9-4c82-9905-5a8664bd8047"
+      },
       "charisma_steps": [
         {
           "id": 1,
           "text": "Login",
           "number_background_image": {
-            "id": "a1152951-3280-4725-9ff2-bc0d4b66b9be",
-            "storage": "local",
-            "filename_disk": "a1152951-3280-4725-9ff2-bc0d4b66b9be.png",
-            "filename_download": "Ellipse 9.png",
-            "title": "Ellipse 9",
-            "type": "image/png",
-            "folder": null,
-            "uploaded_by": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-            "uploaded_on": "2021-04-05T10:16:19Z",
-            "modified_by": null,
-            "modified_on": "2021-04-05T10:16:19Z",
-            "charset": null,
-            "filesize": 1389,
-            "width": 80,
-            "height": 80,
-            "duration": null,
-            "embed": null,
-            "description": null,
-            "location": null,
-            "tags": null,
-            "metadata": {}
+            "id": "a1152951-3280-4725-9ff2-bc0d4b66b9be"
           },
-          "number_image": {
-            "id": "09141bd8-7008-4f81-8fc3-5f20dea47c2e",
-            "storage": "local",
-            "filename_disk": "09141bd8-7008-4f81-8fc3-5f20dea47c2e.png",
-            "filename_download": "Ellipse 3.png",
-            "title": "Ellipse 3",
-            "type": "image/png",
-            "folder": null,
-            "uploaded_by": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-            "uploaded_on": "2021-04-05T10:16:26Z",
-            "modified_by": null,
-            "modified_on": "2021-04-05T10:16:26Z",
-            "charset": null,
-            "filesize": 16100,
-            "width": 80,
-            "height": 80,
-            "duration": null,
-            "embed": null,
-            "description": null,
-            "location": null,
-            "tags": null,
-            "metadata": {}
-          },
+          "number_image": {"id": "09141bd8-7008-4f81-8fc3-5f20dea47c2e"},
           "page": {
             "id": "homepage",
             "status": "published",
             "video_section": "video_section",
-            "hero_image": ["score image"],
+            "hero_image": "score image",
             "charisma_steps": [1, 2, 3, 4]
           },
           "sub_text": null
@@ -168,56 +132,14 @@ void main() {
           "id": 2,
           "text": "Take the test",
           "number_background_image": {
-            "id": "1a8ccc34-9b0d-4fd7-9a37-95688b768e4b",
-            "storage": "local",
-            "filename_disk": "1a8ccc34-9b0d-4fd7-9a37-95688b768e4b.png",
-            "filename_download": "Ellipse 4 (1).png",
-            "title": "Ellipse 4 (1)",
-            "type": "image/png",
-            "folder": null,
-            "uploaded_by": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-            "uploaded_on": "2021-04-05T10:20:25Z",
-            "modified_by": null,
-            "modified_on": "2021-04-05T10:20:25Z",
-            "charset": null,
-            "filesize": 1332,
-            "width": 80,
-            "height": 80,
-            "duration": null,
-            "embed": null,
-            "description": null,
-            "location": null,
-            "tags": null,
-            "metadata": {}
+            "id": "1a8ccc34-9b0d-4fd7-9a37-95688b768e4b"
           },
-          "number_image": {
-            "id": "b4b8343d-c967-4c66-bebd-60d6a16e2d53",
-            "storage": "local",
-            "filename_disk": "b4b8343d-c967-4c66-bebd-60d6a16e2d53.png",
-            "filename_download": "Ellipse 10.png",
-            "title": "Ellipse 10",
-            "type": "image/png",
-            "folder": null,
-            "uploaded_by": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-            "uploaded_on": "2021-04-05T10:19:15Z",
-            "modified_by": null,
-            "modified_on": "2021-04-05T10:19:16Z",
-            "charset": null,
-            "filesize": 13600,
-            "width": 80,
-            "height": 80,
-            "duration": null,
-            "embed": null,
-            "description": null,
-            "location": null,
-            "tags": null,
-            "metadata": {}
-          },
+          "number_image": {"id": "b4b8343d-c967-4c66-bebd-60d6a16e2d53"},
           "page": {
             "id": "homepage",
             "status": "published",
             "video_section": "video_section",
-            "hero_image": ["score image"],
+            "hero_image": "score image",
             "charisma_steps": [1, 2, 3, 4]
           },
           "sub_text": null
@@ -226,56 +148,14 @@ void main() {
           "id": 3,
           "text": "Complete a Charisma recommended module",
           "number_background_image": {
-            "id": "56cc6703-0099-42c5-b3fd-d401b99235a5",
-            "storage": "local",
-            "filename_disk": "56cc6703-0099-42c5-b3fd-d401b99235a5.png",
-            "filename_download": "Ellipse 6.png",
-            "title": "Ellipse 6",
-            "type": "image/png",
-            "folder": null,
-            "uploaded_by": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-            "uploaded_on": "2021-04-05T10:21:27Z",
-            "modified_by": null,
-            "modified_on": "2021-04-05T10:21:27Z",
-            "charset": null,
-            "filesize": 1311,
-            "width": 80,
-            "height": 80,
-            "duration": null,
-            "embed": null,
-            "description": null,
-            "location": null,
-            "tags": null,
-            "metadata": {}
+            "id": "56cc6703-0099-42c5-b3fd-d401b99235a5"
           },
-          "number_image": {
-            "id": "60034689-1340-4684-acad-7ab3cafa985d",
-            "storage": "local",
-            "filename_disk": "60034689-1340-4684-acad-7ab3cafa985d.png",
-            "filename_download": "Ellipse 11.png",
-            "title": "Ellipse 11",
-            "type": "image/png",
-            "folder": null,
-            "uploaded_by": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-            "uploaded_on": "2021-04-05T10:21:33Z",
-            "modified_by": null,
-            "modified_on": "2021-04-05T10:21:33Z",
-            "charset": null,
-            "filesize": 13799,
-            "width": 80,
-            "height": 80,
-            "duration": null,
-            "embed": null,
-            "description": null,
-            "location": null,
-            "tags": null,
-            "metadata": {}
-          },
+          "number_image": {"id": "60034689-1340-4684-acad-7ab3cafa985d"},
           "page": {
             "id": "homepage",
             "status": "published",
             "video_section": "video_section",
-            "hero_image": ["score image"],
+            "hero_image": "score image",
             "charisma_steps": [1, 2, 3, 4]
           },
           "sub_text": null
@@ -284,81 +164,17 @@ void main() {
           "id": 4,
           "text": "Get professional help",
           "number_background_image": {
-            "id": "4bb2c9ee-1922-4d76-9e83-6477f6f13b57",
-            "storage": "local",
-            "filename_disk": "4bb2c9ee-1922-4d76-9e83-6477f6f13b57.png",
-            "filename_download": "Ellipse 7.png",
-            "title": "Ellipse 7",
-            "type": "image/png",
-            "folder": null,
-            "uploaded_by": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-            "uploaded_on": "2021-04-05T10:23:25Z",
-            "modified_by": null,
-            "modified_on": "2021-04-05T10:23:25Z",
-            "charset": null,
-            "filesize": 1487,
-            "width": 80,
-            "height": 80,
-            "duration": null,
-            "embed": null,
-            "description": null,
-            "location": null,
-            "tags": null,
-            "metadata": {}
+            "id": "4bb2c9ee-1922-4d76-9e83-6477f6f13b57"
           },
-          "number_image": {
-            "id": "de72b5a9-0981-47c1-9818-1d446530f9c6",
-            "storage": "local",
-            "filename_disk": "de72b5a9-0981-47c1-9818-1d446530f9c6.png",
-            "filename_download": "Ellipse 12.png",
-            "title": "Ellipse 12",
-            "type": "image/png",
-            "folder": null,
-            "uploaded_by": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-            "uploaded_on": "2021-04-05T10:23:29Z",
-            "modified_by": null,
-            "modified_on": "2021-04-05T10:23:29Z",
-            "charset": null,
-            "filesize": 8879,
-            "width": 80,
-            "height": 80,
-            "duration": null,
-            "embed": null,
-            "description": null,
-            "location": null,
-            "tags": null,
-            "metadata": {}
-          },
+          "number_image": {"id": "de72b5a9-0981-47c1-9818-1d446530f9c6"},
           "page": {
             "id": "homepage",
             "status": "published",
             "video_section": "video_section",
-            "hero_image": ["score image"],
+            "hero_image": "score image",
             "charisma_steps": [1, 2, 3, 4]
           },
           "sub_text": "Legal, relationship, mental health"
-        }
-      ],
-      "hero_image": [
-        {
-          "name": "score image",
-          "status": "published",
-          "user_created": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-          "date_created": "2021-04-07T12:36:40Z",
-          "user_updated": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-          "date_updated": "2021-04-08T08:57:19Z",
-          "title": "Hero Image",
-          "summary": "",
-          "introduction":
-              "<div><span style=\"font-size: 18pt;\"><strong>Want to check the status of your relationship and protect yourself?</strong></span></div>\n<div>&nbsp;</div>\n<div>\n<p><span style=\"font-size: 14pt;\">CHARISMA&rsquo;s here to support you!&nbsp;</span></p>\n<p><span style=\"font-size: 14pt;\">Take a quiz about your relationship and get tailored support, or browse content on Healthy relationships, using PrEP in your relationships,&nbsp;</span><br /><span style=\"font-size: 14pt;\">good communication with your partner and others, and relationship safety.</span></p>\n</div>",
-          "image_file": "1b15d1ca-e7e9-4c82-9905-5a8664bd8047",
-          "page_id": {
-            "id": "homepage",
-            "status": "published",
-            "video_section": "video_section",
-            "hero_image": ["score image"],
-            "charisma_steps": [1, 2, 3, 4]
-          }
         }
       ]
     }
@@ -368,13 +184,14 @@ void main() {
       (WidgetTester tester) async {
     final apiClient = MockApiClient();
 
-    when(apiClient.get("/homepage")).thenAnswer((realInvocation) {
+    when(apiClient.get("/page/homepage")).thenAnswer((realInvocation) {
       return Future<Map<String, dynamic>>.value(contentResponse);
     });
 
     await tester
         .pumpWidget(HomePageWidget(apiClient: apiClient).wrapWithMaterial());
     await mockNetworkImagesFor(() => tester.pump());
+
     expect(find.byKey(ValueKey('LoginLink')), findsOneWidget);
     expect(find.byKey(ValueKey('CharismaLogo')), findsOneWidget);
   });
@@ -382,7 +199,7 @@ void main() {
   testWidgets('It displays hero image with text', (WidgetTester tester) async {
     final apiClient = MockApiClient();
 
-    when(apiClient.get("/homepage")).thenAnswer((realInvocation) {
+    when(apiClient.get("/page/homepage")).thenAnswer((realInvocation) {
       return Future<Map<String, dynamic>>.value(contentResponse);
     });
 
@@ -396,15 +213,15 @@ void main() {
     expect(find.byKey(ValueKey('HeroImageText')), findsOneWidget);
     expect(
         heroImageText.data,
-        equals((contentResponse['data']!['hero_image'] as List)
-            .elementAt(0)['introduction']));
+        equals((contentResponse['data']!['hero_image']
+            as Map<String, dynamic>)['introduction']));
   });
 
   testWidgets('It displays different steps for how Charisma works',
       (WidgetTester tester) async {
     final apiClient = MockApiClient();
 
-    when(apiClient.get("/homepage")).thenAnswer((realInvocation) {
+    when(apiClient.get("/page/homepage")).thenAnswer((realInvocation) {
       return Future<Map<String, dynamic>>.value(contentResponse);
     });
 
@@ -456,7 +273,7 @@ void main() {
   testWidgets('It displays videos widget', (WidgetTester tester) async {
     final apiClient = MockApiClient();
 
-    when(apiClient.get("/homepage")).thenAnswer((realInvocation) {
+    when(apiClient.get("/page/homepage")).thenAnswer((realInvocation) {
       return Future<Map<String, dynamic>>.value(contentResponse);
     });
 
@@ -476,12 +293,14 @@ void main() {
       (WidgetTester tester) async {
     final apiClient = MockApiClient();
 
-    when(apiClient.get("/homepage")).thenAnswer((realInvocation) {
+    when(apiClient.get("/page/homepage")).thenAnswer((realInvocation) {
       return Future<Map<String, dynamic>>.value(contentResponse);
     });
 
-    await tester
-        .pumpWidget(HomePageWidget(apiClient: apiClient).wrapWithMaterial());
+    await tester.pumpWidget(HomePageWidget(
+      apiClient: apiClient,
+      apiBaseUrl: 'http://0.0.0.0:8080',
+    ).wrapWithMaterial());
     await mockNetworkImagesFor(() => tester.pump());
 
     var videoModule = find.byKey(ValueKey('VideoModules')).first;
@@ -518,6 +337,48 @@ void main() {
                 as Text)
             .data,
         (videoSectionData['videos'] as List).elementAt(0)['actiontext']);
+  });
+
+  testWidgets('It displays links to other pages', (WidgetTester tester) async {
+    final apiClient = MockApiClient();
+
+    when(apiClient.get("/page/homepage")).thenAnswer((realInvocation) {
+      return Future<Map<String, dynamic>>.value(contentResponse);
+    });
+
+    await tester
+        .pumpWidget(HomePageWidget(apiClient: apiClient).wrapWithMaterial());
+    await mockNetworkImagesFor(() => tester.pump());
+
+    expect(
+        (find.byKey(ValueKey('HomePageLink0')).evaluate().single.widget as Text)
+            .data,
+        equals('HIV Prevention: PrEP'));
+
+    expect(
+        (find.byKey(ValueKey('HomePageLink1')).evaluate().single.widget as Text)
+            .data,
+        equals('Male Partner Information Pack'));
+
+    expect(
+        (find.byKey(ValueKey('HomePageLink2')).evaluate().single.widget as Text)
+            .data,
+        equals('Referrals'));
+
+    expect(
+        (find.byKey(ValueKey('HomePageLink3')).evaluate().single.widget as Text)
+            .data,
+        equals('Take the HEART assessment test'));
+
+    expect(
+        (find.byKey(ValueKey('HomePageLink4')).evaluate().single.widget as Text)
+            .data,
+        equals('Counselling Content'));
+
+    expect(
+        (find.byKey(ValueKey('HomePageLink5')).evaluate().single.widget as Text)
+            .data,
+        equals('About Us'));
   });
 }
 

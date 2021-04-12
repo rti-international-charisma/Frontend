@@ -1,11 +1,10 @@
-
 import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/material.dart';
 
 class CharismaParser extends RouteInformationParser<PageConfiguration> {
   @override
-  Future<PageConfiguration> parseRouteInformation(RouteInformation routeInformation) async {
-
+  Future<PageConfiguration> parseRouteInformation(
+      RouteInformation routeInformation) async {
     final uri = Uri.parse(routeInformation.location!);
     print("URI : $uri");
     if (uri.pathSegments.isEmpty) {

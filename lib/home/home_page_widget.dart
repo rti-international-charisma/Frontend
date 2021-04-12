@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/home/hero_image_widget.dart';
+import 'package:charisma/home/home_page_links_widget.dart';
 import 'package:charisma/home/home_page_videos_widget.dart';
 import 'package:charisma/home/how_charisma_works_widget.dart';
 import 'package:charisma/navigation/router_delegate.dart';
@@ -10,23 +11,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomePageWidget extends StatefulWidget {
-  HomePageWidget({Key? key, this.apiClient}) : super(key: key);
+  HomePageWidget({Key? key, this.apiClient, this.apiBaseUrl}) : super(key: key);
 
   final ApiClient? apiClient;
+  final String? apiBaseUrl;
 
   @override
   _HomePageWidgetState createState() => _HomePageWidgetState();
 }
 
 class _HomePageWidgetState extends State<HomePageWidget> {
-  static const apiBaseUrl = String.fromEnvironment('API_BASEURL',
-      defaultValue: 'http://0.0.0.0:8080');
-
   @override
   Widget build(BuildContext context) {
     final routerDelegate = Provider.of<CharismaRouterDelegate>(context);
     return FutureBuilder<Map<String, dynamic>?>(
-        future: widget.apiClient?.get<Map<String, dynamic>>('/homepage'),
+        future: widget.apiClient?.get<Map<String, dynamic>>('/page/homepage'),
         builder: (context, data) {
           if (data.hasData) {
             var homeData = data.data!['data'];
@@ -36,7 +35,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 title: Image.asset('assets/images/charisma_logo.png',
                     key: ValueKey('CharismaLogo'), fit: BoxFit.cover),
                 leading: IconButton(
-                  icon: Icon(Icons.menu),
+                  icon: Icon(
+                    Icons.menu,
+                    color: Colors.black,
+                  ),
                   onPressed: () {},
                 ),
                 backgroundColor: Colors.white,
@@ -62,22 +64,23 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       children: [
                         HeroImageWidget(
                           data: homeData,
-                          apiBaseUrl: apiBaseUrl,
+                          apiBaseUrl: widget.apiBaseUrl,
                         ),
                         SizedBox(
                           height: 30,
                         ),
                         HowCharismaWorks(
                           data: homeData,
-                          apiBaseUrl: apiBaseUrl,
+                          apiBaseUrl: widget.apiBaseUrl,
                         ),
                         SizedBox(
                           height: 30,
                         ),
                         HomePageVideos(
                           data: homeData,
-                          apiBaseUrl: apiBaseUrl,
+                          apiBaseUrl: widget.apiBaseUrl,
                         ),
+                        HomePageLinks()
                       ],
                     ),
                   ),

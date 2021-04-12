@@ -1,6 +1,5 @@
-
-
 import 'package:charisma/account/forgot_password_widget.dart';
+import 'package:charisma/heart_assessment/heart_assessment_landing_page_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:charisma/account/login_page_widget.dart';
 import 'package:charisma/account/profile_page_widget.dart';
@@ -13,17 +12,18 @@ import '../account/signup_page_widget.dart';
 
 class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<PageConfiguration> {
-
   final List<Page> _pages = [];
   late ApiClient _apiClient;
   CharismaRouterDelegate(this._apiClient);
+  static const _apiBaseUrl = String.fromEnvironment('API_BASEURL',
+      defaultValue: 'http://0.0.0.0:8080');
 
   /// Here we are storing the current list of pages
   List<MaterialPage> get pages => List.unmodifiable(_pages);
 
-
   @override
-  PageConfiguration get currentConfiguration => _pages.last.arguments as PageConfiguration;
+  PageConfiguration get currentConfiguration =>
+      _pages.last.arguments as PageConfiguration;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,9 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
   }
 
   void push(PageConfiguration pageConfig) {
-    final shouldPushPage = _pages.isEmpty || (_pages.last.arguments as PageConfiguration).uiPage != pageConfig.uiPage;
+    final shouldPushPage = _pages.isEmpty ||
+        (_pages.last.arguments as PageConfiguration).uiPage !=
+            pageConfig.uiPage;
 
     if (shouldPushPage) {
       var pageData = _getPageData(pageConfig);
@@ -84,7 +86,12 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
   PageData? _getPageData(PageConfiguration pageConfig) {
     switch (pageConfig.uiPage) {
       case Pages.Home:
-        return PageData(HomePageWidget(apiClient: _apiClient), HomePageConfig);
+        return PageData(
+            HomePageWidget(
+              apiClient: _apiClient,
+              apiBaseUrl: _apiBaseUrl,
+            ),
+            HomePageConfig);
       case Pages.SignUp:
         return PageData(SignUpWidget(_apiClient), SignUpConfig);
       case Pages.Login:
@@ -93,13 +100,18 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
         return PageData(ProfileWidget(), ProfileConfig);
       case Pages.ForgotPassword:
         return PageData(ForgotPasswordWidget(), ForgotPasswordConfig);
+      case Pages.HeartAssessment:
+        return PageData(
+            HeartAssessmentLandingPageWidget(
+              apiClient: _apiClient,
+              apiBaseUrl: _apiBaseUrl,
+            ),
+            HeartAssessmentConfig);
     }
   }
 
   void _addPageData(PageData pageData) {
-    _pages.add(
-      _createPage(pageData.widget, pageData.pageConfig)
-    );
+    _pages.add(_createPage(pageData.widget, pageData.pageConfig));
   }
 
   MaterialPage _createPage(Widget child, PageConfiguration pageConfig) {
@@ -121,6 +133,4 @@ class PageData {
   PageConfiguration pageConfig;
 
   PageData(this.widget, this.pageConfig);
-
-
 }

@@ -53,6 +53,9 @@ class CharismaApp extends StatelessWidget {
               backgroundColor: backgroundColor,
               textTheme:
                   Theme.of(context).textTheme.apply(bodyColor: textColor),
+              appBarTheme: AppBarTheme(
+                iconTheme: IconThemeData(color: Colors.white),
+              ),
               visualDensity: VisualDensity.adaptivePlatformDensity,
               canvasColor: backgroundColor,
               inputDecorationTheme:
