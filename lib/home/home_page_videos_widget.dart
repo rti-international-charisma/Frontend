@@ -37,7 +37,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
             width: MediaQuery.of(context).size.width,
             alignment: Alignment.topCenter,
             padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
-            child: Text(widget.data['video_section']['headline'],
+            child: Text(widget.data['introduction'],
                 key: ValueKey('VideoSectionHeadline'),
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -53,7 +53,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
             width: MediaQuery.of(context).size.width,
             alignment: Alignment.topCenter,
             padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
-            child: Text(widget.data['video_section']['sub_headline'],
+            child: Text(widget.data['summary'],
                 key: ValueKey('VideoSectionSubHeadline'),
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -98,8 +98,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
                       Container(
                         alignment: Alignment.topCenter,
                         child: Text(
-                          widget.data['video_section']['videos'][index]
-                              ['title'],
+                          widget.data['videos'][index]['title'],
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 14,
@@ -118,8 +117,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
                         child: Container(
                           alignment: Alignment.topCenter,
                           child: Text(
-                            widget.data['video_section']['videos'][index]
-                                ['description'],
+                            widget.data['videos'][index]['description'],
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Color(0xff929292),
@@ -142,16 +140,14 @@ class _HomePageVideosState extends State<HomePageVideos> {
                       SizedBox(
                         height: 10,
                       ),
-                      if (widget.data['video_section']['videos'][index]
-                              ['videofile'] ==
-                          null)
+                      if (widget.data['videos'][index]['videoUrl'] == null)
                         Row(
                           children: [
                             Container(
                               height: 140,
                               width: MediaQuery.of(context).size.width * 0.73,
                               child: Image.network(
-                                  "${widget.apiBaseUrl}/assets/${widget.data['video_section']['videos'][index]['module_image']}"),
+                                  "${widget.apiBaseUrl}${widget.data['videos'][index]['videoImage']}"),
                             )
                           ],
                         )
@@ -162,7 +158,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
                               height: 140,
                               width: MediaQuery.of(context).size.width * 0.73,
                               child: VideoPlayerWidget(
-                                "${widget.apiBaseUrl}/assets/${widget.data['video_section']['videos'][index]['videofile']}",
+                                "${widget.apiBaseUrl}${widget.data['videos'][index]['videoUrl']}",
                               ),
                             ),
                           ],
@@ -177,8 +173,8 @@ class _HomePageVideosState extends State<HomePageVideos> {
                               height: 322,
                               child: ElevatedButton(
                                   onPressed: () {},
-                                  child: Text(widget.data['video_section']
-                                      ['videos'][index]['actiontext']),
+                                  child: Text(widget.data['videos'][index]
+                                      ['actionText']),
                                   style: ElevatedButton.styleFrom(
                                       shape: new RoundedRectangleBorder(
                                         borderRadius:

@@ -14,178 +14,91 @@ import 'package:provider/provider.dart';
 import '../util/network_image_builder_mock.dart';
 
 void main() {
-  var contentResponse = {
-    "data": {
-      "id": "homepage",
-      "status": "published",
-      "video_section": {
-        "id": "video_section",
-        "status": "published",
-        "date_created": "2021-04-06T12:36:37Z",
-        "date_updated": "2021-04-07T06:15:29Z",
-        "headline": "Build a healthy relationship with your partner",
-        "sub_headline":
-            "Here are some videos, activities and reading material for you",
-        "homepage": [
-          {
-            "id": "homepage",
-            "status": "published",
-            "video_section": "video_section",
-            "hero_image": "score image",
-            "charisma_steps": [1, 2, 3, 4]
-          }
-        ],
-        "videos": [
-          {
-            "id": "homepage_video",
-            "status": "published",
-            "user_created": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-            "date_created": "2021-04-01T09:56:20Z",
-            "user_updated": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-            "date_updated": "2021-04-07T06:15:29Z",
-            "videofile": "f5930b41-f299-4728-b035-919156a06675",
-            "actiontext": "Learn More",
-            "title": "How’s the health of your relationship?",
-            "description":
-                "All relationships have challenges, but it’s important to know what’s healthy or not. Read more to learn about healthy and unhealthy relationship qualities. It requires you to reflect on your own relationships using what you have learned.",
-            "module_image": null,
-            "video_section": "video_section"
-          },
-          {
-            "id": "video_module2",
-            "status": "published",
-            "user_created": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-            "date_created": "2021-04-06T03:33:51Z",
-            "user_updated": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-            "date_updated": "2021-04-07T06:15:29Z",
-            "videofile": "9fd45ac0-e7e3-4d26-b75f-62c0125bf6ec",
-            "actiontext": "Learn More",
-            "title": "Do you know the different ways of communicating?",
-            "description":
-                "Communication is more than just the words you speak. Often we are not “heard” because we struggle to separate our feelings from facts when we’re upset. This section will give you skills to communicate better with your partner and use conflict to actually get what you both want and need in your relationship.",
-            "module_image": null,
-            "video_section": "video_section"
-          },
-          {
-            "id": "video_module3",
-            "status": "published",
-            "user_created": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-            "date_created": "2021-04-06T03:34:50Z",
-            "user_updated": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-            "date_updated": "2021-04-07T06:15:29Z",
-            "videofile": "2b22ad56-c682-4167-817b-e8c55aff51e0",
-            "actiontext": "Learn More",
-            "title": "Discussing PrEP Use with Partners",
-            "description":
-                "Are you on PrEP or would like to be on PrEP but don’t know how to tell your partner about it? We’ve got you. Read more to learn about ways other women tell their male partners. And if you’re not ready you can also learn how to use PrEP without telling your partner.",
-            "module_image": null,
-            "video_section": "video_section"
-          },
-          {
-            "id": "video_module4",
-            "status": "published",
-            "user_created": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-            "date_created": "2021-04-06T03:35:47Z",
-            "user_updated": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-            "date_updated": "2021-04-07T06:15:29Z",
-            "videofile": null,
-            "actiontext": "Learn More",
-            "title": "Staying safe in a violent relationship",
-            "description":
-                "Tension and conflict is common in relationships, but it should not lead to physical abuse. Are you aware that abuse is not only physical? Read more to find out what you can do if you suspect you are in an abusive relationship. It’s good to have a back-up plan to make sure you stay safe even if you’re not ready to seek help.",
-            "module_image": "b2974a8b-0b59-47da-9538-466cf4d0307f",
-            "video_section": "video_section"
-          }
-        ]
-      },
-      "hero_image": {
-        "name": "score image",
-        "status": "published",
-        "user_created": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-        "date_created": "2021-04-07T12:36:40Z",
-        "user_updated": "2e2e2552-bac2-42c2-84b6-18f8eeb22aae",
-        "date_updated": "2021-04-09T09:53:27Z",
-        "title": "Hero Image",
-        "summary": "",
-        "introduction":
-            "<div><span style=\"font-size: 18pt;\"><strong>Want to check the status of your relationship and protect yourself?</strong></span></div>\n<div>\n<p><span style=\"font-size: 14pt;\">CHARISMA&rsquo;s here to support you!&nbsp;</span></p>\n<p><span style=\"font-size: 14pt;\">Take a quiz about your relationship and get tailored support, or browse content on Healthy relationships, using PrEP in your relationships,&nbsp;</span><br /><span style=\"font-size: 14pt;\">good communication with your partner and others, and relationship safety.</span></p>\n</div>",
-        "image_file": "1b15d1ca-e7e9-4c82-9905-5a8664bd8047"
-      },
-      "charisma_steps": [
+  var data = {
+    "title": "",
+    "description": "",
+    "introduction": "",
+    "heroImage": {
+      "title": "Hero Image",
+      "introduction":
+          "<div><span style=\"font-size: 18pt;\"><strong>Want to check the status of your relationship and protect yourself?</strong></span></div>\n<div>\n<p><span style=\"font-size: 14pt;\">CHARISMA&rsquo;s here to support you!&nbsp;</span></p>\n<p><span style=\"font-size: 14pt;\">Take a quiz about your relationship and get tailored support, or browse content on Healthy relationships, using PrEP in your relationships,&nbsp;</span><br /><span style=\"font-size: 14pt;\">good communication with your partner and others, and relationship safety.</span></p>\n</div>",
+      "summary": "",
+      "imageUrl": "/assets/82c667f6-c82e-4c89-a8f0-e715563f87dc"
+    },
+    "images": [],
+    "videoSection": {
+      "introduction": "Build a healthy relationship with your partner",
+      "summary":
+          "Here are some videos, activities and reading material for you",
+      "videos": [
         {
-          "id": 1,
-          "text": "Login",
-          "number_background_image": {
-            "id": "a1152951-3280-4725-9ff2-bc0d4b66b9be"
-          },
-          "number_image": {"id": "09141bd8-7008-4f81-8fc3-5f20dea47c2e"},
-          "page": {
-            "id": "homepage",
-            "status": "published",
-            "video_section": "video_section",
-            "hero_image": "score image",
-            "charisma_steps": [1, 2, 3, 4]
-          },
-          "sub_text": null
+          "title": "How’s the health of your relationship?",
+          "description":
+              "All relationships have challenges, but it’s important to know what’s healthy or not. Read more to learn about healthy and unhealthy relationship qualities. It requires you to reflect on your own relationships using what you have learned.",
+          "videoUrl": "/assets/f5930b41-f299-4728-b035-919156a06675",
+          "videoImage": "",
+          "actionText": "Learn More"
         },
         {
-          "id": 2,
-          "text": "Take the test",
-          "number_background_image": {
-            "id": "1a8ccc34-9b0d-4fd7-9a37-95688b768e4b"
-          },
-          "number_image": {"id": "b4b8343d-c967-4c66-bebd-60d6a16e2d53"},
-          "page": {
-            "id": "homepage",
-            "status": "published",
-            "video_section": "video_section",
-            "hero_image": "score image",
-            "charisma_steps": [1, 2, 3, 4]
-          },
-          "sub_text": null
+          "title": "Do you know the different ways of communicating?",
+          "description":
+              "Communication is more than just the words you speak. Often we are not “heard” because we struggle to separate our feelings from facts when we’re upset. This section will give you skills to communicate better with your partner and use conflict to actually get what you both want and need in your relationship.",
+          "videoUrl": "/assets/9fd45ac0-e7e3-4d26-b75f-62c0125bf6ec",
+          "videoImage": "",
+          "actionText": "Learn more"
         },
         {
-          "id": 3,
-          "text": "Complete a Charisma recommended module",
-          "number_background_image": {
-            "id": "56cc6703-0099-42c5-b3fd-d401b99235a5"
-          },
-          "number_image": {"id": "60034689-1340-4684-acad-7ab3cafa985d"},
-          "page": {
-            "id": "homepage",
-            "status": "published",
-            "video_section": "video_section",
-            "hero_image": "score image",
-            "charisma_steps": [1, 2, 3, 4]
-          },
-          "sub_text": null
+          "title": "Discussing PrEP Use with Partners",
+          "description":
+              "Are you on PrEP or would like to be on PrEP but don’t know how to tell your partner about it? We’ve got you. Read more to learn about ways other women tell their male partners. And if you’re not ready you can also learn how to use PrEP without telling your partner.",
+          "videoUrl": "/assets/2b22ad56-c682-4167-817b-e8c55aff51e0",
+          "videoImage": "",
+          "actionText": "Learn more"
         },
         {
-          "id": 4,
-          "text": "Get professional help",
-          "number_background_image": {
-            "id": "4bb2c9ee-1922-4d76-9e83-6477f6f13b57"
-          },
-          "number_image": {"id": "de72b5a9-0981-47c1-9818-1d446530f9c6"},
-          "page": {
-            "id": "homepage",
-            "status": "published",
-            "video_section": "video_section",
-            "hero_image": "score image",
-            "charisma_steps": [1, 2, 3, 4]
-          },
-          "sub_text": "Legal, relationship, mental health"
+          "title": "Staying safe in a violent relationship",
+          "description":
+              "Tension and conflict is common in relationships, but it should not lead to physical abuse. Are you aware that abuse is not only physical? Read more to find out what you can do if you suspect you are in an abusive relationship. It’s good to have a back-up plan to make sure you stay safe even if you’re not ready to seek help.",
+          "videoUrl": "",
+          "videoImage": "/assets/f9b06145-94c3-4a7f-835a-1300cbf599c4",
+          "actionText": "Learn more"
         }
       ]
-    }
+    },
+    "steps": [
+      {
+        "title": "Login",
+        "subTitle": "",
+        "backgroundImageUrl": "/assets/6caced82-67c6-4434-8225-d12ad7fd1643",
+        "imageUrl": "/assets/bd5c8897-fba1-4110-a3ec-cfb126526f3e"
+      },
+      {
+        "title": "Take the test",
+        "subTitle": "",
+        "backgroundImageUrl": "/assets/38f6117e-c345-49ee-8c25-e7273cde4b9a",
+        "imageUrl": "/assets/fa8de294-9d7c-46b6-b933-cbe66605d31f"
+      },
+      {
+        "title": "Complete a Charisma recommended module",
+        "subTitle": "",
+        "backgroundImageUrl": "/assets/a9dd6f32-e04d-47f7-8865-8bc64ff65319",
+        "imageUrl": "/assets/4bfe21df-9f30-48bc-ab96-50cf6bfc653c"
+      },
+      {
+        "title": "Get professional help",
+        "subTitle": "Legal, relationship, mental health",
+        "backgroundImageUrl": "/assets/c043c387-bd18-4377-87f5-c93d64561a18",
+        "imageUrl": "/assets/39626393-68ef-47bc-a1b4-5c06c52fb1fa"
+      }
+    ]
   };
 
   testWidgets('It displays app bar containing Charisma logo and Login link',
       (WidgetTester tester) async {
     final apiClient = MockApiClient();
 
-    when(apiClient.get("/page/homepage")).thenAnswer((realInvocation) {
-      return Future<Map<String, dynamic>>.value(contentResponse);
+    when(apiClient.get("/home")).thenAnswer((realInvocation) {
+      return Future<Map<String, dynamic>>.value(data);
     });
 
     await tester
@@ -199,8 +112,8 @@ void main() {
   testWidgets('It displays hero image with text', (WidgetTester tester) async {
     final apiClient = MockApiClient();
 
-    when(apiClient.get("/page/homepage")).thenAnswer((realInvocation) {
-      return Future<Map<String, dynamic>>.value(contentResponse);
+    when(apiClient.get("/home")).thenAnswer((realInvocation) {
+      return Future<Map<String, dynamic>>.value(data);
     });
 
     await tester
@@ -211,18 +124,16 @@ void main() {
     var heroImageText =
         find.byKey(ValueKey('HeroImageText')).evaluate().single.widget as Html;
     expect(find.byKey(ValueKey('HeroImageText')), findsOneWidget);
-    expect(
-        heroImageText.data,
-        equals((contentResponse['data']!['hero_image']
-            as Map<String, dynamic>)['introduction']));
+    expect(heroImageText.data,
+        equals((data['heroImage'] as Map<String, dynamic>)['introduction']));
   });
 
   testWidgets('It displays different steps for how Charisma works',
       (WidgetTester tester) async {
     final apiClient = MockApiClient();
 
-    when(apiClient.get("/page/homepage")).thenAnswer((realInvocation) {
-      return Future<Map<String, dynamic>>.value(contentResponse);
+    when(apiClient.get("/home")).thenAnswer((realInvocation) {
+      return Future<Map<String, dynamic>>.value(data);
     });
 
     await tester
@@ -273,8 +184,8 @@ void main() {
   testWidgets('It displays videos widget', (WidgetTester tester) async {
     final apiClient = MockApiClient();
 
-    when(apiClient.get("/page/homepage")).thenAnswer((realInvocation) {
-      return Future<Map<String, dynamic>>.value(contentResponse);
+    when(apiClient.get("/home")).thenAnswer((realInvocation) {
+      return Future<Map<String, dynamic>>.value(data);
     });
 
     await tester
@@ -293,8 +204,8 @@ void main() {
       (WidgetTester tester) async {
     final apiClient = MockApiClient();
 
-    when(apiClient.get("/page/homepage")).thenAnswer((realInvocation) {
-      return Future<Map<String, dynamic>>.value(contentResponse);
+    when(apiClient.get("/home")).thenAnswer((realInvocation) {
+      return Future<Map<String, dynamic>>.value(data);
     });
 
     await tester.pumpWidget(HomePageWidget(
@@ -313,8 +224,7 @@ void main() {
     var videoActionButton =
         find.descendant(of: videoModule, matching: find.byType(ElevatedButton));
 
-    var videoSectionData =
-        contentResponse['data']!['video_section'] as Map<String, dynamic>;
+    var videoSectionData = data['videoSection'] as Map<String, dynamic>;
 
     expect(videoHeading, findsOneWidget);
     expect((videoHeading.evaluate().single.widget as Text).data,
@@ -327,23 +237,23 @@ void main() {
             (videoSectionData['videos'] as List).elementAt(0)['description']));
 
     String videoUrl =
-        (videoSectionData['videos'] as List).elementAt(0)['videofile'];
+        (videoSectionData['videos'] as List).elementAt(0)['videoUrl'];
     expect(videoPlayer, findsWidgets);
     expect((videoPlayer.evaluate().single.widget as VideoPlayerWidget).videoUrl,
-        equals('http://0.0.0.0:8080/assets/$videoUrl'));
+        equals('http://0.0.0.0:8080$videoUrl'));
     expect(videoActionButton, findsOneWidget);
     expect(
         ((videoActionButton.evaluate().single.widget as ElevatedButton).child
                 as Text)
             .data,
-        (videoSectionData['videos'] as List).elementAt(0)['actiontext']);
+        (videoSectionData['videos'] as List).elementAt(0)['actionText']);
   });
 
   testWidgets('It displays links to other pages', (WidgetTester tester) async {
     final apiClient = MockApiClient();
 
-    when(apiClient.get("/page/homepage")).thenAnswer((realInvocation) {
-      return Future<Map<String, dynamic>>.value(contentResponse);
+    when(apiClient.get("/home")).thenAnswer((realInvocation) {
+      return Future<Map<String, dynamic>>.value(data);
     });
 
     await tester

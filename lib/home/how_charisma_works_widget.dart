@@ -22,7 +22,7 @@ class HowCharismaWorks extends StatelessWidget {
         SizedBox(
           height: 400,
           child: new ListView.builder(
-            itemCount: data['charisma_steps'].length,
+            itemCount: data.length,
             itemBuilder: (BuildContext context, int index) => Column(
               children: [
                 Row(
@@ -33,16 +33,16 @@ class HowCharismaWorks extends StatelessWidget {
                     Stack(
                       children: [
                         new Image.network(
-                          "$apiBaseUrl/assets/${data['charisma_steps'][index]['number_image']['id']}",
+                          "$apiBaseUrl${data[index]['imageUrl']}",
                         ),
                         new Image.network(
-                          "$apiBaseUrl/assets/${data['charisma_steps'][index]['number_background_image']['id']}",
+                          "$apiBaseUrl${data[index]['backgroundImageUrl']}",
                         ),
                         Positioned(
                           bottom: 20,
                           left: 32,
                           child: Text(
-                            data['charisma_steps'][index]['id'].toString(),
+                            (index + 1).toString(),
                             key: ValueKey('Step${index + 1}'),
                             style: TextStyle(
                                 color: Colors.white,
@@ -60,12 +60,12 @@ class HowCharismaWorks extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            data['charisma_steps'][index]['text'],
+                            data[index]['title'],
                             key: ValueKey('Step${index + 1}Text'),
                             style: TextStyle(fontSize: 16, fontFamily: 'Lato'),
                           ),
                           Text(
-                            data['charisma_steps'][index]['sub_text'],
+                            data[index]['subTitle'],
                             key: ValueKey('Step${index + 1}SubText'),
                             style:
                                 TextStyle(fontSize: 12, fontFamily: 'Roboto'),
@@ -75,7 +75,7 @@ class HowCharismaWorks extends StatelessWidget {
                     else
                       Flexible(
                         child: Text(
-                          data['charisma_steps'][index]['text'],
+                          data[index]['title'],
                           key: ValueKey('Step${index + 1}Text'),
                           style: TextStyle(fontSize: 16, fontFamily: 'Lato'),
                         ),

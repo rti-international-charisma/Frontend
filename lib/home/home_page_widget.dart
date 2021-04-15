@@ -25,10 +25,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   Widget build(BuildContext context) {
     final routerDelegate = Provider.of<CharismaRouterDelegate>(context);
     return FutureBuilder<Map<String, dynamic>?>(
-        future: widget.apiClient?.get<Map<String, dynamic>>('/page/homepage'),
+        future: widget.apiClient?.get<Map<String, dynamic>>('/home'),
         builder: (context, data) {
           if (data.hasData) {
-            var homeData = data.data!['data'];
+            var homeData = data.data;
 
             return Scaffold(
               appBar: AppBar(
@@ -63,21 +63,21 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     child: Column(
                       children: [
                         HeroImageWidget(
-                          data: homeData,
+                          data: homeData!['heroImage'],
                           apiBaseUrl: widget.apiBaseUrl,
                         ),
                         SizedBox(
                           height: 30,
                         ),
                         HowCharismaWorks(
-                          data: homeData,
+                          data: homeData['steps'],
                           apiBaseUrl: widget.apiBaseUrl,
                         ),
                         SizedBox(
                           height: 30,
                         ),
                         HomePageVideos(
-                          data: homeData,
+                          data: homeData['videoSection'],
                           apiBaseUrl: widget.apiBaseUrl,
                         ),
                         HomePageLinks()
@@ -90,7 +90,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           } else if (data.hasError) {
             return Scaffold(
                 body: Center(
-              child: Text("Something went wrong"),
+              child: Text(
+                  "Oops! Looks like something went wrong. Please try again later."),
             ));
           }
           return Transform.scale(

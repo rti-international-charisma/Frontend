@@ -13,10 +13,10 @@ class HeartAssessmentLandingPageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Map<String, dynamic>?>(
-      future: apiClient?.get('/page/heart_assessment_landing_page'),
+      future: apiClient?.get('/assessment/intro'),
       builder: (context, data) {
         if (data.hasData) {
-          var pageContent = data.data!['data']['page_content'];
+          var pageContent = data.data;
 
           return Scaffold(
             appBar: AppBar(
@@ -25,7 +25,7 @@ class HeartAssessmentLandingPageWidget extends StatelessWidget {
               flexibleSpace: Padding(
                 padding: EdgeInsets.fromLTRB(50, 20, 30, 0),
                 child: Text(
-                  pageContent['title'],
+                  pageContent!['title'],
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 22,
@@ -50,7 +50,7 @@ class HeartAssessmentLandingPageWidget extends StatelessWidget {
                       Container(
                         padding: EdgeInsets.all(10),
                         child: new Image.network(
-                          "$apiBaseUrl/assets/${pageContent['image_file']}",
+                          "$apiBaseUrl${pageContent['images'][0]['imageUrl']}",
                           fit: BoxFit.contain,
                           width: double.infinity,
                           alignment: Alignment.center,

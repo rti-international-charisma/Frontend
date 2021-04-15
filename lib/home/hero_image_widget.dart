@@ -13,7 +13,7 @@ class HeroImageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(children: <Widget>[
       new Image.network(
-        "$apiBaseUrl/assets/${data!['hero_image']['image_file']}",
+        "$apiBaseUrl${data!['imageUrl']}",
         fit: BoxFit.cover,
         width: double.infinity,
         alignment: Alignment.center,
@@ -27,7 +27,7 @@ class HeroImageWidget extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           padding: EdgeInsets.all(20),
           child: Html(
-            data: data!['hero_image']['introduction'],
+            data: data!['introduction'],
             key: ValueKey('HeroImageText'),
             style: {'body': Style(color: Colors.white)},
           ),
