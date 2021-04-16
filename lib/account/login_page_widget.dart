@@ -120,7 +120,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                             },
                             child: Text('Login'),
                             style: ElevatedButton.styleFrom(
-                              primary: buttonColor,
+                              primary: ternaryColor,
                             ),
                           )),
                       SizedBox(height: 20),

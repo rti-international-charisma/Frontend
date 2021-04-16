@@ -4,8 +4,9 @@ const String SignUpPath = '/singUp';
 const String ProfilePath = '/profile';
 const String ForgotPasswordPath = '/forgotpassword';
 const String HeartAssessmentPath = '/assessment/intro';
+const String HeartAssessmentQuestionnairePath = '/heart_assessment_questionnaire';
 
-enum Pages { Home, Login, SignUp, Profile, ForgotPassword, HeartAssessment }
+enum Pages { Home, Login, SignUp, Profile, ForgotPassword, HeartAssessment, HeartAssessmentQuestionnaire }
 
 class PageConfiguration {
   final String key;
@@ -32,3 +33,5 @@ const PageConfiguration HeartAssessmentConfig = PageConfiguration(
     key: 'HeartAssessment',
     path: HeartAssessmentPath,
     uiPage: Pages.HeartAssessment);
+const PageConfiguration HeartAssessmentQuestionnaireConfig =
+PageConfiguration(key: 'HeartAssessmentQuestionnaire', path: HeartAssessmentQuestionnairePath, uiPage: Pages.HeartAssessmentQuestionnaire);
