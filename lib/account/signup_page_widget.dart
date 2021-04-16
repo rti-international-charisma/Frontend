@@ -160,7 +160,7 @@ class _SignupWidgetState extends State<SignUpWidget> {
                                 validateUsername(_usernameCtrl.text).then((usernameAvailable) => {
                                   if (_formKey.currentState!.validate() && usernameAvailable && validatePasswords()) {
                                     print('All things good'),
-                                    widget._apiClient.post<Map<String, dynamic>>('/signup', {
+                                    widget._apiClient.post<Map<String, dynamic>?>('/signup', {
                                       "username": _usernameCtrl.text.toLowerCase(),
                                       "password": _passwordCtrl.text,
                                       "secQuestionId": selectedItem?.identifier,

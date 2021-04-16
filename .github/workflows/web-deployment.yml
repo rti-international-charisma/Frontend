@@ -19,7 +19,7 @@ jobs:
           flutter pub get
       - name: Build
         run: |
-          flutter build web --dart-define=API_BASEURL=https://charisma-api-xva3j6u7ba-uk.a.run.app
+          flutter build web --dart-define=API_BASEURL=http://contentapi-env.eba-368zcapp.ap-south-1.elasticbeanstalk.com
           cp -R build/web/* web_public/public/
       - uses: w9jds/firebase-action@master
         with:

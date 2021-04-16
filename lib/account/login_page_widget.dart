@@ -96,7 +96,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   print('Login tapped');
                                   if(_formKey.currentState!.validate()) {
                                     print('Ready to Login');
-                                    widget._apiClient.post<Map<String, dynamic>>('/login', {
+                                    widget._apiClient.post<Map<String, dynamic>?>('/login', {
                                       "username": _usernameCtrl.text,
                                       "password": _passwordCtrl.text
                                     })?.then((value) => {
