@@ -93,7 +93,8 @@ void main() {
     ]
   };
 
-  testWidgets('It displays app bar containing Charisma logo and Login link',
+  testWidgets(
+      'It displays app bar containing Charisma logo, Sign Up and Login link',
       (WidgetTester tester) async {
     final apiClient = MockApiClient();
 
@@ -105,6 +106,7 @@ void main() {
         .pumpWidget(HomePageWidget(apiClient: apiClient).wrapWithMaterial());
     await mockNetworkImagesFor(() => tester.pump());
 
+    expect(find.byKey(ValueKey('SignUpLink')), findsOneWidget);
     expect(find.byKey(ValueKey('LoginLink')), findsOneWidget);
     expect(find.byKey(ValueKey('CharismaLogo')), findsOneWidget);
   });

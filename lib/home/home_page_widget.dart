@@ -32,14 +32,14 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
             return Scaffold(
               appBar: AppBar(
-                title: Image.asset('assets/images/charisma_logo.png',
-                    key: ValueKey('CharismaLogo'), fit: BoxFit.cover),
-                leading: IconButton(
-                  icon: Icon(
-                    Icons.menu,
-                    color: Colors.black,
+                toolbarHeight: 80,
+                leadingWidth: 100,
+                leading: Container(
+                  child: Image.asset(
+                    'assets/images/charisma_logo.png',
+                    key: ValueKey('CharismaLogo'),
+                    fit: BoxFit.scaleDown,
                   ),
-                  onPressed: () {},
                 ),
                 backgroundColor: Colors.white,
                 actions: <Widget>[
@@ -47,10 +47,42 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     alignment: Alignment.center,
                     margin: EdgeInsets.all(10),
                     child: TextButton(
-                      child: Text("Login"),
-                      key: ValueKey('LoginLink'),
+                      child: Text(
+                        'Sign Up',
+                        style: TextStyle(
+                          color: Color(0xff2DA4FA),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      key: ValueKey('SignUpLink'),
                       onPressed: () {
                         routerDelegate.push(SignUpConfig);
+                      },
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    child: Text(
+                      '|',
+                      style: TextStyle(color: Color(0xff929292), fontSize: 14),
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.all(10),
+                    child: TextButton(
+                      child: Text(
+                        'Login',
+                        style: TextStyle(
+                          color: Color(0xff2DA4FA),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      key: ValueKey('LoginLink'),
+                      onPressed: () {
+                        routerDelegate.push(LoginPageConfig);
                       },
                     ),
                   )
