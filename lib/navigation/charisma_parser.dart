@@ -11,9 +11,7 @@ class CharismaParser extends RouteInformationParser<PageConfiguration> {
       return HomePageConfig;
     }
 
-    final path = uri.pathSegments[0];
-    print("Path : $path");
-    switch (path) {
+    switch (uri.toString()) {
       case HomePagePath:
         return HomePageConfig;
       case LoginPath:
@@ -24,6 +22,8 @@ class CharismaParser extends RouteInformationParser<PageConfiguration> {
         return ProfileConfig;
       case ForgotPasswordPath:
         return ForgotPasswordConfig;
+      case HeartAssessmentPath:
+        return HeartAssessmentConfig;
       default:
         return HomePageConfig;
     }

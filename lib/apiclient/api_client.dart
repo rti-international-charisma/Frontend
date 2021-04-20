@@ -19,8 +19,8 @@ class ApiClient {
     print("Path: $api$processedPath");
     var response = await _client
         .get(Uri.parse("$api$processedPath"), headers: {..._headers});
-    print("$path : ${response.statusCode}");
-    print("Response : ${response.body}");
+    // print("$path : ${response.statusCode}");
+    // print("Response : ${response.body}");
     if (response.statusCode >= 200 && response.statusCode < 300) {
       return convert.jsonDecode(response.body) as T;
     }
@@ -28,15 +28,21 @@ class ApiClient {
     throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
   }
 
-  Future<T>? post<T>(String path, Map<String,dynamic> body) async{
-    var api = _baseUrl.endsWith("/") ? _baseUrl.substring(0, _baseUrl.length-1) : _baseUrl;
+  Future<T>? post<T>(String path, Map<String, dynamic> body) async {
+    var api = _baseUrl.endsWith("/")
+        ? _baseUrl.substring(0, _baseUrl.length - 1)
+        : _baseUrl;
     var processedPath = path.startsWith("/") ? path : "/$path";
     print("Path: $api$processedPath Body:$body");
-    var response = await _client.post(Uri.parse("$api$processedPath"), headers: {"Content-Type": ContentType.json.mimeType,..._headers}, body: convert.jsonEncode(body));
+    var response = await _client.post(Uri.parse("$api$processedPath"),
+        headers: {"Content-Type": ContentType.json.mimeType, ..._headers},
+        body: convert.jsonEncode(body));
     print("$path : ${response.statusCode}");
     print("Response : ${response.body}");
-    if (response.statusCode >= 200 && response.statusCode < 300){
-      return (response.body.isEmpty ? response.body : convert.jsonDecode(response.body)) as T;
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return (response.body.isEmpty
+          ? response.body
+          : convert.jsonDecode(response.body)) as T;
     }
 
     throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));

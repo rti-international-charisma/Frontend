@@ -1,12 +1,18 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:charisma/common/video_player_widget.dart';
+import 'package:charisma/navigation/charisma_parser.dart';
+import 'package:charisma/navigation/router_delegate.dart';
+import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomePageVideos extends StatefulWidget {
-  HomePageVideos({Key? key, this.data, this.apiBaseUrl}) : super(key: key);
+  HomePageVideos({Key? key, this.data, this.apiBaseUrl, this.isUserLoggedIn})
+      : super(key: key);
 
   final data;
   final apiBaseUrl;
+  final isUserLoggedIn;
 
   @override
   _HomePageVideosState createState() => _HomePageVideosState();
@@ -14,9 +20,27 @@ class HomePageVideos extends StatefulWidget {
 
 class _HomePageVideosState extends State<HomePageVideos> {
   int expandedDescriptionIndex = -1;
+  CharismaParser _parser = CharismaParser();
 
   @override
   Widget build(BuildContext context) {
+    var videos = widget.isUserLoggedIn
+        ? widget.data['videos']
+        : (widget.data['videos'] as List)
+            .where((video) => !video['isPrivate'])
+            .toList();
+
+    if (widget.isUserLoggedIn) {
+      List privateVideos =
+          (videos as List).where((video) => video['isPrivate']).toList();
+
+      List publicVideos = videos.where((video) => !video['isPrivate']).toList();
+
+      videos = privateVideos + publicVideos;
+    }
+
+    final routerDelegate = Provider.of<CharismaRouterDelegate>(context);
+
     return Stack(
       key: ValueKey("VideoSection"),
       children: <Widget>[
@@ -67,7 +91,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
           width: MediaQuery.of(context).size.width,
           child: CarouselSlider.builder(
             key: ValueKey('VideoCarousel'),
-            itemCount: 4,
+            itemCount: videos.length,
             options: CarouselOptions(
               height: 300,
               enableInfiniteScroll: false,
@@ -98,7 +122,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
                       Container(
                         alignment: Alignment.topCenter,
                         child: Text(
-                          widget.data['videos'][index]['title'],
+                          videos[index]['title'],
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 14,
@@ -117,7 +141,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
                         child: Container(
                           alignment: Alignment.topCenter,
                           child: Text(
-                            widget.data['videos'][index]['description'],
+                            videos[index]['description'],
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Color(0xff929292),
@@ -140,14 +164,14 @@ class _HomePageVideosState extends State<HomePageVideos> {
                       SizedBox(
                         height: 10,
                       ),
-                      if (widget.data['videos'][index]['videoUrl'] == null)
+                      if (videos[index]['videoUrl'] == "")
                         Row(
                           children: [
                             Container(
                               height: 140,
                               width: MediaQuery.of(context).size.width * 0.73,
                               child: Image.network(
-                                  "${widget.apiBaseUrl}${widget.data['videos'][index]['videoImage']}"),
+                                  "${widget.apiBaseUrl}${videos[index]['videoImage']}"),
                             )
                           ],
                         )
@@ -158,7 +182,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
                               height: 140,
                               width: MediaQuery.of(context).size.width * 0.73,
                               child: VideoPlayerWidget(
-                                "${widget.apiBaseUrl}${widget.data['videos'][index]['videoUrl']}",
+                                "${widget.apiBaseUrl}${videos[index]['videoUrl']}",
                               ),
                             ),
                           ],
@@ -172,9 +196,19 @@ class _HomePageVideosState extends State<HomePageVideos> {
                             child: ButtonTheme(
                               height: 322,
                               child: ElevatedButton(
-                                  onPressed: () {},
-                                  child: Text(widget.data['videos'][index]
-                                      ['actionText']),
+                                  onPressed: () {
+                                    Future<PageConfiguration> pageConfigFuture =
+                                        _parser.parseRouteInformation(
+                                      RouteInformation(
+                                        location: videos[index]['actionLink'],
+                                      ),
+                                    );
+
+                                    pageConfigFuture.then((pageConfig) {
+                                      return routerDelegate.push(pageConfig);
+                                    });
+                                  },
+                                  child: Text(videos[index]['actionText']),
                                   style: ElevatedButton.styleFrom(
                                       shape: new RoundedRectangleBorder(
                                         borderRadius:

@@ -21,7 +21,7 @@ void main() {
     "heroImage": {
       "title": "Hero Image",
       "introduction":
-          "<div><span style=\"font-size: 18pt;\"><strong>Want to check the status of your relationship and protect yourself?</strong></span></div>\n<div>\n<p><span style=\"font-size: 14pt;\">CHARISMA&rsquo;s here to support you!&nbsp;</span></p>\n<p><span style=\"font-size: 14pt;\">Take a quiz about your relationship and get tailored support, or browse content on Healthy relationships, using PrEP in your relationships,&nbsp;</span><br /><span style=\"font-size: 14pt;\">good communication with your partner and others, and relationship safety.</span></p>\n</div>",
+          "<div><span style=\"font-size: 18pt;\"><strong>Want to check the status of your relationship and protect yourself?</strong></span></div>\n<div>\n<p><span style=\"font-size: 14pt;\">CHARISMA&rsquo;s here to support you!&nbsp;</span></p>\n<p><span style=\"font-size: 14pt;\">Take a quiz about your relationship and get tailored support, or browse content on Healthy relationships, using PrEP in your relationships,&nbsp;</span><br /><span style=\"font-size: 14pt;\">good communication with your partner and others, and relationship safety. You can always come back more for later and share what you like!</span></p>\n</div>",
       "summary": "",
       "imageUrl": "/assets/82c667f6-c82e-4c89-a8f0-e715563f87dc"
     },
@@ -32,12 +32,14 @@ void main() {
           "Here are some videos, activities and reading material for you",
       "videos": [
         {
-          "title": "How’s the health of your relationship?",
+          "title": "How's the health of your relationship?",
           "description":
               "All relationships have challenges, but it’s important to know what’s healthy or not. Read more to learn about healthy and unhealthy relationship qualities. It requires you to reflect on your own relationships using what you have learned.",
           "videoUrl": "/assets/f5930b41-f299-4728-b035-919156a06675",
           "videoImage": "",
-          "actionText": "Learn More"
+          "actionText": "Learn more",
+          "actionLink": "",
+          "isPrivate": false
         },
         {
           "title": "Do you know the different ways of communicating?",
@@ -45,7 +47,9 @@ void main() {
               "Communication is more than just the words you speak. Often we are not “heard” because we struggle to separate our feelings from facts when we’re upset. This section will give you skills to communicate better with your partner and use conflict to actually get what you both want and need in your relationship.",
           "videoUrl": "/assets/9fd45ac0-e7e3-4d26-b75f-62c0125bf6ec",
           "videoImage": "",
-          "actionText": "Learn more"
+          "actionText": "Learn more",
+          "actionLink": "",
+          "isPrivate": false
         },
         {
           "title": "Discussing PrEP Use with Partners",
@@ -53,7 +57,9 @@ void main() {
               "Are you on PrEP or would like to be on PrEP but don’t know how to tell your partner about it? We’ve got you. Read more to learn about ways other women tell their male partners. And if you’re not ready you can also learn how to use PrEP without telling your partner.",
           "videoUrl": "/assets/2b22ad56-c682-4167-817b-e8c55aff51e0",
           "videoImage": "",
-          "actionText": "Learn more"
+          "actionText": "Learn more",
+          "actionLink": "",
+          "isPrivate": false
         },
         {
           "title": "Staying safe in a violent relationship",
@@ -61,33 +67,41 @@ void main() {
               "Tension and conflict is common in relationships, but it should not lead to physical abuse. Are you aware that abuse is not only physical? Read more to find out what you can do if you suspect you are in an abusive relationship. It’s good to have a back-up plan to make sure you stay safe even if you’re not ready to seek help.",
           "videoUrl": "",
           "videoImage": "/assets/f9b06145-94c3-4a7f-835a-1300cbf599c4",
-          "actionText": "Learn more"
+          "actionText": "Learn more",
+          "actionLink": "",
+          "isPrivate": false
+        },
+        {
+          "title": "Start Here:",
+          "description":
+              "Take the HEART assessment test, and understand your relationship better",
+          "videoUrl": "",
+          "videoImage": "/assets/ea231c41-e9fc-4ea3-acba-975c659dc3df",
+          "actionText": "Take the Test",
+          "actionLink": "/assessment/intro",
+          "isPrivate": true
         }
       ]
     },
     "steps": [
       {
-        "title": "Login",
-        "subTitle": "",
+        "title": "Take Relationship Quiz",
         "backgroundImageUrl": "/assets/6caced82-67c6-4434-8225-d12ad7fd1643",
         "imageUrl": "/assets/bd5c8897-fba1-4110-a3ec-cfb126526f3e"
       },
       {
-        "title": "Take the test",
-        "subTitle": "",
+        "title": "Access Counselling Content Selected Just For You",
         "backgroundImageUrl": "/assets/38f6117e-c345-49ee-8c25-e7273cde4b9a",
         "imageUrl": "/assets/fa8de294-9d7c-46b6-b933-cbe66605d31f"
       },
       {
-        "title": "Complete a Charisma recommended module",
-        "subTitle": "",
+        "title": "Share Educational Material with Partner",
         "backgroundImageUrl": "/assets/a9dd6f32-e04d-47f7-8865-8bc64ff65319",
         "imageUrl": "/assets/4bfe21df-9f30-48bc-ab96-50cf6bfc653c"
       },
       {
-        "title": "Get professional help",
-        "subTitle": "Legal, relationship, mental health",
-        "backgroundImageUrl": "/assets/c043c387-bd18-4377-87f5-c93d64561a18",
+        "title": "Get Access To Available Support In Your Community",
+        "backgroundImageUrl": "/assets/c13524f4-1b4b-4631-8779-f16026e2a4f1",
         "imageUrl": "/assets/39626393-68ef-47bc-a1b4-5c06c52fb1fa"
       }
     ]
@@ -149,7 +163,7 @@ void main() {
     expect(
         (find.byKey(ValueKey('Step1Text')).evaluate().single.widget as Text)
             .data,
-        equals('Login'));
+        equals((data['steps'] as List).elementAt(0)['title']));
 
     // Step 2
     expect(
@@ -158,7 +172,7 @@ void main() {
     expect(
         (find.byKey(ValueKey('Step2Text')).evaluate().single.widget as Text)
             .data,
-        equals('Take the test'));
+        equals((data['steps'] as List).elementAt(1)['title']));
 
     // Step 3
     expect(
@@ -167,7 +181,7 @@ void main() {
     expect(
         (find.byKey(ValueKey('Step3Text')).evaluate().single.widget as Text)
             .data,
-        equals('Complete a Charisma recommended module'));
+        equals((data['steps'] as List).elementAt(2)['title']));
 
     // Step 4
     expect(
@@ -176,11 +190,7 @@ void main() {
     expect(
         (find.byKey(ValueKey('Step4Text')).evaluate().single.widget as Text)
             .data,
-        equals('Get professional help'));
-    expect(
-        (find.byKey(ValueKey('Step4SubText')).evaluate().single.widget as Text)
-            .data,
-        equals('Legal, relationship, mental health'));
+        equals((data['steps'] as List).elementAt(3)['title']));
   });
 
   testWidgets('It displays videos widget', (WidgetTester tester) async {

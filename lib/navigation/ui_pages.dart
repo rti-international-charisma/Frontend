@@ -3,7 +3,7 @@ const String LoginPath = '/login';
 const String SignUpPath = '/singUp';
 const String ProfilePath = '/profile';
 const String ForgotPasswordPath = '/forgotpassword';
-const String HeartAssessmentPath = '/heart_assessment';
+const String HeartAssessmentPath = '/assessment/intro';
 
 enum Pages { Home, Login, SignUp, Profile, ForgotPassword, HeartAssessment }
 

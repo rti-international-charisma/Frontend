@@ -1,4 +1,3 @@
-
 import 'package:charisma/account/login_page_widget.dart';
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/navigation/router_delegate.dart';
@@ -8,14 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-
   ApiClient apiClient = MockApiClient();
   MockRouterDelegate routerDelegate = MockRouterDelegate();
 
   testWidgets('should render form fields', (WidgetTester tester) async {
-
     await tester.pumpWidget(LoginWidget(apiClient).wrapWithMaterial());
 
     expect(find.byKey(ValueKey('LoginUNameKey')), findsOneWidget);
@@ -24,28 +22,30 @@ void main() {
     expect(find.byKey(ValueKey('LoginLoginBtnKey')), findsOneWidget);
   });
 
-  testWidgets('tapping on register now should take to Signup page', (WidgetTester tester) async {
-
-    await tester.pumpWidget(LoginWidget(apiClient).wrapWithMaterialMockRouter(routerDelegate));
+  testWidgets('tapping on register now should take to Signup page',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(
+        LoginWidget(apiClient).wrapWithMaterialMockRouter(routerDelegate));
 
     await tester.tap(find.byKey(ValueKey('LoginRegisterBtnKey')));
     await tester.pump();
 
-    verify (routerDelegate.push(SignUpConfig));
+    verify(routerDelegate.push(SignUpConfig));
   });
 
-  testWidgets('tapping on forgot password should take to Reset Password page', (WidgetTester tester) async {
-
-    await tester.pumpWidget(LoginWidget(apiClient).wrapWithMaterialMockRouter(routerDelegate));
+  testWidgets('tapping on forgot password should take to Reset Password page',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(
+        LoginWidget(apiClient).wrapWithMaterialMockRouter(routerDelegate));
 
     await tester.tap(find.byKey(ValueKey('LoginForgotPWordKey')));
     await tester.pump();
 
-    verify (routerDelegate.push(ForgotPasswordConfig));
+    verify(routerDelegate.push(ForgotPasswordConfig));
   });
 
-  testWidgets('should show error if username is empty', (WidgetTester tester) async {
-
+  testWidgets('should show error if username is empty',
+      (WidgetTester tester) async {
     await tester.pumpWidget(LoginWidget(apiClient).wrapWithMaterial());
 
     await tester.enterText(find.byKey(ValueKey('LoginPWordKey')), 'password');
@@ -57,8 +57,8 @@ void main() {
     expect(find.text('Cannot be empty'), findsOneWidget);
   });
 
-  testWidgets('should show error if password is empty', (WidgetTester tester) async {
-
+  testWidgets('should show error if password is empty',
+      (WidgetTester tester) async {
     await tester.pumpWidget(LoginWidget(apiClient).wrapWithMaterial());
 
     await tester.enterText(find.byKey(ValueKey('LoginUNameKey')), 'username');
@@ -70,8 +70,8 @@ void main() {
     expect(find.text('Cannot be empty'), findsOneWidget);
   });
 
-  testWidgets('should go to Profile Page on successful login', (WidgetTester tester) async {
-
+  testWidgets('should go to Home Page on successful login',
+      (WidgetTester tester) async {
     var username = 'username';
     var password = 'password';
     Map<String, dynamic> loginData = <String, dynamic>{
@@ -89,12 +89,13 @@ void main() {
       "token": "some.jwt.token"
     });
 
-    var future = apiClient.post('/login',loginData);
+    SharedPreferences.setMockInitialValues({});
 
+    when(apiClient.post('/login', loginData))
+        .thenAnswer((_) async => futureResponse);
 
-    when(apiClient.post('/login',loginData)).thenAnswer( (_) async => futureResponse );
-
-    await tester.pumpWidget(LoginWidget(apiClient).wrapWithMaterialMockRouter(routerDelegate));
+    await tester.pumpWidget(
+        LoginWidget(apiClient).wrapWithMaterialMockRouter(routerDelegate));
 
     await tester.enterText(find.byKey(ValueKey('LoginUNameKey')), username);
     await tester.pump();
@@ -105,39 +106,37 @@ void main() {
     await tester.tap(find.byKey(ValueKey('LoginLoginBtnKey')));
     await tester.pump();
 
-    verify(routerDelegate.push(ProfileConfig));
+    verify(routerDelegate.push(HomePageConfig));
   });
-
 }
 
 extension on Widget {
   Widget wrapWithMaterial() => MultiProvider(
-    providers: [
-      InheritedProvider<CharismaRouterDelegate>(
-          create: (ctx) => CharismaRouterDelegate(MockApiClient())
-      )
-    ],
-    child: MaterialApp(
-        home: Scaffold(
+        providers: [
+          InheritedProvider<CharismaRouterDelegate>(
+              create: (ctx) => CharismaRouterDelegate(MockApiClient()))
+        ],
+        child: MaterialApp(
+            home: Scaffold(
           body: this,
         )),
-  );
+      );
 }
 
 extension on Widget {
-  Widget wrapWithMaterialMockRouter(MockRouterDelegate routerDelegate) => MultiProvider(
-    providers: [
-      InheritedProvider<CharismaRouterDelegate>(
-          create: (ctx) => routerDelegate
-      )
-    ],
-    child: MaterialApp(
-        home: Scaffold(
+  Widget wrapWithMaterialMockRouter(MockRouterDelegate routerDelegate) =>
+      MultiProvider(
+        providers: [
+          InheritedProvider<CharismaRouterDelegate>(
+              create: (ctx) => routerDelegate)
+        ],
+        child: MaterialApp(
+            home: Scaffold(
           body: this,
         )),
-  );
+      );
 }
 
-class MockApiClient extends Mock implements ApiClient{}
+class MockApiClient extends Mock implements ApiClient {}
 
-class MockRouterDelegate extends Mock implements CharismaRouterDelegate{}
+class MockRouterDelegate extends Mock implements CharismaRouterDelegate {}

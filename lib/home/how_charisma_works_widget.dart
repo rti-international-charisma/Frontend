@@ -55,31 +55,13 @@ class HowCharismaWorks extends StatelessWidget {
                     SizedBox(
                       width: 15,
                     ),
-                    if (index == 3)
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            data[index]['title'],
-                            key: ValueKey('Step${index + 1}Text'),
-                            style: TextStyle(fontSize: 16, fontFamily: 'Lato'),
-                          ),
-                          Text(
-                            data[index]['subTitle'],
-                            key: ValueKey('Step${index + 1}SubText'),
-                            style:
-                                TextStyle(fontSize: 12, fontFamily: 'Roboto'),
-                          ),
-                        ],
-                      )
-                    else
-                      Flexible(
-                        child: Text(
-                          data[index]['title'],
-                          key: ValueKey('Step${index + 1}Text'),
-                          style: TextStyle(fontSize: 16, fontFamily: 'Lato'),
-                        ),
+                    Flexible(
+                      child: Text(
+                        data[index]['title'],
+                        key: ValueKey('Step${index + 1}Text'),
+                        style: TextStyle(fontSize: 16, fontFamily: 'Lato'),
                       ),
+                    ),
                   ],
                 ),
                 SizedBox(
