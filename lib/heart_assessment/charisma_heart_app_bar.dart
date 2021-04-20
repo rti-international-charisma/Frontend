@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 class CharismaHEARTAppBar extends PreferredSize {
-  var height;
+  double height;
 
   var child;
 

@@ -109,7 +109,7 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
             ),
             HeartAssessmentConfig);
       case Pages.HeartAssessmentQuestionnaire:
-        return PageData(HeartAssessmentQuestionnaireWidget(), HeartAssessmentQuestionnaireConfig);
+        return PageData(HeartAssessmentQuestionnaireWidget(apiClient: _apiClient), HeartAssessmentQuestionnaireConfig);
     }
   }
 

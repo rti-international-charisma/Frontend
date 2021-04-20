@@ -1,9 +1,9 @@
 
-import 'package:charisma/heart_assessment/heart_assessment_questionnaire.dart';
+import 'package:charisma/heart_assessment/heart_assessment.dart';
 import 'package:flutter/material.dart';
 
 class QuestionWidget extends StatefulWidget {
-  HeartQuestion heartQuestion;
+  Question heartQuestion;
 
   int index;
 
@@ -15,7 +15,7 @@ class QuestionWidget extends StatefulWidget {
 
 class _QuestionWidgetState extends State<QuestionWidget> {
 
-  HeartOption? currentSelectedOption;
+  Option? currentSelectedOption;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +28,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                 children: [
                   Text(
                     widget.index.toString(),
+                    key: ValueKey('questionIndex'),
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -37,6 +38,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                   Flexible(
                     child: Text(
                         widget.heartQuestion.text!,
+                        key: ValueKey('questionText'),
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
@@ -62,7 +64,15 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                           child: Row(
                             children: [
                               SizedBox(width: 21),
-                              currentSelectedOption == option ? Icon(Icons.radio_button_checked) :Icon(Icons.radio_button_unchecked) ,
+                              currentSelectedOption == option ?
+                              Icon(
+                                Icons.radio_button_checked,
+                                key: ValueKey('questionSelectedIcon'),
+                              )
+                                  :
+                              Icon(Icons.radio_button_unchecked,
+                                  key: ValueKey('questionSelectedIcon')
+                              ),
                               SizedBox(width: 16),
                               Text(
                                   option.text!,

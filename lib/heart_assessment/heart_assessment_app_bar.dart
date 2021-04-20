@@ -3,21 +3,28 @@ import 'package:charisma/constants.dart';
 import 'package:flutter/material.dart';
 
 class HeartAssessmentAppBar extends StatelessWidget {
-  String sectionCount;
+  String? sectionCount = "";
 
-  String title;
+  String? title;
 
-  String introduction;
+  String? introduction;
+
+  var closeTapped;
+
+  String? fieldKey;
 
   HeartAssessmentAppBar({
-    this.sectionCount = '',
-    this.title = '',
-    this.introduction = ''
+    this.fieldKey,
+    this.sectionCount,
+    this.title,
+    this.introduction,
+    this.closeTapped
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
+        key: Key(fieldKey!),
         color: ternaryColor,
         child: Padding(
           padding: EdgeInsets.fromLTRB(20, 20, 20, 36),
@@ -28,7 +35,7 @@ class HeartAssessmentAppBar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    sectionCount,
+                    sectionCount ?? '',
                     style: TextStyle(
                       color: infoTextColor,
                       fontSize: 18,
@@ -36,9 +43,7 @@ class HeartAssessmentAppBar extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {
-                      print('Close Section');
-                    },
+                    onPressed: closeTapped,
                     icon: Icon(
                         Icons.close,
                         color: Colors.white
@@ -48,7 +53,7 @@ class HeartAssessmentAppBar extends StatelessWidget {
               ),
               SizedBox(height: 13),
               Text(
-                  title,
+                  title ?? '',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 22,
@@ -57,7 +62,7 @@ class HeartAssessmentAppBar extends StatelessWidget {
               ),
               SizedBox(height: 18),
               Text(
-                  introduction,
+                  introduction ?? '',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
