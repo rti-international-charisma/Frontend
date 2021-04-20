@@ -100,16 +100,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   "username": _usernameCtrl.text,
                                   "password": _passwordCtrl.text
                                 })?.then((data) async {
-                                  print(
-                                      'VALUE --- ${convert.jsonEncode(data)}');
                                   SharedPreferences prefs =
                                       await SharedPreferences.getInstance();
                                   prefs.setString(
                                       'userData', convert.jsonEncode(data));
-                                  print(
-                                      'ASFGASF == ${prefs.getString("userData")}');
                                   routerDelegate.push(HomePageConfig);
-                                  print('pUSH');
                                 }).catchError((error) async {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(

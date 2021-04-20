@@ -33,7 +33,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     if (userDataEncoded == null) {
       return null;
     } else {
-      userData = convert.jsonDecode(prefs.getString('userData') as String);
+      userData = convert.jsonDecode(userDataEncoded);
       return userData['user'];
     }
   }
@@ -65,7 +65,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   alignment: Alignment.center,
                   margin: EdgeInsets.fromLTRB(10, 10, 30, 10),
                   child: Text(
-                    'Hi, ${userData!['username']}!',
+                    'Hi ${userData!['username']}!',
                     style: TextStyle(
                       color: Color(0xff2DA4FA),
                       fontSize: 18,
