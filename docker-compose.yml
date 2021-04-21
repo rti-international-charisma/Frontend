@@ -1,0 +1,17 @@
+version: '3.1'
+x-aws-cluster: 'arn:aws:ecs:ap-south-1:402711366397:cluster/charisma-directus'
+x-aws-vpc: 'vpc-061f295db5349230b'
+
+services:
+  webapp:
+    container_name: charisma-dart
+    restart: always
+    image: charisma-dart
+    build:
+      context: ./
+    ports:
+      - 3000:3000
+    command: >
+            sh -c "flutter pub get && flutter run -d web-server --web-port 3000 --web-hostname 0.0.0.0"
+   
+    
