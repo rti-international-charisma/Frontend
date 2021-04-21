@@ -1,0 +1,34 @@
+name: Deploy API to Amazon EB
+
+on:
+  workflow_dispatch:
+
+env:
+  AWS_REGION: ap-south-1
+  AWS_APPLICATION_NAME: content-api
+  AWS_ENV_NAME: Contentapi-env
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    
+    #checks out the source code and runs docker-compose.yaml
+    - name: Checkout source code
+      uses: actions/checkout@v1
+      
+   # run docker copose.yml 
+    - name:  run docker compose 
+      run:  docker-compose -f docker-compose.yml up
+      
+    #packages content of web folder to zip file
+    - name: Generate zip of deployment package
+      run: zip -r deploy.zip build/*
+      
+ 
