@@ -26,11 +26,12 @@ class _HeartAssessmentQuestionaireState extends State<HeartAssessmentQuestionnai
 
   int currentDisplaySection = 0;
   ScrollController _scrollController = ScrollController();
+  Map<String, Map<String, int>> result = {};
+  final GlobalKey<ScaffoldMessengerState> _scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
   @override
   Widget build(BuildContext context) {
     final routerDelegate = Provider.of<CharismaRouterDelegate>(context);
-    // var heartAssessment = HeartAssessment.fromJson(getHearAssessment());
 
     return FutureBuilder<Map<String, dynamic>?>(
         future: widget.apiClient.get('/assessment'),
@@ -38,6 +39,7 @@ class _HeartAssessmentQuestionaireState extends State<HeartAssessmentQuestionnai
           if (data.hasData) {
             var heartAssessment = HeartAssessment.fromJson(data.data!);
             return Scaffold(
+              key: _scaffoldKey,
               appBar: CharismaHEARTAppBar(
                 height: 237,
                 child: HeartAssessmentAppBar(
@@ -48,6 +50,7 @@ class _HeartAssessmentQuestionaireState extends State<HeartAssessmentQuestionnai
                   introduction: heartAssessment.assessment![currentDisplaySection]
                       .introduction,
                   closeTapped: () {
+                    print('Close tapped');
                     routerDelegate.popRoute();
                   },
                 ),
@@ -64,7 +67,10 @@ class _HeartAssessmentQuestionaireState extends State<HeartAssessmentQuestionnai
                               heartAssessment.assessment ? [currentDisplaySection]
                                   .questions, (i, question) =>
                               Container(
-                                child: QuestionWidget(++i, question as Question),
+                                child: QuestionWidget(++i, question as Question, (qId, selectedOption) {
+                                  addOrUpdateResults(heartAssessment.assessment![currentDisplaySection].id!, qId, selectedOption);
+                                  print('Result : $result');
+                                }),
                               )).toList(),
                         ),
                       ),
@@ -76,13 +82,23 @@ class _HeartAssessmentQuestionaireState extends State<HeartAssessmentQuestionnai
                               onPressed: () {
                                 if (currentDisplaySection <
                                     (heartAssessment.assessment!.length - 1)) {
-                                  setState(() {
-                                    currentDisplaySection++;
-                                  });
-                                  _scrollController.animateTo(
-                                      _scrollController.position.minScrollExtent,
-                                      duration: Duration(milliseconds: 10),
-                                      curve: Curves.ease);
+                                  if (areAllQuestionsInCurrentSectionCompleted(heartAssessment, result, currentDisplaySection)) {
+                                    setState(() {
+                                      currentDisplaySection++;
+                                    });
+                                    _scrollController.animateTo(
+                                        _scrollController.position
+                                            .minScrollExtent,
+                                        duration: Duration(milliseconds: 10),
+                                        curve: Curves.ease);
+                                  } else {
+                                    //Show Attempt questions error
+                                    ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
+                                        SnackBar(
+                                          content: Text('Please answer all the questions.'),
+                                          backgroundColor: Colors.red,
+                                        ));
+                                  }
                                 } else {
                                   //Ready to submit
                                 }
@@ -147,6 +163,26 @@ class _HeartAssessmentQuestionaireState extends State<HeartAssessmentQuestionnai
           return Text('Fetching data');
         }
     );
+  }
+
+  void addOrUpdateResults(String sectionId, String qId, int selectedOption) {
+    if (result[sectionId] == null) {
+      result[sectionId] = {};
+    }
+    result[sectionId]![qId] = selectedOption;
+  }
+
+  bool areAllQuestionsInCurrentSectionCompleted(HeartAssessment heartAssessment, Map<String, Map<String, int>> result, int currentDisplaySection) {
+    var sectionId = heartAssessment.assessment![currentDisplaySection].id;
+    var questions = heartAssessment.assessment![currentDisplaySection].questions;
+    var attemptedQuestionAnswers = result[sectionId];
+    if (questions!= null && attemptedQuestionAnswers != null && (attemptedQuestionAnswers.length == questions.length)) {
+      print('All Questions answered');
+      return true;
+    } else {
+      print('Questions incompleted');
+      return false;
+    }
   }
 }
 

@@ -24,16 +24,19 @@ class HeartAssessment {
 
 class Assessment {
   Assessment({
+    this.id,
     this.section,
     this.introduction,
     this.questions,
   });
 
+  String? id;
   String? section;
   String? introduction;
   List<Question?>? questions;
 
   factory Assessment.fromJson(Map<String, dynamic> json) => Assessment(
+    id: json["id"],
     section: json["section"],
     introduction: json["introduction"],
     questions: List<Question>.from(json["questions"].map((x) => Question.fromJson(x))),
@@ -49,25 +52,32 @@ class Assessment {
 
 class Question {
   Question({
+    this.id,
     this.text,
     this.description,
     this.options,
+    this.positiveNarrative = true
   });
 
+  String? id;
   String? text;
   String? description;
   List<Option>? options;
+  bool positiveNarrative;
 
   factory Question.fromJson(Map<String, dynamic> json) => Question(
+    id: json["id"],
     text: json["text"],
     description: json["description"] == null ? null : json["description"],
     options: List<Option>.from(json["options"].map((x) => Option.fromJson(x))),
+    positiveNarrative: json["positiveNarrative"]
   );
 
   Map<String, dynamic> toJson() => {
     "text": text,
     "description": description == null ? null : description,
     "options": List<dynamic>.from(options!.map((x) => x.toJson())),
+    "positiveNarrative": positiveNarrative,
   };
 }
 

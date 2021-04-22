@@ -13,62 +13,117 @@ void main() {
 
   ApiClient apiClient = MockApiClient();
   Map<String, dynamic> heartAssessment = {
-    "assessment": [ {
-      "section": "section 1",
-      "introduction": "Introduction for section 1",
-      "questions": [ {
-        "text": "question 1",
-        "description": "description 1",
-        "options": [ {
-          "text": "disagree",
-          "weightage": 2
-        }, {
-          "text": "agree",
-          "weightage": 4
-        }, {
-          "text": "neutral",
-          "weightage": 3
-        }
+    "assessment": [
+      {
+        "id": "3a9be2a0-ea29-40ee-973c-d183af87996f",
+        "section": "TRADITIONAL VALUES",
+        "introduction": "This first section is about how do you feel about the kind of roles that men and women should have in their everyday lives.",
+        "questions": [
+          {
+            "id": "0368f445-7cd9-430b-9ba3-2ca581020921",
+            "text": "Changing diapers, giving the children a bath, and feeding the kids is a mother's responsibility.",
+            "description": "",
+            "options": [
+              {
+                "text": "Agree Strongly",
+                "weightage": 6
+              },
+              {
+                "text": "Strongly disagree",
+                "weightage": 1
+              },
+              {
+                "text": "Little",
+                "weightage": 4
+              },
+              {
+                "text": "Neutral",
+                "weightage": 3
+              },
+              {
+                "text": "Disagree",
+                "weightage": 2
+              },
+              {
+                "text": "Agree",
+                "weightage": 5
+              }
+            ],
+            "positiveNarrative": true
+          },
+          {
+            "id": "eaf1eeee-f329-46bf-94ce-03b93d67a75f",
+            "text": "A woman cannot refuse to have sex with her husband or boyfriend.",
+            "description": "",
+            "options": [
+              {
+                "text": "Agree Strongly",
+                "weightage": 6
+              },
+              {
+                "text": "Strongly disagree",
+                "weightage": 1
+              },
+              {
+                "text": "Little",
+                "weightage": 4
+              },
+              {
+                "text": "Neutral",
+                "weightage": 3
+              },
+              {
+                "text": "Disagree",
+                "weightage": 2
+              },
+              {
+                "text": "Agree",
+                "weightage": 5
+              }
+            ],
+            "positiveNarrative": true
+          },
         ]
-      }, {
-        "text": "question 3",
-        "description": "description 3",
-        "options": [ {
-          "text": "agree",
-          "weightage": 4
-        }, {
-          "text": "disagree",
-          "weightage": 2
-        }
+      },
+      {
+        "id": "fafcdc7a-4be6-4cf3-82e5-9ddde66479bf",
+        "section": "PARTNER SUPPORT",
+        "introduction": "Consider how much or how little support you might receive or have received from the partner you were thinking of in section 1",
+        "questions": [
+          {
+            "id": "dda3380d-fee4-46a5-b00b-e60e405b21ea",
+            "text": "My partner is as committed as I am to our relationship.",
+            "description": "",
+            "options": [
+              {
+                "text": "Agree Strongly",
+                "weightage": 6
+              },
+              {
+                "text": "Strongly disagree",
+                "weightage": 1
+              },
+              {
+                "text": "Little",
+                "weightage": 4
+              },
+              {
+                "text": "Neutral",
+                "weightage": 3
+              },
+              {
+                "text": "Disagree",
+                "weightage": 2
+              },
+              {
+                "text": "Agree",
+                "weightage": 5
+              }
+            ],
+            "positiveNarrative": true
+          },
         ]
-      }
-      ]
-    }, {
-      "section": "section 2",
-      "introduction": "introduction for section 2",
-      "questions": [ {
-        "text": "question 2",
-        "description": "description 2",
-        "options": [ {
-          "text": "disagree",
-          "weightage": 2
-        }, {
-          "text": "strongly disagree",
-          "weightage": 1
-        }, {
-          "text": "neutral",
-          "weightage": 3
-        }, {
-          "text": "agree",
-          "weightage": 4
-        }, {
-          "text": "strongly agree",
-          "weightage": 5
-        }
-        ]
-      }
-      ]
-    }
+      },
     ]
   };
 
@@ -100,7 +155,7 @@ void main() {
     expect(find.byType(QuestionWidget), findsNWidgets(2));
   });
 
-  testWidgets('it should display section', (WidgetTester tester) async {
+  testWidgets('it should display sections', (WidgetTester tester) async {
 
     when(apiClient.get("/assessment"))
         .thenAnswer((realInvocation) => Future<Map<String, dynamic>?>.value(heartAssessment));
@@ -109,7 +164,114 @@ void main() {
     await tester.pump();
 
     expect(find.textContaining('Section 1 of 2'), findsOneWidget);
-    expect(find.textContaining('Introduction for section 1'), findsOneWidget);
+    expect(find.textContaining('TRADITIONAL VALUES'), findsOneWidget);
+  });
+
+  testWidgets('it should display error if all Questions not answered', (WidgetTester tester) async {
+
+    when(apiClient.get("/assessment"))
+        .thenAnswer((realInvocation) => Future<Map<String, dynamic>?>.value(heartAssessment));
+
+    await tester.pumpWidget(HeartAssessmentQuestionnaireWidget(apiClient: apiClient).wrapWithMaterial());
+    await tester.pump();
+
+    await tester.drag(find.byKey(ValueKey('HAMainScroll')), Offset(0.0, -600));
+    await tester.pump();
+
+    await tester.tap(find.byKey(ValueKey('HANextDoneButton')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Please answer all the questions.'), findsOneWidget);
+
+  });
+
+  testWidgets('it should change section', (WidgetTester tester) async {
+
+    when(apiClient.get("/assessment"))
+        .thenAnswer((realInvocation) => Future<Map<String, dynamic>?>.value(heartAssessment));
+
+    await tester.pumpWidget(HeartAssessmentQuestionnaireWidget(apiClient: apiClient).wrapWithMaterial());
+    await tester.pump();
+
+    await tester.tap(find.byKey(ValueKey('HAQuestion_1')));
+    await tester.pump();
+
+    await tester.drag(find.byKey(ValueKey('HAMainScroll')), Offset(0.0, -400));
+    await tester.pump();
+
+    await tester.tap(find.byKey(ValueKey('HAQuestion_2')));
+    await tester.pump();
+
+    await tester.drag(find.byKey(ValueKey('HAMainScroll')), Offset(0.0, -600));
+    await tester.pump();
+
+    await tester.tap(find.byKey(ValueKey('HANextDoneButton')));
+    await tester.pumpAndSettle();
+
+    expect(find.textContaining('Section 2 of 2'), findsOneWidget);
+
+  });
+
+  testWidgets('it should change section on back', (WidgetTester tester) async {
+
+    when(apiClient.get("/assessment"))
+        .thenAnswer((realInvocation) => Future<Map<String, dynamic>?>.value(heartAssessment));
+
+    await tester.pumpWidget(HeartAssessmentQuestionnaireWidget(apiClient: apiClient).wrapWithMaterial());
+    await tester.pump();
+
+    //Select option on question 1
+    await tester.tap(find.byKey(ValueKey('HAQuestion_1')));
+    await tester.pump();
+
+    //scroll down
+    await tester.drag(find.byKey(ValueKey('HAMainScroll')), Offset(0.0, -400));
+    await tester.pump();
+
+    //Select option on question 2
+    await tester.tap(find.byKey(ValueKey('HAQuestion_2')));
+    await tester.pump();
+
+    //Scroll down
+    await tester.drag(find.byKey(ValueKey('HAMainScroll')), Offset(0.0, -600));
+    await tester.pump();
+
+    //Tap next to move to next section
+    await tester.tap(find.byKey(ValueKey('HANextDoneButton')));
+    await tester.pumpAndSettle();
+
+    //Scroll down on section 2
+    await tester.drag(find.byKey(ValueKey('HAMainScroll')), Offset(0.0, -200));
+    await tester.pump();
+
+    //Tap Back on section 2
+    await tester.tap(find.byKey(ValueKey('HABackButton')));
+    await tester.pumpAndSettle();
+
+    //Should display section 1
+    expect(find.textContaining('Section 1 of 2'), findsOneWidget);
+  });
+
+  testWidgets('it should not change section on back if you are on first section', (WidgetTester tester) async {
+
+    when(apiClient.get("/assessment"))
+        .thenAnswer((realInvocation) => Future<Map<String, dynamic>?>.value(heartAssessment));
+
+    await tester.pumpWidget(HeartAssessmentQuestionnaireWidget(apiClient: apiClient).wrapWithMaterial());
+    await tester.pump();
+
+    expect(find.textContaining('Section 1 of 2'), findsOneWidget);
+
+    //Scroll down
+    await tester.drag(find.byKey(ValueKey('HAMainScroll')), Offset(0.0, -600));
+    await tester.pump();
+
+    //Tap Back on section 1
+    await tester.tap(find.byKey(ValueKey('HABackButton')));
+    await tester.pumpAndSettle();
+
+    //Should display section 1
+    expect(find.textContaining('Section 1 of 2'), findsOneWidget);
   });
 
 }

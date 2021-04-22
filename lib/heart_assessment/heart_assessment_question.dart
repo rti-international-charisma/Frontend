@@ -7,7 +7,9 @@ class QuestionWidget extends StatefulWidget {
 
   int index;
 
-  QuestionWidget(this.index,this.heartQuestion);
+  var optionSelected;
+
+  QuestionWidget(this.index,this.heartQuestion, this.optionSelected);
 
   @override
   State<StatefulWidget> createState() => _QuestionWidgetState();
@@ -19,8 +21,10 @@ class _QuestionWidgetState extends State<QuestionWidget> {
 
   @override
   Widget build(BuildContext context) {
+   sortOptions();
     return Container(
-        child: Padding(
+      key: ValueKey('HAQuestion_${widget.index}'),
+    child: Padding(
           padding: EdgeInsets.fromLTRB(12, 20, 12, 20),
           child: Column (
             children: [
@@ -54,7 +58,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                         setState(() {
                           currentSelectedOption = option;
                         });
-                        print('Tapped ${widget.heartQuestion.text} ${option.text} ${option.weightage}');
+                        widget.optionSelected(widget.heartQuestion.id, currentSelectedOption!.weightage);
                       },
                       child: Padding(
                         padding: EdgeInsets.only(left: 20,top: 16),
@@ -98,5 +102,17 @@ class _QuestionWidgetState extends State<QuestionWidget> {
           ),
         )
     );
+  }
+
+  void sortOptions() {
+    if (widget.heartQuestion.positiveNarrative) {
+      widget.heartQuestion.options!.sort((a,b) {
+        return a.weightage!.compareTo(b.weightage!);
+      });
+    } else {
+      widget.heartQuestion.options!.sort((a,b) {
+        return b.weightage!.compareTo(a.weightage!);
+      });
+    }
   }
 }
