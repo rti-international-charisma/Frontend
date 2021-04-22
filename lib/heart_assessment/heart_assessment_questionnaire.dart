@@ -4,6 +4,7 @@ import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/heart_assessment/charisma_heart_app_bar.dart';
 import 'package:charisma/heart_assessment/heart_assessment.dart';
 import 'package:charisma/heart_assessment/heart_assessment_app_bar.dart';
+import 'package:charisma/heart_assessment/heart_assessment_result.dart';
 import 'package:charisma/navigation/router_delegate.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,7 @@ class _HeartAssessmentQuestionaireState extends State<HeartAssessmentQuestionnai
         future: widget.apiClient.get('/assessment'),
         builder: (context, data) {
           if (data.hasData) {
-            var heartAssessment = HeartAssessment.fromJson(data.data!);
+            HeartAssessment heartAssessment = HeartAssessment.fromJson(data.data!);
             return Scaffold(
               key: _scaffoldKey,
               appBar: CharismaHEARTAppBar(
@@ -101,6 +102,7 @@ class _HeartAssessmentQuestionaireState extends State<HeartAssessmentQuestionnai
                                   }
                                 } else {
                                   //Ready to submit
+                                  createResultObject(heartAssessment);
                                 }
                               },
                               style: ElevatedButton.styleFrom(
@@ -183,6 +185,26 @@ class _HeartAssessmentQuestionaireState extends State<HeartAssessmentQuestionnai
       print('Questions incompleted');
       return false;
     }
+  }
+
+  void createResultObject(HeartAssessment heartAssessment) {
+    List<Section> sectionsList = result.map((sectionId, QnAMap) {
+      List<Answer> answers = [];
+      QnAMap.forEach((qId, weightage) {
+          answers.add(Answer(questionId: qId, score: weightage));
+        });
+        var section = Section(sectionId: sectionId, sectionType: getSectionTypeFromSectionId(heartAssessment, sectionId), answers: answers);
+        return MapEntry(sectionId, section);
+    }).values.toList();
+
+    var json = HeartAssessmentResult(sections: sectionsList).toJson();
+
+    print('Result json : $json');
+  }
+
+  String getSectionTypeFromSectionId(HeartAssessment heartAssessment, String sectionId) {
+    //TODO: Add Section Type to Section once added from the BE
+    return heartAssessment.assessment!.firstWhere((element) => element.section == sectionId).section ?? '';
   }
 }
 
