@@ -1,7 +1,10 @@
 import 'dart:io';
 
 import 'package:http/http.dart';
+
 import 'dart:convert' as convert;
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiClient {
   final Client _client;
@@ -46,6 +49,17 @@ class ApiClient {
     }
 
     throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
+  }
+
+  Future<T>? getUserData<T>() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var userDataEncoded = prefs.getString('userData');
+
+    if (userDataEncoded == null) {
+      return Map() as T;
+    } else {
+      return convert.jsonDecode(userDataEncoded)['user'] as T;
+    }
   }
 
   ApiClient withAdditionalHeaders(Map<String, String> headers) {

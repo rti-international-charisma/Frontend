@@ -1,3 +1,4 @@
+import 'package:charisma/about_us/about_us_page_widget.dart';
 import 'package:charisma/account/forgot_password_widget.dart';
 import 'package:charisma/heart_assessment/heart_assessment_landing_page_widget.dart';
 import 'package:flutter/foundation.dart';
@@ -87,11 +88,12 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
     switch (pageConfig.uiPage) {
       case Pages.Home:
         return PageData(
-            HomePageWidget(
-              apiClient: _apiClient,
-              apiBaseUrl: _apiBaseUrl,
-            ),
-            HomePageConfig);
+          HomePageWidget(
+            apiClient: _apiClient,
+            apiBaseUrl: _apiBaseUrl,
+          ),
+          HomePageConfig,
+        );
       case Pages.SignUp:
         return PageData(SignUpWidget(_apiClient), SignUpConfig);
       case Pages.Login:
@@ -102,11 +104,20 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
         return PageData(ForgotPasswordWidget(), ForgotPasswordConfig);
       case Pages.HeartAssessment:
         return PageData(
-            HeartAssessmentLandingPageWidget(
-              apiClient: _apiClient,
-              apiBaseUrl: _apiBaseUrl,
-            ),
-            HeartAssessmentConfig);
+          HeartAssessmentLandingPageWidget(
+            apiClient: _apiClient,
+            apiBaseUrl: _apiBaseUrl,
+          ),
+          HeartAssessmentConfig,
+        );
+      case Pages.AboutUs:
+        return PageData(
+          AboutUs(
+            apiClient: _apiClient,
+            apiBaseUrl: _apiBaseUrl,
+          ),
+          AboutUsConfig,
+        );
     }
   }
 

@@ -1,22 +1,22 @@
+import 'package:charisma/navigation/charisma_parser.dart';
 import 'package:charisma/navigation/router_delegate.dart';
 import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomePageLinks extends StatelessWidget {
-  const HomePageLinks({Key? key}) : super(key: key);
+  HomePageLinks({Key? key}) : super(key: key);
 
   static const links = [
-    {'text': 'HIV Prevention: PrEP', 'page_config': null},
-    {'text': 'Male Partner Information Pack', 'page_config': null},
-    {'text': 'Referrals', 'page_config': null},
-    {
-      'text': 'Take the HEART assessment test',
-      'page_config': HeartAssessmentConfig
-    },
-    {'text': 'Counselling Content', 'page_config': null},
-    {'text': 'About Us', 'page_config': null}
+    {'text': 'HIV Prevention: PrEP', 'url': null},
+    {'text': 'Male Partner Information Pack', 'url': null},
+    {'text': 'Referrals', 'url': null},
+    {'text': 'Take the HEART assessment test', 'url': HeartAssessmentPath},
+    {'text': 'Counselling Content', 'url': null},
+    {'text': 'About Us', 'url': AboutUsPath}
   ];
+
+  final CharismaParser _parser = CharismaParser();
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +44,10 @@ class HomePageLinks extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 0.8,
                 alignment: Alignment.centerLeft,
                 child: TextButton(
+                  style: TextButton.styleFrom(
+                      minimumSize:
+                          Size(MediaQuery.of(context).size.width * 0.8, 40),
+                      alignment: Alignment.centerLeft),
                   child: Text(
                     links[index]['text'].toString(),
                     style: TextStyle(
@@ -53,8 +57,16 @@ class HomePageLinks extends StatelessWidget {
                     key: ValueKey('HomePageLink$index'),
                   ),
                   onPressed: () {
-                    routerDelegate
-                        .push(links[index]['page_config'] as PageConfiguration);
+                    Future<PageConfiguration> pageConfigFuture =
+                        _parser.parseRouteInformation(
+                      RouteInformation(
+                        location: links[index]['url'] as String,
+                      ),
+                    );
+
+                    pageConfigFuture.then((pageConfig) {
+                      return routerDelegate.push(pageConfig);
+                    });
                   },
                 ),
               ),
