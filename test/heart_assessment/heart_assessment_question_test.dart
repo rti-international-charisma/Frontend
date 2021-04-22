@@ -15,9 +15,11 @@ void main() {
     var question = QuestionWidget(
         1,
         Question(
+            id: "someid",
             text: 'question 1',
             description: 'description',
-            options: [Option(text: 'option', weightage: 1)])
+            options: [Option(text: 'option', weightage: 1)]),
+            (qId, weightage) {}
     );
 
     await tester.pumpWidget(question.wrapWithMaterial());
@@ -30,13 +32,15 @@ void main() {
     var question = QuestionWidget(
         1,
         Question(
+            id: "someid",
             text: 'question 1',
             description: 'description',
             options: [
               Option(text: 'option1', weightage: 1),
               Option(text: 'option2', weightage: 2),
               Option(text: 'option3', weightage: 3),
-            ])
+            ]),
+            (qId, weightage) {}
     );
 
     await tester.pumpWidget(question.wrapWithMaterial());
@@ -50,13 +54,15 @@ void main() {
     var question = QuestionWidget(
         1,
         Question(
+            id: "someid",
             text: 'question 1',
             description: 'description',
             options: [
               Option(text: 'option1', weightage: 1),
               Option(text: 'option2', weightage: 2),
               Option(text: 'option3', weightage: 3),
-            ])
+            ]),
+            (qId, weightage) {}
     );
 
     await tester.pumpWidget(question.wrapWithMaterial());
