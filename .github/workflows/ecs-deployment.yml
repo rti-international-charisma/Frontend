@@ -1,12 +1,11 @@
-name: Deploy API to Amazon EB
+name: Deploy API to Amazon ECS
 
 on:
   workflow_dispatch:
 
 env:
   AWS_REGION: ap-south-1
-  AWS_APPLICATION_NAME: content-api
-  AWS_ENV_NAME: Contentapi-env
+  
 
 defaults:
   run:
@@ -19,23 +18,52 @@ jobs:
 
     steps:
     
-    #checks out the source code and runs docker-compose.yaml
+    
     - name: Checkout source code
       uses: actions/checkout@v1
-          
-    #packages content of web folder to zip file
-    - name: Generate zip of deployment package
-      run: zip -r deploy.zip build/*
       
-    - name: Deploy to AWS EB
-      uses: einaregilsson/beanstalk-deploy@v13
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
       with:
-         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-         application_name: ${{ env.AWS_APPLICATION_NAME }}
-         environment_name: ${{ env.AWS_ENV_NAME }}
-         version_label: ${{github.SHA}}
-         region: ${{ env.AWS_REGION }}
-         deployment_package: deploy.zip
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1 
+      
+    - name: Build, tag, and push image to Amazon ECR
+      id: build-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: charisma-dart
+        IMAGE_TAG: latest
+      run: |
+          # Build a docker container and
+          # push it to ECR so that it can
+          # be deployed to ECS.
+          docker build -f Dockerfile -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          
+    - name: Fill in the new image ID in the Amazon ECS task definition
+      id: task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: task-definition.json
+        container-name: charisma-dart
+        image: ${{ steps.build-image.outputs.image }}
+    
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        service: charisma-dart-service
+        cluster: charisma-directus
+        wait-for-service-stability: true
+        
+        
+    
       
  
