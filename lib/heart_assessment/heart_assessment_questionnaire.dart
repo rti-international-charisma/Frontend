@@ -473,7 +473,7 @@ class _HeartAssessmentQuestionaireState extends State<HeartAssessmentQuestionnai
         future: widget.apiClient.get('/assessment'),
         builder: (context, data) {
           if (data.hasData) {
-            HeartAssessment heartAssessment = HeartAssessment.fromJson(heartAssessmentResult);
+            HeartAssessment heartAssessment = HeartAssessment.fromJson(data.data!);
             return Scaffold(
               key: _scaffoldKey,
               appBar: CharismaHEARTAppBar(
