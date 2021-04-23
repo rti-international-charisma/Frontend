@@ -713,7 +713,7 @@ class _HeartAssessmentQuestionaireState extends State<HeartAssessmentQuestionnai
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: results.map((section)  =>
-                  Text('Section ${section.answers.fold(0, (previousValue, element) => (previousValue as int) + element.score)}')
+                  Text('${section.sectionType} ${section.answers.fold(0, (previousValue, element) => (previousValue as int) + element.score)}')
               ).toList(),
             ),
           );
