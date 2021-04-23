@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/network_image_builder.dart';
 import 'package:charisma/common/video_player_widget.dart';
@@ -11,7 +10,6 @@ import 'package:network_image_mock/network_image_mock.dart';
 
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
-import 'dart:convert' as convert;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../util/network_image_builder_mock.dart';
@@ -110,63 +108,6 @@ void main() {
     ]
   };
 
-  testWidgets(
-      'It displays app bar containing Charisma logo, Sign Up and Login link, instead of the user greeting when the user is not signed in',
-      (WidgetTester tester) async {
-    final apiClient = MockApiClient();
-
-    when(apiClient.get("/home")).thenAnswer((realInvocation) {
-      return Future<Map<String, dynamic>>.value(data);
-    });
-
-    await tester
-        .pumpWidget(HomePageWidget(apiClient: apiClient).wrapWithMaterial());
-    await mockNetworkImagesFor(() => tester.pump());
-
-    expect(find.byKey(ValueKey('SignUpLink')), findsOneWidget);
-    expect(find.byKey(ValueKey('LoginLink')), findsOneWidget);
-    expect(find.byKey(ValueKey('UserName')), findsNothing);
-    expect(find.byKey(ValueKey('CharismaLogo')), findsOneWidget);
-  });
-
-  testWidgets(
-      'It displays user greeting in the app bar when signed in, instead of the Sign Up & Login links',
-      (WidgetTester tester) async {
-    final apiClient = MockApiClient();
-    SharedPreferences.setMockInitialValues({});
-
-    var userData = Future<Map<String, dynamic>>.value({
-      "user": {
-        "id": 1,
-        "username": "username",
-        "sec_q_id": 1,
-        "loginAttemptsLeft": 5
-      },
-      "token": "some.jwt.token"
-    });
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    userData.then((value) =>
-        preferences.setString('userData', convert.jsonEncode(value)));
-
-    when(apiClient.get("/home")).thenAnswer(
-        (realInvocation) => Future<Map<String, dynamic>>.value(data));
-
-    await tester
-        .pumpWidget(HomePageWidget(apiClient: apiClient).wrapWithMaterial());
-    await mockNetworkImagesFor(() => tester.pump());
-
-    expect(find.byKey(ValueKey('SignUpLink')), findsNothing);
-    expect(find.byKey(ValueKey('LoginLink')), findsNothing);
-    expect(find.byKey(ValueKey('UserName')), findsOneWidget);
-    expect(
-        (find.byKey(ValueKey('UserName')).evaluate().single.widget as Text)
-            .data,
-        equals('Hi username!'));
-
-    // Resetting this data so that it doesn't interfere with other tests below
-    preferences.setString('userData', '');
-  });
-
   testWidgets('It displays hero image with text', (WidgetTester tester) async {
     final apiClient = MockApiClient();
 
@@ -233,91 +174,6 @@ void main() {
         (find.byKey(ValueKey('Step4Text')).evaluate().single.widget as Text)
             .data,
         equals((data['steps'] as List).elementAt(3)['title']));
-  });
-
-  testWidgets(
-      'It displays videos widget, showing only public videos when user is not signed in',
-      (WidgetTester tester) async {
-    final apiClient = MockApiClient();
-
-    when(apiClient.get("/home")).thenAnswer((realInvocation) {
-      return Future<Map<String, dynamic>>.value(data);
-    });
-
-    await tester
-        .pumpWidget(HomePageWidget(apiClient: apiClient).wrapWithMaterial());
-    await mockNetworkImagesFor(() => tester.pump());
-
-    expect(find.byKey(ValueKey('VideoSection')), findsOneWidget);
-    expect(find.byKey(ValueKey('VideoSectionHeadline')), findsOneWidget);
-    expect(find.byKey(ValueKey('VideoSectionSubHeadline')), findsOneWidget);
-    expect(find.byKey(ValueKey('VideoCarousel')), findsOneWidget);
-    expect(find.byKey(ValueKey('VideoModules')), findsNWidgets(2));
-    expect(
-        (find.byKey(ValueKey('VideoCarousel')).evaluate().single.widget
-                as CarouselSlider)
-            .itemCount,
-        equals(4)); // One video is not shown because it is private
-
-    var videoModule = find.byKey(ValueKey('VideoModules')).first;
-    var videoHeading = find.descendant(
-        of: videoModule, matching: find.byKey(ValueKey('VideoHeading1')));
-    var videoSectionData = data['videoSection'] as Map<String, dynamic>;
-
-    // here the first video shown has the 'isPrivate' flag set to false
-    expect((videoHeading.evaluate().single.widget as Text).data,
-        equals((videoSectionData['videos'] as List).elementAt(0)['title']));
-  });
-
-  testWidgets(
-      'It displays videos widget, showing both private & public videos when user is signed in',
-      (WidgetTester tester) async {
-    final apiClient = MockApiClient();
-    SharedPreferences.setMockInitialValues({});
-
-    var userData = Future<Map<String, dynamic>>.value({
-      "user": {
-        "id": 1,
-        "username": "username",
-        "sec_q_id": 1,
-        "loginAttemptsLeft": 5
-      },
-      "token": "some.jwt.token"
-    });
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    userData.then((value) =>
-        preferences.setString('userData', convert.jsonEncode(value)));
-
-    when(apiClient.get("/home")).thenAnswer((realInvocation) {
-      return Future<Map<String, dynamic>>.value(data);
-    });
-
-    await tester
-        .pumpWidget(HomePageWidget(apiClient: apiClient).wrapWithMaterial());
-    await mockNetworkImagesFor(() => tester.pump());
-
-    expect(find.byKey(ValueKey('VideoSection')), findsOneWidget);
-    expect(find.byKey(ValueKey('VideoSectionHeadline')), findsOneWidget);
-    expect(find.byKey(ValueKey('VideoSectionSubHeadline')), findsOneWidget);
-    expect(find.byKey(ValueKey('VideoCarousel')), findsOneWidget);
-    expect(
-        (find.byKey(ValueKey('VideoCarousel')).evaluate().single.widget
-                as CarouselSlider)
-            .itemCount,
-        equals(5)); // All 5 videos are shown because the user is signed in
-    expect(find.byKey(ValueKey('VideoModules')), findsNWidgets(2));
-
-    var videoModule = find.byKey(ValueKey('VideoModules')).first;
-    var videoHeading = find.descendant(
-        of: videoModule, matching: find.byKey(ValueKey('VideoHeading1')));
-    var videoSectionData = data['videoSection'] as Map<String, dynamic>;
-
-    // here the first video shown is from the data which has the 'isPrivate' flag set to true
-    expect((videoHeading.evaluate().single.widget as Text).data,
-        equals((videoSectionData['videos'] as List).elementAt(4)['title']));
-
-    // Resetting this data so that it doesn't interfere with other tests below
-    preferences.setString('userData', '');
   });
 
   testWidgets(
