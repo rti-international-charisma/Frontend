@@ -47,7 +47,7 @@ class Section {
 
   @override
   String toString() {
-    return 'SectionId: $sectionId, sectoinType: $sectionType, answers: $answers';
+    return 'SectionId: $sectionId, sectionType: $sectionType, answers: $answers';
   }
 }
 

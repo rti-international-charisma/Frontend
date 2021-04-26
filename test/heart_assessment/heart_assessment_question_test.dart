@@ -1,6 +1,6 @@
 
 
-import 'package:charisma/heart_assessment/heart_assessment.dart';
+import 'package:charisma/heart_assessment/heart_assessment_model.dart';
 import 'package:charisma/heart_assessment/heart_assessment_question.dart';
 import 'package:charisma/navigation/router_delegate.dart';
 import 'package:flutter/material.dart';

@@ -2,9 +2,9 @@
 
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/heart_assessment/charisma_heart_app_bar.dart';
-import 'package:charisma/heart_assessment/heart_assessment.dart';
+import 'package:charisma/heart_assessment/heart_assessment_model.dart';
 import 'package:charisma/heart_assessment/heart_assessment_app_bar.dart';
-import 'package:charisma/heart_assessment/heart_assessment_result.dart';
+import 'package:charisma/heart_assessment/heart_assessment_result_model.dart';
 import 'package:charisma/navigation/router_delegate.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +30,7 @@ class _HeartAssessmentQuestionaireState extends State<HeartAssessmentQuestionnai
   Map<String, Map<String, int>> result = {};
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
+  //For dev only. Less no. of questions.
   var heartAssessmentResult = {
     "assessment": [
       {
