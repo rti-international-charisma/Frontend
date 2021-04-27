@@ -1,6 +1,9 @@
 import 'package:charisma/apiclient/api_client.dart';
+import 'package:charisma/navigation/router_delegate.dart';
+import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:provider/provider.dart';
 
 class HeartAssessmentLandingPageWidget extends StatelessWidget {
   const HeartAssessmentLandingPageWidget(
@@ -12,6 +15,7 @@ class HeartAssessmentLandingPageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final routerDelegate = Provider.of<CharismaRouterDelegate>(context);
     return FutureBuilder<Map<String, dynamic>?>(
       future: apiClient?.get('/assessment/intro'),
       builder: (context, data) {
@@ -71,7 +75,9 @@ class HeartAssessmentLandingPageWidget extends StatelessWidget {
               width: double.infinity,
               height: 40,
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  routerDelegate.push(HeartAssessmentQuestionnaireConfig);
+                },
                 child: Text(
                   'Get started',
                   style: TextStyle(color: Colors.white),

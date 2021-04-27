@@ -175,9 +175,9 @@ class _SignupWidgetState extends State<SignUpWidget> {
                                   }
                                 });
                               },
-                              child: Text('Register'),
+                            child: Text('Register'),
                             style: ElevatedButton.styleFrom(
-                              primary: buttonColor,
+                              primary: ternaryColor,
                             ),
                           ),
                         ),
