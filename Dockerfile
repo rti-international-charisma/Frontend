@@ -30,7 +30,7 @@ WORKDIR /usr/local/bin/app
 RUN flutter pub get
 
 # Build the app for the web
-RUN flutter build web
+RUN flutter build web --dart-define=API_BASEURL=http://0.0.0.0:8080
 
 # Document the exposed port
 EXPOSE 4040
