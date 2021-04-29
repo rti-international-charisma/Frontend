@@ -8,7 +8,7 @@ class CharismaParser extends RouteInformationParser<PageConfiguration> {
     final uri = Uri.parse(routeInformation.location!);
     print("URI : $uri");
     if (uri.pathSegments.isEmpty) {
-      return HomePageConfig;
+      return HAResultsConfig;
     }
 
     switch (uri.toString()) {
@@ -22,10 +22,12 @@ class CharismaParser extends RouteInformationParser<PageConfiguration> {
         return ProfileConfig;
       case ForgotPasswordPath:
         return ForgotPasswordConfig;
-      case HeartAssessmentPath:
-        return HeartAssessmentConfig;
+      case HALandingPagePath:
+        return HALandingPageConfig;
       case HeartAssessmentQuestionnairePath:
         return HeartAssessmentQuestionnaireConfig;
+      case HAResultsPath:
+        return HAResultsConfig;
       case AboutUsPath:
         return AboutUsConfig;
       default:

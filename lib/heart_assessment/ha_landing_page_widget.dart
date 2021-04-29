@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:provider/provider.dart';
 
-class HeartAssessmentLandingPageWidget extends StatelessWidget {
-  const HeartAssessmentLandingPageWidget(
-      {Key? key, this.apiClient, this.apiBaseUrl})
+class HALandingPageWidget extends StatelessWidget {
+  const HALandingPageWidget({Key? key, this.apiClient, this.apiBaseUrl})
       : super(key: key);
 
   final ApiClient? apiClient;

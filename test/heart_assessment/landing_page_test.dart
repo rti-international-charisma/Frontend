@@ -1,6 +1,6 @@
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/network_image_builder.dart';
-import 'package:charisma/heart_assessment/heart_assessment_landing_page_widget.dart';
+import 'package:charisma/heart_assessment/ha_landing_page_widget.dart';
 import 'package:charisma/navigation/router_delegate.dart';
 import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/material.dart';
@@ -35,8 +35,7 @@ void main() {
     });
 
     await tester.pumpWidget(
-        HeartAssessmentLandingPageWidget(apiClient: apiClient)
-            .wrapWithMaterial());
+        HALandingPageWidget(apiClient: apiClient).wrapWithMaterial());
     await mockNetworkImagesFor(() => tester.pump());
 
     expect(find.byKey(ValueKey('HAPageTitle')), findsOneWidget);
@@ -54,8 +53,7 @@ void main() {
     });
 
     await tester.pumpWidget(
-        HeartAssessmentLandingPageWidget(apiClient: apiClient)
-            .wrapWithMaterial());
+        HALandingPageWidget(apiClient: apiClient).wrapWithMaterial());
     await mockNetworkImagesFor(() => tester.pump());
 
     expect(find.byKey(ValueKey('HAIntro')), findsOneWidget);
@@ -81,8 +79,7 @@ void main() {
     });
 
     await tester.pumpWidget(
-        HeartAssessmentLandingPageWidget(apiClient: apiClient)
-            .wrapWithMaterial());
+        HALandingPageWidget(apiClient: apiClient).wrapWithMaterial());
     await mockNetworkImagesFor(() => tester.pump());
 
     expect(find.byKey(ValueKey('HAGetStarted')), findsOneWidget);
@@ -94,7 +91,8 @@ void main() {
         equals('Get started'));
   });
 
-  testWidgets('it should go to heartAssessment Page on tap of Get Started', (WidgetTester tester) async {
+  testWidgets('it should go to heartAssessment Page on tap of Get Started',
+      (WidgetTester tester) async {
     MockRouterDelegate routerDelegate = MockRouterDelegate();
 
     final apiClient = MockApiClient();
@@ -103,16 +101,14 @@ void main() {
       return Future<Map<String, dynamic>>.value(pageContent);
     });
 
-    await tester.pumpWidget(
-        HeartAssessmentLandingPageWidget(apiClient: apiClient)
-            .wrapWithMaterialMockRouter(routerDelegate));
+    await tester.pumpWidget(HALandingPageWidget(apiClient: apiClient)
+        .wrapWithMaterialMockRouter(routerDelegate));
     await mockNetworkImagesFor(() => tester.pump());
 
     await tester.tap(find.byKey(ValueKey('HAGetStarted')));
     await tester.pump();
 
-    verify (routerDelegate.push(HeartAssessmentQuestionnaireConfig));
-
+    verify(routerDelegate.push(HeartAssessmentQuestionnaireConfig));
   });
 }
 
@@ -134,17 +130,17 @@ extension on Widget {
 }
 
 extension on Widget {
-  Widget wrapWithMaterialMockRouter(MockRouterDelegate routerDelegate) => MultiProvider(
-    providers: [
-      InheritedProvider<CharismaRouterDelegate>(
-          create: (ctx) => routerDelegate
-      )
-    ],
-    child: MaterialApp(
-        home: Scaffold(
+  Widget wrapWithMaterialMockRouter(MockRouterDelegate routerDelegate) =>
+      MultiProvider(
+        providers: [
+          InheritedProvider<CharismaRouterDelegate>(
+              create: (ctx) => routerDelegate)
+        ],
+        child: MaterialApp(
+            home: Scaffold(
           body: this,
         )),
-  );
+      );
 }
 
-class MockRouterDelegate extends Mock implements CharismaRouterDelegate{}
+class MockRouterDelegate extends Mock implements CharismaRouterDelegate {}
