@@ -18,7 +18,7 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
   late ApiClient _apiClient;
   CharismaRouterDelegate(this._apiClient);
   static const _apiBaseUrl = String.fromEnvironment('API_BASEURL',
-      defaultValue: 'http://0.0.0.0:8080');
+      defaultValue: 'http://0.0.0.0:8080/api');
 
   /// Here we are storing the current list of pages
   List<MaterialPage> get pages => List.unmodifiable(_pages);

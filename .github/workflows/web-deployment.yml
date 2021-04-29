@@ -19,7 +19,7 @@ jobs:
           flutter pub get
       - name: Build
         run: |
-          flutter build web --dart-define=API_BASEURL=http://contentapi-env.eba-368zcapp.ap-south-1.elasticbeanstalk.com
+          flutter build web --dart-define=API_BASEURL=http://contentapi-env.eba-368zcapp.ap-south-1.elasticbeanstalk.com/api
           cp -R build/web/* web_public/public/
       - uses: w9jds/firebase-action@master
         with:

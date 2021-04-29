@@ -27,7 +27,7 @@
       "environment": [
         {
           "name": "API_BASEURL",
-          "value": "charisma-api-service.api:5000"
+          "value": "charisma-api-service.api:5000/api"
         }
       ],
       "ulimits": null,
