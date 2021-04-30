@@ -1,7 +1,6 @@
 FROM ubuntu:20.10 as builder
 
 ARG PROJECT_DIR=/charisma-dart
-ARG API_BASEURL
 
 ENV PATH=/opt/flutter/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
@@ -31,7 +30,7 @@ WORKDIR /usr/local/bin/app
 RUN flutter pub get
 
 # Build the app for the web
-RUN flutter build web 
+RUN flutter build web --dart-define=API_BASEURL=http://charisma-alb-667612545.af-south-1.elb.amazonaws.com
 
 # Document the exposed port
 EXPOSE 4040
