@@ -14,7 +14,7 @@ frontend:
         - flutter test
     build:
       commands:
-        - flutter build web --dart-define=API_BASEURL=https://charisma-api-xva3j6u7ba-uk.a.run.app
+        - flutter build web --dart-define=API_BASEURL=https://charisma-api-xva3j6u7ba-uk.a.run.app/api
   artifacts:
     baseDirectory: ./build/web/
     files:
