@@ -127,4 +127,22 @@ void main() {
     expect({"id":"1"}, response);
   });
 
+  test("postWithHeaders should make the request for a given URL and pass the json body",()async {
+    var api = "http://somedomain.com/";
+    var path = "/data";
+
+    var mockClient = MockClient((request) async {
+      return Response(
+          "",
+          HttpStatus.created,
+          headers: {'content-type': 'application/json'}
+      );
+    });
+
+    var client = ApiClient(mockClient, api);
+    Future? response = client.postWithHeaders(path, {"jsonKey": "hello"}, {'Authorization': 'Bearer sometoken'});
+    var data = await response;
+    expect(data, "");
+  });
+
 }

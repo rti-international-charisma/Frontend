@@ -20,34 +20,38 @@ class HeartAssessmentResult {
     "sections": List<dynamic>.from(sections.map((x) => x.toJson())),
   };
 
+  @override
+  String toString() {
+    return 'HeartAssessmentResult : $sections';
+  }
 }
 
 class Section {
   Section({
     required this.sectionId,
     required this.sectionType,
-    required this.answers,
+    required this.questions,
   });
 
   String sectionId;
   String sectionType;
-  List<Answer> answers;
+  List<Answer> questions;
 
   factory Section.fromJson(Map<String, dynamic> json) => Section(
     sectionId: json["sectionId"],
     sectionType: json["sectionType"],
-    answers: List<Answer>.from(json["answers"].map((x) => Answer.fromJson(x))),
+    questions: List<Answer>.from(json["answers"].map((x) => Answer.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "sectionId": sectionId,
     "sectionType": sectionType,
-    "answers": List<dynamic>.from(answers.map((x) => x.toJson())),
+    "answers": List<dynamic>.from(questions.map((x) => x.toJson())),
   };
 
   @override
   String toString() {
-    return 'SectionId: $sectionId, sectionType: $sectionType, answers: $answers';
+    return 'SectionId: $sectionId, sectionType: $sectionType, answers: $questions';
   }
 }
 
