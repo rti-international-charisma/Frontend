@@ -8,7 +8,7 @@
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "/ecs/charisma-dart-td",
+          "awslogs-group": "/ecs/prod-charisma-dart",
           "awslogs-region": "af-south-1",
           "awslogs-stream-prefix": "ecs"
         }
@@ -35,7 +35,7 @@
       "memoryReservation": null,
       "volumesFrom": [],
       "stopTimeout": null,
-      "image": "402711366397.dkr.ecr.af-south-1.amazonaws.com/charisma-dart:latest",
+      "image": "402711366397.dkr.ecr.af-south-1.amazonaws.com/prod-charisma-dart:latest",
       "startTimeout": null,
       "firelensConfiguration": null,
       "dependsOn": null,
@@ -62,8 +62,8 @@
     "EC2",
     "FARGATE"
   ],
-  "taskDefinitionArn": "arn:aws:ecs:af-south-1:402711366397:task-definition/charisma-dart-td:16",
-  "family": "charisma-dart-td",
+  "taskDefinitionArn": "arn:aws:ecs:af-south-1:402711366397:task-definition/prod-charisma-dart:1",
+  "family": "prod-charisma-dart",
   "requiresAttributes": [
     {
       "targetId": null,
@@ -120,7 +120,7 @@
   ],
   "networkMode": "awsvpc",
   "cpu": "256",
-  "revision": 16,
+  "revision": 1,
   "status": "ACTIVE",
   "inferenceAccelerators": null,
   "proxyConfiguration": null,

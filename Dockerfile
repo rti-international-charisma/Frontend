@@ -30,7 +30,7 @@ WORKDIR /usr/local/bin/app
 RUN flutter pub get
 
 # Build the app for the web
-RUN flutter build web --dart-define=API_BASEURL=http://charisma-alb-667612545.af-south-1.elb.amazonaws.com
+RUN flutter build web --dart-define=API_BASEURL=http://api-test.apitest:5000/api
 
 # Document the exposed port
 EXPOSE 4040
