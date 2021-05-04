@@ -102,7 +102,7 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
       case Pages.Profile:
         return PageData(ProfileWidget(), ProfileConfig);
       case Pages.ForgotPassword:
-        return PageData(ForgotPasswordWidget(), ForgotPasswordConfig);
+        return PageData(ForgotPasswordWidget(_apiClient), ForgotPasswordConfig);
       case Pages.HeartAssessment:
         return PageData(
             HeartAssessmentLandingPageWidget(

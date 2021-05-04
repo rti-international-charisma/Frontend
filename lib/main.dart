@@ -13,7 +13,7 @@ import 'constants.dart';
 
 void main() {
   const API_BASEURL = String.fromEnvironment('API_BASEURL',
-      defaultValue: 'http://0.0.0.0:8080/api');
+      defaultValue: 'http://0.0.0.0:5000/api');
   Provider.debugCheckInvalidValueType = null;
   runApp(CharismaApp(ApiClient(http.Client(), API_BASEURL)));
 }
