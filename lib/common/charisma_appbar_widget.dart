@@ -39,7 +39,7 @@ class CharismaAppBar extends StatelessWidget with PreferredSizeWidget {
             future: apiClient?.getUserData(),
             builder: (context, data) {
               if (data.hasData && data.data!.isNotEmpty) {
-                var userData = data.data;
+                var userData = data.data!['user'];
 
                 return Container(
                   alignment: Alignment.center,

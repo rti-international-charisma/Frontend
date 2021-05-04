@@ -31,8 +31,41 @@ class ApiClient {
     throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
   }
 
-  Future<T>? getCounsellingModule<T>() async {
-    return convert.jsonDecode(counsellingModuleJson);
+  Future<T>? getCounsellingModule<T>(num score, String? consent) async {
+    var api = _baseUrl.endsWith("/")
+        ? _baseUrl.substring(0, _baseUrl.length - 1)
+        : _baseUrl;
+    var response = await _client.get(
+      Uri.parse(
+          "$api/assessment/module?partner_score=$score&prep_consent=$consent"),
+      headers: {..._headers},
+    );
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return convert.jsonDecode(response.body) as T;
+    }
+
+    throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
+  }
+
+  Future<T>? getScores<T>(String userToken) async {
+    var api = _baseUrl.endsWith("/")
+        ? _baseUrl.substring(0, _baseUrl.length - 1)
+        : _baseUrl;
+
+    var response = await _client.get(
+      Uri.parse("$api/assessment/scores"),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $userToken',
+      },
+    );
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return convert.jsonDecode(response.body) as T;
+    }
+
+    throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
   }
 
   Future<T>? post<T>(String path, Map<String, dynamic> body) async {
@@ -83,7 +116,7 @@ class ApiClient {
     if (userDataEncoded == null) {
       return Map() as T;
     } else {
-      return convert.jsonDecode(userDataEncoded)['user'] as T;
+      return convert.jsonDecode(userDataEncoded) as T;
     }
   }
 

@@ -38,10 +38,13 @@ void main() {
     SharedPreferences.setMockInitialValues({});
 
     var userData = Future<Map<String, dynamic>>.value({
-      "id": 1,
-      "username": "username",
-      "sec_q_id": 1,
-      "loginAttemptsLeft": 5
+      "user": {
+        "id": 1,
+        "username": "username",
+        "sec_q_id": 1,
+        "loginAttemptsLeft": 5
+      },
+      "token": "some.jwt.token"
     });
     SharedPreferences preferences = await SharedPreferences.getInstance();
     userData.then((value) =>

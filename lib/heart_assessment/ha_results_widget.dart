@@ -23,12 +23,12 @@ class HAResultsWidget extends StatelessWidget {
     apiBaseUrl,
   );
 
-  num getSectionScore(questionsList) {
-    return (questionsList as List)
-        .fold(0, (previousValue, element) => previousValue + element['score']);
+  num getSectionScore(List answersList) {
+    return answersList.fold(
+        0, (previousValue, answer) => previousValue + answer['score']);
   }
 
-  String? getSectionScoreExplanation(sectionType) {
+  String? getSectionScoreExplanation(String sectionType) {
     switch (sectionType) {
       case 'TRADITIONAL VALUES':
         return 'Women who have higher scores on these questions generally believe men should have more power than women in family or relationship decisions.';
@@ -43,10 +43,28 @@ class HAResultsWidget extends StatelessWidget {
     }
   }
 
+  String? getConsentValueFromScore(int score) {
+    switch (score) {
+      case 1:
+        return 'agree';
+      case 2:
+        return 'neutral';
+      case 3:
+        return 'oppose';
+      case 4:
+        return 'unaware';
+      default:
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final routerDelegate = Provider.of<CharismaRouterDelegate>(context);
     Map<String, dynamic>? userData;
+    Map<String, dynamic>? partnerContextSection;
+    Map<String, dynamic>? abuseAndControlSection;
+    bool isPartnerAware;
+    num totalScore;
 
     return Scaffold(
       appBar: CharismaAppBar(
@@ -56,22 +74,32 @@ class HAResultsWidget extends StatelessWidget {
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: FutureBuilder(
-            future: apiClient.getCounsellingModule()?.then((moduleData) async {
-              userData = await apiClient.getUserData() as Map<String, dynamic>;
+            future: apiClient.getUserData()?.then((data) async {
+              userData = data['user'];
 
-              return moduleData;
+              return await apiClient.getScores(data['token']);
             }),
             builder: (context, data) {
               if (data.hasData) {
-                var resultsData = data.data as Map<String, dynamic>;
-                var scoreData = resultsData['score'];
+                var scoreData = data.data as Map<String, dynamic>;
                 var sectionScores = (scoreData['sections'] as List)
                     .where((section) =>
                         section['sectionType'] != 'PARTNER CONTEXT')
                     .toList();
-                var moduleData = resultsData['module'];
-                var moduleSections = moduleData['counsellinModuleSections'];
-                var moduleActions = moduleData['counsellingModuleActionPoints'];
+                partnerContextSection = (scoreData['sections'] as List)
+                    .where((section) =>
+                        section['sectionType'] == 'PARTNER CONTEXT')
+                    .toList()[0];
+                abuseAndControlSection = (scoreData['sections'] as List)
+                    .where((section) =>
+                        section['sectionType'] == 'PARTNER ABUSE AND CONTROL')
+                    .toList()[0];
+                print('PARTNER CONTEXT === $partnerContextSection');
+                isPartnerAware =
+                    partnerContextSection!['answers'][1]['score'] == 1;
+                print('IS AWARE -- $isPartnerAware');
+                totalScore =
+                    getSectionScore(abuseAndControlSection!['answers']);
 
                 return Column(
                   children: [
@@ -157,7 +185,7 @@ class HAResultsWidget extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Text(
-                                                  '${getSectionScore(sectionScores[index]['questions'])} of ${sectionScores[index]['questions'].length * 6}',
+                                                  '${getSectionScore(sectionScores[index]['answers'])} of ${sectionScores[index]['answers'].length * 6}',
                                                   style: TextStyle(
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.w700,
@@ -225,121 +253,165 @@ class HAResultsWidget extends StatelessWidget {
                           SizedBox(
                             height: 20,
                           ),
-                          Text(
-                            moduleData["title"],
-                            style: TextStyle(
-                              fontSize: 36,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          Html(
-                            data: moduleData['introduction'],
-                            style: {'body': Style(color: infoTextColor)},
-                          ),
-                          Image.network(
-                            "$apiBaseUrl${moduleData['heroImage']['imageUrl']}",
-                            fit: BoxFit.contain,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: moduleSections.length,
-                            itemBuilder:
-                                (BuildContext context, int sectionIndex) =>
-                                    Column(
-                              children: [
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    moduleSections[sectionIndex]['title'],
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
-                                Html(
-                                  data: moduleSections[sectionIndex]
-                                      ['introduction'],
-                                ),
-                                if (moduleSections[sectionIndex]
-                                        ['accordionContent'] !=
-                                    null)
-                                  ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: moduleSections[sectionIndex]
-                                            ['accordionContent']
-                                        .length,
-                                    itemBuilder: (BuildContext context,
-                                            int accordionIndex) =>
-                                        CharismaExpandableWidget(
-                                      title: moduleSections[sectionIndex]
-                                              ['accordionContent']
-                                          [accordionIndex]['title'],
-                                      description: moduleSections[sectionIndex]
-                                              ['accordionContent']
-                                          [accordionIndex]['description'],
-                                    ),
-                                  ),
-                                if (moduleSections[sectionIndex]['summary'] !=
-                                    null)
-                                  Html(
-                                    data: moduleSections[sectionIndex]
-                                        ['summary'],
-                                  ),
-                              ],
-                            ),
-                          ),
                         ],
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.all(20),
-                      width: double.infinity,
-                      color: ternaryColor,
-                      child: Column(
-                        children: [
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            margin: EdgeInsets.only(bottom: 16),
-                            child: Text(
-                              'Action points for you!',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                          ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: moduleActions.length,
-                            itemBuilder: (BuildContext context, int index) =>
-                                Card(
-                              margin: EdgeInsets.only(bottom: 12),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(8),
+                    FutureBuilder(
+                      future: apiClient.getCounsellingModule(
+                          totalScore,
+                          isPartnerAware
+                              ? getConsentValueFromScore(
+                                  partnerContextSection!['answers'][2]['score'])
+                              : 'unaware'),
+                      builder: (context, data) {
+                        if (data.hasData) {
+                          var moduleData = data.data as Map<String, dynamic>;
+                          var moduleSections =
+                              moduleData['counsellingModuleSections'];
+                          var moduleActions =
+                              moduleData['counsellingModuleActionPoints'];
+
+                          return Column(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(20),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      moduleData["title"],
+                                      style: TextStyle(
+                                        fontSize: 36,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    Html(
+                                      data: moduleData['introduction'],
+                                      style: {
+                                        'body': Style(color: infoTextColor)
+                                      },
+                                    ),
+                                    Image.network(
+                                      "$apiBaseUrl${moduleData['heroImage']['imageUrl']}",
+                                      fit: BoxFit.contain,
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: moduleSections.length,
+                                      itemBuilder: (BuildContext context,
+                                              int sectionIndex) =>
+                                          Column(
+                                        children: [
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Container(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              moduleSections[sectionIndex]
+                                                  ['title'],
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                          ),
+                                          Html(
+                                            data: moduleSections[sectionIndex]
+                                                ['introduction'],
+                                          ),
+                                          if (moduleSections[sectionIndex]
+                                                  ['accordionContent'] !=
+                                              null)
+                                            ListView.builder(
+                                              shrinkWrap: true,
+                                              itemCount:
+                                                  moduleSections[sectionIndex]
+                                                          ['accordionContent']
+                                                      .length,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                          int accordionIndex) =>
+                                                      CharismaExpandableWidget(
+                                                title: moduleSections[
+                                                            sectionIndex]
+                                                        ['accordionContent']
+                                                    [accordionIndex]['title'],
+                                                description: moduleSections[
+                                                                sectionIndex]
+                                                            ['accordionContent']
+                                                        [accordionIndex]
+                                                    ['description'],
+                                              ),
+                                            ),
+                                          if (moduleSections[sectionIndex]
+                                                  ['summary'] !=
+                                              null)
+                                            Html(
+                                              data: moduleSections[sectionIndex]
+                                                  ['summary'],
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              child: Container(
-                                padding: EdgeInsets.all(10),
-                                child: Text(
-                                  moduleActions[index]['title'],
-                                  style: TextStyle(
-                                    color: ternaryColor,
-                                  ),
+                              Container(
+                                padding: EdgeInsets.all(20),
+                                width: double.infinity,
+                                color: ternaryColor,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.centerLeft,
+                                      margin: EdgeInsets.only(bottom: 16),
+                                      child: Text(
+                                        'Action points for you!',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: moduleActions.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) =>
+                                              Card(
+                                        margin: EdgeInsets.only(bottom: 12),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8),
+                                          ),
+                                        ),
+                                        child: Container(
+                                          padding: EdgeInsets.all(10),
+                                          child: Text(
+                                            moduleActions[index]['title'],
+                                            style: TextStyle(
+                                              color: ternaryColor,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                              )
+                            ],
+                          );
+                        }
+
+                        return Transform.scale(
+                          scale: 0.1,
+                          child: CircularProgressIndicator(),
+                        );
+                      },
                     )
                   ],
                 );
