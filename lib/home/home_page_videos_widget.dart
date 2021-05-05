@@ -11,11 +11,11 @@ class HomePageVideos extends StatefulWidget {
   HomePageVideos({
     Key? key,
     this.data,
-    this.apiBaseUrl,
+    this.assetsUrl,
   }) : super(key: key);
 
   final data;
-  final apiBaseUrl;
+  final assetsUrl;
 
   @override
   _HomePageVideosState createState() => _HomePageVideosState();
@@ -187,7 +187,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
                                   width:
                                       MediaQuery.of(context).size.width * 0.73,
                                   child: Image.network(
-                                      "${widget.apiBaseUrl}${videos[index]['videoImage']}"),
+                                      "${widget.assetsUrl}${videos[index]['videoImage']}"),
                                 )
                               ],
                             )
@@ -199,7 +199,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
                                   width:
                                       MediaQuery.of(context).size.width * 0.73,
                                   child: VideoPlayerWidget(
-                                    "${widget.apiBaseUrl}${videos[index]['videoUrl']}",
+                                    "${widget.assetsUrl}${videos[index]['videoUrl']}",
                                   ),
                                 ),
                               ],

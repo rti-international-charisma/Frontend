@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class HowCharismaWorks extends StatelessWidget {
-  const HowCharismaWorks({Key? key, this.data, this.apiBaseUrl})
+  const HowCharismaWorks({Key? key, this.data, this.assetsUrl})
       : super(key: key);
 
   final data;
-  final apiBaseUrl;
+  final assetsUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +33,10 @@ class HowCharismaWorks extends StatelessWidget {
                     Stack(
                       children: [
                         new Image.network(
-                          "$apiBaseUrl${data[index]['imageUrl']}",
+                          "$assetsUrl${data[index]['imageUrl']}",
                         ),
                         new Image.network(
-                          "$apiBaseUrl${data[index]['backgroundImageUrl']}",
+                          "$assetsUrl${data[index]['backgroundImageUrl']}",
                         ),
                         Positioned(
                           bottom: 20,

@@ -1,18 +1,12 @@
-import 'package:charisma/apiclient/api_client.dart';
-import 'package:charisma/common/network_image_builder.dart';
 import 'package:charisma/common/video_player_widget.dart';
 import 'package:charisma/home/home_page_widget.dart';
-import 'package:charisma/navigation/router_delegate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
 import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../util/network_image_builder_mock.dart';
+import '../util/utils.dart';
 
 void main() {
   var data = {
@@ -115,8 +109,10 @@ void main() {
       return Future<Map<String, dynamic>>.value(data);
     });
 
-    await tester
-        .pumpWidget(HomePageWidget(apiClient: apiClient).wrapWithMaterial());
+    await tester.pumpWidget(HomePageWidget(
+      apiClient: apiClient,
+      assetsUrl: Utils.assetsUrl,
+    ).wrapWithMaterial());
     await mockNetworkImagesFor(() => tester.pump());
     expect(find.byKey(ValueKey('HeroImage')), findsOneWidget);
 
@@ -135,8 +131,10 @@ void main() {
       return Future<Map<String, dynamic>>.value(data);
     });
 
-    await tester
-        .pumpWidget(HomePageWidget(apiClient: apiClient).wrapWithMaterial());
+    await tester.pumpWidget(HomePageWidget(
+      apiClient: apiClient,
+      assetsUrl: Utils.assetsUrl,
+    ).wrapWithMaterial());
     await mockNetworkImagesFor(() => tester.pump());
 
     // Step 1
@@ -187,7 +185,7 @@ void main() {
 
     await tester.pumpWidget(HomePageWidget(
       apiClient: apiClient,
-      apiBaseUrl: 'http://0.0.0.0:8080',
+      assetsUrl: Utils.assetsUrl,
     ).wrapWithMaterial());
     await mockNetworkImagesFor(() => tester.pump());
 
@@ -217,7 +215,7 @@ void main() {
         (videoSectionData['videos'] as List).elementAt(0)['videoUrl'];
     expect(videoPlayer, findsWidgets);
     expect((videoPlayer.evaluate().single.widget as VideoPlayerWidget).videoUrl,
-        equals('http://0.0.0.0:8080$videoUrl'));
+        equals('${Utils.assetsUrl}$videoUrl'));
     expect(videoActionButton, findsOneWidget);
     expect(
         ((videoActionButton.evaluate().single.widget as ElevatedButton).child
@@ -233,8 +231,10 @@ void main() {
       return Future<Map<String, dynamic>>.value(data);
     });
 
-    await tester
-        .pumpWidget(HomePageWidget(apiClient: apiClient).wrapWithMaterial());
+    await tester.pumpWidget(HomePageWidget(
+      apiClient: apiClient,
+      assetsUrl: Utils.assetsUrl,
+    ).wrapWithMaterial());
     await mockNetworkImagesFor(() => tester.pump());
 
     expect(
@@ -267,23 +267,4 @@ void main() {
             .data,
         equals('About Us'));
   });
-}
-
-class MockApiClient extends Mock implements ApiClient {}
-
-extension on Widget {
-  Widget wrapWithMaterial() => MultiProvider(
-        providers: [
-          Provider<NetworkImageBuilder>(
-              create: (ctx) => MockNetworkImageBuilder()),
-          Provider<Future<SharedPreferences>>(
-              create: (_) => SharedPreferences.getInstance()),
-          InheritedProvider<CharismaRouterDelegate>(
-              create: (ctx) => CharismaRouterDelegate(MockApiClient()))
-        ],
-        child: MaterialApp(
-            home: Scaffold(
-          body: this,
-        )),
-      );
 }

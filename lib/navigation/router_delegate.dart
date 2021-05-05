@@ -17,9 +17,9 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<PageConfiguration> {
   final List<Page> _pages = [];
   late ApiClient _apiClient;
-  CharismaRouterDelegate(this._apiClient);
-  static const _apiBaseUrl = String.fromEnvironment('API_BASEURL',
-      defaultValue: 'http://0.0.0.0:8080/api');
+  late String _apiBaseUrl;
+  late String _assetsUrl;
+  CharismaRouterDelegate(this._apiClient, this._apiBaseUrl, this._assetsUrl);
 
   /// Here we are storing the current list of pages
   List<MaterialPage> get pages => List.unmodifiable(_pages);
@@ -92,7 +92,7 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
         return PageData(
           HomePageWidget(
             apiClient: _apiClient,
-            apiBaseUrl: _apiBaseUrl,
+            assetsUrl: _assetsUrl,
           ),
           HomePageConfig,
         );
@@ -109,6 +109,7 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
           HALandingPageWidget(
             apiClient: _apiClient,
             apiBaseUrl: _apiBaseUrl,
+            assetsUrl: _assetsUrl,
           ),
           HALandingPageConfig,
         );
@@ -119,14 +120,17 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
         );
       case Pages.HAResults:
         return PageData(
-          HAResultsWidget(),
+          HAResultsWidget(
+            apiClient: _apiClient,
+            assetsUrl: _assetsUrl,
+          ),
           HAResultsConfig,
         );
       case Pages.AboutUs:
         return PageData(
           AboutUs(
             apiClient: _apiClient,
-            apiBaseUrl: _apiBaseUrl,
+            assetsUrl: _assetsUrl,
           ),
           AboutUsConfig,
         );

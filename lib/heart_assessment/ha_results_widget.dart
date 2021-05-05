@@ -10,18 +10,14 @@ import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
-import 'package:http/http.dart' as http;
-
 import 'package:provider/provider.dart';
 
 class HAResultsWidget extends StatelessWidget {
-  const HAResultsWidget({Key? key}) : super(key: key);
+  const HAResultsWidget({Key? key, this.apiClient, this.assetsUrl})
+      : super(key: key);
 
-  static const apiBaseUrl = 'http://0.0.0.0:5000/api';
-  static ApiClient apiClient = ApiClient(
-    http.Client(),
-    apiBaseUrl,
-  );
+  final ApiClient? apiClient;
+  final String? assetsUrl;
 
   num getSectionScore(List answersList) {
     return answersList.fold(
@@ -83,7 +79,7 @@ class HAResultsWidget extends StatelessWidget {
                 userData = data;
                 String? token = await SharedPreferenceHelper().getUserToken();
 
-                return await apiClient.getScores(token);
+                return await apiClient?.getScores(token);
               }
             }),
             builder: (context, data) {
@@ -258,14 +254,11 @@ class HAResultsWidget extends StatelessWidget {
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          SizedBox(
-                            height: 20,
-                          ),
                         ],
                       ),
                     ),
                     FutureBuilder(
-                      future: apiClient.getCounsellingModule(
+                      future: apiClient?.getCounsellingModule(
                           totalScore,
                           isPartnerAware
                               ? getConsentValueFromScore(
@@ -299,7 +292,7 @@ class HAResultsWidget extends StatelessWidget {
                                       },
                                     ),
                                     Image.network(
-                                      "$apiBaseUrl${moduleData['heroImage']['imageUrl']}",
+                                      "$assetsUrl${moduleData['heroImage']['imageUrl']}",
                                       fit: BoxFit.contain,
                                     ),
                                     SizedBox(

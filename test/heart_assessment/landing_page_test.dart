@@ -1,16 +1,11 @@
-import 'package:charisma/apiclient/api_client.dart';
-import 'package:charisma/common/network_image_builder.dart';
 import 'package:charisma/heart_assessment/ha_landing_page_widget.dart';
-import 'package:charisma/navigation/router_delegate.dart';
 import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
-import 'package:provider/provider.dart';
-
-import '../util/network_image_builder_mock.dart';
+import '../util/utils.dart';
 
 void main() {
   var pageContent = {
@@ -111,36 +106,3 @@ void main() {
     verify(routerDelegate.push(HeartAssessmentQuestionnaireConfig));
   });
 }
-
-class MockApiClient extends Mock implements ApiClient {}
-
-extension on Widget {
-  Widget wrapWithMaterial() => MultiProvider(
-        providers: [
-          Provider<NetworkImageBuilder>(
-              create: (ctx) => MockNetworkImageBuilder()),
-          InheritedProvider<CharismaRouterDelegate>(
-              create: (ctx) => CharismaRouterDelegate(MockApiClient()))
-        ],
-        child: MaterialApp(
-            home: Scaffold(
-          body: this,
-        )),
-      );
-}
-
-extension on Widget {
-  Widget wrapWithMaterialMockRouter(MockRouterDelegate routerDelegate) =>
-      MultiProvider(
-        providers: [
-          InheritedProvider<CharismaRouterDelegate>(
-              create: (ctx) => routerDelegate)
-        ],
-        child: MaterialApp(
-            home: Scaffold(
-          body: this,
-        )),
-      );
-}
-
-class MockRouterDelegate extends Mock implements CharismaRouterDelegate {}

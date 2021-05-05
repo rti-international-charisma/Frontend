@@ -8,10 +8,14 @@ import 'package:charisma/home/how_charisma_works_widget.dart';
 import 'package:flutter/material.dart';
 
 class HomePageWidget extends StatefulWidget {
-  HomePageWidget({Key? key, this.apiClient, this.apiBaseUrl}) : super(key: key);
+  HomePageWidget({
+    Key? key,
+    this.apiClient,
+    this.assetsUrl,
+  }) : super(key: key);
 
   final ApiClient? apiClient;
-  final String? apiBaseUrl;
+  final String? assetsUrl;
 
   @override
   _HomePageWidgetState createState() => _HomePageWidgetState();
@@ -38,21 +42,21 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     children: [
                       HeroImageWidget(
                         data: homeData!['heroImage'],
-                        apiBaseUrl: widget.apiBaseUrl,
+                        assetsUrl: widget.assetsUrl,
                       ),
                       SizedBox(
                         height: 30,
                       ),
                       HowCharismaWorks(
                         data: homeData['steps'],
-                        apiBaseUrl: widget.apiBaseUrl,
+                        assetsUrl: widget.assetsUrl,
                       ),
                       SizedBox(
                         height: 30,
                       ),
                       HomePageVideos(
                         data: homeData['videoSection'],
-                        apiBaseUrl: widget.apiBaseUrl,
+                        assetsUrl: widget.assetsUrl,
                       ),
                       HomePageLinks()
                     ],

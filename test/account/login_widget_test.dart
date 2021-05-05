@@ -1,16 +1,14 @@
 import 'package:charisma/account/login_page_widget.dart';
-import 'package:charisma/apiclient/api_client.dart';
-import 'package:charisma/navigation/router_delegate.dart';
 import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../util/utils.dart';
 
 void main() {
-  ApiClient apiClient = MockApiClient();
+  MockApiClient apiClient = MockApiClient();
   MockRouterDelegate routerDelegate = MockRouterDelegate();
 
   testWidgets('should render form fields', (WidgetTester tester) async {
@@ -109,34 +107,3 @@ void main() {
     verify(routerDelegate.push(HomePageConfig));
   });
 }
-
-extension on Widget {
-  Widget wrapWithMaterial() => MultiProvider(
-        providers: [
-          InheritedProvider<CharismaRouterDelegate>(
-              create: (ctx) => CharismaRouterDelegate(MockApiClient()))
-        ],
-        child: MaterialApp(
-            home: Scaffold(
-          body: this,
-        )),
-      );
-}
-
-extension on Widget {
-  Widget wrapWithMaterialMockRouter(MockRouterDelegate routerDelegate) =>
-      MultiProvider(
-        providers: [
-          InheritedProvider<CharismaRouterDelegate>(
-              create: (ctx) => routerDelegate)
-        ],
-        child: MaterialApp(
-            home: Scaffold(
-          body: this,
-        )),
-      );
-}
-
-class MockApiClient extends Mock implements ApiClient {}
-
-class MockRouterDelegate extends Mock implements CharismaRouterDelegate {}
