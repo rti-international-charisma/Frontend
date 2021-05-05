@@ -11,7 +11,6 @@ class HeroImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("$assetsUrl${data!['imageUrl']}");
     return Stack(children: <Widget>[
       new Image.network(
         "$assetsUrl${data!['imageUrl']}",
