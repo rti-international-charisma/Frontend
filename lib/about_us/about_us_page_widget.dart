@@ -6,17 +6,19 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
 
 class AboutUs extends StatelessWidget {
-  const AboutUs({Key? key, this.apiClient, this.apiBaseUrl}) : super(key: key);
+  const AboutUs({
+    Key? key,
+    this.apiClient,
+    this.assetsUrl,
+  }) : super(key: key);
 
   final ApiClient? apiClient;
-  final String? apiBaseUrl;
+  final String? assetsUrl;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CharismaAppBar(
-        apiClient: apiClient,
-      ),
+      appBar: CharismaAppBar(),
       body: SafeArea(
         child: FutureBuilder<Map<String, dynamic>?>(
           future: apiClient?.get<Map<String, dynamic>?>('/aboutus'),
@@ -32,7 +34,7 @@ class AboutUs extends StatelessWidget {
                       children: [
                         Container(
                           child: new Image.network(
-                            "$apiBaseUrl${aboutUsData!['images'][0]['imageUrl']}",
+                            "$assetsUrl${aboutUsData!['images'][1]['imageUrl']}",
                             fit: BoxFit.cover,
                             width: double.infinity,
                             alignment: Alignment.center,
@@ -69,18 +71,22 @@ class AboutUs extends StatelessWidget {
                         SizedBox(
                           height: 10,
                         ),
-                        Text(
-                          aboutUsData['images'][1]['title'],
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14,
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          padding: EdgeInsets.only(left: 20),
+                          child: Text(
+                            aboutUsData['images'][0]['title'],
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14,
+                            ),
+                            key: ValueKey('AboutUsHEARTTitle'),
                           ),
-                          key: ValueKey('AboutUsHEARTTitle'),
                         ),
                         Container(
                           padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
                           child: new Image.network(
-                            "$apiBaseUrl${aboutUsData['images'][1]['imageUrl']}",
+                            "$assetsUrl${aboutUsData['images'][0]['imageUrl']}",
                             fit: BoxFit.contain,
                             width: double.infinity,
                             alignment: Alignment.center,

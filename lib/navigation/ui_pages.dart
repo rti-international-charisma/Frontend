@@ -3,8 +3,10 @@ const String LoginPath = '/login';
 const String SignUpPath = '/singUp';
 const String ProfilePath = '/profile';
 const String ForgotPasswordPath = '/forgotpassword';
-const String HeartAssessmentPath = '/assessment/intro';
-const String HeartAssessmentQuestionnairePath = '/heart_assessment_questionnaire';
+const String HALandingPagePath = '/assessment/intro';
+const String HeartAssessmentQuestionnairePath =
+    '/heart_assessment_questionnaire';
+const String HAResultsPath = '/assessment/results';
 const String AboutUsPath = '/aboutus';
 
 enum Pages {
@@ -13,8 +15,9 @@ enum Pages {
   SignUp,
   Profile,
   ForgotPassword,
-  HeartAssessment,
+  HALandingPage,
   HeartAssessmentQuestionnaire,
+  HAResults,
   AboutUs,
 }
 
@@ -52,15 +55,21 @@ const PageConfiguration ForgotPasswordConfig = PageConfiguration(
   path: ForgotPasswordPath,
   uiPage: Pages.ForgotPassword,
 );
-const PageConfiguration HeartAssessmentConfig = PageConfiguration(
-    key: 'HeartAssessment',
-    path: HeartAssessmentPath,
-    uiPage: Pages.HeartAssessment);
-const PageConfiguration HeartAssessmentQuestionnaireConfig =
-PageConfiguration(
-    key: 'HeartAssessmentQuestionnaire',
-    path: HeartAssessmentQuestionnairePath,
-    uiPage: Pages.HeartAssessmentQuestionnaire);
+const PageConfiguration HALandingPageConfig = PageConfiguration(
+  key: 'HALandingPage',
+  path: HALandingPagePath,
+  uiPage: Pages.HALandingPage,
+);
+const PageConfiguration HeartAssessmentQuestionnaireConfig = PageConfiguration(
+  key: 'HeartAssessmentQuestionnaire',
+  path: HeartAssessmentQuestionnairePath,
+  uiPage: Pages.HeartAssessmentQuestionnaire,
+);
+const PageConfiguration HAResultsConfig = PageConfiguration(
+  key: 'HAResults',
+  path: HAResultsPath,
+  uiPage: Pages.HAResults,
+);
 const PageConfiguration AboutUsConfig = PageConfiguration(
   key: 'AboutUs',
   path: AboutUsPath,

@@ -1,7 +1,8 @@
 import 'package:charisma/about_us/about_us_page_widget.dart';
 import 'package:charisma/account/forgot_password_widget.dart';
-import 'package:charisma/heart_assessment/heart_assessment_landing_page_widget.dart';
+import 'package:charisma/heart_assessment/ha_landing_page_widget.dart';
 import 'package:charisma/heart_assessment/heart_assessment_questionnaire.dart';
+import 'package:charisma/heart_assessment/ha_results_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:charisma/account/login_page_widget.dart';
 import 'package:charisma/account/profile_page_widget.dart';
@@ -16,9 +17,9 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<PageConfiguration> {
   final List<Page> _pages = [];
   late ApiClient _apiClient;
-  CharismaRouterDelegate(this._apiClient);
-  static const _apiBaseUrl = String.fromEnvironment('API_BASEURL',
-      defaultValue: 'http://0.0.0.0:8080/api');
+  late String _apiBaseUrl;
+  late String _assetsUrl;
+  CharismaRouterDelegate(this._apiClient, this._apiBaseUrl, this._assetsUrl);
 
   /// Here we are storing the current list of pages
   List<MaterialPage> get pages => List.unmodifiable(_pages);
@@ -91,7 +92,7 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
         return PageData(
           HomePageWidget(
             apiClient: _apiClient,
-            apiBaseUrl: _apiBaseUrl,
+            assetsUrl: _assetsUrl,
           ),
           HomePageConfig,
         );
@@ -103,20 +104,33 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
         return PageData(ProfileWidget(), ProfileConfig);
       case Pages.ForgotPassword:
         return PageData(ForgotPasswordWidget(), ForgotPasswordConfig);
-      case Pages.HeartAssessment:
+      case Pages.HALandingPage:
         return PageData(
-            HeartAssessmentLandingPageWidget(
-              apiClient: _apiClient,
-              apiBaseUrl: _apiBaseUrl,
-            ),
-            HeartAssessmentConfig);
+          HALandingPageWidget(
+            apiClient: _apiClient,
+            apiBaseUrl: _apiBaseUrl,
+            assetsUrl: _assetsUrl,
+          ),
+          HALandingPageConfig,
+        );
       case Pages.HeartAssessmentQuestionnaire:
-        return PageData(HeartAssessmentQuestionnaireWidget(apiClient: _apiClient), HeartAssessmentQuestionnaireConfig);
+        return PageData(
+          HeartAssessmentQuestionnaireWidget(apiClient: _apiClient),
+          HeartAssessmentQuestionnaireConfig,
+        );
+      case Pages.HAResults:
+        return PageData(
+          HAResultsWidget(
+            apiClient: _apiClient,
+            assetsUrl: _assetsUrl,
+          ),
+          HAResultsConfig,
+        );
       case Pages.AboutUs:
         return PageData(
           AboutUs(
             apiClient: _apiClient,
-            apiBaseUrl: _apiBaseUrl,
+            assetsUrl: _assetsUrl,
           ),
           AboutUsConfig,
         );

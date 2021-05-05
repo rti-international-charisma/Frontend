@@ -4,8 +4,6 @@ import 'package:http/http.dart';
 
 import 'dart:convert' as convert;
 
-import 'package:shared_preferences/shared_preferences.dart';
-
 class ApiClient {
   final Client _client;
   final String _baseUrl;
@@ -31,6 +29,43 @@ class ApiClient {
     throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
   }
 
+  Future<T>? getCounsellingModule<T>(num score, String? consent) async {
+    var api = _baseUrl.endsWith("/")
+        ? _baseUrl.substring(0, _baseUrl.length - 1)
+        : _baseUrl;
+    var response = await _client.get(
+      Uri.parse(
+          "$api/assessment/module?partner_score=$score&prep_consent=$consent"),
+      headers: {..._headers},
+    );
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return convert.jsonDecode(response.body) as T;
+    }
+
+    throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
+  }
+
+  Future<T>? getScores<T>(String? userToken) async {
+    var api = _baseUrl.endsWith("/")
+        ? _baseUrl.substring(0, _baseUrl.length - 1)
+        : _baseUrl;
+
+    var response = await _client.get(
+      Uri.parse("$api/assessment/scores"),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $userToken',
+      },
+    );
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return convert.jsonDecode(response.body) as T;
+    }
+
+    throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
+  }
+
   Future<T>? post<T>(String path, Map<String, dynamic> body) async {
     var api = _baseUrl.endsWith("/")
         ? _baseUrl.substring(0, _baseUrl.length - 1)
@@ -51,7 +86,8 @@ class ApiClient {
     throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
   }
 
-  Future<T>? postWithHeaders<T>(String path, Map<String, dynamic> body, Map<String, String> headers) async {
+  Future<T>? postWithHeaders<T>(String path, Map<String, dynamic> body,
+      Map<String, String> headers) async {
     var api = _baseUrl.endsWith("/")
         ? _baseUrl.substring(0, _baseUrl.length - 1)
         : _baseUrl;
@@ -70,17 +106,6 @@ class ApiClient {
 
     print("Response : Throwing error");
     throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
-  }
-
-  Future<T>? getUserData<T>() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var userDataEncoded = prefs.getString('userData');
-
-    if (userDataEncoded == null) {
-      return Map() as T;
-    } else {
-      return convert.jsonDecode(userDataEncoded)['user'] as T;
-    }
   }
 
   ApiClient withAdditionalHeaders(Map<String, String> headers) {

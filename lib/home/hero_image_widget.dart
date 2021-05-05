@@ -3,17 +3,17 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
 
 class HeroImageWidget extends StatelessWidget {
-  const HeroImageWidget({Key? key, this.data, this.apiBaseUrl})
+  const HeroImageWidget({Key? key, this.data, this.assetsUrl})
       : super(key: key);
 
   final data;
-  final apiBaseUrl;
+  final assetsUrl;
 
   @override
   Widget build(BuildContext context) {
     return Stack(children: <Widget>[
       new Image.network(
-        "$apiBaseUrl${data!['imageUrl']}",
+        "$assetsUrl${data!['imageUrl']}",
         fit: BoxFit.cover,
         width: double.infinity,
         alignment: Alignment.center,

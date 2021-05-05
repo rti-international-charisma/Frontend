@@ -1,16 +1,10 @@
 import 'package:charisma/about_us/about_us_page_widget.dart';
-import 'package:charisma/apiclient/api_client.dart';
-import 'package:charisma/common/network_image_builder.dart';
-import 'package:charisma/navigation/router_delegate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../util/network_image_builder_mock.dart';
+import '../util/utils.dart';
 
 void main() {
   var pageContent = {
@@ -33,14 +27,13 @@ void main() {
   testWidgets('It renders all the content as expected',
       (WidgetTester tester) async {
     final apiClient = MockApiClient();
-    const apiBaseUrl = 'http://0.0.0.0:8080';
 
     when(apiClient.get('/aboutus')).thenAnswer(
         (realInvocation) => Future<Map<String, dynamic>>.value(pageContent));
 
     await tester.pumpWidget(AboutUs(
       apiClient: apiClient,
-      apiBaseUrl: apiBaseUrl,
+      assetsUrl: Utils.assetsUrl,
     ).wrapWithMaterial());
     await mockNetworkImagesFor(() => tester.pump());
 
@@ -49,7 +42,7 @@ void main() {
                 as Image)
             .image,
         equals(NetworkImage(
-            "$apiBaseUrl${(pageContent['images'] as List).elementAt(0)['imageUrl']}")));
+            "${Utils.assetsUrl}${(pageContent['images'] as List).elementAt(1)['imageUrl']}")));
     expect(
         (find.byKey(ValueKey('AboutUsTitle')).evaluate().single.widget as Text)
             .data,
@@ -72,36 +65,17 @@ void main() {
         (find.byKey(ValueKey('AboutUsHEARTTitle')).evaluate().single.widget
                 as Text)
             .data,
-        equals((pageContent['images'] as List).elementAt(1)['title']));
+        equals((pageContent['images'] as List).elementAt(0)['title']));
     expect(
         (find.byKey(ValueKey('AboutUsHEARTImage')).evaluate().single.widget
                 as Image)
             .image,
         equals(NetworkImage(
-            "$apiBaseUrl${(pageContent['images'] as List).elementAt(1)['imageUrl']}")));
+            "${Utils.assetsUrl}${(pageContent['images'] as List).elementAt(0)['imageUrl']}")));
     expect(
         (find.byKey(ValueKey('AboutUsSummary')).evaluate().single.widget
                 as Html)
             .data,
         equals(pageContent['summary']));
   });
-}
-
-class MockApiClient extends Mock implements ApiClient {}
-
-extension on Widget {
-  Widget wrapWithMaterial() => MultiProvider(
-        providers: [
-          Provider<NetworkImageBuilder>(
-              create: (ctx) => MockNetworkImageBuilder()),
-          Provider<Future<SharedPreferences>>(
-              create: (_) => SharedPreferences.getInstance()),
-          InheritedProvider<CharismaRouterDelegate>(
-              create: (ctx) => CharismaRouterDelegate(MockApiClient()))
-        ],
-        child: MaterialApp(
-            home: Scaffold(
-          body: this,
-        )),
-      );
 }
