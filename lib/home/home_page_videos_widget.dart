@@ -1,5 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:charisma/apiclient/api_client.dart';
+import 'package:charisma/common/shared_preference_helper.dart';
 import 'package:charisma/common/video_player_widget.dart';
 import 'package:charisma/navigation/charisma_parser.dart';
 import 'package:charisma/navigation/router_delegate.dart';
@@ -11,12 +11,10 @@ class HomePageVideos extends StatefulWidget {
   HomePageVideos({
     Key? key,
     this.data,
-    @required this.apiClient,
     this.apiBaseUrl,
   }) : super(key: key);
 
   final data;
-  final ApiClient? apiClient;
   final apiBaseUrl;
 
   @override
@@ -32,7 +30,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
     final routerDelegate = Provider.of<CharismaRouterDelegate>(context);
 
     return FutureBuilder<Map<String, dynamic>?>(
-      future: widget.apiClient?.getUserData(),
+      future: SharedPreferenceHelper().getUserData(),
       builder: (context, data) {
         bool isUserLoggedIn = data.hasData && data.data!.isNotEmpty;
 

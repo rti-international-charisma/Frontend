@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/network_image_builder.dart';
+import 'package:charisma/common/shared_preference_helper.dart';
 
 import 'package:charisma/home/home_page_videos_widget.dart';
 
@@ -81,11 +82,8 @@ void main() {
   testWidgets(
       'It displays videos widget, showing only public videos when user is not signed in',
       (WidgetTester tester) async {
-    final apiClient = MockApiClient();
-
     await tester.pumpWidget(HomePageVideos(
       data: data['videoSection'],
-      apiClient: apiClient,
       apiBaseUrl: 'http://0.0.0.0:8080',
     ).wrapWithMaterial());
     await mockNetworkImagesFor(() => tester.pump());
@@ -114,7 +112,7 @@ void main() {
   testWidgets(
       'It displays videos widget, showing both private & public videos when user is signed in',
       (WidgetTester tester) async {
-    final apiClient = MockApiClient();
+    final sharedPreferenceHelper = MockSharedPreferencesHelper();
 
     SharedPreferences.setMockInitialValues({});
 
@@ -132,11 +130,10 @@ void main() {
     userData.then((value) =>
         preferences.setString('userData', convert.jsonEncode(value)));
 
-    when(apiClient.getUserData()).thenAnswer((_) => userData);
+    when(sharedPreferenceHelper.getUserData()).thenAnswer((_) => userData);
 
     await tester.pumpWidget(HomePageVideos(
       data: data['videoSection'],
-      apiClient: apiClient,
       apiBaseUrl: 'http://0.0.0.0:8080',
     ).wrapWithMaterial());
     await mockNetworkImagesFor(() => tester.pump());
@@ -167,6 +164,9 @@ void main() {
 }
 
 class MockApiClient extends Mock implements ApiClient {}
+
+class MockSharedPreferencesHelper extends Mock
+    implements SharedPreferenceHelper {}
 
 extension on Widget {
   Widget wrapWithMaterial() => MultiProvider(

@@ -14,9 +14,7 @@ class AboutUs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CharismaAppBar(
-        apiClient: apiClient,
-      ),
+      appBar: CharismaAppBar(),
       body: SafeArea(
         child: FutureBuilder<Map<String, dynamic>?>(
           future: apiClient?.get<Map<String, dynamic>?>('/aboutus'),

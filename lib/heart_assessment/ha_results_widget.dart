@@ -1,23 +1,23 @@
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/charisma_appbar_widget.dart';
 import 'package:charisma/common/charisma_expandable_widget.dart';
+import 'package:charisma/common/shared_preference_helper.dart';
 import 'package:charisma/constants.dart';
-import 'package:charisma/heart_assessment/heart_assessment_result_model.dart';
+
 import 'package:charisma/navigation/router_delegate.dart';
 import 'package:charisma/navigation/ui_pages.dart';
-import 'package:expandable/expandable.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
 import 'package:http/http.dart' as http;
-import 'dart:math' as math;
 
 import 'package:provider/provider.dart';
 
 class HAResultsWidget extends StatelessWidget {
   const HAResultsWidget({Key? key}) : super(key: key);
 
-  static const apiBaseUrl = 'http://0.0.0.0:8080';
+  static const apiBaseUrl = 'http://0.0.0.0:5000/api';
   static ApiClient apiClient = ApiClient(
     http.Client(),
     apiBaseUrl,
@@ -53,7 +53,6 @@ class HAResultsWidget extends StatelessWidget {
         return 'oppose';
       case 4:
         return 'unaware';
-      default:
     }
   }
 
@@ -67,17 +66,25 @@ class HAResultsWidget extends StatelessWidget {
     num totalScore;
 
     return Scaffold(
-      appBar: CharismaAppBar(
-        apiClient: apiClient,
-      ),
+      appBar: CharismaAppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: FutureBuilder(
-            future: apiClient.getUserData()?.then((data) async {
-              userData = data['user'];
+            future: SharedPreferenceHelper().getUserData()?.then((data) async {
+              // If user is not logged in, then get the data stored on frontend
+              // Else get it from the API
+              if (data.isEmpty) {
+                Map<String, dynamic>? results =
+                    await SharedPreferenceHelper().getResultsData();
 
-              return await apiClient.getScores(data['token']);
+                return results;
+              } else {
+                userData = data;
+                String? token = await SharedPreferenceHelper().getUserToken();
+
+                return await apiClient.getScores(token);
+              }
             }),
             builder: (context, data) {
               if (data.hasData) {
@@ -94,10 +101,10 @@ class HAResultsWidget extends StatelessWidget {
                     .where((section) =>
                         section['sectionType'] == 'PARTNER ABUSE AND CONTROL')
                     .toList()[0];
-                print('PARTNER CONTEXT === $partnerContextSection');
+
                 isPartnerAware =
                     partnerContextSection!['answers'][1]['score'] == 1;
-                print('IS AWARE -- $isPartnerAware');
+
                 totalScore =
                     getSectionScore(abuseAndControlSection!['answers']);
 
@@ -134,13 +141,14 @@ class HAResultsWidget extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        'Hey ${userData!['username']},',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700,
+                                      if (userData != null)
+                                        Text(
+                                          'Hey ${userData!['username']},',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w700,
+                                          ),
                                         ),
-                                      ),
                                       SizedBox(
                                         height: 10,
                                       ),

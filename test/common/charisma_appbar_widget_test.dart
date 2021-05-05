@@ -1,6 +1,7 @@
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/charisma_appbar_widget.dart';
 import 'package:charisma/common/network_image_builder.dart';
+import 'package:charisma/common/shared_preference_helper.dart';
 
 import 'package:charisma/navigation/router_delegate.dart';
 import 'package:flutter/material.dart';
@@ -19,10 +20,7 @@ void main() {
   testWidgets(
       'It displays app bar containing Charisma logo, Sign Up and Login link, instead of the user greeting when the user is not signed in',
       (WidgetTester tester) async {
-    final apiClient = MockApiClient();
-
-    await tester
-        .pumpWidget(CharismaAppBar(apiClient: apiClient).wrapWithMaterial());
+    await tester.pumpWidget(CharismaAppBar().wrapWithMaterial());
     await mockNetworkImagesFor(() => tester.pump());
 
     expect(find.byKey(ValueKey('SignUpLink')), findsOneWidget);
@@ -34,7 +32,7 @@ void main() {
   testWidgets(
       'It displays user greeting in the app bar when signed in, instead of the Sign Up & Login links',
       (WidgetTester tester) async {
-    final apiClient = MockApiClient();
+    final sharedPreferenceHelper = MockSharedPreferencesHelper();
     SharedPreferences.setMockInitialValues({});
 
     var userData = Future<Map<String, dynamic>>.value({
@@ -50,10 +48,9 @@ void main() {
     userData.then((value) =>
         preferences.setString('userData', convert.jsonEncode(value)));
 
-    when(apiClient.getUserData()).thenAnswer((_) => userData);
+    when(sharedPreferenceHelper.getUserData()).thenAnswer((_) => userData);
 
-    await tester
-        .pumpWidget(CharismaAppBar(apiClient: apiClient).wrapWithMaterial());
+    await tester.pumpWidget(CharismaAppBar().wrapWithMaterial());
     await mockNetworkImagesFor(() => tester.pump());
 
     expect(find.byKey(ValueKey('SignUpLink')), findsNothing);
@@ -70,6 +67,9 @@ void main() {
 }
 
 class MockApiClient extends Mock implements ApiClient {}
+
+class MockSharedPreferencesHelper extends Mock
+    implements SharedPreferenceHelper {}
 
 extension on Widget {
   Widget wrapWithMaterial() => MultiProvider(

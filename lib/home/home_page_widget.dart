@@ -23,9 +23,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CharismaAppBar(
-        apiClient: widget.apiClient,
-      ),
+      appBar: CharismaAppBar(),
       body: SafeArea(
         child: FutureBuilder<Map<String, dynamic>?>(
           future: widget.apiClient?.get<Map<String, dynamic>?>('/home'),
@@ -54,7 +52,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       ),
                       HomePageVideos(
                         data: homeData['videoSection'],
-                        apiClient: widget.apiClient,
                         apiBaseUrl: widget.apiBaseUrl,
                       ),
                       HomePageLinks()
