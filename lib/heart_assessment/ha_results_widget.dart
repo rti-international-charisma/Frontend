@@ -163,7 +163,7 @@ class HAResultsWidget extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     border: Border(
                                       top: BorderSide(
-                                        color: Colors.black,
+                                        color: Colors.black.withOpacity(0.04),
                                       ),
                                     ),
                                   ),
