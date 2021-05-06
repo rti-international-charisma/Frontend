@@ -2,6 +2,7 @@ import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/charisma_appbar_widget.dart';
 import 'package:charisma/common/charisma_expandable_widget.dart';
 import 'package:charisma/common/shared_preference_helper.dart';
+import 'package:charisma/common/video_player_widget.dart';
 import 'package:charisma/constants.dart';
 
 import 'package:charisma/navigation/router_delegate.dart';
@@ -258,12 +259,7 @@ class HAResultsWidget extends StatelessWidget {
                       ),
                     ),
                     FutureBuilder(
-                      future: apiClient?.getCounsellingModule(
-                          totalScore,
-                          isPartnerAware
-                              ? getConsentValueFromScore(
-                                  partnerContextSection!['answers'][2]['score'])
-                              : 'unaware'),
+                      future: apiClient?.getCounsellingModule(5, 'agree'),
                       builder: (context, data) {
                         if (data.hasData) {
                           var moduleData = data.data as Map<String, dynamic>;
@@ -291,10 +287,19 @@ class HAResultsWidget extends StatelessWidget {
                                         'body': Style(color: infoTextColor)
                                       },
                                     ),
-                                    Image.network(
-                                      "$assetsUrl${moduleData['heroImage']['imageUrl']}",
-                                      fit: BoxFit.contain,
-                                    ),
+                                    if (moduleData['moduleImage'] != null)
+                                      Image.network(
+                                        "$assetsUrl${moduleData['moduleImage']['imageUrl']}",
+                                        fit: BoxFit.contain,
+                                      ),
+                                    if (moduleData['moduleVideo'] != null)
+                                      Container(
+                                        height: 200,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: VideoPlayerWidget(
+                                            "$assetsUrl${moduleData['moduleVideo']['videoUrl']}"),
+                                      ),
                                     SizedBox(
                                       height: 10,
                                     ),
