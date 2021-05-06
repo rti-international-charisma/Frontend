@@ -201,7 +201,7 @@ class HAResultsWidget extends StatelessWidget {
                                             ),
                                             Container(
                                               margin: EdgeInsets.fromLTRB(
-                                                  3, 10, 3, 0),
+                                                  3, 5, 3, 0),
                                               padding: EdgeInsets.all(10),
                                               decoration: BoxDecoration(
                                                 color: textBorderColor,
@@ -259,7 +259,12 @@ class HAResultsWidget extends StatelessWidget {
                       ),
                     ),
                     FutureBuilder(
-                      future: apiClient?.getCounsellingModule(5, 'agree'),
+                      future: apiClient?.getCounsellingModule(
+                          totalScore,
+                          isPartnerAware
+                              ? getConsentValueFromScore(
+                                  partnerContextSection!['answers'][2]['score'])
+                              : 'unaware'),
                       builder: (context, data) {
                         if (data.hasData) {
                           var moduleData = data.data as Map<String, dynamic>;
