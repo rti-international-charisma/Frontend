@@ -2,8 +2,11 @@
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/charisma_dropdown_widget.dart';
 import 'package:charisma/common/charisma_textformfield_widget.dart';
+import 'package:charisma/navigation/router_delegate.dart';
+import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../constants.dart';
 
@@ -22,25 +25,18 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey = GlobalKey<ScaffoldMessengerState>();
   final TextEditingController _usernameCtrl = TextEditingController();
-  final TextEditingController _passwordCtrl = TextEditingController();
-  final TextEditingController _passwordConfirmCtrl = TextEditingController();
   final TextEditingController _securityQuestionAnswerCtrl = TextEditingController();
-
-  final _passwordFocusNode = FocusNode();
-  final _confirmPasswordFocusNode = FocusNode();
 
   Future<List<Map<String, dynamic>>?>? getSecurityQuestionsFuture;
 
   @override
   Widget build(BuildContext context) {
-    print('build-----');
+    final routerDelegate = Provider.of<CharismaRouterDelegate>(context);
     return FutureBuilder(
         future: widget.apiClient.get('/securityquestions/'),
         builder: (context, data) {
-          print('DATA----- ${data.data}');
           if (data.hasData) {
             var allSecurityQuestions = data.data! as List<dynamic>;
-
             return  Scaffold(
               appBar:  AppBar(
                 toolbarHeight: 98,
@@ -59,7 +55,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 20, right: 20),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             SizedBox(height: 40),
                             Text(
@@ -77,7 +73,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                             ),
                             SizedBox(height: 24),
                             CharismaDropdown(
-                                key: ValueKey(''),
+                                key: ValueKey('FPSecQuestionDP'),
                                 fieldName: 'Security Question',
                                 items: toDropDownItems(allSecurityQuestions),
                                 onChanged: (CharismaDropDownItem? item) {
@@ -90,23 +86,8 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                               controller: _securityQuestionAnswerCtrl,
                             ),
                             SizedBox(height: 24),
-                            CharismaTextFormField(
-                              fieldKey: 'FPPassword',
-                              isObscurable: true,
-                              fieldName: 'Create Password',
-                              controller: _passwordCtrl,
-                              focusNode: _passwordFocusNode,
-                            ),
-                            SizedBox(height: 24),
-                            CharismaTextFormField(
-                              fieldKey: 'FPConfirmPassword',
-                              isObscurable: true,
-                              fieldName: 'Confirm Password',
-                              controller: _passwordConfirmCtrl,
-                              focusNode: _confirmPasswordFocusNode,
-                            ),
-                            SizedBox(height: 24),
                             SizedBox(
+                              key: ValueKey('FPNewPassButton'),
                               height: 39,
                               width: double.infinity,
                               child: ElevatedButton(
@@ -118,6 +99,22 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                                     primary: ternaryColor,
                                   )
                               ),
+                            ),
+                            SizedBox(height: 35),
+                            Text(
+                                'Can’t remember the answer to your security question?',
+                                style: TextStyle (
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 15
+                                ),
+                            ),
+                            SizedBox(height: 8),
+                            TextButton(
+                                key: Key('FPRegisterButtonKey'),
+                                onPressed: () {
+                                  routerDelegate.push(SignUpConfig);
+                                },
+                                child: Text('Register for a new account')
                             )
                           ],
                         ),
