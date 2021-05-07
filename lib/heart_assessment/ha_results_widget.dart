@@ -130,6 +130,7 @@ class HAResultsWidget extends StatelessWidget {
                               ),
                             ),
                             child: Column(
+                              key: ValueKey('ScoresSection'),
                               children: [
                                 Container(
                                   padding: EdgeInsets.all(16),
@@ -145,6 +146,7 @@ class HAResultsWidget extends StatelessWidget {
                                             fontSize: 20,
                                             fontWeight: FontWeight.w700,
                                           ),
+                                          key: ValueKey('UserGreeting'),
                                         ),
                                       SizedBox(
                                         height: 10,
@@ -175,6 +177,8 @@ class HAResultsWidget extends StatelessWidget {
                                         itemBuilder:
                                             (BuildContext context, int index) =>
                                                 Column(
+                                          key: ValueKey(
+                                              'SectionScore&Explanation'),
                                           children: [
                                             Row(
                                               children: [
@@ -187,6 +191,8 @@ class HAResultsWidget extends StatelessWidget {
                                                       fontWeight:
                                                           FontWeight.w700,
                                                     ),
+                                                    key: ValueKey(
+                                                        'SectionType$index'),
                                                   ),
                                                 ),
                                                 Text(
@@ -196,6 +202,8 @@ class HAResultsWidget extends StatelessWidget {
                                                     fontWeight: FontWeight.w700,
                                                   ),
                                                   textAlign: TextAlign.right,
+                                                  key: ValueKey(
+                                                      'SectionScore$index'),
                                                 ),
                                               ],
                                             ),
@@ -213,6 +221,8 @@ class HAResultsWidget extends StatelessWidget {
                                               child: Text(
                                                 '${getSectionScoreExplanation(sectionScores[index]['sectionType'])}',
                                                 style: TextStyle(fontSize: 12),
+                                                key: ValueKey(
+                                                    'SectionExplanation$index'),
                                               ),
                                             ),
                                             SizedBox(
@@ -236,6 +246,7 @@ class HAResultsWidget extends StatelessWidget {
                                     ),
                                   ),
                                   child: TextButton(
+                                    key: ValueKey('TakeTheTestButton'),
                                     child: Text(
                                       'Take the test again',
                                       style: TextStyle(color: Colors.white),
@@ -276,6 +287,7 @@ class HAResultsWidget extends StatelessWidget {
                           return Column(
                             children: [
                               Container(
+                                key: ValueKey('CounsellingModule'),
                                 padding: EdgeInsets.all(20),
                                 child: Column(
                                   children: [
@@ -285,20 +297,24 @@ class HAResultsWidget extends StatelessWidget {
                                         fontSize: 36,
                                         fontWeight: FontWeight.w700,
                                       ),
+                                      key: ValueKey('CounsellingModuleTitle'),
                                     ),
                                     Html(
                                       data: moduleData['introduction'],
                                       style: {
                                         'body': Style(color: infoTextColor)
                                       },
+                                      key: ValueKey('CounsellingModuleIntro'),
                                     ),
                                     if (moduleData['moduleImage'] != null)
                                       Image.network(
                                         "$assetsUrl${moduleData['moduleImage']['imageUrl']}",
                                         fit: BoxFit.contain,
+                                        key: ValueKey('ModuleImage'),
                                       ),
                                     if (moduleData['moduleVideo'] != null)
                                       Container(
+                                        key: ValueKey('ModuleVideo'),
                                         height: 200,
                                         width:
                                             MediaQuery.of(context).size.width,
@@ -327,11 +343,15 @@ class HAResultsWidget extends StatelessWidget {
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w700,
                                               ),
+                                              key: ValueKey(
+                                                  'SectionTitle$sectionIndex'),
                                             ),
                                           ),
                                           Html(
                                             data: moduleSections[sectionIndex]
                                                 ['introduction'],
+                                            key: ValueKey(
+                                                'SectionIntro$sectionIndex'),
                                           ),
                                           if (moduleSections[sectionIndex]
                                                   ['accordionContent'] !=
@@ -355,6 +375,8 @@ class HAResultsWidget extends StatelessWidget {
                                                             ['accordionContent']
                                                         [accordionIndex]
                                                     ['description'],
+                                                key: ValueKey(
+                                                    'SectionAccordion$sectionIndex-$accordionIndex'),
                                               ),
                                             ),
                                           if (moduleSections[sectionIndex]
@@ -363,6 +385,8 @@ class HAResultsWidget extends StatelessWidget {
                                             Html(
                                               data: moduleSections[sectionIndex]
                                                   ['summary'],
+                                              key: ValueKey(
+                                                  'SectionSummary$sectionIndex'),
                                             ),
                                         ],
                                       ),
@@ -371,6 +395,7 @@ class HAResultsWidget extends StatelessWidget {
                                 ),
                               ),
                               Container(
+                                key: ValueKey('ActionPoints'),
                                 padding: EdgeInsets.all(20),
                                 width: double.infinity,
                                 color: ternaryColor,
@@ -407,6 +432,7 @@ class HAResultsWidget extends StatelessWidget {
                                             style: TextStyle(
                                               color: ternaryColor,
                                             ),
+                                            key: ValueKey('ActionPoint$index'),
                                           ),
                                         ),
                                       ),

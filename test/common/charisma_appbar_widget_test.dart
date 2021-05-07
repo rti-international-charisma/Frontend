@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
-import 'package:mockito/mockito.dart';
 import 'dart:convert' as convert;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../util/utils.dart';
@@ -25,7 +24,6 @@ void main() {
   testWidgets(
       'It displays user greeting in the app bar when signed in, instead of the Sign Up & Login links',
       (WidgetTester tester) async {
-    final sharedPreferenceHelper = MockSharedPreferencesHelper();
     SharedPreferences.setMockInitialValues({});
 
     var userData = Future<Map<String, dynamic>>.value({
@@ -40,8 +38,6 @@ void main() {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     userData.then((value) =>
         preferences.setString('userData', convert.jsonEncode(value)));
-
-    when(sharedPreferenceHelper.getUserData()).thenAnswer((_) => userData);
 
     await tester.pumpWidget(CharismaAppBar().wrapWithMaterial());
     await mockNetworkImagesFor(() => tester.pump());
