@@ -14,19 +14,31 @@ import 'constants.dart';
 void main() {
   const API_BASEURL = String.fromEnvironment('API_BASEURL',
       defaultValue: 'http://0.0.0.0:5000/api');
+  const ASSETS_URL = String.fromEnvironment('ASSETS_URL',
+      defaultValue:
+          'http://chari-loadb-150mi7h76f40q-0c42746b9ba8f8ab.elb.ap-south-1.amazonaws.com:8055');
   Provider.debugCheckInvalidValueType = null;
-  runApp(CharismaApp(ApiClient(http.Client(), API_BASEURL)));
+  runApp(CharismaApp(
+      ApiClient(http.Client(), API_BASEURL), API_BASEURL, ASSETS_URL));
 }
 
 class CharismaApp extends StatelessWidget {
   late ApiClient _apiClient;
+  late String _apiBaseUrl;
+  late String _assetsUrl;
   late CharismaRouterDelegate _routerDelegate;
   late CharismaParser _parser;
   late CharismaBackButtonDispatcher _backButtonDispatcher;
 
-  CharismaApp(ApiClient apiClient) {
+  CharismaApp(ApiClient apiClient, String apiBaseUrl, String assetsUrl) {
     _apiClient = apiClient;
-    _routerDelegate = CharismaRouterDelegate(_apiClient);
+    _apiBaseUrl = apiBaseUrl;
+    _assetsUrl = assetsUrl;
+    _routerDelegate = CharismaRouterDelegate(
+      _apiClient,
+      _apiBaseUrl,
+      _assetsUrl,
+    );
     _parser = CharismaParser();
     _backButtonDispatcher = CharismaBackButtonDispatcher(_routerDelegate);
 

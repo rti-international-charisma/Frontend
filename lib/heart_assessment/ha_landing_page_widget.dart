@@ -5,13 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:provider/provider.dart';
 
-class HeartAssessmentLandingPageWidget extends StatelessWidget {
-  const HeartAssessmentLandingPageWidget(
-      {Key? key, this.apiClient, this.apiBaseUrl})
-      : super(key: key);
+class HALandingPageWidget extends StatelessWidget {
+  const HALandingPageWidget({
+    Key? key,
+    this.apiClient,
+    this.apiBaseUrl,
+    this.assetsUrl,
+  }) : super(key: key);
 
   final ApiClient? apiClient;
   final String? apiBaseUrl;
+  final String? assetsUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +58,7 @@ class HeartAssessmentLandingPageWidget extends StatelessWidget {
                       Container(
                         padding: EdgeInsets.all(10),
                         child: new Image.network(
-                          "$apiBaseUrl${pageContent['images'][0]['imageUrl']}",
+                          "$assetsUrl${pageContent['images'][0]['imageUrl']}",
                           fit: BoxFit.contain,
                           width: double.infinity,
                           alignment: Alignment.center,

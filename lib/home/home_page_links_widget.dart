@@ -11,7 +11,7 @@ class HomePageLinks extends StatelessWidget {
     {'text': 'HIV Prevention: PrEP', 'url': null},
     {'text': 'Male Partner Information Pack', 'url': null},
     {'text': 'Referrals', 'url': null},
-    {'text': 'Take the HEART assessment test', 'url': HeartAssessmentPath},
+    {'text': 'Take the HEART assessment test', 'url': HALandingPagePath},
     {'text': 'Counselling Content', 'url': null},
     {'text': 'About Us', 'url': AboutUsPath}
   ];

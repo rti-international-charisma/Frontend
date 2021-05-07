@@ -1,21 +1,17 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:charisma/apiclient/api_client.dart';
-import 'package:charisma/common/network_image_builder.dart';
 
 import 'package:charisma/home/home_page_videos_widget.dart';
 
-import 'package:charisma/navigation/router_delegate.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
 import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
 import 'dart:convert' as convert;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../util/network_image_builder_mock.dart';
+import '../util/utils.dart';
 
 void main() {
   var data = {
@@ -81,12 +77,9 @@ void main() {
   testWidgets(
       'It displays videos widget, showing only public videos when user is not signed in',
       (WidgetTester tester) async {
-    final apiClient = MockApiClient();
-
     await tester.pumpWidget(HomePageVideos(
       data: data['videoSection'],
-      apiClient: apiClient,
-      apiBaseUrl: 'http://0.0.0.0:8080',
+      assetsUrl: Utils.assetsUrl,
     ).wrapWithMaterial());
     await mockNetworkImagesFor(() => tester.pump());
 
@@ -114,7 +107,7 @@ void main() {
   testWidgets(
       'It displays videos widget, showing both private & public videos when user is signed in',
       (WidgetTester tester) async {
-    final apiClient = MockApiClient();
+    final sharedPreferenceHelper = MockSharedPreferencesHelper();
 
     SharedPreferences.setMockInitialValues({});
 
@@ -132,12 +125,11 @@ void main() {
     userData.then((value) =>
         preferences.setString('userData', convert.jsonEncode(value)));
 
-    when(apiClient.getUserData()).thenAnswer((_) => userData);
+    when(sharedPreferenceHelper.getUserData()).thenAnswer((_) => userData);
 
     await tester.pumpWidget(HomePageVideos(
       data: data['videoSection'],
-      apiClient: apiClient,
-      apiBaseUrl: 'http://0.0.0.0:8080',
+      assetsUrl: Utils.assetsUrl,
     ).wrapWithMaterial());
     await mockNetworkImagesFor(() => tester.pump());
 
@@ -164,23 +156,4 @@ void main() {
     // Resetting this data so that it doesn't interfere with other tests below
     preferences.setString('userData', '');
   });
-}
-
-class MockApiClient extends Mock implements ApiClient {}
-
-extension on Widget {
-  Widget wrapWithMaterial() => MultiProvider(
-        providers: [
-          Provider<NetworkImageBuilder>(
-              create: (ctx) => MockNetworkImageBuilder()),
-          Provider<Future<SharedPreferences>>(
-              create: (_) => SharedPreferences.getInstance()),
-          InheritedProvider<CharismaRouterDelegate>(
-              create: (ctx) => CharismaRouterDelegate(MockApiClient()))
-        ],
-        child: MaterialApp(
-            home: Scaffold(
-          body: this,
-        )),
-      );
 }

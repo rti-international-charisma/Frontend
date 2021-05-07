@@ -1,15 +1,13 @@
-import 'package:charisma/apiclient/api_client.dart';
+import 'package:charisma/common/shared_preference_helper.dart';
 import 'package:charisma/navigation/router_delegate.dart';
 import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CharismaAppBar extends StatelessWidget with PreferredSizeWidget {
-  CharismaAppBar({Key? key, this.apiClient})
+  CharismaAppBar({Key? key})
       : preferredSize = Size.fromHeight(80),
         super(key: key);
-
-  final ApiClient? apiClient;
 
   @override
   final Size preferredSize;
@@ -36,7 +34,7 @@ class CharismaAppBar extends StatelessWidget with PreferredSizeWidget {
         backgroundColor: Colors.white,
         actions: <Widget>[
           FutureBuilder<Map<String, dynamic>?>(
-            future: apiClient?.getUserData(),
+            future: SharedPreferenceHelper().getUserData(),
             builder: (context, data) {
               if (data.hasData && data.data!.isNotEmpty) {
                 var userData = data.data;
