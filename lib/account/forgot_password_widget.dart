@@ -1,4 +1,5 @@
 
+import 'package:charisma/account/account_details_validations.dart';
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/charisma_dropdown_widget.dart';
 import 'package:charisma/common/charisma_textformfield_widget.dart';
@@ -28,6 +29,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
   final TextEditingController _securityQuestionAnswerCtrl = TextEditingController();
 
   Future<List<Map<String, dynamic>>?>? getSecurityQuestionsFuture;
+  CharismaDropDownItem? selectedItem;
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +72,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                               fieldKey: 'FPUsernameKey',
                               fieldName: 'Username',
                               controller: _usernameCtrl,
+                              validator: (String? value) => value?.basicValidation,
                             ),
                             SizedBox(height: 24),
                             CharismaDropdown(
@@ -77,22 +80,45 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                                 fieldName: 'Security Question',
                                 items: toDropDownItems(allSecurityQuestions),
                                 onChanged: (CharismaDropDownItem? item) {
-
+                                  selectedItem = item;
                                 }),
                             SizedBox(height: 24),
                             CharismaTextFormField(
                               fieldKey: 'FPSecQuestionsAnswer',
                               fieldName: 'Type your answer here',
                               controller: _securityQuestionAnswerCtrl,
+                              validator: (String? value) => value?.basicValidation,
                             ),
                             SizedBox(height: 24),
                             SizedBox(
-                              key: ValueKey('FPNewPassButton'),
                               height: 39,
                               width: double.infinity,
                               child: ElevatedButton(
+                                  key: ValueKey('FPNewPassButton'),
                                   onPressed: () {
-
+                                    if (_formKey.currentState!.validate() && selectedItem != null) {
+                                      print('Verifying SecQ and Ans');
+                                      widget.apiClient.post('/verify-securityquestion',
+                                          {
+                                            "username":_usernameCtrl.text,
+                                            "secQuestionId":selectedItem!.identifier,
+                                            "secQuestionAnswer":_securityQuestionAnswerCtrl.text
+                                          }
+                                      )?.then((value) {
+                                        print('VerifyQuestion Success :$value');
+                                      }).catchError((error) {
+                                        print('VerifyQuestion Error');
+                                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                          content: Text('${(error as ErrorBody).body['body']}'),
+                                          backgroundColor: Colors.red,
+                                        ));
+                                      });
+                                    } else {
+                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                        content: Text('Please select all the fields'),
+                                        backgroundColor: Colors.red,
+                                      ));
+                                    }
                                   },
                                   child: Text('Create a new password'),
                                   style: ElevatedButton.styleFrom(
