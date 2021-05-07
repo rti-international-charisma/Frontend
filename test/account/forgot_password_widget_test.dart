@@ -1,7 +1,5 @@
 
 import 'package:charisma/account/forgot_password_widget.dart';
-import 'package:charisma/apiclient/api_client.dart';
-import 'package:charisma/common/charisma_dropdown_widget.dart';
 import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';

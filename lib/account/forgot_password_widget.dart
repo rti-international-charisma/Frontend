@@ -3,6 +3,7 @@ import 'package:charisma/account/account_details_validations.dart';
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/charisma_dropdown_widget.dart';
 import 'package:charisma/common/charisma_textformfield_widget.dart';
+import 'package:charisma/common/shared_preference_helper.dart';
 import 'package:charisma/navigation/router_delegate.dart';
 import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/cupertino.dart';
@@ -105,7 +106,8 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                                             "secQuestionAnswer":_securityQuestionAnswerCtrl.text
                                           }
                                       )?.then((value) {
-                                        print('VerifyQuestion Success :$value');
+                                        SharedPreferenceHelper().setUserData(value);
+                                        routerDelegate.push(SetNewPasswordConfig);
                                       }).catchError((error) {
                                         print('VerifyQuestion Error');
                                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -128,11 +130,11 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                             ),
                             SizedBox(height: 35),
                             Text(
-                                'Can’t remember the answer to your security question?',
-                                style: TextStyle (
+                              'Can’t remember the answer to your security question?',
+                              style: TextStyle (
                                   fontWeight: FontWeight.w400,
                                   fontSize: 15
-                                ),
+                              ),
                             ),
                             SizedBox(height: 8),
                             TextButton(

@@ -3,6 +3,7 @@ const String LoginPath = '/login';
 const String SignUpPath = '/singUp';
 const String ProfilePath = '/profile';
 const String ForgotPasswordPath = '/forgotpassword';
+const String SetNewPasswordPath = '/setnewpassword';
 const String HALandingPagePath = '/assessment/intro';
 const String HeartAssessmentQuestionnairePath =
     '/heart_assessment_questionnaire';
@@ -15,6 +16,7 @@ enum Pages {
   SignUp,
   Profile,
   ForgotPassword,
+  SetNewPassword,
   HALandingPage,
   HeartAssessmentQuestionnaire,
   HAResults,
@@ -54,6 +56,11 @@ const PageConfiguration ForgotPasswordConfig = PageConfiguration(
   key: 'ForgotPassword',
   path: ForgotPasswordPath,
   uiPage: Pages.ForgotPassword,
+);
+const PageConfiguration SetNewPasswordConfig = PageConfiguration(
+  key: 'SetNewPassword',
+  path: SetNewPasswordPath,
+  uiPage: Pages.SetNewPassword,
 );
 const PageConfiguration HALandingPageConfig = PageConfiguration(
   key: 'HALandingPage',
