@@ -21,6 +21,14 @@ class SharedPreferenceHelper {
         : null;
   }
 
+  Future<String?>? getPasswordToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var userDataEncoded = prefs.getString('userData');
+    return userDataEncoded != null
+        ? convert.jsonDecode(userDataEncoded)['resetPasswordToken']
+        : null;
+  }
+
   Future<T>? getResultsData<T>() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var results = prefs.getString('results');
