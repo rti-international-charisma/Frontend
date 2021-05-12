@@ -1,7 +1,7 @@
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/charisma_appbar_widget.dart';
 import 'package:charisma/home/hero_image_widget.dart';
-import 'package:charisma/home/home_page_links_widget.dart';
+import 'package:charisma/common/charisma_footer_links_widget.dart';
 import 'package:charisma/home/home_page_videos_widget.dart';
 import 'package:charisma/home/how_charisma_works_widget.dart';
 
@@ -40,25 +40,25 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   scrollDirection: Axis.vertical,
                   child: Column(
                     children: [
-                      HeroImageWidget(
-                        data: homeData!['heroImage'],
-                        assetsUrl: widget.assetsUrl,
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      HowCharismaWorks(
-                        data: homeData['steps'],
-                        assetsUrl: widget.assetsUrl,
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      HomePageVideos(
-                        data: homeData['videoSection'],
-                        assetsUrl: widget.assetsUrl,
-                      ),
-                      HomePageLinks()
+                      // HeroImageWidget(
+                      //   data: homeData!['heroImage'],
+                      //   assetsUrl: widget.assetsUrl,
+                      // ),
+                      // SizedBox(
+                      //   height: 30,
+                      // ),
+                      // HowCharismaWorks(
+                      //   data: homeData['steps'],
+                      //   assetsUrl: widget.assetsUrl,
+                      // ),
+                      // SizedBox(
+                      //   height: 30,
+                      // ),
+                      // HomePageVideos(
+                      //   data: homeData['videoSection'],
+                      //   assetsUrl: widget.assetsUrl,
+                      // ),
+                      CharismaFooterLinks()
                     ],
                   ),
                 ),

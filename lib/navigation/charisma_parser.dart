@@ -28,6 +28,12 @@ class CharismaParser extends RouteInformationParser<PageConfiguration> {
         return HeartAssessmentQuestionnaireConfig;
       case HAResultsPath:
         return HAResultsConfig;
+      case CounsellingModulePartnerCommPath:
+        return CounsellingModulePartnerCommConfig;
+      case CounsellingModulePrepUsePath:
+        return CounsellingModulePrepUseConfig;
+      case CounsellingModuleIPVPath:
+        return CounsellingModuleIPVConfig;
       case AboutUsPath:
         return AboutUsConfig;
       default:

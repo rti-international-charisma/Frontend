@@ -1,6 +1,7 @@
 import 'package:charisma/about_us/about_us_page_widget.dart';
 import 'package:charisma/account/forgot_password_widget.dart';
 import 'package:charisma/account/set_new_password_widget.dart';
+import 'package:charisma/counselling_module/counselling_module_page_widget.dart';
 import 'package:charisma/heart_assessment/ha_landing_page_widget.dart';
 import 'package:charisma/heart_assessment/heart_assessment_questionnaire.dart';
 import 'package:charisma/heart_assessment/ha_results_widget.dart';
@@ -136,6 +137,33 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
             assetsUrl: _assetsUrl,
           ),
           AboutUsConfig,
+        );
+      case Pages.CounsellingModulePrepUse:
+        return PageData(
+          CounsellingModulePageWidget(
+            apiClient: _apiClient,
+            assetsUrl: _assetsUrl,
+            moduleName: 'prep_use',
+          ),
+          CounsellingModulePrepUseConfig,
+        );
+      case Pages.CounsellingModulePartnerComm:
+        return PageData(
+          CounsellingModulePageWidget(
+            apiClient: _apiClient,
+            assetsUrl: _assetsUrl,
+            moduleName: 'partner_comm',
+          ),
+          CounsellingModulePrepUseConfig,
+        );
+      case Pages.CounsellingModuleIPV:
+        return PageData(
+          CounsellingModulePageWidget(
+            apiClient: _apiClient,
+            assetsUrl: _assetsUrl,
+            moduleName: 'ipv',
+          ),
+          CounsellingModulePrepUseConfig,
         );
     }
   }
