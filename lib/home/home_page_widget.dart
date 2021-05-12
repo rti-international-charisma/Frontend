@@ -40,24 +40,24 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   scrollDirection: Axis.vertical,
                   child: Column(
                     children: [
-                      // HeroImageWidget(
-                      //   data: homeData!['heroImage'],
-                      //   assetsUrl: widget.assetsUrl,
-                      // ),
-                      // SizedBox(
-                      //   height: 30,
-                      // ),
-                      // HowCharismaWorks(
-                      //   data: homeData['steps'],
-                      //   assetsUrl: widget.assetsUrl,
-                      // ),
-                      // SizedBox(
-                      //   height: 30,
-                      // ),
-                      // HomePageVideos(
-                      //   data: homeData['videoSection'],
-                      //   assetsUrl: widget.assetsUrl,
-                      // ),
+                      HeroImageWidget(
+                        data: homeData!['heroImage'],
+                        assetsUrl: widget.assetsUrl,
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      HowCharismaWorks(
+                        data: homeData['steps'],
+                        assetsUrl: widget.assetsUrl,
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      HomePageVideos(
+                        data: homeData['videoSection'],
+                        assetsUrl: widget.assetsUrl,
+                      ),
                       CharismaFooterLinks()
                     ],
                   ),

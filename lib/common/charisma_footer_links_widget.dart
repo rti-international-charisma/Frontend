@@ -131,6 +131,7 @@ class CharismaFooterLinks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      key: ValueKey('FooterLinks'),
       shrinkWrap: true,
       itemCount: links.length,
       itemBuilder: (BuildContext context, int index) =>
