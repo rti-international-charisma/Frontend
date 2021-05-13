@@ -43,12 +43,18 @@ class CounsellingModulePageWidget extends StatelessWidget {
                     Image.network(
                       "$assetsUrl$heroImageUrl",
                       fit: BoxFit.fill,
+                      key: ValueKey('HeroImage'),
                     ),
                     CounsellingModuleWidget(
-                        moduleData: moduleDataForHealthyRelationship,
-                        assetsUrl: assetsUrl),
+                      moduleData: moduleDataForHealthyRelationship,
+                      assetsUrl: assetsUrl,
+                      key: ValueKey('HealthyRelationshipModule'),
+                    ),
                     CounsellingModuleWidget(
-                        moduleData: moduleData, assetsUrl: assetsUrl),
+                      moduleData: moduleData,
+                      assetsUrl: assetsUrl,
+                      key: ValueKey('PageCounsellingModule'),
+                    ),
                   ],
                 );
               }

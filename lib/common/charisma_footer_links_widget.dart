@@ -30,8 +30,12 @@ class CharismaFooterLinks extends StatelessWidget {
 
   final CharismaParser _parser = CharismaParser();
 
-  Widget renderExpandableFooterLink(BuildContext context,
-      Map<String, dynamic> linkData, int index, bool isSubList) {
+  Widget renderExpandableFooterLink(
+      BuildContext context,
+      Map<String, dynamic> linkData,
+      int index,
+      int parentIndex,
+      bool isSubList) {
     final routerDelegate = Provider.of<CharismaRouterDelegate>(context);
     bool hasSubList = linkData['links'] != null;
 
@@ -63,7 +67,6 @@ class CharismaFooterLinks extends StatelessWidget {
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                               color: Colors.black),
-                          key: ValueKey('HomePageLink$index'),
                         )
                       : TextButton(
                           style: TextButton.styleFrom(
@@ -73,10 +76,10 @@ class CharismaFooterLinks extends StatelessWidget {
                           child: Text(
                             linkData['text'].toString(),
                             style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black),
-                            key: ValueKey('HomePageLink$index'),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                            ),
                           ),
                           onPressed: () {
                             Future<PageConfiguration> pageConfigFuture =
@@ -90,6 +93,8 @@ class CharismaFooterLinks extends StatelessWidget {
                               return routerDelegate.push(pageConfig);
                             });
                           },
+                          key: ValueKey(
+                              'CharismaFooterLink${index != parentIndex ? "$parentIndex." : ""}$index'),
                         ),
                 ),
                 ExpandableIcon(
@@ -115,6 +120,7 @@ class CharismaFooterLinks extends StatelessWidget {
                     context,
                     linkData['links'][innerIndex],
                     innerIndex,
+                    index,
                     true,
                   ),
                 )
@@ -135,7 +141,8 @@ class CharismaFooterLinks extends StatelessWidget {
       shrinkWrap: true,
       itemCount: links.length,
       itemBuilder: (BuildContext context, int index) =>
-          renderExpandableFooterLink(context, links[index], index, false),
+          renderExpandableFooterLink(
+              context, links[index], index, index, false),
     );
   }
 }
