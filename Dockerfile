@@ -31,7 +31,7 @@ WORKDIR /usr/local/bin/app
 RUN flutter pub get
 
 # Build the app for the web
-RUN flutter build web --dart-define=API_BASEURL=http://charisma-alb-667612545.af-south-1.elb.amazonaws.com/api,ASSETS_URL=http://chari-loadb-150mi7h76f40q-0c42746b9ba8f8ab.elb.ap-south-1.amazonaws.com:8055
+RUN flutter build web --dart-define=API_BASEURL=http://charisma-alb-667612545.af-south-1.elb.amazonaws.com/api --dart-define=ASSETS_URL=http://chari-loadb-150mi7h76f40q-0c42746b9ba8f8ab.elb.ap-south-1.amazonaws.com:8055
 
 
 # Document the exposed port
