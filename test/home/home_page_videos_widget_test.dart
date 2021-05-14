@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 
 import 'package:charisma/home/home_page_videos_widget.dart';
+import 'package:charisma/navigation/charisma_parser.dart';
+import 'package:charisma/navigation/ui_pages.dart';
 
 import 'package:flutter/material.dart';
 
@@ -27,7 +29,7 @@ void main() {
           "videoUrl": "/assets/f5930b41-f299-4728-b035-919156a06675",
           "videoImage": "",
           "actionText": "Learn more",
-          "actionLink": "",
+          "actionLink": "/module/prep_use",
           "isPrivate": false
         },
         {
@@ -37,7 +39,7 @@ void main() {
           "videoUrl": "/assets/9fd45ac0-e7e3-4d26-b75f-62c0125bf6ec",
           "videoImage": "",
           "actionText": "Learn more",
-          "actionLink": "",
+          "actionLink": "/module/partner_comm",
           "isPrivate": false
         },
         {
@@ -47,7 +49,7 @@ void main() {
           "videoUrl": "/assets/2b22ad56-c682-4167-817b-e8c55aff51e0",
           "videoImage": "",
           "actionText": "Learn more",
-          "actionLink": "",
+          "actionLink": "/module/prep_use",
           "isPrivate": false
         },
         {
@@ -57,7 +59,7 @@ void main() {
           "videoUrl": "",
           "videoImage": "/assets/f9b06145-94c3-4a7f-835a-1300cbf599c4",
           "actionText": "Learn more",
-          "actionLink": "",
+          "actionLink": "/module/ipv",
           "isPrivate": false
         },
         {
@@ -155,5 +157,68 @@ void main() {
 
     // Resetting this data so that it doesn't interfere with other tests below
     preferences.setString('userData', '');
+  });
+
+  testWidgets(
+      'It navigates to the correct page based on the actionLink field used on the action button on videos',
+      (WidgetTester tester) async {
+    MockRouterDelegate routerDelegate = MockRouterDelegate();
+    final CharismaParser _parser = CharismaParser();
+    final sharedPreferenceHelper = MockSharedPreferencesHelper();
+
+    SharedPreferences.setMockInitialValues({});
+
+    var userData = Future<Map<String, dynamic>>.value({
+      "user": {
+        "id": 1,
+        "username": "username",
+        "sec_q_id": 1,
+        "loginAttemptsLeft": 5
+      },
+      "token": "some.jwt.token"
+    });
+
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    userData.then((value) =>
+        preferences.setString('userData', convert.jsonEncode(value)));
+
+    when(sharedPreferenceHelper.getUserData()).thenAnswer((_) => userData);
+
+    await tester.pumpWidget(HomePageVideos(
+      data: data['videoSection'],
+      assetsUrl: Utils.assetsUrl,
+    ).wrapWithMaterialMockRouter(routerDelegate));
+    await mockNetworkImagesFor(() => tester.pump());
+
+    var videoSectionData = data['videoSection'] as Map<String, dynamic>;
+    var videos = videoSectionData['videos'];
+    List privateVideos =
+        (videos as List).where((video) => video['isPrivate']).toList();
+
+    List publicVideos = videos.where((video) => !video['isPrivate']).toList();
+
+    videos = privateVideos + publicVideos;
+
+    for (var index = 0; index < videos.length; index++) {
+      var videoData = videos[index] as Map<String, dynamic>;
+
+      Future<PageConfiguration> pageConfigFuture =
+          _parser.parseRouteInformation(
+              RouteInformation(location: videoData['actionLink']));
+
+      await tester
+          .ensureVisible(find.byKey(ValueKey('VideoActionButton$index')));
+      ElevatedButton videoActionButton = find
+          .byKey(ValueKey('VideoActionButton$index'))
+          .evaluate()
+          .single
+          .widget as ElevatedButton;
+      videoActionButton.onPressed!();
+
+      await tester.pump(Duration.zero);
+      pageConfigFuture.then((pageConfig) {
+        verify(routerDelegate.push(pageConfig));
+      });
+    }
   });
 }
