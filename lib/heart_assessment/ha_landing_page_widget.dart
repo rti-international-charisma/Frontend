@@ -21,7 +21,7 @@ class HALandingPageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final routerDelegate = Provider.of<CharismaRouterDelegate>(context);
     return FutureBuilder<Map<String, dynamic>?>(
-      future: apiClient?.get('/assessment/intro'),
+      future: apiClient?.get('/content/assessment-intro'),
       builder: (context, data) {
         if (data.hasData) {
           var pageContent = data.data;

@@ -35,7 +35,7 @@ class _HeartAssessmentQuestionaireState
 
   @override
   void initState() {
-    getAssessmentQuestionsFuture = widget.apiClient.get('/assessment');
+    getAssessmentQuestionsFuture = widget.apiClient.get('/assessments');
   }
 
   @override

@@ -34,10 +34,25 @@ class ApiClient {
         ? _baseUrl.substring(0, _baseUrl.length - 1)
         : _baseUrl;
     var response = await _client.get(
-      Uri.parse(
-          "$api/assessment/module?partner_score=$score&prep_consent=$consent"),
+      Uri.parse("$api/modules?partner_score=$score&prep_consent=$consent"),
       headers: {..._headers},
     );
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return convert.jsonDecode(response.body) as T;
+    }
+
+    throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
+  }
+
+  Future<T>? getCounsellingModuleWithoutScore<T>(String? moduleName) async {
+    var api = _baseUrl.endsWith("/")
+        ? _baseUrl.substring(0, _baseUrl.length - 1)
+        : _baseUrl;
+    var response = await _client.get(
+      Uri.parse("$api/modules/$moduleName"),
+      headers: {..._headers},
+    );
+
     if (response.statusCode >= 200 && response.statusCode < 300) {
       return convert.jsonDecode(response.body) as T;
     }

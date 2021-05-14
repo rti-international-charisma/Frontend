@@ -28,7 +28,7 @@ void main() {
       (WidgetTester tester) async {
     final apiClient = MockApiClient();
 
-    when(apiClient.get('/aboutus')).thenAnswer(
+    when(apiClient.get('/content/aboutus')).thenAnswer(
         (realInvocation) => Future<Map<String, dynamic>>.value(pageContent));
 
     await tester.pumpWidget(AboutUs(

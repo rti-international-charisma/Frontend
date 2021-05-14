@@ -1,12 +1,7 @@
-import 'dart:math';
-
 import 'package:charisma/apiclient/api_client.dart';
-import 'package:charisma/common/charisma_expandable_widget.dart';
-import 'package:charisma/common/video_player_widget.dart';
 import 'package:charisma/heart_assessment/ha_results_widget.dart';
 import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
@@ -258,134 +253,6 @@ void main() {
 
     takeTheTestButton.onPressed!();
     verify(routerDelegate.push(HALandingPageConfig));
-  });
-
-  testWidgets('It displays counselling module content',
-      (WidgetTester tester) async {
-    final ApiClient apiClient = MockApiClient();
-    SharedPreferences.setMockInitialValues({});
-
-    var results = Future<Map<String, dynamic>>.value(scoresData);
-    final module = Future<Map<String, dynamic>>.value(moduleData);
-
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    results.then(
-        (value) => preferences.setString('results', convert.jsonEncode(value)));
-
-    when(apiClient.getCounsellingModule(3, 'oppose')).thenAnswer((_) => module);
-
-    await tester.pumpWidget(HAResultsWidget(
-      apiClient: apiClient,
-      assetsUrl: Utils.assetsUrl,
-    ).wrapWithMaterial());
-    await mockNetworkImagesFor(() => tester.pump());
-
-    await tester.pump(Duration.zero);
-
-    expect(find.byKey(ValueKey('CounsellingModule')), findsOneWidget);
-    expect(
-        (find.byKey(ValueKey('CounsellingModuleTitle')).evaluate().single.widget
-                as Text)
-            .data,
-        equals(moduleData['title']));
-    expect(
-        (find.byKey(ValueKey('CounsellingModuleIntro')).evaluate().single.widget
-                as Html)
-            .data,
-        equals(moduleData['introduction']));
-    expect(find.byKey(ValueKey('ModuleVideo')), findsOneWidget);
-    expect(
-        ((find.byKey(ValueKey('ModuleVideo')).evaluate().single.widget
-                    as Container)
-                .child as VideoPlayerWidget)
-            .runtimeType,
-        equals(VideoPlayerWidget));
-    expect(
-        ((find.byKey(ValueKey('ModuleVideo')).evaluate().single.widget
-                    as Container)
-                .child as VideoPlayerWidget)
-            .videoUrl,
-        equals("${Utils.assetsUrl}${moduleData['moduleVideo']!['videoUrl']}"));
-
-    List<Map<String, dynamic>> counsellingModuleSections =
-        moduleData['counsellingModuleSections'];
-    for (var sectionIndex = 0;
-        sectionIndex < counsellingModuleSections.length;
-        sectionIndex++) {
-      Map<String, dynamic> sectionData =
-          counsellingModuleSections[sectionIndex];
-
-      expect(
-          (find
-                  .byKey(ValueKey('SectionTitle$sectionIndex'))
-                  .evaluate()
-                  .single
-                  .widget as Text)
-              .data,
-          sectionData['title']);
-      expect(
-          (find
-                  .byKey(ValueKey('SectionIntro$sectionIndex'))
-                  .evaluate()
-                  .single
-                  .widget as Html)
-              .data,
-          sectionData['introduction']);
-      if (sectionData['summary'] != null) {
-        expect(
-            (find
-                    .byKey(ValueKey('SectionSummary$sectionIndex'))
-                    .evaluate()
-                    .single
-                    .widget as Html)
-                .data,
-            sectionData['summary']);
-      }
-
-      if (sectionData['accordionContent'] != null) {
-        List<Map<String, dynamic>> accordionList =
-            sectionData['accordionContent'];
-        for (var accordionIndex = 0;
-            accordionIndex < accordionList.length;
-            accordionIndex++) {
-          Map<String, dynamic> accordionData = accordionList[accordionIndex];
-
-          expect(
-              find.byKey(
-                  ValueKey('SectionAccordion$sectionIndex-$accordionIndex')),
-              findsOneWidget);
-
-          CharismaExpandableWidget sectionAccordionWidget = find
-              .byKey(ValueKey('SectionAccordion$sectionIndex-$accordionIndex'))
-              .evaluate()
-              .single
-              .widget as CharismaExpandableWidget;
-
-          expect(sectionAccordionWidget.title, equals(accordionData['title']));
-          expect(sectionAccordionWidget.description,
-              equals(accordionData['description']));
-        }
-      }
-    }
-
-    expect(find.byKey(ValueKey('ActionPoints')), findsOneWidget);
-    List<Map<String, dynamic>> actionPoints =
-        moduleData['counsellingModuleActionPoints'];
-
-    for (var actionPointIndex = 0;
-        actionPointIndex < actionPoints.length;
-        actionPointIndex++) {
-      Map<String, dynamic> actionPointData = actionPoints[actionPointIndex];
-
-      expect(
-          (find
-                  .byKey(ValueKey('ActionPoint$actionPointIndex'))
-                  .evaluate()
-                  .single
-                  .widget as Text)
-              .data,
-          equals(actionPointData['title']));
-    }
   });
 }
 

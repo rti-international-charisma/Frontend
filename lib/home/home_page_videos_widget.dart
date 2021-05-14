@@ -179,7 +179,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
                           SizedBox(
                             height: 10,
                           ),
-                          if (videos[index]['videoUrl'] == "")
+                          if (videos[index]['videoUrl'] == null)
                             Row(
                               children: [
                                 Container(
@@ -213,29 +213,30 @@ class _HomePageVideosState extends State<HomePageVideos> {
                                 child: ButtonTheme(
                                   height: 322,
                                   child: ElevatedButton(
-                                      onPressed: () {
-                                        Future<PageConfiguration>
-                                            pageConfigFuture =
-                                            _parser.parseRouteInformation(
-                                          RouteInformation(
-                                            location: videos[index]
-                                                ['actionLink'],
-                                          ),
-                                        );
+                                    onPressed: () {
+                                      Future<PageConfiguration>
+                                          pageConfigFuture =
+                                          _parser.parseRouteInformation(
+                                        RouteInformation(
+                                          location: videos[index]['actionLink'],
+                                        ),
+                                      );
 
-                                        pageConfigFuture.then((pageConfig) {
-                                          return routerDelegate
-                                              .push(pageConfig);
-                                        });
-                                      },
-                                      child: Text(videos[index]['actionText']),
-                                      style: ElevatedButton.styleFrom(
-                                          shape: new RoundedRectangleBorder(
-                                            borderRadius:
-                                                new BorderRadius.circular(8),
-                                          ),
-                                          primary: Color(0xff244E74),
-                                          minimumSize: Size(0, 45))),
+                                      pageConfigFuture.then((pageConfig) {
+                                        return routerDelegate.push(pageConfig);
+                                      });
+                                    },
+                                    child: Text(videos[index]['actionText']),
+                                    style: ElevatedButton.styleFrom(
+                                      shape: new RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(8),
+                                      ),
+                                      primary: Color(0xff244E74),
+                                      minimumSize: Size(0, 45),
+                                    ),
+                                    key: ValueKey('VideoActionButton$index'),
+                                  ),
                                 ),
                               ),
                             ],

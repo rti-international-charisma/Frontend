@@ -224,7 +224,7 @@ void main() {
         (videoSectionData['videos'] as List).elementAt(0)['actionText']);
   });
 
-  testWidgets('It displays links to other pages', (WidgetTester tester) async {
+  testWidgets('It displays footer links', (WidgetTester tester) async {
     final apiClient = MockApiClient();
 
     when(apiClient.get("/home")).thenAnswer((realInvocation) {
@@ -237,34 +237,6 @@ void main() {
     ).wrapWithMaterial());
     await mockNetworkImagesFor(() => tester.pump());
 
-    expect(
-        (find.byKey(ValueKey('HomePageLink0')).evaluate().single.widget as Text)
-            .data,
-        equals('HIV Prevention: PrEP'));
-
-    expect(
-        (find.byKey(ValueKey('HomePageLink1')).evaluate().single.widget as Text)
-            .data,
-        equals('Male Partner Information Pack'));
-
-    expect(
-        (find.byKey(ValueKey('HomePageLink2')).evaluate().single.widget as Text)
-            .data,
-        equals('Referrals'));
-
-    expect(
-        (find.byKey(ValueKey('HomePageLink3')).evaluate().single.widget as Text)
-            .data,
-        equals('Take the HEART assessment test'));
-
-    expect(
-        (find.byKey(ValueKey('HomePageLink4')).evaluate().single.widget as Text)
-            .data,
-        equals('Counselling Content'));
-
-    expect(
-        (find.byKey(ValueKey('HomePageLink5')).evaluate().single.widget as Text)
-            .data,
-        equals('About Us'));
+    expect(find.byKey(ValueKey('FooterLinks')), findsOneWidget);
   });
 }
