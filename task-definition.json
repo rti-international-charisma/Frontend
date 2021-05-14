@@ -24,7 +24,12 @@
       "command": null,
       "linuxParameters": null,
       "cpu": 0,
-      "environment": [],
+      "environment": [
+        {
+          "name": "API_BASEURL",
+          "value": "http://charisma-alb-667612545.af-south-1.elb.amazonaws.com/api"
+        }
+      ],
       "ulimits": null,
       "dnsServers": null,
       "mountPoints": [],
@@ -62,7 +67,7 @@
     "EC2",
     "FARGATE"
   ],
-  "taskDefinitionArn": "arn:aws:ecs:af-south-1:402711366397:task-definition/charisma-dart-td:16",
+  "taskDefinitionArn": "arn:aws:ecs:af-south-1:402711366397:task-definition/charisma-dart-td:22",
   "family": "charisma-dart-td",
   "requiresAttributes": [
     {
@@ -120,7 +125,7 @@
   ],
   "networkMode": "awsvpc",
   "cpu": "256",
-  "revision": 16,
+  "revision": 22,
   "status": "ACTIVE",
   "inferenceAccelerators": null,
   "proxyConfiguration": null,
