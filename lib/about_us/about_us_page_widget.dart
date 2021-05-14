@@ -21,7 +21,7 @@ class AboutUs extends StatelessWidget {
       appBar: CharismaAppBar(),
       body: SafeArea(
         child: FutureBuilder<Map<String, dynamic>?>(
-          future: apiClient?.get<Map<String, dynamic>?>('/aboutus'),
+          future: apiClient?.get<Map<String, dynamic>?>('/content/aboutus'),
           builder: (context, data) {
             if (data.hasData) {
               var aboutUsData = data.data;

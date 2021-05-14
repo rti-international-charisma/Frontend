@@ -179,7 +179,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
                           SizedBox(
                             height: 10,
                           ),
-                          if (videos[index]['videoUrl'] == "")
+                          if (videos[index]['videoUrl'] == null)
                             Row(
                               children: [
                                 Container(

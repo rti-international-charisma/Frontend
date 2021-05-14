@@ -75,7 +75,7 @@ void main() {
   };
 
   testWidgets('it should display widgets', (WidgetTester tester) async {
-    when(apiClient.get("/assessment")).thenAnswer((realInvocation) =>
+    when(apiClient.get("/assessments")).thenAnswer((realInvocation) =>
         Future<Map<String, dynamic>?>.value(heartAssessment));
 
     await tester.pumpWidget(
@@ -93,7 +93,7 @@ void main() {
 
   testWidgets('it should display correct number of question widgets',
       (WidgetTester tester) async {
-    when(apiClient.get("/assessment")).thenAnswer((realInvocation) =>
+    when(apiClient.get("/assessments")).thenAnswer((realInvocation) =>
         Future<Map<String, dynamic>?>.value(heartAssessment));
 
     await tester.pumpWidget(
@@ -105,7 +105,7 @@ void main() {
   });
 
   testWidgets('it should display sections', (WidgetTester tester) async {
-    when(apiClient.get("/assessment")).thenAnswer((realInvocation) =>
+    when(apiClient.get("/assessments")).thenAnswer((realInvocation) =>
         Future<Map<String, dynamic>?>.value(heartAssessment));
 
     await tester.pumpWidget(
@@ -119,7 +119,7 @@ void main() {
 
   testWidgets('it should display error if all Questions not answered',
       (WidgetTester tester) async {
-    when(apiClient.get("/assessment")).thenAnswer((realInvocation) =>
+    when(apiClient.get("/assessments")).thenAnswer((realInvocation) =>
         Future<Map<String, dynamic>?>.value(heartAssessment));
 
     await tester.pumpWidget(
@@ -137,7 +137,7 @@ void main() {
   });
 
   testWidgets('it should change section', (WidgetTester tester) async {
-    when(apiClient.get("/assessment")).thenAnswer((realInvocation) =>
+    when(apiClient.get("/assessments")).thenAnswer((realInvocation) =>
         Future<Map<String, dynamic>?>.value(heartAssessment));
 
     await tester.pumpWidget(
@@ -164,7 +164,7 @@ void main() {
   });
 
   testWidgets('it should change section on back', (WidgetTester tester) async {
-    when(apiClient.get("/assessment")).thenAnswer((realInvocation) =>
+    when(apiClient.get("/assessments")).thenAnswer((realInvocation) =>
         Future<Map<String, dynamic>?>.value(heartAssessment));
 
     await tester.pumpWidget(
@@ -207,7 +207,7 @@ void main() {
   testWidgets(
       'it should not change section on back if you are on first section',
       (WidgetTester tester) async {
-    when(apiClient.get("/assessment")).thenAnswer((realInvocation) =>
+    when(apiClient.get("/assessments")).thenAnswer((realInvocation) =>
         Future<Map<String, dynamic>?>.value(heartAssessment));
 
     await tester.pumpWidget(

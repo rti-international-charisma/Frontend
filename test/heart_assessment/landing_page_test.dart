@@ -25,7 +25,8 @@ void main() {
   testWidgets('It displays app bar title', (WidgetTester tester) async {
     final apiClient = MockApiClient();
 
-    when(apiClient.get("/assessment/intro")).thenAnswer((realInvocation) {
+    when(apiClient.get("/content/assessment-intro"))
+        .thenAnswer((realInvocation) {
       return Future<Map<String, dynamic>>.value(pageContent);
     });
 
@@ -43,7 +44,8 @@ void main() {
   testWidgets('It displays page content', (WidgetTester tester) async {
     final apiClient = MockApiClient();
 
-    when(apiClient.get("/assessment/intro")).thenAnswer((realInvocation) {
+    when(apiClient.get("/content/assessment-intro"))
+        .thenAnswer((realInvocation) {
       return Future<Map<String, dynamic>>.value(pageContent);
     });
 
@@ -69,7 +71,8 @@ void main() {
       (WidgetTester tester) async {
     final apiClient = MockApiClient();
 
-    when(apiClient.get("/assessment/intro")).thenAnswer((realInvocation) {
+    when(apiClient.get("/content/assessment-intro"))
+        .thenAnswer((realInvocation) {
       return Future<Map<String, dynamic>>.value(pageContent);
     });
 
@@ -92,7 +95,8 @@ void main() {
 
     final apiClient = MockApiClient();
 
-    when(apiClient.get("/assessment/intro")).thenAnswer((realInvocation) {
+    when(apiClient.get("/content/assessment-intro"))
+        .thenAnswer((realInvocation) {
       return Future<Map<String, dynamic>>.value(pageContent);
     });
 

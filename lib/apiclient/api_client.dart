@@ -34,8 +34,7 @@ class ApiClient {
         ? _baseUrl.substring(0, _baseUrl.length - 1)
         : _baseUrl;
     var response = await _client.get(
-      Uri.parse(
-          "$api/assessment/module?partner_score=$score&prep_consent=$consent"),
+      Uri.parse("$api/modules?partner_score=$score&prep_consent=$consent"),
       headers: {..._headers},
     );
     if (response.statusCode >= 200 && response.statusCode < 300) {
@@ -50,7 +49,7 @@ class ApiClient {
         ? _baseUrl.substring(0, _baseUrl.length - 1)
         : _baseUrl;
     var response = await _client.get(
-      Uri.parse("$api/assessment/module/$moduleName"),
+      Uri.parse("$api/modules/$moduleName"),
       headers: {..._headers},
     );
 
