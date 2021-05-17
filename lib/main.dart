@@ -8,18 +8,18 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'environment.dart' as environment;
 import 'constants.dart';
 
-void main() {
-  const API_BASEURL = String.fromEnvironment('API_BASEURL',
-      defaultValue: 'http://0.0.0.0:5000/api');
-  const ASSETS_URL = String.fromEnvironment('ASSETS_URL',
-      defaultValue:
-          'http://chari-loadb-150mi7h76f40q-0c42746b9ba8f8ab.elb.ap-south-1.amazonaws.com:8055');
+Future<void> main() async {
+
+  String apiBaseUrl = environment.variables['baseUrl'] ?? 'http://0.0.0.0:5000/api';
+  String assetsUrl = environment.variables['assetsUrl'] ?? 'http://chari-loadb-150mi7h76f40q-0c42746b9ba8f8ab.elb.ap-south-1.amazonaws.com:8055';
+  print('Starting App with API_BASEURL : $apiBaseUrl and ASSETS_URL: $assetsUrl');
+
   Provider.debugCheckInvalidValueType = null;
   runApp(CharismaApp(
-      ApiClient(http.Client(), API_BASEURL), API_BASEURL, ASSETS_URL));
+      ApiClient(http.Client(), apiBaseUrl), apiBaseUrl, assetsUrl));
 }
 
 class CharismaApp extends StatelessWidget {
