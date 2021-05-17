@@ -1,4 +1,4 @@
-name: Deploy API to Amazon ECS
+name: Deploy Dart to Amazon ECS Staging
 
 on:
   workflow_dispatch:
