@@ -4,7 +4,7 @@ import 'package:charisma/account/set_new_password_widget.dart';
 import 'package:charisma/counselling_module/counselling_module_page_widget.dart';
 import 'package:charisma/heart_assessment/ha_landing_page_widget.dart';
 import 'package:charisma/heart_assessment/heart_assessment_questionnaire.dart';
-import 'package:charisma/heart_assessment/ha_results_widget.dart';
+import 'package:charisma/heart_assessment/ha_results_page_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:charisma/account/login_page_widget.dart';
 import 'package:charisma/account/profile_page_widget.dart';
@@ -124,7 +124,7 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
         );
       case Pages.HAResults:
         return PageData(
-          HAResultsWidget(
+          HAResultsPageWidget(
             apiClient: _apiClient,
             assetsUrl: _assetsUrl,
           ),

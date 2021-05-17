@@ -10,6 +10,7 @@ class HowCharismaWorks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      key: ValueKey('CharismaSteps'),
       children: [
         Container(
           alignment: Alignment.centerLeft,

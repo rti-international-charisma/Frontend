@@ -1,5 +1,8 @@
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/charisma_appbar_widget.dart';
+import 'package:charisma/common/shared_preference_helper.dart';
+import 'package:charisma/heart_assessment/ha_results_page_widget.dart';
+import 'package:charisma/heart_assessment/ha_results_widget.dart';
 import 'package:charisma/home/hero_image_widget.dart';
 import 'package:charisma/common/charisma_footer_links_widget.dart';
 import 'package:charisma/home/home_page_videos_widget.dart';
@@ -23,46 +26,126 @@ class HomePageWidget extends StatefulWidget {
 
 class _HomePageWidgetState extends State<HomePageWidget> {
   Map<String, dynamic> userData = Map();
+  Map<String?, dynamic> resultsData = Map();
+
+  Widget getGeneralHomePage(BuildContext context) {
+    return FutureBuilder<Map<String, dynamic>?>(
+      future: widget.apiClient?.get<Map<String, dynamic>?>('/home'),
+      builder: (context, data) {
+        if (data.hasData) {
+          var homeData = data.data;
+
+          return Container(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  HeroImageWidget(
+                    data: homeData!['heroImage'],
+                    assetsUrl: widget.assetsUrl,
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  HowCharismaWorks(
+                    data: homeData['steps'],
+                    assetsUrl: widget.assetsUrl,
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  HomePageVideos(
+                    data: homeData['videoSection'],
+                    assetsUrl: widget.assetsUrl,
+                  ),
+                  CharismaFooterLinks()
+                ],
+              ),
+            ),
+          );
+        } else if (data.hasError) {
+          return Scaffold(
+              body: Center(
+            child: Text(
+                "Oops! Looks like something went wrong. Please try again later."),
+          ));
+        }
+        return Transform.scale(
+          scale: 0.1,
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+  }
+
+  Widget getHomePageWithResults(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Column(
+        children: [
+          FutureBuilder(
+            future: widget.apiClient?.get<Map<String, dynamic>?>(
+                '/content/page_image/test_complete_hero_image'),
+            builder: (context, data) {
+              if (data.hasData) {
+                return HeroImageWidget(
+                  data: data.data as Map<String, dynamic>,
+                  userGreeting:
+                      '<h2>Welcome back, ${userData['username']}!</h2>',
+                  assetsUrl: widget.assetsUrl,
+                );
+              }
+
+              return Transform.scale(
+                scale: 0.1,
+                child: CircularProgressIndicator(),
+              );
+            },
+          ),
+          HAResultsWidget(
+            apiClient: widget.apiClient,
+            assetsUrl: widget.assetsUrl,
+            displayUserGreeting: false,
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    bool shouldRenderGeneralHomePage = true;
+
     return Scaffold(
       appBar: CharismaAppBar(),
       body: SafeArea(
         child: FutureBuilder<Map<String, dynamic>?>(
-          future: widget.apiClient?.get<Map<String, dynamic>?>('/home'),
+          future: SharedPreferenceHelper().getUserData()?.then((data) async {
+            if (data.isNotEmpty) {
+              userData = data;
+              String? token = await SharedPreferenceHelper().getUserToken();
+
+              Map<String?, dynamic>? results =
+                  await widget.apiClient?.getScores(token);
+
+              if (results!['sections'].isNotEmpty) {
+                shouldRenderGeneralHomePage = false;
+                resultsData = results;
+                userData = data;
+              }
+
+              return userData;
+            }
+
+            return data.isEmpty ? Map() : userData;
+          }),
           builder: (context, data) {
             if (data.hasData) {
-              var homeData = data.data;
-
-              return Container(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Column(
-                    children: [
-                      HeroImageWidget(
-                        data: homeData!['heroImage'],
-                        assetsUrl: widget.assetsUrl,
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      HowCharismaWorks(
-                        data: homeData['steps'],
-                        assetsUrl: widget.assetsUrl,
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      HomePageVideos(
-                        data: homeData['videoSection'],
-                        assetsUrl: widget.assetsUrl,
-                      ),
-                      CharismaFooterLinks()
-                    ],
-                  ),
-                ),
-              );
+              if (shouldRenderGeneralHomePage) {
+                return getGeneralHomePage(context);
+              } else {
+                return getHomePageWithResults(context);
+              }
             } else if (data.hasError) {
               return Scaffold(
                   body: Center(
