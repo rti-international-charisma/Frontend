@@ -8,11 +8,11 @@ import 'package:flutter_html/style.dart';
 
 class CharismaExpandableWidget extends StatelessWidget {
   const CharismaExpandableWidget(
-      {Key? key, required this.title, required this.description})
+      {Key? key, required this.data, required this.assetsUrl})
       : super(key: key);
 
-  final String title;
-  final String description;
+  final Map<String, dynamic> data;
+  final String? assetsUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +48,11 @@ class CharismaExpandableWidget extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        title,
+                        data['title'],
                         style: TextStyle(
                           color: Colors.white,
                         ),
+                        key: ValueKey('CharismaExpandableTitle'),
                       ),
                     ),
                     ExpandableIcon(
@@ -69,13 +70,27 @@ class CharismaExpandableWidget extends StatelessWidget {
                 ),
               ),
               collapsed: Container(),
-              expanded: Html(
-                data: description,
-                style: {
-                  'body': Style(
-                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+              expanded: Column(
+                children: [
+                  if (data['imageUrl'] != null)
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      child: Image.network(
+                        "$assetsUrl${data['imageUrl']}",
+                        fit: BoxFit.contain,
+                        key: ValueKey('CharismaExpandableImage'),
+                      ),
+                    ),
+                  Html(
+                    data: data['description'],
+                    style: {
+                      'body': Style(
+                        padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      ),
+                    },
+                    key: ValueKey('CharismaExpandableDescription'),
                   ),
-                },
+                ],
               ),
               theme: ExpandableThemeData(
                 hasIcon: false,
