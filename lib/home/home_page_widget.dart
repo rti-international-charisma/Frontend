@@ -84,12 +84,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       child: Column(
         children: [
           FutureBuilder(
-            future: widget.apiClient?.get<Map<String, dynamic>?>(
-                '/content/page_image/test_complete_hero_image'),
+            future: widget.apiClient?.get<Map<String, dynamic>?>('/home'),
             builder: (context, data) {
               if (data.hasData) {
                 return HeroImageWidget(
-                  data: data.data as Map<String, dynamic>,
+                  data: (data.data as Map<String, dynamic>)['heroImage'],
                   userGreeting:
                       '<h2>Welcome back, ${userData['username']}!</h2>',
                   assetsUrl: widget.assetsUrl,

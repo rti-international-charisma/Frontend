@@ -18,7 +18,7 @@ void main() {
       "title": "Hero Image",
       "introduction":
           "<div><span style=\"font-size: 18pt;\"><strong>Want to check the status of your relationship and protect yourself?</strong></span></div>\n<div>\n<p><span style=\"font-size: 14pt;\">CHARISMA&rsquo;s here to support you!&nbsp;</span></p>\n<p><span style=\"font-size: 14pt;\">Take a quiz about your relationship and get tailored support, or browse content on Healthy relationships, using PrEP in your relationships,&nbsp;</span><br /><span style=\"font-size: 14pt;\">good communication with your partner and others, and relationship safety. You can always come back more for later and share what you like!</span></p>\n</div>",
-      "summary": "",
+      "personalisedMessage": "Some personalised message",
       "imageUrl": "/assets/82c667f6-c82e-4c89-a8f0-e715563f87dc"
     },
     "images": [],
@@ -365,11 +365,6 @@ void main() {
 
     var results = Future<Map<String, dynamic>>.value(scoresData);
     var module = Future<Map<String, dynamic>>.value(moduleData);
-    var heroImage = Future<Map<String, dynamic>>.value({
-      "title": "Hero Image",
-      "introduction": "Some intro",
-      "imageUrl": "/assets/heroimage_url"
-    });
 
     String userToken = "some.jwt.token";
     var userData = Future<Map<String, dynamic>>.value({
@@ -388,8 +383,8 @@ void main() {
 
     when(apiClient.getScores(userToken)).thenAnswer((_) => results);
 
-    when(apiClient.get('/content/page_image/test_complete_hero_image'))
-        .thenAnswer((_) => heroImage);
+    when(apiClient.get('/home'))
+        .thenAnswer((_) => Future<Map<String, dynamic>>.value(data));
 
     when(apiClient.getCounsellingModule(3, 'oppose')).thenAnswer((_) => module);
 
@@ -407,7 +402,7 @@ void main() {
         find.byKey(ValueKey('HeroImageText')).evaluate().single.widget as Html;
     expect(find.byKey(ValueKey('HeroImageText')), findsOneWidget);
     expect(heroImageText.data, contains('Welcome back, username!'));
-    expect(heroImageText.data, contains('Some intro'));
+    expect(heroImageText.data, contains('Some personalised message'));
     expect(find.byKey(ValueKey('ScoresSection')), findsOneWidget);
 
     await tester.pump(Duration.zero);

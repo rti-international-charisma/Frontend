@@ -30,11 +30,17 @@ class HeroImageWidget extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           alignment: Alignment.bottomCenter,
           padding: EdgeInsets.all(20),
-          child: Html(
-            data: (userGreeting ?? '') + data!['introduction'],
-            key: ValueKey('HeroImageText'),
-            style: {'body': Style(color: Colors.white)},
-          ),
+          child: userGreeting == null
+              ? Html(
+                  data: data!['introduction'],
+                  key: ValueKey('HeroImageText'),
+                  style: {'body': Style(color: Colors.white)},
+                )
+              : Html(
+                  data: (userGreeting ?? '') + data!['personalisedMessage'],
+                  key: ValueKey('HeroImageText'),
+                  style: {'body': Style(color: Colors.white)},
+                ),
         ),
       )
     ]);
