@@ -1,3 +1,4 @@
+import 'package:charisma/account/user_state_model.dart';
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/network_image_builder.dart';
 import 'package:charisma/navigation/back_dispatcher.dart';
@@ -55,6 +56,7 @@ class CharismaApp extends StatelessWidget {
           Provider<Future<SharedPreferences>>(
               create: (_) => SharedPreferences.getInstance()),
           Provider<CharismaRouterDelegate>(create: (_) => _routerDelegate),
+          ChangeNotifierProvider(create: (context) => UserStateModel())
         ],
         child: MaterialApp.router(
             title: 'Charisma',

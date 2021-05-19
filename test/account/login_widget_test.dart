@@ -1,4 +1,5 @@
 import 'package:charisma/account/login_page_widget.dart';
+import 'package:charisma/account/user_state_model.dart';
 import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,8 +23,10 @@ void main() {
 
   testWidgets('tapping on register now should take to Signup page',
       (WidgetTester tester) async {
-    await tester.pumpWidget(
-        LoginWidget(apiClient).wrapWithMaterialMockRouter(routerDelegate));
+    var userStateModel = UserStateModel();
+        userStateModel.userLoggedIn();
+        await tester.pumpWidget(
+            LoginWidget(apiClient).wrapWithMaterialMockRouterUserState(routerDelegate, userStateModel));
 
     await tester.tap(find.byKey(ValueKey('LoginRegisterBtnKey')));
     await tester.pump();
@@ -91,9 +94,10 @@ void main() {
 
     when(apiClient.post('/login', loginData))
         .thenAnswer((_) async => futureResponse);
-
+    var userStateModel = UserStateModel();
+    userStateModel.userLoggedIn();
     await tester.pumpWidget(
-        LoginWidget(apiClient).wrapWithMaterialMockRouter(routerDelegate));
+        LoginWidget(apiClient).wrapWithMaterialMockRouterUserState(routerDelegate, userStateModel));
 
     await tester.enterText(find.byKey(ValueKey('LoginUNameKey')), username);
     await tester.pump();

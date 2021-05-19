@@ -88,6 +88,18 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
     push(newRoute);
   }
 
+  void replaceAll(PageConfiguration pageConfig) {
+    final shouldPushPage = _pages.isEmpty ||
+        (_pages.last.arguments as PageConfiguration).uiPage !=
+            pageConfig.uiPage;
+
+    if (shouldPushPage) {
+      _pages.clear();
+      push(pageConfig);
+      notifyListeners();
+    }
+  }
+
   PageData? _getPageData(PageConfiguration pageConfig) {
     switch (pageConfig.uiPage) {
       case Pages.Home:

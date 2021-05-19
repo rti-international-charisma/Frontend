@@ -1,3 +1,4 @@
+import 'package:charisma/account/user_state_model.dart';
 import 'package:charisma/common/shared_preference_helper.dart';
 import 'package:charisma/navigation/router_delegate.dart';
 import 'package:charisma/navigation/ui_pages.dart';
@@ -15,6 +16,7 @@ class CharismaAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final routerDelegate = Provider.of<CharismaRouterDelegate>(context);
+    final sharedPrefHelper = SharedPreferenceHelper();
 
     return PreferredSize(
       child: AppBar(
@@ -33,74 +35,83 @@ class CharismaAppBar extends StatelessWidget with PreferredSizeWidget {
         ),
         backgroundColor: Colors.white,
         actions: <Widget>[
-          FutureBuilder<Map<String, dynamic>?>(
-            future: SharedPreferenceHelper().getUserData(),
-            builder: (context, data) {
-              if (data.hasData && data.data!.isNotEmpty) {
-                var userData = data.data;
-
-                return Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.fromLTRB(10, 10, 30, 10),
-                  child: Text(
-                    'Hi ${userData!['username']}!',
-                    style: TextStyle(
-                      color: Color(0xff2DA4FA),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
+          Consumer<UserStateModel>(
+            builder: (context, userState, child) {
+              if (userState.isLoggedIn) {
+                return FutureBuilder(
+                    future: sharedPrefHelper.getUserData(),
+                    builder: (context, data) {
+                      return Container(
+                        alignment: Alignment.center,
+                        margin: EdgeInsets.fromLTRB(10, 10, 30, 10),
+                        child: TextButton(
+                          child: Text(
+                            'Logout',
+                            style: TextStyle(
+                              color: Color(0xff2DA4FA),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          key: ValueKey('LogoutLink'),
+                          onPressed: () {
+                            sharedPrefHelper.setUserData(null);
+                            userState.userLoggedOut();
+                            routerDelegate.replaceAll(HomePageConfig);
+                          },
+                        ),
+                      );
+                    }
+                );
+              } else {
+                return Row(
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.all(10),
+                      child: TextButton(
+                        child: Text(
+                          'Sign Up',
+                          style: TextStyle(
+                            color: Color(0xff2DA4FA),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        key: ValueKey('SignUpLink'),
+                        onPressed: () {
+                          routerDelegate.push(SignUpConfig);
+                        },
+                      ),
                     ),
-                    key: ValueKey('UserName'),
-                  ),
+                    Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        '|',
+                        style: TextStyle(color: Color(0xff929292), fontSize: 14),
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.all(10),
+                      child: TextButton(
+                        child: Text(
+                          'Login',
+                          style: TextStyle(
+                            color: Color(0xff2DA4FA),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        key: ValueKey('LoginLink'),
+                        onPressed: () {
+                          routerDelegate.push(LoginPageConfig);
+                        },
+                      ),
+                    )
+                  ],
                 );
               }
-
-              return Row(
-                children: [
-                  Container(
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.all(10),
-                    child: TextButton(
-                      child: Text(
-                        'Sign Up',
-                        style: TextStyle(
-                          color: Color(0xff2DA4FA),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      key: ValueKey('SignUpLink'),
-                      onPressed: () {
-                        routerDelegate.push(SignUpConfig);
-                      },
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: Text(
-                      '|',
-                      style: TextStyle(color: Color(0xff929292), fontSize: 14),
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.all(10),
-                    child: TextButton(
-                      child: Text(
-                        'Login',
-                        style: TextStyle(
-                          color: Color(0xff2DA4FA),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      key: ValueKey('LoginLink'),
-                      onPressed: () {
-                        routerDelegate.push(LoginPageConfig);
-                      },
-                    ),
-                  )
-                ],
-              );
             },
           )
         ],
