@@ -1,3 +1,4 @@
+import 'package:charisma/account/user_state_model.dart';
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/charisma_textformfield_widget.dart';
 import 'package:charisma/common/shared_preference_helper.dart';
@@ -27,7 +28,7 @@ class _LoginWidgetState extends State<LoginWidget> {
   @override
   Widget build(BuildContext context) {
     final routerDelegate = Provider.of<CharismaRouterDelegate>(context);
-
+    final userState = Provider.of<UserStateModel>(context);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 98,
@@ -112,6 +113,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                     })?.then((data) async {
                                       SharedPreferenceHelper()
                                           .setUserData(data);
+                                      userState.userLoggedIn();
                                       setState(() {
                                         isLoading = false;
                                       });

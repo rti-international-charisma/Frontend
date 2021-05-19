@@ -1,5 +1,4 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:charisma/common/shared_preference_helper.dart';
 import 'package:charisma/common/video_player_widget.dart';
 import 'package:charisma/navigation/charisma_parser.dart';
 import 'package:charisma/navigation/router_delegate.dart';
@@ -12,10 +11,12 @@ class HomePageVideos extends StatefulWidget {
     Key? key,
     this.data,
     this.assetsUrl,
+    required this.isLoggedIn
   }) : super(key: key);
 
   final data;
   final assetsUrl;
+  final isLoggedIn;
 
   @override
   _HomePageVideosState createState() => _HomePageVideosState();
@@ -28,29 +29,22 @@ class _HomePageVideosState extends State<HomePageVideos> {
   @override
   Widget build(BuildContext context) {
     final routerDelegate = Provider.of<CharismaRouterDelegate>(context);
+    var videos = widget.isLoggedIn
+        ? widget.data['videos']
+        : (widget.data['videos'] as List)
+        .where((video) => !video['isPrivate'])
+        .toList();
 
-    return FutureBuilder<Map<String, dynamic>?>(
-      future: SharedPreferenceHelper().getUserData(),
-      builder: (context, data) {
-        bool isUserLoggedIn = data.hasData && data.data!.isNotEmpty;
+    if (widget.isLoggedIn) {
+      List privateVideos =
+      (videos as List).where((video) => video['isPrivate']).toList();
 
-        var videos = isUserLoggedIn
-            ? widget.data['videos']
-            : (widget.data['videos'] as List)
-                .where((video) => !video['isPrivate'])
-                .toList();
+      List publicVideos =
+      videos.where((video) => !video['isPrivate']).toList();
 
-        if (isUserLoggedIn) {
-          List privateVideos =
-              (videos as List).where((video) => video['isPrivate']).toList();
-
-          List publicVideos =
-              videos.where((video) => !video['isPrivate']).toList();
-
-          videos = privateVideos + publicVideos;
-        }
-
-        return Stack(
+      videos = privateVideos + publicVideos;
+    }
+      return Stack(
           key: ValueKey("VideoSection"),
           children: <Widget>[
             Container(
@@ -250,7 +244,5 @@ class _HomePageVideosState extends State<HomePageVideos> {
             )
           ],
         );
-      },
-    );
   }
 }

@@ -79,11 +79,11 @@ void main() {
   testWidgets(
       'It displays videos widget, showing only public videos when user is not signed in',
       (WidgetTester tester) async {
-    await tester.pumpWidget(HomePageVideos(
+    await mockNetworkImagesFor(() => tester.pumpWidget(HomePageVideos(
       data: data['videoSection'],
       assetsUrl: Utils.assetsUrl,
-    ).wrapWithMaterial());
-    await mockNetworkImagesFor(() => tester.pump());
+      isLoggedIn: false,
+    ).wrapWithMaterial()));
 
     expect(find.byKey(ValueKey('VideoSection')), findsOneWidget);
     expect(find.byKey(ValueKey('VideoSectionHeadline')), findsOneWidget);
@@ -129,11 +129,11 @@ void main() {
 
     when(sharedPreferenceHelper.getUserData()).thenAnswer((_) => userData);
 
-    await tester.pumpWidget(HomePageVideos(
+    await mockNetworkImagesFor(() => tester.pumpWidget(HomePageVideos(
       data: data['videoSection'],
       assetsUrl: Utils.assetsUrl,
-    ).wrapWithMaterial());
-    await mockNetworkImagesFor(() => tester.pump());
+      isLoggedIn: true,
+    ).wrapWithMaterial()));
 
     expect(find.byKey(ValueKey('VideoSection')), findsOneWidget);
     expect(find.byKey(ValueKey('VideoSectionHeadline')), findsOneWidget);
@@ -187,6 +187,7 @@ void main() {
     await tester.pumpWidget(HomePageVideos(
       data: data['videoSection'],
       assetsUrl: Utils.assetsUrl,
+      isLoggedIn: true,
     ).wrapWithMaterialMockRouter(routerDelegate));
     await mockNetworkImagesFor(() => tester.pump());
 

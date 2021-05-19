@@ -15,10 +15,13 @@ class SharedPreferenceHelper {
 
   Future<String?>? getUserToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var userDataEncoded = prefs.getString('userData');
-    return userDataEncoded != null
-        ? convert.jsonDecode(userDataEncoded)['token']
-        : null;
+    String? userDataEncoded = prefs.getString('userData');
+
+    if (userDataEncoded != null) {
+      return convert.jsonDecode(userDataEncoded)['token'];
+    } else {
+      return null;
+    }
   }
 
   Future<String?>? getPasswordToken() async {
@@ -42,7 +45,11 @@ class SharedPreferenceHelper {
 
   setUserData(data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('userData', convert.jsonEncode(data));
+    if (data == null) {
+      prefs.remove('userData');
+    } else {
+      prefs.setString('userData', convert.jsonEncode(data));
+    }
   }
 
   setResultsData(results) async {
