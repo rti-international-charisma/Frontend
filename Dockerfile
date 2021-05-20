@@ -30,7 +30,6 @@ WORKDIR /usr/local/bin/app
 # Get App Dependencies
 RUN flutter pub get
 
-RUN dart tool/env.dart
 # Build the app for the web
 RUN flutter build web 
 
