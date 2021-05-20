@@ -11,10 +11,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'environment.dart' as environment;
 import 'constants.dart';
 
-Future<void> main() async {
+void main() async {
 
-  String apiBaseUrl = environment.variables['baseUrl'] ?? 'http://0.0.0.0:5000/api';
-  String assetsUrl = environment.variables['assetsUrl'] ?? 'http://chari-loadb-150mi7h76f40q-0c42746b9ba8f8ab.elb.ap-south-1.amazonaws.com:8055';
+  const env = String.fromEnvironment('IS_PROD', defaultValue: 'stage');
+  String apiBaseUrl = environment.variables[env]!['baseUrl'] ?? 'http://0.0.0.0:5000/api';
+  String assetsUrl = environment.variables[env]!['assetsUrl'] ?? 'http://chari-loadb-150mi7h76f40q-0c42746b9ba8f8ab.elb.ap-south-1.amazonaws.com:8055';
   print('Starting App with API_BASEURL : $apiBaseUrl and ASSETS_URL: $assetsUrl');
 
   Provider.debugCheckInvalidValueType = null;
