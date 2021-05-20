@@ -5,6 +5,7 @@ import 'package:charisma/counselling_module/counselling_module_page_widget.dart'
 import 'package:charisma/heart_assessment/ha_landing_page_widget.dart';
 import 'package:charisma/heart_assessment/heart_assessment_questionnaire.dart';
 import 'package:charisma/heart_assessment/ha_results_page_widget.dart';
+import 'package:charisma/referrals/referrals_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:charisma/account/login_page_widget.dart';
 import 'package:charisma/account/profile_page_widget.dart';
@@ -150,6 +151,13 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
           ),
           AboutUsConfig,
         );
+      case Pages.Referrals:
+        return PageData(
+            ReferralsWidget(
+              apiClient: _apiClient,
+              assetsUrl: _assetsUrl,
+            ),
+            ReferrlasConfig);
       case Pages.CounsellingModulePrepUse:
         return PageData(
           CounsellingModulePageWidget(

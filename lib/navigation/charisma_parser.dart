@@ -36,6 +36,8 @@ class CharismaParser extends RouteInformationParser<PageConfiguration> {
         return CounsellingModuleIPVConfig;
       case AboutUsPath:
         return AboutUsConfig;
+      case ReferralsPath:
+        return ReferrlasConfig;
       default:
         return HomePageConfig;
     }

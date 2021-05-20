@@ -7,12 +7,16 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
 
 class CharismaExpandableWidget extends StatelessWidget {
-  const CharismaExpandableWidget(
-      {Key? key, required this.data, required this.assetsUrl})
-      : super(key: key);
+  const CharismaExpandableWidget({
+    Key? key,
+    required this.data,
+    this.widgetContent,
+    required this.assetsUrl,
+  }) : super(key: key);
 
   final Map<String, dynamic> data;
   final String? assetsUrl;
+  final Widget? widgetContent;
 
   @override
   Widget build(BuildContext context) {
@@ -81,15 +85,17 @@ class CharismaExpandableWidget extends StatelessWidget {
                         key: ValueKey('CharismaExpandableImage'),
                       ),
                     ),
-                  Html(
-                    data: data['description'],
-                    style: {
-                      'body': Style(
-                        padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      ),
-                    },
-                    key: ValueKey('CharismaExpandableDescription'),
-                  ),
+                  if (data['description'] != null)
+                    Html(
+                      data: data['description'],
+                      style: {
+                        'body': Style(
+                          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        ),
+                      },
+                      key: ValueKey('CharismaExpandableDescription'),
+                    ),
+                  if (widgetContent != null) widgetContent as Widget
                 ],
               ),
               theme: ExpandableThemeData(
