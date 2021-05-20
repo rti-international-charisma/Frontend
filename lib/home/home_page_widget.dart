@@ -67,9 +67,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         } else if (data.hasError) {
           return Scaffold(
               body: Center(
-                child: Text(
-                    "Oops! Looks like something went wrong. Please try again later."),
-              ));
+            child: Text(
+                "Oops! Looks like something went wrong. Please try again later."),
+          ));
         }
         return Transform.scale(
           scale: 0.1,
@@ -80,23 +80,31 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   }
 
   Widget getHomePageWithResults(BuildContext context) {
+    Future<dynamic> getHome() async {
+      return widget.apiClient?.get<Map<String, dynamic>?>('/home');
+    }
+
+    Future<dynamic> getUserData() async {
+      return SharedPreferenceHelper().getUserData();
+    }
+
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Column(
         children: [
           FutureBuilder(
-            future: widget.apiClient?.get<Map<String, dynamic>?>('/home'),
+            future: Future.wait([getHome(), getUserData()]),
             builder: (context, data) {
               if (data.hasData) {
-                return FutureBuilder<Map<String, dynamic>?>(
-                    future: SharedPreferenceHelper().getUserData(),
-                    builder: (ct, userData) {
-                      return HeroImageWidget(
-                        data: (data.data as Map<String, dynamic>)['heroImage'],
-                        userGreeting: '<h2>Welcome back, ${(userData.data as Map<String, dynamic>)['username']}!</h2>',
-                        assetsUrl: widget.assetsUrl,
-                      );
-                    }
+                var dataList = data.data as List<dynamic>;
+                var homeData = dataList[0] as Map<String, dynamic>;
+                var userData = dataList[1] as Map<String, dynamic>;
+
+                return HeroImageWidget(
+                  data: homeData['heroImage'],
+                  userGreeting:
+                      '<h2>Welcome back, ${userData['username']}!</h2>',
+                  assetsUrl: widget.assetsUrl,
                 );
               }
 
@@ -118,51 +126,46 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    bool shouldRenderGeneralHomePage = true;
-
     return Scaffold(
       appBar: CharismaAppBar(),
       body: SafeArea(
-          child: Consumer<UserStateModel>(
-              builder: (ctx, userState, child){
-                if(userState.isLoggedIn) {
-                  return FutureBuilder<bool>(
-                    future: SharedPreferenceHelper().getUserToken()?.
-                    then((token) async {
-                      return await widget.apiClient?.getScores(token);
-                    }).then((value) {
-                      if ((value['sections'] as List).isEmpty) {
-                        return true;
-                      } else {
-                        return false;
-                      }
-                    }),
-                    builder: (context, displayGeneralHome) {
-                      if (displayGeneralHome.hasData) {
-                        if (displayGeneralHome.data!) {
-                          return getGeneralHomePage(context, true);
-                        } else {
-                          return getHomePageWithResults(context);
-                        }
-                      } else if (displayGeneralHome.hasError){
-                        return Scaffold(
-                            body: Center(
-                              child: Text(
-                                  "Oops! Looks like something went wrong. Please try again later."),
-                            ));
-                      }
-                      return Transform.scale(
-                        scale: 0.1,
-                        child: CircularProgressIndicator(),
-                      );
-                    },
-                  );
-                } else {
-                  return getGeneralHomePage(context, false);
-                }
+          child: Consumer<UserStateModel>(builder: (ctx, userState, child) {
+        if (userState.isLoggedIn) {
+          return FutureBuilder<bool>(
+            future:
+                SharedPreferenceHelper().getUserToken()?.then((token) async {
+              return await widget.apiClient?.getScores(token);
+            }).then((value) {
+              if ((value['sections'] as List).isEmpty) {
+                return true;
+              } else {
+                return false;
               }
-          )
-      ),
+            }),
+            builder: (context, displayGeneralHome) {
+              if (displayGeneralHome.hasData) {
+                if (displayGeneralHome.data!) {
+                  return getGeneralHomePage(context, true);
+                } else {
+                  return getHomePageWithResults(context);
+                }
+              } else if (displayGeneralHome.hasError) {
+                return Scaffold(
+                    body: Center(
+                  child: Text(
+                      "Oops! Looks like something went wrong. Please try again later."),
+                ));
+              }
+              return Transform.scale(
+                scale: 0.1,
+                child: CircularProgressIndicator(),
+              );
+            },
+          );
+        } else {
+          return getGeneralHomePage(context, false);
+        }
+      })),
     );
   }
 }
