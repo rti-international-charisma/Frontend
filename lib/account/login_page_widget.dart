@@ -108,7 +108,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                     });
                                     widget._apiClient
                                         .post<Map<String, dynamic>?>('/login', {
-                                      "username": _usernameCtrl.text,
+                                      "username": _usernameCtrl.text.toLowerCase(),
                                       "password": _passwordCtrl.text
                                     })?.then((data) async {
                                       SharedPreferenceHelper()
