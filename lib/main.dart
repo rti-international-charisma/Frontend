@@ -13,7 +13,7 @@ import 'constants.dart';
 
 void main() async {
 
-  const env = String.fromEnvironment('ENV', defaultValue: 'stage');
+  const env = String.fromEnvironment('ENV', defaultValue: 'prod');
   String apiBaseUrl = environment.variables[env]!['baseUrl'] ?? 'http://0.0.0.0:5000/api';
   String assetsUrl = environment.variables[env]!['assetsUrl'] ?? 'http://chari-loadb-150mi7h76f40q-0c42746b9ba8f8ab.elb.ap-south-1.amazonaws.com:8055';
   print('Starting App for $env with API_BASEURL : $apiBaseUrl and ASSETS_URL: $assetsUrl');
