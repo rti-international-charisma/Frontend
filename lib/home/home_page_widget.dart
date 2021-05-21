@@ -136,11 +136,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 SharedPreferenceHelper().getUserToken()?.then((token) async {
               return await widget.apiClient?.getScores(token);
             }).then((value) {
-              if ((value['sections'] as List).isEmpty) {
-                return true;
-              } else {
-                return false;
-              }
+              return true;
+              // if ((value['sections'] as List).isEmpty) {
+              //   return true;
+              // } else {
+              //   return false;
+              // }
             }),
             builder: (context, displayGeneralHome) {
               if (displayGeneralHome.hasData) {

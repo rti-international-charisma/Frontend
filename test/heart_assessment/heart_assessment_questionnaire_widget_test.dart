@@ -1,3 +1,4 @@
+import 'package:charisma/account/user_state_model.dart';
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/heart_assessment/charisma_heart_app_bar.dart';
 import 'package:charisma/heart_assessment/heart_assessment_question.dart';
@@ -5,7 +6,9 @@ import 'package:charisma/heart_assessment/heart_assessment_questionnaire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../util/utils.dart';
+import 'dart:convert' as convert;
 
 void main() {
   ApiClient apiClient = MockApiClient();
@@ -139,6 +142,7 @@ void main() {
   testWidgets('it should change section', (WidgetTester tester) async {
     when(apiClient.get("/assessments")).thenAnswer((realInvocation) =>
         Future<Map<String, dynamic>?>.value(heartAssessment));
+    SharedPreferences.setMockInitialValues({});
 
     await tester.pumpWidget(
         HeartAssessmentQuestionnaireWidget(apiClient: apiClient)
@@ -227,5 +231,74 @@ void main() {
 
     //Should display section 1
     expect(find.textContaining('Section 1 of 2'), findsOneWidget);
+  });
+
+  testWidgets('it should not post partial scores when user is not logged in', (WidgetTester tester) async {
+    when(apiClient.get("/assessments")).thenAnswer((realInvocation) =>
+    Future<Map<String, dynamic>?>.value(heartAssessment));
+
+    await tester.pumpWidget(
+        HeartAssessmentQuestionnaireWidget(apiClient: apiClient)
+            .wrapWithMaterial());
+    await tester.pump();
+
+    await tester.tap(find.byKey(ValueKey('HAQuestion_1')));
+    await tester.pump();
+
+    await tester.drag(find.byKey(ValueKey('HAMainScroll')), Offset(0.0, -400));
+    await tester.pump();
+
+    await tester.tap(find.byKey(ValueKey('HAQuestion_2')));
+    await tester.pump();
+
+    await tester.drag(find.byKey(ValueKey('HAMainScroll')), Offset(0.0, -600));
+    await tester.pump();
+
+    await tester.tap(find.byKey(ValueKey('HANextDoneButton')));
+    await tester.pumpAndSettle();
+
+    verifyNever(apiClient.postWithHeaders('assessment/scores', any, any));
+  });
+
+
+  testWidgets('it should post partial scores when user is logged in', (WidgetTester tester) async {
+    when(apiClient.get("/assessments")).thenAnswer((realInvocation) =>
+    Future<Map<String, dynamic>?>.value(heartAssessment));
+    SharedPreferences.setMockInitialValues({});
+    String userToken = "some.jwt.token";
+    var userData = Future<Map<String, dynamic>>.value({
+      "user": {
+        "id": 1,
+        "username": "username",
+        "sec_q_id": 1,
+        "loginAttemptsLeft": 5
+      },
+      "token": userToken
+    });
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    userData.then((value) =>
+        preferences.setString('userData', convert.jsonEncode(value)));
+
+    await tester.pumpWidget(
+        HeartAssessmentQuestionnaireWidget(apiClient: apiClient)
+            .wrapWithMaterial());
+    await tester.pump();
+
+    await tester.tap(find.byKey(ValueKey('HAQuestion_1')));
+    await tester.pump();
+
+    await tester.drag(find.byKey(ValueKey('HAMainScroll')), Offset(0.0, -400));
+    await tester.pump();
+
+    await tester.tap(find.byKey(ValueKey('HAQuestion_2')));
+    await tester.pump();
+
+    await tester.drag(find.byKey(ValueKey('HAMainScroll')), Offset(0.0, -600));
+    await tester.pump();
+
+    await tester.tap(find.byKey(ValueKey('HANextDoneButton')));
+    await tester.pumpAndSettle();
+
+    verify(apiClient.postWithHeaders('assessment/scores', any, any));
   });
 }

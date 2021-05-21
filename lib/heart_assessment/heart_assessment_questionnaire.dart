@@ -1,8 +1,8 @@
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/shared_preference_helper.dart';
 import 'package:charisma/heart_assessment/charisma_heart_app_bar.dart';
-import 'package:charisma/heart_assessment/heart_assessment_model.dart';
 import 'package:charisma/heart_assessment/heart_assessment_app_bar.dart';
+import 'package:charisma/heart_assessment/heart_assessment_model.dart';
 import 'package:charisma/heart_assessment/heart_assessment_result_model.dart';
 import 'package:charisma/navigation/router_delegate.dart';
 import 'package:charisma/navigation/ui_pages.dart';
@@ -101,13 +101,18 @@ class _HeartAssessmentQuestionaireState
                         width: double.infinity,
                         child: ElevatedButton(
                             key: ValueKey('HANextDoneButton'),
-                            onPressed: () {
+                            onPressed: () async {
                               if (currentDisplaySection <
                                   (heartAssessment.assessment!.length - 1)) {
                                 if (areAllQuestionsInCurrentSectionCompleted(
                                     heartAssessment,
                                     result,
                                     currentDisplaySection)) {
+                                  // If User is logged in. Post Score Async
+                                  if (await SharedPreferenceHelper().isUserLoggedIn()) {
+                                    var userToken = await SharedPreferenceHelper().getUserToken();
+                                    postScores(widget.apiClient, createResultObject(heartAssessment) , userToken!);
+                                  }
                                   setState(() {
                                     currentDisplaySection++;
                                   });
@@ -232,7 +237,7 @@ class _HeartAssessmentQuestionaireState
         .values
         .toList();
 
-    var assessmentResult = HeartAssessmentResult(sections: sectionsList);
+    var assessmentResult = HeartAssessmentResult(sections: sectionsList, totalSections: heartAssessment.assessment!.length);
 
     return assessmentResult;
   }
@@ -244,9 +249,15 @@ class _HeartAssessmentQuestionaireState
         .section;
   }
 
+  Future? postScores(ApiClient apiClient,HeartAssessmentResult result, String token) {
+    return apiClient.postWithHeaders('assessment/scores', result.toJson(), {
+      'Authorization': 'Bearer $token'
+    });
+  }
+
   Future<void> showTestDonePopup(HeartAssessment heartAssessment,
       ApiClient apiClient, CharismaRouterDelegate routerDelegate) async {
-    var results = createResultObject(heartAssessment).toJson();
+    var results = createResultObject(heartAssessment);
 
     return showDialog<void>(
         context: context,
@@ -284,9 +295,7 @@ class _HeartAssessmentQuestionaireState
                             setState(() {
                               isLoading = true;
                             });
-                            await apiClient
-                                .postWithHeaders('/assessment/scores', results,
-                                {'Authorization': 'Bearer $token'})
+                            await postScores(apiClient, results, token)
                                 ?.then((value) => {
                               setState(() {
                                 isLoading = false;

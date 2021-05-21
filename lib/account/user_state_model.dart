@@ -6,6 +6,8 @@ class UserStateModel extends ChangeNotifier {
 
   bool isLoggedIn = false;
 
+  UserStateModel({this.isLoggedIn = false});
+
   void userLoggedIn() {
     isLoggedIn = true;
     notifyListeners();
