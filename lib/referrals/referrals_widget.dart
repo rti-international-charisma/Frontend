@@ -35,6 +35,7 @@ class ReferralsWidget extends StatelessWidget {
       int totalReferrals = element.value.length;
 
       referralsWidgetList.add(CharismaExpandableWidget(
+        key: ValueKey('ReferralExpandableListFor-${element.key}'),
         data: {'title': element.key},
         assetsUrl: assetsUrl,
         widgetContent: GridView.count(
@@ -57,6 +58,7 @@ class ReferralsWidget extends StatelessWidget {
                       fit: BoxFit.contain,
                       width: 70,
                       height: 70,
+                      key: ValueKey('ReferralLogo-${element.key}-$index'),
                     ),
                     Container(
                       alignment: Alignment.centerLeft,
@@ -67,15 +69,19 @@ class ReferralsWidget extends StatelessWidget {
                             color: ternaryColor,
                             fontSize: 14,
                             fontWeight: FontWeight.bold),
+                        key: ValueKey('ReferralName-${element.key}-$index'),
                       ),
                     ),
                     Html(
                       data: referralData['addressAndContactInfo'],
                       style: {
                         'body': Style(
-                            alignment: Alignment.centerLeft,
-                            margin: EdgeInsets.all(0))
+                          alignment: Alignment.centerLeft,
+                          margin: EdgeInsets.all(0),
+                        )
                       },
+                      key: ValueKey(
+                          'ReferralAddressContactInfo-${element.key}-$index'),
                     ),
                   ],
                 ),
@@ -111,6 +117,7 @@ class ReferralsWidget extends StatelessWidget {
                       child: Image.network(
                         "$assetsUrl${referralsPage['heroImage']['imageUrl']}",
                         fit: BoxFit.contain,
+                        key: ValueKey('ReferralHeroImage'),
                       ),
                     ),
                     Container(
@@ -126,7 +133,10 @@ class ReferralsWidget extends StatelessWidget {
                                   TextStyle(fontSize: 14, color: infoTextColor),
                             ),
                           ),
-                          Html(data: referralsPage['introduction']),
+                          Html(
+                            data: referralsPage['introduction'],
+                            key: ValueKey('ReferralIntro'),
+                          ),
                           ...getReferralsWidgetList(referralsList)
                         ],
                       ),
