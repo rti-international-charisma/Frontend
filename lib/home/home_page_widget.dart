@@ -7,6 +7,7 @@ import 'package:charisma/home/hero_image_widget.dart';
 import 'package:charisma/common/charisma_footer_links_widget.dart';
 import 'package:charisma/home/home_page_videos_widget.dart';
 import 'package:charisma/home/how_charisma_works_widget.dart';
+import 'package:charisma/home/partial_assessment_progress_widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +29,7 @@ class HomePageWidget extends StatefulWidget {
 class _HomePageWidgetState extends State<HomePageWidget> {
   Map<String, dynamic> userData = Map();
 
-  Widget getGeneralHomePage(BuildContext context, bool isLoggedIn) {
+  Widget getGeneralHomePage(BuildContext context, bool isLoggedIn, [double assessmentPercentageComplete = 0]) {
     return FutureBuilder<Map<String, dynamic>?>(
       future: widget.apiClient?.get<Map<String, dynamic>?>('/home'),
       builder: (context, data) {
@@ -47,10 +48,14 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   SizedBox(
                     height: 30,
                   ),
-                  HowCharismaWorks(
-                    data: homeData['steps'],
-                    assetsUrl: widget.assetsUrl,
-                  ),
+                  if (assessmentPercentageComplete == 0) ...[
+                    HowCharismaWorks(
+                      data: homeData['steps'],
+                      assetsUrl: widget.assetsUrl,
+                    )
+                  ] else ...[
+                    PartialAssessmentProgressWidget(assessmentPercentageComplete)
+                  ],
                   SizedBox(
                     height: 30,
                   ),
@@ -67,9 +72,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         } else if (data.hasError) {
           return Scaffold(
               body: Center(
-            child: Text(
-                "Oops! Looks like something went wrong. Please try again later."),
-          ));
+                child: Text(
+                    "Oops! Looks like something went wrong. Please try again later."),
+              ));
         }
         return Transform.scale(
           scale: 0.1,
@@ -131,29 +136,26 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       body: SafeArea(
           child: Consumer<UserStateModel>(builder: (ctx, userState, child) {
         if (userState.isLoggedIn) {
-          return FutureBuilder<bool>(
+          return FutureBuilder<double>(
             future:
-                SharedPreferenceHelper().getUserToken()?.then((token) async {
+            SharedPreferenceHelper().getUserToken()?.then((token) async {
               return await widget.apiClient?.getScores(token);
             }).then((value) {
-              return true;
-              // if ((value['sections'] as List).isEmpty) {
-              //   return true;
-              // } else {
-              //   return false;
-              // }
+              var attemptedSections = (value['sections'] as List).length;
+              var totalSections = value['totalSections'];
+              return (attemptedSections / totalSections) * 100;
             }),
-            builder: (context, displayGeneralHome) {
-              if (displayGeneralHome.hasData) {
-                if (displayGeneralHome.data!) {
-                  return getGeneralHomePage(context, true);
-                } else {
+            builder: (context, percentage) {
+              if (percentage.hasData) {
+                if (percentage.data == 100) { // Haven't completed a single section of assessment
                   return getHomePageWithResults(context);
+                } else {
+                  return getGeneralHomePage(context, true, percentage.data!);
                 }
-              } else if (displayGeneralHome.hasError) {
+              } else if (percentage.hasError) {
                 return Scaffold(
                     body: Center(
-                  child: Text(
+                      child: Text(
                       "Oops! Looks like something went wrong. Please try again later."),
                 ));
               }
