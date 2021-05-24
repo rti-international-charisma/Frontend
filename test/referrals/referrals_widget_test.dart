@@ -1,17 +1,11 @@
-import 'package:charisma/apiclient/api_client.dart';
-import 'package:charisma/heart_assessment/ha_results_page_widget.dart';
-import 'package:charisma/navigation/ui_pages.dart';
 import 'package:charisma/referrals/referrals_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert' as convert;
 import "package:collection/collection.dart";
 import '../util/utils.dart';
-import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   var referralPageData = {
