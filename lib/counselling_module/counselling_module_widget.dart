@@ -90,11 +90,9 @@ class CounsellingModuleWidget extends StatelessWidget {
                         itemBuilder:
                             (BuildContext context, int accordionIndex) =>
                                 CharismaExpandableWidget(
-                          title: moduleSections[sectionIndex]
-                              ['accordionContent'][accordionIndex]['title'],
-                          description: moduleSections[sectionIndex]
-                                  ['accordionContent'][accordionIndex]
-                              ['description'],
+                          data: moduleSections[sectionIndex]['accordionContent']
+                              [accordionIndex],
+                          assetsUrl: assetsUrl,
                           key: ValueKey(
                               'SectionAccordion$sectionIndex-$accordionIndex'),
                         ),

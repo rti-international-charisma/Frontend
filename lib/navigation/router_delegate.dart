@@ -4,7 +4,9 @@ import 'package:charisma/account/set_new_password_widget.dart';
 import 'package:charisma/counselling_module/counselling_module_page_widget.dart';
 import 'package:charisma/heart_assessment/ha_landing_page_widget.dart';
 import 'package:charisma/heart_assessment/heart_assessment_questionnaire.dart';
-import 'package:charisma/heart_assessment/ha_results_widget.dart';
+import 'package:charisma/heart_assessment/ha_results_page_widget.dart';
+import 'package:charisma/hiv_prevention_prep/hiv_prevention_prep_widget.dart';
+import 'package:charisma/referrals/referrals_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:charisma/account/login_page_widget.dart';
 import 'package:charisma/account/profile_page_widget.dart';
@@ -88,6 +90,18 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
     push(newRoute);
   }
 
+  void replaceAll(PageConfiguration pageConfig) {
+    final shouldPushPage = _pages.isEmpty ||
+        (_pages.last.arguments as PageConfiguration).uiPage !=
+            pageConfig.uiPage;
+
+    if (shouldPushPage) {
+      _pages.clear();
+      push(pageConfig);
+      notifyListeners();
+    }
+  }
+
   PageData? _getPageData(PageConfiguration pageConfig) {
     switch (pageConfig.uiPage) {
       case Pages.Home:
@@ -124,7 +138,7 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
         );
       case Pages.HAResults:
         return PageData(
-          HAResultsWidget(
+          HAResultsPageWidget(
             apiClient: _apiClient,
             assetsUrl: _assetsUrl,
           ),
@@ -138,6 +152,21 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
           ),
           AboutUsConfig,
         );
+      case Pages.HIVPreventionPrep:
+        return PageData(
+          HIVPreventionPrepWidget(
+            apiClient: _apiClient,
+            assetsUrl: _assetsUrl,
+          ),
+          HIVPreventionPrepConfig,
+        );
+      case Pages.Referrals:
+        return PageData(
+            ReferralsWidget(
+              apiClient: _apiClient,
+              assetsUrl: _assetsUrl,
+            ),
+            ReferrlasConfig);
       case Pages.CounsellingModulePrepUse:
         return PageData(
           CounsellingModulePageWidget(

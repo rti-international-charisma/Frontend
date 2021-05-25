@@ -34,7 +34,7 @@ class AboutUs extends StatelessWidget {
                       children: [
                         Container(
                           child: new Image.network(
-                            "$assetsUrl${aboutUsData!['images'][1]['imageUrl']}",
+                            "$assetsUrl${aboutUsData!['images'][0]['imageUrl']}",
                             fit: BoxFit.cover,
                             width: double.infinity,
                             alignment: Alignment.center,
@@ -75,7 +75,7 @@ class AboutUs extends StatelessWidget {
                           alignment: Alignment.centerLeft,
                           padding: EdgeInsets.only(left: 20),
                           child: Text(
-                            aboutUsData['images'][0]['title'],
+                            aboutUsData['images'][1]['title'],
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 14,
@@ -86,9 +86,10 @@ class AboutUs extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
                           child: new Image.network(
-                            "$assetsUrl${aboutUsData['images'][0]['imageUrl']}",
+                            "$assetsUrl${aboutUsData['images'][1]['imageUrl']}",
                             fit: BoxFit.contain,
                             width: double.infinity,
+                            height: 300,
                             alignment: Alignment.center,
                             key: ValueKey('AboutUsHEARTImage'),
                           ),

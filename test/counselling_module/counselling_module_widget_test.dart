@@ -132,9 +132,7 @@ void main() {
               .single
               .widget as CharismaExpandableWidget;
 
-          expect(sectionAccordionWidget.title, equals(accordionData['title']));
-          expect(sectionAccordionWidget.description,
-              equals(accordionData['description']));
+          expect(sectionAccordionWidget.data, equals(accordionData));
         }
       }
     }

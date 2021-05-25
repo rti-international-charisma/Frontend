@@ -1,3 +1,4 @@
+import 'package:charisma/account/user_state_model.dart';
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/network_image_builder.dart';
 import 'package:charisma/common/shared_preference_helper.dart';
@@ -5,7 +6,6 @@ import 'package:charisma/navigation/router_delegate.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:mockito/mockito.dart';
 
 class Utils {
@@ -39,6 +39,29 @@ extension MaterialWrap on Widget {
               create: (ctx) => MockNetworkImageBuilder()),
           Provider<Future<SharedPreferences>>(
               create: (_) => SharedPreferences.getInstance()),
+          ChangeNotifierProvider(create: (context) => UserStateModel()),
+          InheritedProvider<CharismaRouterDelegate>(
+            create: (ctx) => CharismaRouterDelegate(
+              MockApiClient(),
+              Utils.apiBaseUrl,
+              Utils.assetsUrl,
+            ),
+          )
+        ],
+        child: MaterialApp(
+            home: Scaffold(
+          body: this,
+        )),
+      );
+
+  Widget wrapWithMaterialAndUserState(UserStateModel userStateModel) =>
+      MultiProvider(
+        providers: [
+          Provider<NetworkImageBuilder>(
+              create: (ctx) => MockNetworkImageBuilder()),
+          Provider<Future<SharedPreferences>>(
+              create: (_) => SharedPreferences.getInstance()),
+          ChangeNotifierProvider(create: (context) => userStateModel),
           InheritedProvider<CharismaRouterDelegate>(
             create: (ctx) => CharismaRouterDelegate(
               MockApiClient(),
@@ -57,7 +80,23 @@ extension MaterialWrap on Widget {
       MultiProvider(
         providers: [
           InheritedProvider<CharismaRouterDelegate>(
-              create: (ctx) => routerDelegate)
+              create: (ctx) => routerDelegate),
+          ChangeNotifierProvider(create: (context) => UserStateModel())
+        ],
+        child: MaterialApp(
+          home: Scaffold(
+            body: this,
+          ),
+        ),
+      );
+
+  Widget wrapWithMaterialMockRouterUserState(
+          MockRouterDelegate routerDelegate, UserStateModel userStateModel) =>
+      MultiProvider(
+        providers: [
+          InheritedProvider<CharismaRouterDelegate>(
+              create: (ctx) => routerDelegate),
+          ChangeNotifierProvider(create: (context) => userStateModel),
         ],
         child: MaterialApp(
           home: Scaffold(

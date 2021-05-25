@@ -42,7 +42,7 @@ void main() {
                 as Image)
             .image,
         equals(NetworkImage(
-            "${Utils.assetsUrl}${(pageContent['images'] as List).elementAt(1)['imageUrl']}")));
+            "${Utils.assetsUrl}${(pageContent['images'] as List).elementAt(0)['imageUrl']}")));
     expect(
         (find.byKey(ValueKey('AboutUsTitle')).evaluate().single.widget as Text)
             .data,
@@ -65,13 +65,13 @@ void main() {
         (find.byKey(ValueKey('AboutUsHEARTTitle')).evaluate().single.widget
                 as Text)
             .data,
-        equals((pageContent['images'] as List).elementAt(0)['title']));
+        equals((pageContent['images'] as List).elementAt(1)['title']));
     expect(
         (find.byKey(ValueKey('AboutUsHEARTImage')).evaluate().single.widget
                 as Image)
             .image,
         equals(NetworkImage(
-            "${Utils.assetsUrl}${(pageContent['images'] as List).elementAt(0)['imageUrl']}")));
+            "${Utils.assetsUrl}${(pageContent['images'] as List).elementAt(1)['imageUrl']}")));
     expect(
         (find.byKey(ValueKey('AboutUsSummary')).evaluate().single.widget
                 as Html)

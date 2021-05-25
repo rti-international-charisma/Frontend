@@ -51,7 +51,7 @@ class _HeartAssessmentQuestionaireState
             return Scaffold(
               key: _scaffoldKey,
               appBar: CharismaHEARTAppBar(
-                height: 237,
+                height: 180,
                 child: HeartAssessmentAppBar(
                   fieldKey: 'HAAppBar',
                   sectionCount:
@@ -294,7 +294,6 @@ class _HeartAssessmentQuestionaireState
                                       }),
                                       print('Success '),
                                       Navigator.pop(context)
-                                      //TODO: Go to Results screen
                                     })
                                 .catchError((error) => {
                                       setState(() {
@@ -314,7 +313,6 @@ class _HeartAssessmentQuestionaireState
                             print('User token NOT available. === $results');
                             await SharedPreferenceHelper()
                                 .setResultsData(results);
-                            //TODO: Go to Results screen, Pass this data to Result screen ?
                           }
 
                           routerDelegate.push(HAResultsConfig);

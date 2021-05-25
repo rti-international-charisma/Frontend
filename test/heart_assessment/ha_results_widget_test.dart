@@ -1,5 +1,5 @@
 import 'package:charisma/apiclient/api_client.dart';
-import 'package:charisma/heart_assessment/ha_results_widget.dart';
+import 'package:charisma/heart_assessment/ha_results_page_widget.dart';
 import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -128,10 +128,12 @@ void main() {
 
     when(apiClient.getCounsellingModule(3, 'oppose')).thenAnswer((_) => module);
 
-    await tester.pumpWidget(HAResultsWidget(
-      apiClient: apiClient,
-      assetsUrl: Utils.assetsUrl,
-    ).wrapWithMaterial());
+    await tester.pumpWidget(
+      HAResultsPageWidget(
+        apiClient: apiClient,
+        assetsUrl: Utils.assetsUrl,
+      ).wrapWithMaterial(),
+    );
     await mockNetworkImagesFor(() => tester.pump());
 
     await tester.pump(Duration.zero);
@@ -168,7 +170,7 @@ void main() {
 
     when(apiClient.getCounsellingModule(3, 'oppose')).thenAnswer((_) => module);
 
-    await tester.pumpWidget(HAResultsWidget(
+    await tester.pumpWidget(HAResultsPageWidget(
       apiClient: apiClient,
       assetsUrl: Utils.assetsUrl,
     ).wrapWithMaterial());
@@ -198,7 +200,7 @@ void main() {
     results.then(
         (value) => preferences.setString('results', convert.jsonEncode(value)));
 
-    await tester.pumpWidget(HAResultsWidget(
+    await tester.pumpWidget(HAResultsPageWidget(
       apiClient: apiClient,
       assetsUrl: Utils.assetsUrl,
     ).wrapWithMaterialMockRouter(routerDelegate));
