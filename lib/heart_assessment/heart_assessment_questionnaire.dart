@@ -25,7 +25,6 @@ class HeartAssessmentQuestionnaireWidget extends StatefulWidget {
 
 class _HeartAssessmentQuestionaireState
     extends State<HeartAssessmentQuestionnaireWidget> {
-  Future<Map<String, dynamic>?>? getAssessmentQuestionsFuture;
   int currentDisplaySection = 0;
   ScrollController _scrollController = ScrollController();
   Map<String, Map<String, int>> result = {};
@@ -33,21 +32,53 @@ class _HeartAssessmentQuestionaireState
       GlobalKey<ScaffoldMessengerState>();
   bool isLoading = false;
 
-  @override
-  void initState() {
-    getAssessmentQuestionsFuture = widget.apiClient.get('/assessments');
+  var scoresCache, questionsCache;
+
+  Future<dynamic> getScores() async {
+    String? userToken = await SharedPreferenceHelper().getUserToken();
+    if (userToken != null) {
+      if (scoresCache != null) {
+        print('Returning Scores from Cache');
+        return scoresCache;
+      } else {
+        print('Fetching Scores');
+        var scores = await widget.apiClient.getScores(userToken);
+        scoresCache = mapScoreResultToResult(HeartAssessmentResult.fromJson(scores));
+        return scoresCache;
+      }
+    } else {
+      return Future.value(null);
+    }
+  }
+
+  Future<dynamic> getQuestions() async {
+    if (questionsCache != null) {
+      print('Returning Questions from Cache');
+      return questionsCache;
+    } else {
+      print('Fetching Questions');
+      questionsCache = await widget.apiClient.get('/assessments')!;
+      return questionsCache;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final routerDelegate = Provider.of<CharismaRouterDelegate>(context);
 
-    return FutureBuilder<Map<String, dynamic>?>(
-        future: getAssessmentQuestionsFuture,
+    return FutureBuilder(
+        future: Future.wait([getScores(),getQuestions()]),
         builder: (context, data) {
           if (data.hasData) {
+            var questionsData = (data.data as List)[1];
+            var scoresData = (data.data as List)[0];
+            if(scoresData != null) {
+              result = scoresData;
+              print('Attempted Questions and Answers $result');
+            }
             HeartAssessment heartAssessment =
-                HeartAssessment.fromJson(data.data!);
+                HeartAssessment.fromJson(questionsData!);
+            print('HeartAssessment ${heartAssessment.toJson()}');
             return Scaffold(
               key: _scaffoldKey,
               appBar: CharismaHEARTAppBar(
@@ -80,20 +111,18 @@ class _HeartAssessmentQuestionaireState
                       scrollDirection: Axis.vertical,
                       child: Column(
                         children: mapIndexed(
-                            heartAssessment
-                                .assessment?[currentDisplaySection].questions,
-                            (i, question) => Container(
+                            heartAssessment.assessment?[currentDisplaySection].questions,
+                            (i, question) =>
+                                Container(
                                   child:
-                                      QuestionWidget(++i, question as Question,
-                                          (qId, selectedOption) {
+                                  QuestionWidget(index: ++i, heartQuestion: question as Question, optionSelected: (qId, selectedOption) {
                                     addOrUpdateResults(
-                                        heartAssessment
-                                            .assessment![currentDisplaySection]
-                                            .id!,
+                                        heartAssessment.assessment![currentDisplaySection].id!,
                                         qId,
                                         selectedOption);
-                                  }),
-                                )).toList(),
+                                  }, score: getExistingScore(heartAssessment, question)),
+                                )
+                        ).toList(),
                       ),
                     ),
                     SizedBox(
@@ -195,11 +224,41 @@ class _HeartAssessmentQuestionaireState
         });
   }
 
+  int? getExistingScore(HeartAssessment heartAssessment, Question question) {
+    // result[heartAssessment.assessment?[currentDisplaySection].id]?[question.id];
+
+    print('Question -- ${question.text}  ${question.id}');
+    print('TEMPPP Current Section $currentDisplaySection');
+    var currentSection = heartAssessment.assessment?[currentDisplaySection];
+    // print('---------  $currentSection');
+    print('ID ---------  ${currentSection?.id}');
+    print('QuestionId ------ ${question.id}');
+    var temp = result[currentSection?.id]?[question.id];
+    print('TEMPPP++ $temp');
+
+    return temp;
+  }
+
   void addOrUpdateResults(String sectionId, String qId, int selectedOption) {
     if (result[sectionId] == null) {
       result[sectionId] = {};
     }
     result[sectionId]![qId] = selectedOption;
+    print('Actual Result $result');
+  }
+
+  Map<String, Map<String, int>> mapScoreResultToResult(HeartAssessmentResult heartAssessmentResult) {
+    print('mapScoreResultToResult');
+    Map<String, Map<String, int>> tempMap = {};
+    heartAssessmentResult.sections.map((section) {
+      Map<String, int> qMap = {};
+      section.questions.map((answers) {
+        qMap[answers.questionId] = answers.score;
+      }).toList();
+      tempMap[section.sectionId] = qMap;
+    }
+    ).toList();
+    return tempMap;
   }
 
   bool areAllQuestionsInCurrentSectionCompleted(HeartAssessment heartAssessment,

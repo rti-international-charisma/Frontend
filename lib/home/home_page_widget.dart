@@ -93,12 +93,13 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       return SharedPreferenceHelper().getUserData();
     }
 
+    List<Future> list = [getHome(), getUserData()];
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Column(
         children: [
           FutureBuilder(
-            future: Future.wait([getHome(), getUserData()]),
+            future: Future.wait(list),
             builder: (context, data) {
               if (data.hasData) {
                 var dataList = data.data as List<dynamic>;

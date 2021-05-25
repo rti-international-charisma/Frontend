@@ -26,7 +26,7 @@ class HeartAssessmentResult {
 
   @override
   String toString() {
-    return 'HeartAssessmentResult : $sections';
+    return 'Sections: $sections totalSections: $totalSections';
   }
 }
 

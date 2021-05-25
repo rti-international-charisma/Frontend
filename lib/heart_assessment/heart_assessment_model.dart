@@ -19,6 +19,11 @@ class HeartAssessment {
   Map<String, dynamic> toJson() => {
     "assessment": List<dynamic>.from(assessment!.map((x) => x.toJson())),
   };
+
+  @override
+  String toString() {
+    return 'HeartAssessment{assessment: $assessment}';
+  }
 }
 
 
@@ -47,6 +52,11 @@ class Assessment {
     "introduction": introduction,
     "questions": List<dynamic>.from(questions!.map((x) => x?.toJson())),
   };
+
+  @override
+  String toString() {
+    return 'Assessment{id: $id, section: $section, introduction: $introduction, questions: $questions}';
+  }
 }
 
 
@@ -79,6 +89,11 @@ class Question {
     "options": List<dynamic>.from(options!.map((x) => x.toJson())),
     "positiveNarrative": positiveNarrative,
   };
+
+  @override
+  String toString() {
+    return 'Question{id: $id, text: $text, description: $description, options: $options, positiveNarrative: $positiveNarrative}';
+  }
 }
 
 class Option {
@@ -99,4 +114,9 @@ class Option {
     "text": text,
     "weightage": weightage,
   };
+
+  @override
+  String toString() {
+    return 'Option{text: $text, weightage: $weightage}';
+  }
 }
