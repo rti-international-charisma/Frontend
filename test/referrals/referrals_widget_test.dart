@@ -67,7 +67,17 @@ void main() {
 
     when(apiClient.get('/content/referral_intro')).thenAnswer((_) => pageData);
 
-    when(apiClient.get('/referrals')).thenAnswer((_) => referrals);
+    const referralTypes = [
+      'Hotlines',
+      'Shelters (Youth)',
+      'Shelters (Adult)',
+      'Counselling',
+      'Legal Assistance',
+      'Mental Health and Trauma'
+    ];
+
+    when(apiClient.get('/referrals?filter=${referralTypes.join(",")}'))
+        .thenAnswer((_) => referrals);
 
     await tester.pumpWidget(
         ReferralsWidget(apiClient: apiClient, assetsUrl: Utils.assetsUrl)
