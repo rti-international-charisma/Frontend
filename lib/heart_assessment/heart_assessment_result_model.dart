@@ -8,21 +8,25 @@ String heartAssessmentResultToJson(HeartAssessmentResult data) => json.encode(da
 class HeartAssessmentResult {
   HeartAssessmentResult({
     required this.sections,
+    required this.totalSections
   });
 
   List<Section> sections;
+  int totalSections;
 
   factory HeartAssessmentResult.fromJson(Map<String, dynamic> json) => HeartAssessmentResult(
     sections: List<Section>.from(json["sections"].map((x) => Section.fromJson(x))),
+    totalSections: json['totalSections']
   );
 
   Map<String, dynamic> toJson() => {
     "sections": List<dynamic>.from(sections.map((x) => x.toJson())),
+    "totalSections": totalSections
   };
 
   @override
   String toString() {
-    return 'HeartAssessmentResult : $sections';
+    return 'Sections: $sections totalSections: $totalSections';
   }
 }
 
