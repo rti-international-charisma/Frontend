@@ -14,6 +14,7 @@ const String CounsellingModuleIPVPath = '/module/ipv';
 const String AboutUsPath = '/aboutus';
 const String ReferralsPath = '/referrals';
 const String HIVPreventionPrepPath = '/hiv_prevention_prep';
+const String MalePartnerInfoPath = '/male_partner_info';
 
 enum Pages {
   Home,
@@ -31,6 +32,7 @@ enum Pages {
   AboutUs,
   Referrals,
   HIVPreventionPrep,
+  MalePartnerInfo,
 }
 
 class PageConfiguration {
@@ -116,4 +118,9 @@ const PageConfiguration HIVPreventionPrepConfig = PageConfiguration(
   key: 'HIVPreventionPrep',
   path: HIVPreventionPrepPath,
   uiPage: Pages.HIVPreventionPrep,
+);
+const PageConfiguration MalePartnerInfoConfig = PageConfiguration(
+  key: 'MalePartnerInfo',
+  path: MalePartnerInfoPath,
+  uiPage: Pages.MalePartnerInfo,
 );

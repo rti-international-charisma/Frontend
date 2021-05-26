@@ -11,7 +11,7 @@ class CharismaFooterLinks extends StatelessWidget {
 
   static const links = [
     {'text': 'HIV Prevention: PrEP', 'url': HIVPreventionPrepPath},
-    {'text': 'Male Partner Information Pack', 'url': null},
+    {'text': 'Male Partner Information Pack', 'url': MalePartnerInfoPath},
     {'text': 'Referrals', 'url': ReferralsPath},
     {'text': 'Take the HEART assessment test', 'url': HALandingPagePath},
     {
