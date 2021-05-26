@@ -8,11 +8,24 @@ class HeroImageWidget extends StatelessWidget {
     @required this.data,
     this.userGreeting,
     this.assetsUrl,
+    this.isTestComplete,
   }) : super(key: key);
 
   final Map<String, dynamic>? data;
   final String? userGreeting;
   final String? assetsUrl;
+  final bool? isTestComplete;
+
+  String getCaption(Map<String, dynamic>? data) {
+    switch (isTestComplete) {
+      case true:
+        return (userGreeting ?? '') + data!['heroImageCaptionTestComplete'];
+      case false:
+        return (userGreeting ?? '') + data!['heroImageCaptionTestIncomplete'];
+      default:
+        return data!['introduction'];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,17 +43,11 @@ class HeroImageWidget extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           alignment: Alignment.bottomCenter,
           padding: EdgeInsets.all(20),
-          child: userGreeting == null
-              ? Html(
-                  data: data!['introduction'],
-                  key: ValueKey('HeroImageText'),
-                  style: {'body': Style(color: Colors.white)},
-                )
-              : Html(
-                  data: (userGreeting ?? '') + data!['personalisedMessage'],
-                  key: ValueKey('HeroImageText'),
-                  style: {'body': Style(color: Colors.white)},
-                ),
+          child: Html(
+            data: getCaption(data),
+            key: ValueKey('HeroImageText'),
+            style: {'body': Style(color: Colors.white)},
+          ),
         ),
       )
     ]);

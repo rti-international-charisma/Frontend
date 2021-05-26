@@ -29,7 +29,8 @@ class HomePageWidget extends StatefulWidget {
 class _HomePageWidgetState extends State<HomePageWidget> {
   Map<String, dynamic> userData = Map();
 
-  Widget getGeneralHomePage(BuildContext context, bool isLoggedIn, [double assessmentPercentageComplete = 0]) {
+  Widget getGeneralHomePage(BuildContext context, bool isLoggedIn,
+      [double assessmentPercentageComplete = 0]) {
     return FutureBuilder<Map<String, dynamic>?>(
       future: widget.apiClient?.get<Map<String, dynamic>?>('/home'),
       builder: (context, data) {
@@ -42,20 +43,29 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               child: Column(
                 children: [
                   HeroImageWidget(
-                    data: homeData!['heroImage'],
+                    data: {
+                      ...homeData!['heroImage'],
+                      'heroImageCaptionTestIncomplete':
+                          homeData['heroImageCaptionTestIncomplete'],
+                    },
+                    userGreeting: isLoggedIn
+                        ? '<h2>Welcome back, ${userData['username']}!</h2>'
+                        : null,
                     assetsUrl: widget.assetsUrl,
+                    isTestComplete:
+                        assessmentPercentageComplete == 0 ? null : false,
                   ),
                   SizedBox(
                     height: 30,
                   ),
-                  if (assessmentPercentageComplete == 0) ...[
+                  if (assessmentPercentageComplete == 0)
                     HowCharismaWorks(
                       data: homeData['steps'],
                       assetsUrl: widget.assetsUrl,
                     )
-                  ] else ...[
-                    PartialAssessmentProgressWidget(assessmentPercentageComplete)
-                  ],
+                  else
+                    PartialAssessmentProgressWidget(
+                        assessmentPercentageComplete),
                   SizedBox(
                     height: 30,
                   ),
@@ -72,9 +82,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         } else if (data.hasError) {
           return Scaffold(
               body: Center(
-                child: Text(
-                    "Oops! Looks like something went wrong. Please try again later."),
-              ));
+            child: Text(
+                "Oops! Looks like something went wrong. Please try again later."),
+          ));
         }
         return Transform.scale(
           scale: 0.1,
@@ -85,29 +95,23 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   }
 
   Widget getHomePageWithResults(BuildContext context) {
-    Future<dynamic> getHome() async {
-      return widget.apiClient?.get<Map<String, dynamic>?>('/home');
-    }
-
-    Future<dynamic> getUserData() async {
-      return SharedPreferenceHelper().getUserData();
-    }
-
-    List<Future> list = [getHome(), getUserData()];
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Column(
         children: [
           FutureBuilder(
-            future: Future.wait(list),
+            future: widget.apiClient?.get<Map<String, dynamic>?>('/home'),
             builder: (context, data) {
               if (data.hasData) {
-                var dataList = data.data as List<dynamic>;
-                var homeData = dataList[0] as Map<String, dynamic>;
-                var userData = dataList[1] as Map<String, dynamic>;
+                var homeData = data.data as Map<String, dynamic>;
 
                 return HeroImageWidget(
-                  data: homeData['heroImage'],
+                  data: {
+                    ...homeData['heroImage'],
+                    'heroImageCaptionTestComplete':
+                        homeData['heroImageCaptionTestComplete'],
+                  },
+                  isTestComplete: true,
                   userGreeting:
                       '<h2>Welcome back, ${userData['username']}!</h2>',
                   assetsUrl: widget.assetsUrl,
@@ -138,8 +142,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           child: Consumer<UserStateModel>(builder: (ctx, userState, child) {
         if (userState.isLoggedIn) {
           return FutureBuilder<double>(
-            future:
-            SharedPreferenceHelper().getUserToken()?.then((token) async {
+            future: SharedPreferenceHelper().getUserData()?.then((data) async {
+              userData = data;
+
+              String? token = await SharedPreferenceHelper().getUserToken();
+
               return await widget.apiClient?.getScores(token);
             }).then((value) {
               var attemptedSections = (value['sections'] as List).length;
@@ -149,7 +156,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             }),
             builder: (context, percentage) {
               if (percentage.hasData) {
-                if (percentage.data == 100) { // Haven't completed a single section of assessment
+                if (percentage.data == 100) {
                   return getHomePageWithResults(context);
                 } else {
                   return getGeneralHomePage(context, true, percentage.data!);
@@ -157,7 +164,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               } else if (percentage.hasError) {
                 return Scaffold(
                     body: Center(
-                      child: Text(
+                  child: Text(
                       "Oops! Looks like something went wrong. Please try again later."),
                 ));
               }
