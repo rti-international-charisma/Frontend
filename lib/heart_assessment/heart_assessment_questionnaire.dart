@@ -77,7 +77,7 @@ class _HeartAssessmentQuestionaireState
             return Scaffold(
               key: _scaffoldKey,
               appBar: CharismaHEARTAppBar(
-                height: 237,
+                height: 180,
                 child: HeartAssessmentAppBar(
                   fieldKey: 'HAAppBar',
                   sectionCount:
@@ -340,7 +340,8 @@ class _HeartAssessmentQuestionaireState
                     padding: EdgeInsets.only(left: 20, right: 20, top: 7),
                     child: ElevatedButton(
                         onPressed: () async {
-                          String? token = await SharedPreferenceHelper().getUserToken();
+                          String? token =
+                              await SharedPreferenceHelper().getUserToken();
                           if (token != null) {
                             print('User token available. Posting scores');
                             setState(() {
@@ -348,26 +349,26 @@ class _HeartAssessmentQuestionaireState
                             });
                             await postScores(apiClient, results, token)
                                 ?.then((value) => {
-                              setState(() {
-                                isLoading = false;
-                              }),
-                              print('Success '),
-                              Navigator.pop(context)
-                            })
+                                      setState(() {
+                                        isLoading = false;
+                                      }),
+                                      print('Success '),
+                                      Navigator.pop(context)
+                                    })
                                 .catchError((error) => {
-                              setState(() {
-                                isLoading = false;
-                              }),
-                              print('Error! '),
-                              ScaffoldMessenger.of(
-                                  _scaffoldKey.currentContext!)
-                                  .showSnackBar(SnackBar(
-                                content: Text(
-                                    'There was an error while submitting the result. Please try again'),
-                                backgroundColor: Colors.red,
-                              )),
-                              Navigator.pop(context)
-                            });
+                                      setState(() {
+                                        isLoading = false;
+                                      }),
+                                      print('Error! '),
+                                      ScaffoldMessenger.of(
+                                              _scaffoldKey.currentContext!)
+                                          .showSnackBar(SnackBar(
+                                        content: Text(
+                                            'There was an error while submitting the result. Please try again'),
+                                        backgroundColor: Colors.red,
+                                      )),
+                                      Navigator.pop(context)
+                                    });
                           } else {
                             print('User token NOT available. === $results');
                             await SharedPreferenceHelper()

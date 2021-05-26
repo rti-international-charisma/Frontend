@@ -1,4 +1,3 @@
-
 import 'package:charisma/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +17,7 @@ class HeartAssessmentAppBar extends StatelessWidget {
     this.sectionCount,
     this.title,
     this.introduction,
-    this.closeTapped
+    this.closeTapped,
   });
 
   @override
@@ -27,7 +26,7 @@ class HeartAssessmentAppBar extends StatelessWidget {
         key: Key(fieldKey!),
         color: ternaryColor,
         child: Padding(
-          padding: EdgeInsets.fromLTRB(20, 20, 20, 36),
+          padding: EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -44,34 +43,32 @@ class HeartAssessmentAppBar extends StatelessWidget {
                   ),
                   IconButton(
                     onPressed: closeTapped,
-                    icon: Icon(
-                        Icons.close,
-                        color: Colors.white
-                    ),
+                    icon: Icon(Icons.close, color: Colors.white),
                   ),
                 ],
               ),
-              SizedBox(height: 13),
-              Text(
-                  title ?? '',
+              SizedBox(height: 5),
+              Text(title ?? '',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
-                  )
-              ),
-              SizedBox(height: 18),
-              Text(
-                  introduction ?? '',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
-                  )
+                  )),
+              SizedBox(height: 5),
+              new Expanded(
+                child: SingleChildScrollView(
+                  child: Text(
+                    introduction ?? '',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
-        )
-    );
+        ));
   }
 }

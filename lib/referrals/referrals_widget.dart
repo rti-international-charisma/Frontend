@@ -17,12 +17,21 @@ class ReferralsWidget extends StatelessWidget {
   final ApiClient apiClient;
   final String? assetsUrl;
 
+  static const referralTypes = [
+    'Hotlines',
+    'Shelters (Youth)',
+    'Shelters (Adult)',
+    'Counselling',
+    'Legal Assistance',
+    'Mental Health and Trauma'
+  ];
+
   Future<dynamic> getReferralPage() async {
     return apiClient.get('/content/referral_intro');
   }
 
   Future<dynamic> getReferralsList() async {
-    return apiClient.get('/referrals');
+    return apiClient.get('/referrals?filter=${referralTypes.join(',')}');
   }
 
   List<Widget> getReferralsWidgetList(List<dynamic> referralsList) {
