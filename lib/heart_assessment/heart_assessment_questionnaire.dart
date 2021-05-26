@@ -68,10 +68,11 @@ class _HeartAssessmentQuestionaireState
           if (data.hasData) {
             var questionsData = (data.data as List)[1];
             var scoresData = (data.data as List)[0];
-            if(scoresData != null) {
-              result = mapScoreResultToResult(scoresData);
-              if (result.length < (scoresData as HeartAssessmentResult).totalSections && currentDisplaySection == -1) {
-                 currentDisplaySection = result.length;
+            var scoreResult = mapScoreResultToResult(scoresData);
+            if(scoreResult.isNotEmpty) {
+              if (scoreResult.length < (scoresData as HeartAssessmentResult).totalSections && currentDisplaySection == -1) {
+                 currentDisplaySection = scoreResult.length;
+                 result = scoreResult;
               } else if(currentDisplaySection == -1) {
                 currentDisplaySection = 0;
               }
@@ -170,9 +171,24 @@ class _HeartAssessmentQuestionaireState
                                 }
                               } else {
                                 //Ready to submit
-                                createResultObject(heartAssessment);
-                                showTestDonePopup(heartAssessment,
-                                    widget.apiClient, routerDelegate);
+                                if (areAllQuestionsInCurrentSectionCompleted(
+                                    heartAssessment,
+                                    result,
+                                    currentDisplaySection)){
+                                  createResultObject(heartAssessment);
+                                  showTestDonePopup(heartAssessment,
+                                      widget.apiClient, routerDelegate);
+                                } else {
+                                  //Show Attempt questions error
+                                  ScaffoldMessenger.of(
+                                      _scaffoldKey.currentContext!)
+                                      .showSnackBar(SnackBar(
+                                    content: Text(
+                                        'Please answer all the questions.'),
+                                    backgroundColor: Colors.red,
+                                  ));
+                                }
+
                               }
                             },
                             style: ElevatedButton.styleFrom(
@@ -246,10 +262,10 @@ class _HeartAssessmentQuestionaireState
     print('Actual Result $result');
   }
 
-  Map<String, Map<String, int>> mapScoreResultToResult(HeartAssessmentResult heartAssessmentResult) {
+  Map<String, Map<String, int>> mapScoreResultToResult(HeartAssessmentResult? heartAssessmentResult) {
     print('mapScoreResultToResult');
     Map<String, Map<String, int>> tempMap = {};
-    heartAssessmentResult.sections.map((section) {
+    heartAssessmentResult?.sections.map((section) {
       Map<String, int> qMap = {};
       section.questions.map((answers) {
         qMap[answers.questionId] = answers.score;
