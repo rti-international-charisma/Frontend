@@ -8,7 +8,16 @@ class QuestionWidget extends StatefulWidget {
 
   var optionSelected;
 
-  QuestionWidget(this.index, this.heartQuestion, this.optionSelected);
+  int? score;
+
+  QuestionWidget({
+      Key? key,
+      required this.index,
+      required this.heartQuestion,
+      this.optionSelected,
+      this.score}): super(key: key) {
+    score ??= -1;
+  }
 
   @override
   State<StatefulWidget> createState() => _QuestionWidgetState();
@@ -16,6 +25,15 @@ class QuestionWidget extends StatefulWidget {
 
 class _QuestionWidgetState extends State<QuestionWidget> {
   Option? currentSelectedOption;
+
+  @override
+  void initState() {
+    if (widget.score != -1) {
+      currentSelectedOption = widget.heartQuestion.options!.firstWhere((element) =>
+          element.weightage == widget.score
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,15 +89,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                               ),
                               child: Row(
                                 children: [
-                                  currentSelectedOption == option
-                                      ? Icon(
-                                          Icons.radio_button_checked,
-                                          key: ValueKey('questionSelectedIcon'),
-                                        )
-                                      : Icon(
-                                          Icons.radio_button_unchecked,
-                                          key: ValueKey('questionSelectedIcon'),
-                                        ),
+                                  getSelectedIcon(option),
                                   SizedBox(width: 5),
                                   Flexible(
                                     child: Text(
@@ -100,6 +110,30 @@ class _QuestionWidgetState extends State<QuestionWidget> {
             ],
           ),
         ));
+  }
+
+  bool isSelected(Option option) {
+    if (currentSelectedOption == null) return false;
+    return currentSelectedOption == option;
+  }
+
+  Icon getSelectedIcon(Option option) {
+    if (currentSelectedOption == null) {
+      return Icon(Icons.radio_button_unchecked,
+          key: ValueKey('questionSelectedIcon')
+      );
+    }
+    if (isSelected(option)) {
+      return Icon(
+        Icons.radio_button_checked,
+        key: ValueKey('questionSelectedIcon'),
+      );
+    } else {
+      return Icon(Icons.radio_button_unchecked,
+          key: ValueKey('questionSelectedIcon')
+      );
+    }
+
   }
 
   void sortOptions() {

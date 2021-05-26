@@ -9,7 +9,7 @@ import '../util/utils.dart';
 import "package:universal_html/html.dart" as html;
 
 void main() {
-  var pageData = {
+  Map<String, dynamic> pageData = {
     "title": "HIV Prevention: PrEP",
     "introduction": "<p>This is intro</p>",
     "description": "<p>This is description</p>",
@@ -62,6 +62,16 @@ void main() {
     await tester.pump(Duration.zero);
 
     expect(find.byKey(ValueKey('HIVPreventionPrepHeroImage')), findsOneWidget);
+    expect(
+        (find
+                .byKey(ValueKey('HIVPreventionPrepHeroImage'))
+                .evaluate()
+                .single
+                .widget as Image)
+            .image,
+        equals(NetworkImage(
+            "${Utils.assetsUrl}${pageData['heroImage']['imageUrl']}")));
+
     expect(
         (find
                 .byKey(ValueKey('HIVPreventionPrepPageTitle'))

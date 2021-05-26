@@ -1,6 +1,7 @@
 import 'package:charisma/account/user_state_model.dart';
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/network_image_builder.dart';
+import 'package:charisma/common/shared_preference_helper.dart';
 import 'package:charisma/navigation/back_dispatcher.dart';
 import 'package:charisma/navigation/charisma_parser.dart';
 import 'package:charisma/navigation/router_delegate.dart';
@@ -20,8 +21,10 @@ void main() async {
   print('Starting App for $env with API_BASEURL : $apiBaseUrl and ASSETS_URL: $assetsUrl');
 
   Provider.debugCheckInvalidValueType = null;
-  runApp(CharismaApp(
-      ApiClient(http.Client(), apiBaseUrl), apiBaseUrl, assetsUrl));
+  SharedPreferenceHelper().isUserLoggedIn().then((value) =>
+      runApp(CharismaApp(
+          ApiClient(http.Client(), apiBaseUrl), apiBaseUrl, assetsUrl, value))
+  );
 }
 
 class CharismaApp extends StatelessWidget {
@@ -31,11 +34,13 @@ class CharismaApp extends StatelessWidget {
   late CharismaRouterDelegate _routerDelegate;
   late CharismaParser _parser;
   late CharismaBackButtonDispatcher _backButtonDispatcher;
+  late bool _isLoggedIn;
 
-  CharismaApp(ApiClient apiClient, String apiBaseUrl, String assetsUrl) {
+  CharismaApp(ApiClient apiClient, String apiBaseUrl, String assetsUrl, bool isLoggedIn) {
     _apiClient = apiClient;
     _apiBaseUrl = apiBaseUrl;
     _assetsUrl = assetsUrl;
+    _isLoggedIn = isLoggedIn;
     _routerDelegate = CharismaRouterDelegate(
       _apiClient,
       _apiBaseUrl,
@@ -50,6 +55,8 @@ class CharismaApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    var userStateModel = UserStateModel(isLoggedIn: _isLoggedIn);
+
     return MultiProvider(
         providers: [
           Provider<NetworkImageBuilder>(
@@ -57,7 +64,7 @@ class CharismaApp extends StatelessWidget {
           Provider<Future<SharedPreferences>>(
               create: (_) => SharedPreferences.getInstance()),
           Provider<CharismaRouterDelegate>(create: (_) => _routerDelegate),
-          ChangeNotifierProvider(create: (context) => UserStateModel())
+          ChangeNotifierProvider(create: (context) => userStateModel)
         ],
         child: MaterialApp.router(
             title: 'Charisma',

@@ -1,3 +1,4 @@
+import 'package:charisma/navigation/ui_pages.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 
@@ -22,6 +23,12 @@ class SharedPreferenceHelper {
     } else {
       return null;
     }
+  }
+
+  Future<bool> isUserLoggedIn() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var userDataEncoded = prefs.getString('userData');
+    return (userDataEncoded != null) ? true : false;
   }
 
   Future<String?>? getPasswordToken() async {
