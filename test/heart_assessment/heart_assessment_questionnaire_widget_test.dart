@@ -88,7 +88,7 @@ void main() {
         ]
       }
     ],
-    "totalSections" : 6
+    "totalSections" : 2
   };
 
   var unAttemptedScoresData = {
@@ -331,7 +331,7 @@ void main() {
     verify(apiClient.postWithHeaders('assessment/scores', any, any));
   });
 
-  testWidgets('it should show selected icon for attempted questions answer', (WidgetTester tester) async{
+  testWidgets('it should show selected icon for attempted questions answer when you go back', (WidgetTester tester) async{
 
     when(apiClient.get("/assessments")).thenAnswer((realInvocation) =>
     Future<Map<String, dynamic>?>.value(heartAssessment));
@@ -359,7 +359,79 @@ void main() {
             .wrapWithMaterial());
     await tester.pump();
 
+    //Scroll down on section 2
+    await tester.drag(find.byKey(ValueKey('HAMainScroll')), Offset(0.0, -200));
+    await tester.pump();
+
+    //Tap Back on section 2
+    await tester.tap(find.byKey(ValueKey('HABackButton')));
+    await tester.pumpAndSettle();
+
     //Should display section 1
     expect(find.byIcon(Icons.radio_button_checked), findsNWidgets(2));
+  });
+
+  testWidgets('it should show section after the attempted section when resuming partially completed assessment', (WidgetTester tester) async{
+
+    when(apiClient.get("/assessments")).thenAnswer((realInvocation) =>
+    Future<Map<String, dynamic>?>.value(heartAssessment));
+
+    SharedPreferences.setMockInitialValues({});
+    String userToken = "some.jwt.token";
+    var userData = Future<Map<String, dynamic>>.value({
+      "user": {
+        "id": 1,
+        "username": "username",
+        "sec_q_id": 1,
+        "loginAttemptsLeft": 5
+      },
+      "token": userToken
+    });
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    userData.then((value) =>
+        preferences.setString('userData', convert.jsonEncode(value)));
+
+    var results = Future<Map<String, dynamic>>.value(partiallyCompletedAssessmentScoresData);
+    when(apiClient.getScores(userToken)).thenAnswer((_) => results);
+
+    await tester.pumpWidget(
+        HeartAssessmentQuestionnaireWidget(apiClient: apiClient)
+            .wrapWithMaterial());
+    await tester.pump();
+
+    //Should display section 2
+    expect(find.textContaining('Section 2 of 2'), findsOneWidget);
+  });
+
+  testWidgets('it should show 1st section when user has not attempted assessment', (WidgetTester tester) async{
+
+    when(apiClient.get("/assessments")).thenAnswer((realInvocation) =>
+    Future<Map<String, dynamic>?>.value(heartAssessment));
+
+    SharedPreferences.setMockInitialValues({});
+    String userToken = "some.jwt.token";
+    var userData = Future<Map<String, dynamic>>.value({
+      "user": {
+        "id": 1,
+        "username": "username",
+        "sec_q_id": 1,
+        "loginAttemptsLeft": 5
+      },
+      "token": userToken
+    });
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    userData.then((value) =>
+        preferences.setString('userData', convert.jsonEncode(value)));
+
+    var results = Future<Map<String, dynamic>>.value(unAttemptedScoresData);
+    when(apiClient.getScores(userToken)).thenAnswer((_) => results);
+
+    await tester.pumpWidget(
+        HeartAssessmentQuestionnaireWidget(apiClient: apiClient)
+            .wrapWithMaterial());
+    await tester.pump();
+
+    //Should display section 2
+    expect(find.textContaining('Section 1 of 2'), findsOneWidget);
   });
 }

@@ -25,7 +25,7 @@ class HeartAssessmentQuestionnaireWidget extends StatefulWidget {
 
 class _HeartAssessmentQuestionaireState
     extends State<HeartAssessmentQuestionnaireWidget> {
-  int currentDisplaySection = 0;
+  int currentDisplaySection = -1;
   ScrollController _scrollController = ScrollController();
   Map<String, Map<String, int>> result = {};
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
@@ -41,7 +41,7 @@ class _HeartAssessmentQuestionaireState
         return scoresCache;
       } else {
         var scores = await widget.apiClient.getScores(userToken);
-        scoresCache = mapScoreResultToResult(HeartAssessmentResult.fromJson(scores));
+        scoresCache = HeartAssessmentResult.fromJson(scores);
         return scoresCache;
       }
     } else {
@@ -69,8 +69,15 @@ class _HeartAssessmentQuestionaireState
             var questionsData = (data.data as List)[1];
             var scoresData = (data.data as List)[0];
             if(scoresData != null) {
-              result = scoresData;
+              result = mapScoreResultToResult(scoresData);
+              if (result.length < (scoresData as HeartAssessmentResult).totalSections && currentDisplaySection == -1) {
+                 currentDisplaySection = result.length;
+              } else if(currentDisplaySection == -1) {
+                currentDisplaySection = 0;
+              }
               print('Attempted Questions and Answers $result');
+            } else if(currentDisplaySection == -1) {
+              currentDisplaySection = 0;
             }
             HeartAssessment heartAssessment =
                 HeartAssessment.fromJson(questionsData!);
