@@ -7,13 +7,13 @@ import '../util/utils.dart';
 void main() {
   testWidgets('it should display all widgets', (WidgetTester tester) async {
     var question = QuestionWidget(
-        1,
-        Question(
+        index: 1,
+        heartQuestion: Question(
             id: "someid",
             text: 'question 1',
             description: 'description',
             options: [Option(text: 'option', weightage: 1)]),
-        (qId, weightage) {});
+        optionSelected: (qId, weightage) {});
 
     await tester.pumpWidget(question.wrapWithMaterial());
 
@@ -24,8 +24,8 @@ void main() {
   testWidgets('it should display correct number of options',
       (WidgetTester tester) async {
     var question = QuestionWidget(
-        1,
-        Question(
+        index: 1,
+        heartQuestion :Question(
             id: "someid",
             text: 'question 1',
             description: 'description',
@@ -34,7 +34,7 @@ void main() {
               Option(text: 'option2', weightage: 2),
               Option(text: 'option3', weightage: 3),
             ]),
-        (qId, weightage) {});
+        optionSelected: (qId, weightage) {});
 
     await tester.pumpWidget(question.wrapWithMaterial());
 
@@ -45,8 +45,8 @@ void main() {
 
   testWidgets('it should show selected option', (WidgetTester tester) async {
     var question = QuestionWidget(
-        1,
-        Question(
+        index: 1,
+        heartQuestion: Question(
             id: "someid",
             text: 'question 1',
             description: 'description',
@@ -55,7 +55,7 @@ void main() {
               Option(text: 'option2', weightage: 2),
               Option(text: 'option3', weightage: 3),
             ]),
-        (qId, weightage) {});
+        optionSelected:(qId, weightage) {});
 
     await tester.pumpWidget(question.wrapWithMaterial());
 

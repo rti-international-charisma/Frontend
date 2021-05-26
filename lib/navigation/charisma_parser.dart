@@ -8,7 +8,7 @@ class CharismaParser extends RouteInformationParser<PageConfiguration> {
     final uri = Uri.parse(routeInformation.location!);
     print("URI : $uri");
     if (uri.pathSegments.isEmpty) {
-      return HeartAssessmentQuestionnaireConfig;
+      return HomePageConfig;
     }
 
     switch (uri.toString()) {

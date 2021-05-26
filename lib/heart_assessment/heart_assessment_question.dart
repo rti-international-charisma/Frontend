@@ -30,16 +30,15 @@ class _QuestionWidgetState extends State<QuestionWidget> {
 
   @override
   void initState() {
-    print('Question initState');
     if (widget.score != -1) {
-      currentSelectedOption = widget.heartQuestion.options!.firstWhere((element) => element
-          .weightage == widget.score);
+      currentSelectedOption = widget.heartQuestion.options!.firstWhere((element) =>
+          element.weightage == widget.score
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    print('Current Selected Option $currentSelectedOption');
    sortOptions();
     return Container(
       key: ValueKey('HAQuestion_${widget.index}'),
@@ -117,11 +116,15 @@ class _QuestionWidgetState extends State<QuestionWidget> {
 
   bool isSelected(Option option) {
     if (currentSelectedOption == null) return false;
-    return currentSelectedOption?.weightage == option.weightage;
+    return currentSelectedOption == option;
   }
 
   Icon getSelectedIcon(Option option) {
-    print('getSelectedIcon ${currentSelectedOption?.text} ${currentSelectedOption!.weightage}  ${option.weightage}');
+    if (currentSelectedOption == null) {
+      return Icon(Icons.radio_button_unchecked,
+          key: ValueKey('questionSelectedIcon')
+      );
+    }
     if (isSelected(option)) {
       return Icon(
         Icons.radio_button_checked,

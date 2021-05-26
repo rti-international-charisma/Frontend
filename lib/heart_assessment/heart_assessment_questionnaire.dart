@@ -38,10 +38,8 @@ class _HeartAssessmentQuestionaireState
     String? userToken = await SharedPreferenceHelper().getUserToken();
     if (userToken != null) {
       if (scoresCache != null) {
-        print('Returning Scores from Cache');
         return scoresCache;
       } else {
-        print('Fetching Scores');
         var scores = await widget.apiClient.getScores(userToken);
         scoresCache = mapScoreResultToResult(HeartAssessmentResult.fromJson(scores));
         return scoresCache;
@@ -53,10 +51,8 @@ class _HeartAssessmentQuestionaireState
 
   Future<dynamic> getQuestions() async {
     if (questionsCache != null) {
-      print('Returning Questions from Cache');
       return questionsCache;
     } else {
-      print('Fetching Questions');
       questionsCache = await widget.apiClient.get('/assessments')!;
       return questionsCache;
     }
@@ -78,7 +74,6 @@ class _HeartAssessmentQuestionaireState
             }
             HeartAssessment heartAssessment =
                 HeartAssessment.fromJson(questionsData!);
-            print('HeartAssessment ${heartAssessment.toJson()}');
             return Scaffold(
               key: _scaffoldKey,
               appBar: CharismaHEARTAppBar(
@@ -115,12 +110,18 @@ class _HeartAssessmentQuestionaireState
                             (i, question) =>
                                 Container(
                                   child:
-                                  QuestionWidget(index: ++i, heartQuestion: question as Question, optionSelected: (qId, selectedOption) {
-                                    addOrUpdateResults(
-                                        heartAssessment.assessment![currentDisplaySection].id!,
-                                        qId,
-                                        selectedOption);
-                                  }, score: getExistingScore(heartAssessment, question)),
+                                  QuestionWidget(
+                                    key: ValueKey('QW_${(question as Question).id}'),
+                                      index: ++i,
+                                      heartQuestion: question as Question,
+                                      optionSelected: (qId, selectedOption) {
+                                        addOrUpdateResults(
+                                            heartAssessment.assessment![currentDisplaySection].id!,
+                                            qId,
+                                            selectedOption);
+                                        },
+                                      score: getExistingScore(heartAssessment, question)
+                                  ),
                                 )
                         ).toList(),
                       ),
@@ -225,17 +226,8 @@ class _HeartAssessmentQuestionaireState
   }
 
   int? getExistingScore(HeartAssessment heartAssessment, Question question) {
-    // result[heartAssessment.assessment?[currentDisplaySection].id]?[question.id];
-
-    print('Question -- ${question.text}  ${question.id}');
-    print('TEMPPP Current Section $currentDisplaySection');
     var currentSection = heartAssessment.assessment?[currentDisplaySection];
-    // print('---------  $currentSection');
-    print('ID ---------  ${currentSection?.id}');
-    print('QuestionId ------ ${question.id}');
     var temp = result[currentSection?.id]?[question.id];
-    print('TEMPPP++ $temp');
-
     return temp;
   }
 

@@ -119,4 +119,15 @@ class Option {
   String toString() {
     return 'Option{text: $text, weightage: $weightage}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Option &&
+          runtimeType == other.runtimeType &&
+          text == other.text &&
+          weightage == other.weightage;
+
+  @override
+  int get hashCode => text.hashCode ^ weightage.hashCode;
 }

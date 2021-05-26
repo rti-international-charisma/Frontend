@@ -144,6 +144,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             }).then((value) {
               var attemptedSections = (value['sections'] as List).length;
               var totalSections = value['totalSections'];
+              if (totalSections == 0) return 0; //boom
               return (attemptedSections / totalSections) * 100;
             }),
             builder: (context, percentage) {
