@@ -63,7 +63,7 @@ class _HeartAssessmentQuestionaireState
     final routerDelegate = Provider.of<CharismaRouterDelegate>(context);
 
     return FutureBuilder(
-        future: Future.wait([getScores(),getQuestions()]),
+        future: Future.wait([getScores(), getQuestions()]),
         builder: (context, data) {
           if (data.hasData) {
             var questionsData = (data.data as List)[1];
@@ -95,7 +95,6 @@ class _HeartAssessmentQuestionaireState
                   introduction: heartAssessment
                       .assessment![currentDisplaySection].introduction,
                   closeTapped: () {
-                    print('Close tapped');
                     routerDelegate.popRoute();
                   },
                 ),
@@ -114,24 +113,26 @@ class _HeartAssessmentQuestionaireState
                       scrollDirection: Axis.vertical,
                       child: Column(
                         children: mapIndexed(
-                            heartAssessment.assessment?[currentDisplaySection].questions,
-                            (i, question) =>
-                                Container(
-                                  child:
-                                  QuestionWidget(
-                                    key: ValueKey('QW_${(question as Question).id}'),
+                            heartAssessment
+                                .assessment?[currentDisplaySection].questions,
+                            (i, question) => Container(
+                                  child: QuestionWidget(
+                                      key: ValueKey(
+                                          'QW_${(question as Question).id}'),
                                       index: ++i,
                                       heartQuestion: question as Question,
                                       optionSelected: (qId, selectedOption) {
                                         addOrUpdateResults(
-                                            heartAssessment.assessment![currentDisplaySection].id!,
+                                            heartAssessment
+                                                .assessment![
+                                                    currentDisplaySection]
+                                                .id!,
                                             qId,
                                             selectedOption);
-                                        },
-                                      score: getExistingScore(heartAssessment, question)
-                                  ),
-                                )
-                        ).toList(),
+                                      },
+                                      score: getExistingScore(
+                                          heartAssessment, question)),
+                                )).toList(),
                       ),
                     ),
                     SizedBox(
@@ -147,9 +148,15 @@ class _HeartAssessmentQuestionaireState
                                     result,
                                     currentDisplaySection)) {
                                   // If User is logged in. Post Score Async
-                                  if (await SharedPreferenceHelper().isUserLoggedIn()) {
-                                    var userToken = await SharedPreferenceHelper().getUserToken();
-                                    postScores(widget.apiClient, createResultObject(heartAssessment) , userToken!);
+                                  if (await SharedPreferenceHelper()
+                                      .isUserLoggedIn()) {
+                                    var userToken =
+                                        await SharedPreferenceHelper()
+                                            .getUserToken();
+                                    postScores(
+                                        widget.apiClient,
+                                        createResultObject(heartAssessment),
+                                        userToken!);
                                   }
                                   setState(() {
                                     currentDisplaySection++;
@@ -259,11 +266,9 @@ class _HeartAssessmentQuestionaireState
       result[sectionId] = {};
     }
     result[sectionId]![qId] = selectedOption;
-    print('Actual Result $result');
   }
 
   Map<String, Map<String, int>> mapScoreResultToResult(HeartAssessmentResult? heartAssessmentResult) {
-    print('mapScoreResultToResult');
     Map<String, Map<String, int>> tempMap = {};
     heartAssessmentResult?.sections.map((section) {
       Map<String, int> qMap = {};
@@ -271,8 +276,7 @@ class _HeartAssessmentQuestionaireState
         qMap[answers.questionId] = answers.score;
       }).toList();
       tempMap[section.sectionId] = qMap;
-    }
-    ).toList();
+    }).toList();
     return tempMap;
   }
 
@@ -285,10 +289,8 @@ class _HeartAssessmentQuestionaireState
     if (questions != null &&
         attemptedQuestionAnswers != null &&
         (attemptedQuestionAnswers.length == questions.length)) {
-      print('All Questions answered');
       return true;
     } else {
-      print('Questions incompleted');
       return false;
     }
   }
@@ -311,7 +313,9 @@ class _HeartAssessmentQuestionaireState
         .values
         .toList();
 
-    var assessmentResult = HeartAssessmentResult(sections: sectionsList, totalSections: heartAssessment.assessment!.length);
+    var assessmentResult = HeartAssessmentResult(
+        sections: sectionsList,
+        totalSections: heartAssessment.assessment!.length);
 
     return assessmentResult;
   }
@@ -323,10 +327,10 @@ class _HeartAssessmentQuestionaireState
         .section;
   }
 
-  Future? postScores(ApiClient apiClient,HeartAssessmentResult result, String token) {
-    return apiClient.postWithHeaders('assessment/scores', result.toJson(), {
-      'Authorization': 'Bearer $token'
-    });
+  Future? postScores(
+      ApiClient apiClient, HeartAssessmentResult result, String token) {
+    return apiClient.postWithHeaders('assessment/scores', result.toJson(),
+        {'Authorization': 'Bearer $token'});
   }
 
   Future<void> showTestDonePopup(HeartAssessment heartAssessment,
@@ -366,7 +370,6 @@ class _HeartAssessmentQuestionaireState
                           String? token =
                               await SharedPreferenceHelper().getUserToken();
                           if (token != null) {
-                            print('User token available. Posting scores');
                             setState(() {
                               isLoading = true;
                             });
@@ -375,14 +378,12 @@ class _HeartAssessmentQuestionaireState
                                       setState(() {
                                         isLoading = false;
                                       }),
-                                      print('Success '),
                                       Navigator.pop(context)
                                     })
                                 .catchError((error) => {
                                       setState(() {
                                         isLoading = false;
                                       }),
-                                      print('Error! '),
                                       ScaffoldMessenger.of(
                                               _scaffoldKey.currentContext!)
                                           .showSnackBar(SnackBar(
@@ -393,7 +394,6 @@ class _HeartAssessmentQuestionaireState
                                       Navigator.pop(context)
                                     });
                           } else {
-                            print('User token NOT available. === $results');
                             await SharedPreferenceHelper()
                                 .setResultsData(results);
                           }

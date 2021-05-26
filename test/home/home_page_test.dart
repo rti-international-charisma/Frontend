@@ -16,11 +16,14 @@ void main() {
     "title": "",
     "description": "",
     "introduction": "",
+    "heroImageCaptionTestComplete":
+        "<p><span style=\"font-size: 14pt;\">Well done on completing assessment! You can check your scores again below and continue reading the counselling content suggested for you.</span></p>",
+    "heroImageCaptionTestIncomplete":
+        "<p><span style=\"font-size: 14pt;\">You&rsquo;ve been doing so well and we want to help you to keep up the progress.</span></p>",
     "heroImage": {
       "title": "Hero Image",
       "introduction":
           "<div><span style=\"font-size: 18pt;\"><strong>Want to check the status of your relationship and protect yourself?</strong></span></div>\n<div>\n<p><span style=\"font-size: 14pt;\">CHARISMA&rsquo;s here to support you!&nbsp;</span></p>\n<p><span style=\"font-size: 14pt;\">Take a quiz about your relationship and get tailored support, or browse content on Healthy relationships, using PrEP in your relationships,&nbsp;</span><br /><span style=\"font-size: 14pt;\">good communication with your partner and others, and relationship safety. You can always come back more for later and share what you like!</span></p>\n</div>",
-      "personalisedMessage": "Some personalised message",
       "imageUrl": "/assets/82c667f6-c82e-4c89-a8f0-e715563f87dc"
     },
     "images": [],
@@ -157,7 +160,7 @@ void main() {
         ]
       }
     ],
-    "totalSections" : 6
+    "totalSections": 6
   };
 
   var partiallyCompletedAssessmentScoresData = {
@@ -212,7 +215,7 @@ void main() {
         ]
       }
     ],
-    "totalSections" : 2
+    "totalSections": 2
   };
 
   Map<String, dynamic> moduleData = {
@@ -281,7 +284,6 @@ void main() {
       assetsUrl: Utils.assetsUrl,
     ).wrapWithMaterialAndUserState(userStateModel));
 
-    // await tester.pump(Duration.zero);
     await mockNetworkImagesFor(() => tester.pump());
     expect(find.byKey(ValueKey('HeroImage')), findsOneWidget);
 
@@ -426,7 +428,8 @@ void main() {
     final apiClient = MockApiClient();
     SharedPreferences.setMockInitialValues({});
 
-    var results = Future<Map<String, dynamic>>.value(completedAssessmentScoresData);
+    var results =
+        Future<Map<String, dynamic>>.value(completedAssessmentScoresData);
     var module = Future<Map<String, dynamic>>.value(moduleData);
 
     String userToken = "some.jwt.token";
@@ -466,7 +469,7 @@ void main() {
         find.byKey(ValueKey('HeroImageText')).evaluate().single.widget as Html;
     expect(find.byKey(ValueKey('HeroImageText')), findsOneWidget);
     expect(heroImageText.data, contains('Welcome back, username!'));
-    expect(heroImageText.data, contains('Some personalised message'));
+    expect(heroImageText.data, contains(data['heroImageCaptionTestComplete']));
     expect(find.byKey(ValueKey('ScoresSection')), findsOneWidget);
 
     await tester.pump(Duration.zero);
@@ -477,11 +480,14 @@ void main() {
     expect(find.byType(PartialAssessmentProgressWidget), findsNothing);
   });
 
-  testWidgets('it displays  assessment progressbar if assessment is partially completed', (WidgetTester tester) async {
+  testWidgets(
+      'it displays  assessment progressbar if assessment is partially completed',
+      (WidgetTester tester) async {
     final apiClient = MockApiClient();
     SharedPreferences.setMockInitialValues({});
 
-    var results = Future<Map<String, dynamic>>.value(partiallyCompletedAssessmentScoresData);
+    var results = Future<Map<String, dynamic>>.value(
+        partiallyCompletedAssessmentScoresData);
 
     String userToken = "some.jwt.token";
     var userData = Future<Map<String, dynamic>>.value({
@@ -512,7 +518,16 @@ void main() {
     await tester.pump(Duration.zero);
     await mockNetworkImagesFor(() => tester.pump());
 
-
     expect(find.byType(PartialAssessmentProgressWidget), findsOneWidget);
+    expect(find.byKey(ValueKey('HeroImage')), findsOneWidget);
+
+    var heroImageText =
+        find.byKey(ValueKey('HeroImageText')).evaluate().single.widget as Html;
+    expect(find.byKey(ValueKey('HeroImageText')), findsOneWidget);
+    expect(heroImageText.data, contains('Welcome back, username!'));
+    expect(
+        heroImageText.data, contains(data['heroImageCaptionTestIncomplete']));
+
+    expect(find.byKey(ValueKey('CharismaSteps')), findsNothing);
   });
 }
