@@ -25,7 +25,7 @@ class HeartAssessmentQuestionnaireWidget extends StatefulWidget {
 
 class _HeartAssessmentQuestionaireState
     extends State<HeartAssessmentQuestionnaireWidget> {
-  int currentDisplaySection = 0;
+  int currentDisplaySection = -1;
   ScrollController _scrollController = ScrollController();
   Map<String, Map<String, int>> result = {};
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
@@ -41,8 +41,7 @@ class _HeartAssessmentQuestionaireState
         return scoresCache;
       } else {
         var scores = await widget.apiClient.getScores(userToken);
-        scoresCache =
-            mapScoreResultToResult(HeartAssessmentResult.fromJson(scores));
+        scoresCache = HeartAssessmentResult.fromJson(scores);
         return scoresCache;
       }
     } else {
@@ -69,8 +68,17 @@ class _HeartAssessmentQuestionaireState
           if (data.hasData) {
             var questionsData = (data.data as List)[1];
             var scoresData = (data.data as List)[0];
-            if (scoresData != null) {
-              result = scoresData;
+            var scoreResult = mapScoreResultToResult(scoresData);
+            if(scoreResult.isNotEmpty) {
+              if (scoreResult.length < (scoresData as HeartAssessmentResult).totalSections && currentDisplaySection == -1) {
+                 currentDisplaySection = scoreResult.length;
+                 result = scoreResult;
+              } else if(currentDisplaySection == -1) {
+                currentDisplaySection = 0;
+              }
+              print('Attempted Questions and Answers $result');
+            } else if(currentDisplaySection == -1) {
+              currentDisplaySection = 0;
             }
             HeartAssessment heartAssessment =
                 HeartAssessment.fromJson(questionsData!);
@@ -170,9 +178,24 @@ class _HeartAssessmentQuestionaireState
                                 }
                               } else {
                                 //Ready to submit
-                                createResultObject(heartAssessment);
-                                showTestDonePopup(heartAssessment,
-                                    widget.apiClient, routerDelegate);
+                                if (areAllQuestionsInCurrentSectionCompleted(
+                                    heartAssessment,
+                                    result,
+                                    currentDisplaySection)){
+                                  createResultObject(heartAssessment);
+                                  showTestDonePopup(heartAssessment,
+                                      widget.apiClient, routerDelegate);
+                                } else {
+                                  //Show Attempt questions error
+                                  ScaffoldMessenger.of(
+                                      _scaffoldKey.currentContext!)
+                                      .showSnackBar(SnackBar(
+                                    content: Text(
+                                        'Please answer all the questions.'),
+                                    backgroundColor: Colors.red,
+                                  ));
+                                }
+
                               }
                             },
                             style: ElevatedButton.styleFrom(
@@ -245,10 +268,9 @@ class _HeartAssessmentQuestionaireState
     result[sectionId]![qId] = selectedOption;
   }
 
-  Map<String, Map<String, int>> mapScoreResultToResult(
-      HeartAssessmentResult heartAssessmentResult) {
+  Map<String, Map<String, int>> mapScoreResultToResult(HeartAssessmentResult? heartAssessmentResult) {
     Map<String, Map<String, int>> tempMap = {};
-    heartAssessmentResult.sections.map((section) {
+    heartAssessmentResult?.sections.map((section) {
       Map<String, int> qMap = {};
       section.questions.map((answers) {
         qMap[answers.questionId] = answers.score;
