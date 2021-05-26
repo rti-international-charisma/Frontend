@@ -24,7 +24,7 @@ class CounsellingModuleWidget extends StatelessWidget {
       children: [
         Container(
           key: ValueKey('CounsellingModule'),
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(15),
           child: Column(
             children: [
               Container(

@@ -18,11 +18,21 @@ class CharismaFooterLinks extends StatelessWidget {
       'text': 'Counselling Content',
       'links': [
         {
-          'text': 'Partner Communication',
-          'url': CounsellingModulePartnerCommPath
+          'text': 'Healthy Relationships',
+          'url': CounsellingModuleHealthyRelationshipPath,
         },
-        {'text': 'PrEP Disclosure', 'url': CounsellingModulePrepUsePath},
-        {'text': 'Intimate Partner Violence', 'url': CounsellingModuleIPVPath},
+        {
+          'text': 'Partner Communication',
+          'url': CounsellingModulePartnerCommPath,
+        },
+        {
+          'text': 'PrEP Disclosure',
+          'url': CounsellingModulePrepUsePath,
+        },
+        {
+          'text': 'Intimate Partner Violence',
+          'url': CounsellingModuleIPVPath,
+        },
       ]
     },
     {'text': 'About Us', 'url': AboutUsPath}

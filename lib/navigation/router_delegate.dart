@@ -185,6 +185,15 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
           ),
           CounsellingModulePrepUseConfig,
         );
+      case Pages.CounsellingModuleHealthyRelationship:
+        return PageData(
+          CounsellingModulePageWidget(
+            apiClient: _apiClient,
+            moduleName: 'healthy_relationship',
+            assetsUrl: _assetsUrl,
+          ),
+          CounsellingModuleHealthyRelationshipConfig,
+        );
       case Pages.CounsellingModulePartnerComm:
         return PageData(
           CounsellingModulePageWidget(

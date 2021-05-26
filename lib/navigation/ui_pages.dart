@@ -9,6 +9,8 @@ const String HeartAssessmentQuestionnairePath =
     '/heart_assessment_questionnaire';
 const String HAResultsPath = '/assessment/results';
 const String CounsellingModulePrepUsePath = '/module/prep_use';
+const String CounsellingModuleHealthyRelationshipPath =
+    '/module/healthy_relationship';
 const String CounsellingModulePartnerCommPath = '/module/partner_comm';
 const String CounsellingModuleIPVPath = '/module/ipv';
 const String AboutUsPath = '/aboutus';
@@ -27,6 +29,7 @@ enum Pages {
   HeartAssessmentQuestionnaire,
   HAResults,
   CounsellingModulePrepUse,
+  CounsellingModuleHealthyRelationship,
   CounsellingModulePartnerComm,
   CounsellingModuleIPV,
   AboutUs,
@@ -98,6 +101,12 @@ const PageConfiguration CounsellingModulePrepUseConfig = PageConfiguration(
   key: 'CounsellingModulePrepUse',
   path: CounsellingModulePrepUsePath,
   uiPage: Pages.CounsellingModulePrepUse,
+);
+const PageConfiguration CounsellingModuleHealthyRelationshipConfig =
+    PageConfiguration(
+  key: 'CounsellingModuleHealthyRelationship',
+  path: CounsellingModuleHealthyRelationshipPath,
+  uiPage: Pages.CounsellingModuleHealthyRelationship,
 );
 const PageConfiguration CounsellingModulePartnerCommConfig = PageConfiguration(
   key: 'CounsellingModulePartnerComm',

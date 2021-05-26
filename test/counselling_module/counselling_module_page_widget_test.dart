@@ -47,8 +47,6 @@ void main() {
 
     when(apiClient.getCounsellingModuleWithoutScore(moduleName))
         .thenAnswer((_) => module);
-    when(apiClient.getCounsellingModuleWithoutScore('healthy_relationship'))
-        .thenAnswer((_) => module);
 
     await tester.pumpWidget(CounsellingModulePageWidget(
       apiClient: apiClient,
@@ -58,7 +56,6 @@ void main() {
     await mockNetworkImagesFor(() => tester.pump());
 
     expect(find.byKey(ValueKey('HeroImage')), findsOneWidget);
-    expect(find.byKey(ValueKey('HealthyRelationshipModule')), findsOneWidget);
     expect(find.byKey(ValueKey('PageCounsellingModule')), findsOneWidget);
 
     expect(

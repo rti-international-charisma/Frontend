@@ -17,22 +17,13 @@ class CounsellingModulePageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic>? moduleDataForHealthyRelationship;
-
     return Scaffold(
       appBar: CharismaAppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: FutureBuilder(
-            future: apiClient
-                ?.getCounsellingModuleWithoutScore(moduleName)
-                ?.then((moduleData) async {
-              moduleDataForHealthyRelationship = await apiClient
-                  ?.getCounsellingModuleWithoutScore('healthy_relationship');
-
-              return moduleData;
-            }),
+            future: apiClient?.getCounsellingModuleWithoutScore(moduleName),
             builder: (context, data) {
               if (data.hasData) {
                 var moduleData = data.data as Map<String, dynamic>;
@@ -40,15 +31,14 @@ class CounsellingModulePageWidget extends StatelessWidget {
 
                 return Column(
                   children: [
-                    Image.network(
-                      "$assetsUrl$heroImageUrl",
-                      fit: BoxFit.fill,
-                      key: ValueKey('HeroImage'),
-                    ),
-                    CounsellingModuleWidget(
-                      moduleData: moduleDataForHealthyRelationship,
-                      assetsUrl: assetsUrl,
-                      key: ValueKey('HealthyRelationshipModule'),
+                    Container(
+                      color: Colors.yellow,
+                      width: MediaQuery.of(context).size.width,
+                      child: Image.network(
+                        "$assetsUrl$heroImageUrl",
+                        fit: BoxFit.contain,
+                        key: ValueKey('HeroImage'),
+                      ),
                     ),
                     CounsellingModuleWidget(
                       moduleData: moduleData,

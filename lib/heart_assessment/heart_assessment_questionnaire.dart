@@ -69,15 +69,16 @@ class _HeartAssessmentQuestionaireState
             var questionsData = (data.data as List)[1];
             var scoresData = (data.data as List)[0];
             var scoreResult = mapScoreResultToResult(scoresData);
-            if(scoreResult.isNotEmpty) {
-              if (scoreResult.length < (scoresData as HeartAssessmentResult).totalSections && currentDisplaySection == -1) {
-                 currentDisplaySection = scoreResult.length;
-                 result = scoreResult;
-              } else if(currentDisplaySection == -1) {
+            if (scoreResult.isNotEmpty) {
+              if (scoreResult.length <
+                      (scoresData as HeartAssessmentResult).totalSections &&
+                  currentDisplaySection == -1) {
+                currentDisplaySection = scoreResult.length;
+                result = scoreResult;
+              } else if (currentDisplaySection == -1) {
                 currentDisplaySection = 0;
               }
-              print('Attempted Questions and Answers $result');
-            } else if(currentDisplaySection == -1) {
+            } else if (currentDisplaySection == -1) {
               currentDisplaySection = 0;
             }
             HeartAssessment heartAssessment =
@@ -181,21 +182,20 @@ class _HeartAssessmentQuestionaireState
                                 if (areAllQuestionsInCurrentSectionCompleted(
                                     heartAssessment,
                                     result,
-                                    currentDisplaySection)){
+                                    currentDisplaySection)) {
                                   createResultObject(heartAssessment);
                                   showTestDonePopup(heartAssessment,
                                       widget.apiClient, routerDelegate);
                                 } else {
                                   //Show Attempt questions error
                                   ScaffoldMessenger.of(
-                                      _scaffoldKey.currentContext!)
+                                          _scaffoldKey.currentContext!)
                                       .showSnackBar(SnackBar(
                                     content: Text(
                                         'Please answer all the questions.'),
                                     backgroundColor: Colors.red,
                                   ));
                                 }
-
                               }
                             },
                             style: ElevatedButton.styleFrom(
@@ -268,7 +268,8 @@ class _HeartAssessmentQuestionaireState
     result[sectionId]![qId] = selectedOption;
   }
 
-  Map<String, Map<String, int>> mapScoreResultToResult(HeartAssessmentResult? heartAssessmentResult) {
+  Map<String, Map<String, int>> mapScoreResultToResult(
+      HeartAssessmentResult? heartAssessmentResult) {
     Map<String, Map<String, int>> tempMap = {};
     heartAssessmentResult?.sections.map((section) {
       Map<String, int> qMap = {};
