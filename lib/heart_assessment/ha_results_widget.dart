@@ -1,4 +1,5 @@
 import 'package:charisma/apiclient/api_client.dart';
+import 'package:charisma/common/charisma_circular_loader_widget.dart';
 import 'package:charisma/common/shared_preference_helper.dart';
 import 'package:charisma/constants.dart';
 import 'package:charisma/counselling_module/counselling_module_widget.dart';
@@ -271,20 +272,14 @@ class HAResultsWidget extends StatelessWidget {
                     );
                   }
 
-                  return Transform.scale(
-                    scale: 0.1,
-                    child: CircularProgressIndicator(),
-                  );
+                  return CharismaCircularLoader();
                 },
               )
             ],
           );
         }
 
-        return Transform.scale(
-          scale: 0.1,
-          child: CircularProgressIndicator(),
-        );
+        return CharismaCircularLoader();
       },
     );
   }

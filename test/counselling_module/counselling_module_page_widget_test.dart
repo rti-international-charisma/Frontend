@@ -1,5 +1,6 @@
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/counselling_module/counselling_module_page_widget.dart';
+import 'package:charisma/counselling_module/counselling_module_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -55,13 +56,25 @@ void main() {
     ).wrapWithMaterial());
     await mockNetworkImagesFor(() => tester.pump());
 
+    expect(find.byKey(ValueKey('CharismaAppBar')), findsOneWidget);
     expect(find.byKey(ValueKey('HeroImage')), findsOneWidget);
     expect(find.byKey(ValueKey('PageCounsellingModule')), findsOneWidget);
+    expect(
+        (find.byKey(ValueKey('PageCounsellingModule')).evaluate().single.widget
+                as CounsellingModuleWidget)
+            .moduleData,
+        equals(moduleData));
 
     expect(
-        (find.byKey(ValueKey('HeroImage')).evaluate().single.widget as Image)
-            .image,
-        equals(NetworkImage(
-            "${Utils.assetsUrl}${moduleData['heroImage']['imageUrl']}")));
+      (find.byKey(ValueKey('HeroImage')).evaluate().single.widget as Image)
+          .image,
+      equals(NetworkImage(
+          "${Utils.assetsUrl}${moduleData['heroImage']['imageUrl']}")),
+    );
+
+    await tester.ensureVisible(
+        find.byKey(ValueKey('CharismaFooterLinks'), skipOffstage: false));
+    await tester.pumpAndSettle();
+    expect(find.byKey(ValueKey('CharismaFooterLinks')), findsOneWidget);
   });
 }

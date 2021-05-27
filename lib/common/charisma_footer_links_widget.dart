@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'dart:math' as math;
 
 class CharismaFooterLinks extends StatelessWidget {
-  CharismaFooterLinks({Key? key}) : super(key: key);
+  CharismaFooterLinks({Key? key}) : super(key: ValueKey('CharismaFooterLinks'));
 
   static const links = [
     {'text': 'HIV Prevention: PrEP', 'url': HIVPreventionPrepPath},
@@ -147,7 +147,6 @@ class CharismaFooterLinks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      key: ValueKey('FooterLinks'),
       shrinkWrap: true,
       itemCount: links.length,
       itemBuilder: (BuildContext context, int index) =>

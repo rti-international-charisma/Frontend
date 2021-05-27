@@ -1,6 +1,8 @@
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/charisma_appbar_widget.dart';
+import 'package:charisma/common/charisma_circular_loader_widget.dart';
 import 'package:charisma/common/charisma_expandable_widget.dart';
+import 'package:charisma/common/charisma_footer_links_widget.dart';
 import 'package:charisma/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -109,56 +111,56 @@ class ReferralsWidget extends StatelessWidget {
     return Scaffold(
       appBar: CharismaAppBar(),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: FutureBuilder(
-            future: Future.wait([getReferralPage(), getReferralsList()]),
-            builder: (context, data) {
-              if (data.hasData) {
-                var dataList = data.data as List<dynamic>;
+        child: ListView(
+          children: [
+            FutureBuilder(
+              future: Future.wait([getReferralPage(), getReferralsList()]),
+              builder: (context, data) {
+                if (data.hasData) {
+                  var dataList = data.data as List<dynamic>;
 
-                var referralsPage = dataList[0] as Map<String, dynamic>;
-                var referralsList = dataList[1] as List<dynamic>;
+                  var referralsPage = dataList[0] as Map<String, dynamic>;
+                  var referralsList = dataList[1] as List<dynamic>;
 
-                return Column(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: Image.network(
-                        "$assetsUrl${referralsPage['heroImage']['imageUrl']}",
-                        fit: BoxFit.contain,
-                        key: ValueKey('ReferralHeroImage'),
+                  return Column(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: Image.network(
+                          "$assetsUrl${referralsPage['heroImage']['imageUrl']}",
+                          fit: BoxFit.contain,
+                          key: ValueKey('ReferralHeroImage'),
+                        ),
                       ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Column(
-                        children: [
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            padding: EdgeInsets.only(left: 5),
-                            child: Text(
-                              referralsPage['title'],
-                              style:
-                                  TextStyle(fontSize: 14, color: infoTextColor),
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          children: [
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              padding: EdgeInsets.only(left: 5),
+                              child: Text(
+                                referralsPage['title'],
+                                style: TextStyle(
+                                    fontSize: 14, color: infoTextColor),
+                              ),
                             ),
-                          ),
-                          Html(
-                            data: referralsPage['introduction'],
-                            key: ValueKey('ReferralIntro'),
-                          ),
-                          ...getReferralsWidgetList(referralsList)
-                        ],
-                      ),
-                    )
-                  ],
-                );
-              }
-              return Transform.scale(
-                scale: 0.1,
-                child: CircularProgressIndicator(),
-              );
-            },
-          ),
+                            Html(
+                              data: referralsPage['introduction'],
+                              key: ValueKey('ReferralIntro'),
+                            ),
+                            ...getReferralsWidgetList(referralsList)
+                          ],
+                        ),
+                      )
+                    ],
+                  );
+                }
+                return CharismaCircularLoader();
+              },
+            ),
+            CharismaFooterLinks(),
+          ],
         ),
       ),
     );

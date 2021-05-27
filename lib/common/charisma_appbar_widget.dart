@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 class CharismaAppBar extends StatelessWidget with PreferredSizeWidget {
   CharismaAppBar({Key? key})
       : preferredSize = Size.fromHeight(80),
-        super(key: key);
+        super(key: ValueKey('CharismaAppBar'));
 
   @override
   final Size preferredSize;
@@ -61,8 +61,7 @@ class CharismaAppBar extends StatelessWidget with PreferredSizeWidget {
                           },
                         ),
                       );
-                    }
-                );
+                    });
               } else {
                 return Row(
                   children: [
@@ -88,7 +87,8 @@ class CharismaAppBar extends StatelessWidget with PreferredSizeWidget {
                       alignment: Alignment.center,
                       child: Text(
                         '|',
-                        style: TextStyle(color: Color(0xff929292), fontSize: 14),
+                        style:
+                            TextStyle(color: Color(0xff929292), fontSize: 14),
                       ),
                     ),
                     Container(

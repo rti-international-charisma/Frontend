@@ -30,7 +30,7 @@ void main() {
     ]
   };
 
-  testWidgets('It displays page content as expected',
+  testWidgets('It displays Male Partner Info page content as expected',
       (WidgetTester tester) async {
     final apiClient = MockApiClient();
     var data = Future<Map<String, dynamic>>.value(pageData);
@@ -44,6 +44,7 @@ void main() {
     await mockNetworkImagesFor(() => tester.pump());
     await tester.pump(Duration.zero);
 
+    expect(find.byKey(ValueKey('CharismaAppBar')), findsOneWidget);
     expect(find.byKey(ValueKey('MalePartnerInfoHeroImage')), findsOneWidget);
     expect(
         (find
@@ -99,5 +100,7 @@ void main() {
                 .widget as Html)
             .data,
         equals(htmlList));
+
+    expect(find.byKey(ValueKey('CharismaFooterLinks')), findsOneWidget);
   });
 }

@@ -85,6 +85,7 @@ void main() {
     await mockNetworkImagesFor(() => tester.pump());
     await tester.pump(Duration.zero);
 
+    expect(find.byKey(ValueKey('CharismaAppBar')), findsOneWidget);
     expect(find.byKey(ValueKey('ReferralHeroImage')), findsOneWidget);
     expect(find.byKey(ValueKey('ReferralIntro')), findsOneWidget);
     expect(
@@ -154,5 +155,7 @@ void main() {
             data['addressAndContactInfo']);
       }
     });
+
+    expect(find.byKey(ValueKey('CharismaFooterLinks')), findsOneWidget);
   });
 }

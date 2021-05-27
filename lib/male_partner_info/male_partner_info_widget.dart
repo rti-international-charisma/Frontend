@@ -1,5 +1,7 @@
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/charisma_appbar_widget.dart';
+import 'package:charisma/common/charisma_circular_loader_widget.dart';
+import 'package:charisma/common/charisma_footer_links_widget.dart';
 import 'package:charisma/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -32,87 +34,87 @@ class MalePartnerInfoWidget extends StatelessWidget {
     return Scaffold(
       appBar: CharismaAppBar(),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: FutureBuilder(
-            future: apiClient?.get('/content/male_partner_info_pack'),
-            builder: (context, data) {
-              if (data.hasData) {
-                var pageData = data.data as Map<String, dynamic>;
-                var documents = pageData['documents'] as List<dynamic>;
+        child: ListView(
+          children: [
+            FutureBuilder(
+              future: apiClient?.get('/content/male_partner_info_pack'),
+              builder: (context, data) {
+                if (data.hasData) {
+                  var pageData = data.data as Map<String, dynamic>;
+                  var documents = pageData['documents'] as List<dynamic>;
 
-                return Column(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: Image.network(
-                        "$assetsUrl${pageData['heroImage']['imageUrl']}",
-                        fit: BoxFit.contain,
-                        key: ValueKey('MalePartnerInfoHeroImage'),
+                  return Column(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: Image.network(
+                          "$assetsUrl${pageData['heroImage']['imageUrl']}",
+                          fit: BoxFit.contain,
+                          key: ValueKey('MalePartnerInfoHeroImage'),
+                        ),
                       ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Column(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(left: 5),
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              pageData['title'],
-                              style:
-                                  TextStyle(color: infoTextColor, fontSize: 14),
-                              key: ValueKey('MalePartnerInfoPageTitle'),
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(left: 5),
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                pageData['title'],
+                                style: TextStyle(
+                                    color: infoTextColor, fontSize: 14),
+                                key: ValueKey('MalePartnerInfoPageTitle'),
+                              ),
                             ),
-                          ),
-                          Html(
-                            data: pageData['introduction'],
-                            onLinkTap: (String? url,
-                                RenderContext context,
-                                Map<String, String> attributes,
-                                dom.Element? element) {
-                              html.window.open(url as String, 'new tab');
-                            },
-                            style: {
-                              'a': Style(
-                                textDecoration: TextDecoration.none,
-                              )
-                            },
-                            key: ValueKey('MalePartnerInfoIntro'),
-                          ),
-                          Html(
-                            data: pageData['description'],
-                            key: ValueKey('MalePartnerInfoDescription'),
-                          ),
-                          Html(
-                            data: getListOfDocuments(documents),
-                            onLinkTap: (String? url,
-                                RenderContext context,
-                                Map<String, String> attributes,
-                                dom.Element? element) {
-                              html.window.open(url as String, 'new tab');
-                            },
-                            style: {
-                              'li': Style(
-                                  margin: EdgeInsets.symmetric(vertical: 15)),
-                              'a': Style(
-                                textDecoration: TextDecoration.none,
-                              )
-                            },
-                            key: ValueKey('MalePartnerInfoDocuments'),
-                          ),
-                        ],
+                            Html(
+                              data: pageData['introduction'],
+                              onLinkTap: (String? url,
+                                  RenderContext context,
+                                  Map<String, String> attributes,
+                                  dom.Element? element) {
+                                html.window.open(url as String, 'new tab');
+                              },
+                              style: {
+                                'a': Style(
+                                  textDecoration: TextDecoration.none,
+                                )
+                              },
+                              key: ValueKey('MalePartnerInfoIntro'),
+                            ),
+                            Html(
+                              data: pageData['description'],
+                              key: ValueKey('MalePartnerInfoDescription'),
+                            ),
+                            Html(
+                              data: getListOfDocuments(documents),
+                              onLinkTap: (String? url,
+                                  RenderContext context,
+                                  Map<String, String> attributes,
+                                  dom.Element? element) {
+                                html.window.open(url as String, 'new tab');
+                              },
+                              style: {
+                                'li': Style(
+                                    margin: EdgeInsets.symmetric(vertical: 15)),
+                                'a': Style(
+                                  textDecoration: TextDecoration.none,
+                                )
+                              },
+                              key: ValueKey('MalePartnerInfoDocuments'),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                );
-              }
+                    ],
+                  );
+                }
 
-              return Transform.scale(
-                scale: 0.1,
-                child: CircularProgressIndicator(),
-              );
-            },
-          ),
+                return CharismaCircularLoader();
+              },
+            ),
+            CharismaFooterLinks(),
+          ],
         ),
       ),
     );

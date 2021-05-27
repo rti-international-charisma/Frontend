@@ -43,7 +43,7 @@ void main() {
     }
   ];
 
-  testWidgets('It displays page content as expected',
+  testWidgets('It displays HIV Prevention PrEP page content as expected',
       (WidgetTester tester) async {
     final apiClient = MockApiClient();
 
@@ -61,6 +61,7 @@ void main() {
     await mockNetworkImagesFor(() => tester.pump());
     await tester.pump(Duration.zero);
 
+    expect(find.byKey(ValueKey('CharismaAppBar')), findsOneWidget);
     expect(find.byKey(ValueKey('HIVPreventionPrepHeroImage')), findsOneWidget);
     expect(
         (find
@@ -142,5 +143,7 @@ void main() {
       // linkButton.onPressed!();
       // verify(html.window.open(data['addressAndContactInfo']!, 'new tab'));
     }
+
+    expect(find.byKey(ValueKey('CharismaFooterLinks')), findsOneWidget);
   });
 }

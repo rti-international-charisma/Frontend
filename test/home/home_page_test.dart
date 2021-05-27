@@ -403,7 +403,8 @@ void main() {
         (videoSectionData['videos'] as List).elementAt(0)['actionText']);
   });
 
-  testWidgets('It displays footer links', (WidgetTester tester) async {
+  testWidgets('It displays app bar & footer links',
+      (WidgetTester tester) async {
     final apiClient = MockApiClient();
     SharedPreferences.setMockInitialValues({});
 
@@ -416,10 +417,11 @@ void main() {
       assetsUrl: Utils.assetsUrl,
     ).wrapWithMaterial());
 
-    await tester.pump(Duration.zero);
     await mockNetworkImagesFor(() => tester.pump());
+    await tester.pumpAndSettle();
 
-    expect(find.byKey(ValueKey('FooterLinks')), findsOneWidget);
+    expect(find.byKey(ValueKey('CharismaAppBar')), findsOneWidget);
+    expect(find.byKey(ValueKey('CharismaFooterLinks')), findsOneWidget);
   });
 
   testWidgets(

@@ -1,5 +1,6 @@
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/charisma_appbar_widget.dart';
+import 'package:charisma/common/charisma_footer_links_widget.dart';
 import 'package:charisma/heart_assessment/ha_results_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -15,13 +16,17 @@ class HAResultsPageWidget extends StatelessWidget {
     return Scaffold(
       appBar: CharismaAppBar(),
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: ListView(
           scrollDirection: Axis.vertical,
-          child: HAResultsWidget(
-            apiClient: apiClient,
-            assetsUrl: assetsUrl,
-            displayUserGreeting: true,
-          ),
+          children: [
+            HAResultsWidget(
+              key: ValueKey('HAResultsWidget'),
+              apiClient: apiClient,
+              assetsUrl: assetsUrl,
+              displayUserGreeting: true,
+            ),
+            CharismaFooterLinks(),
+          ],
         ),
       ),
     );

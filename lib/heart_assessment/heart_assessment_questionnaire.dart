@@ -1,4 +1,5 @@
 import 'package:charisma/apiclient/api_client.dart';
+import 'package:charisma/common/charisma_circular_loader_widget.dart';
 import 'package:charisma/common/shared_preference_helper.dart';
 import 'package:charisma/heart_assessment/charisma_heart_app_bar.dart';
 import 'package:charisma/heart_assessment/heart_assessment_app_bar.dart';
@@ -248,10 +249,7 @@ class _HeartAssessmentQuestionaireState
               ),
             );
           }
-          return Transform.scale(
-            scale: 0.1,
-            child: CircularProgressIndicator(),
-          );
+          return CharismaCircularLoader();
         });
   }
 

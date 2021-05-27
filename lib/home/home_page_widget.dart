@@ -1,7 +1,9 @@
 import 'package:charisma/account/user_state_model.dart';
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/charisma_appbar_widget.dart';
+import 'package:charisma/common/charisma_circular_loader_widget.dart';
 import 'package:charisma/common/shared_preference_helper.dart';
+import 'package:charisma/constants.dart';
 import 'package:charisma/heart_assessment/ha_results_widget.dart';
 import 'package:charisma/home/hero_image_widget.dart';
 import 'package:charisma/common/charisma_footer_links_widget.dart';
@@ -86,10 +88,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 "Oops! Looks like something went wrong. Please try again later."),
           ));
         }
-        return Transform.scale(
-          scale: 0.1,
-          child: CircularProgressIndicator(),
-        );
+        return CharismaCircularLoader();
       },
     );
   }
@@ -118,10 +117,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 );
               }
 
-              return Transform.scale(
-                scale: 0.1,
-                child: CircularProgressIndicator(),
-              );
+              return CharismaCircularLoader();
             },
           ),
           HAResultsWidget(
@@ -168,10 +164,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       "Oops! Looks like something went wrong. Please try again later."),
                 ));
               }
-              return Transform.scale(
-                scale: 0.1,
-                child: CircularProgressIndicator(),
-              );
+              return CharismaCircularLoader();
             },
           );
         } else {

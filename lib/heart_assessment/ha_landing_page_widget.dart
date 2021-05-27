@@ -1,4 +1,5 @@
 import 'package:charisma/apiclient/api_client.dart';
+import 'package:charisma/common/charisma_circular_loader_widget.dart';
 import 'package:charisma/navigation/router_delegate.dart';
 import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/material.dart';
@@ -98,7 +99,7 @@ class HALandingPageWidget extends StatelessWidget {
         }
 
         // Display a loader while waiting for the API response
-        return Transform.scale(scale: 0.1, child: CircularProgressIndicator());
+        return CharismaCircularLoader();
       },
     );
   }

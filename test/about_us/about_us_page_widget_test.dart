@@ -1,4 +1,5 @@
 import 'package:charisma/about_us/about_us_page_widget.dart';
+import 'package:charisma/common/charisma_footer_links_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -24,7 +25,7 @@ void main() {
     ]
   };
 
-  testWidgets('It renders all the content as expected',
+  testWidgets('It renders About Us page as expected',
       (WidgetTester tester) async {
     final apiClient = MockApiClient();
 
@@ -37,6 +38,7 @@ void main() {
     ).wrapWithMaterial());
     await mockNetworkImagesFor(() => tester.pump());
 
+    expect(find.byKey(ValueKey('CharismaAppBar')), findsOneWidget);
     expect(
         (find.byKey(ValueKey('AboutUsHeadlineImage')).evaluate().single.widget
                 as Image)
@@ -77,5 +79,10 @@ void main() {
                 as Html)
             .data,
         equals(pageContent['summary']));
+
+    await tester.ensureVisible(
+        find.byKey(ValueKey('CharismaFooterLinks'), skipOffstage: false));
+    await tester.pumpAndSettle();
+    expect(find.byKey(ValueKey('CharismaFooterLinks')), findsOneWidget);
   });
 }
