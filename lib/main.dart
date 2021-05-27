@@ -10,19 +10,20 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'environment.dart' as environment;
 import 'constants.dart';
 
-void main() {
-  const API_BASEURL = String.fromEnvironment('API_BASEURL',
-      defaultValue: 'http://0.0.0.0:5000/api');
-  const ASSETS_URL = String.fromEnvironment('ASSETS_URL',
-      defaultValue:
-          'http://chari-loadb-150mi7h76f40q-0c42746b9ba8f8ab.elb.ap-south-1.amazonaws.com:8055');
+void main() async {
+
+  const env = String.fromEnvironment('ENV', defaultValue: 'local');
+  String apiBaseUrl = environment.variables[env]!['baseUrl']!;
+  String assetsUrl = environment.variables[env]!['assetsUrl']!;
+  print('Starting App for $env with API_BASEURL : $apiBaseUrl and ASSETS_URL: $assetsUrl');
+
   Provider.debugCheckInvalidValueType = null;
   SharedPreferenceHelper().isUserLoggedIn().then((value) =>
       runApp(CharismaApp(
-          ApiClient(http.Client(), API_BASEURL), API_BASEURL, ASSETS_URL, value))
+          ApiClient(http.Client(), apiBaseUrl), apiBaseUrl, assetsUrl, value))
   );
 }
 
