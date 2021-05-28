@@ -1,9 +1,6 @@
-
-
 import 'package:flutter/material.dart';
 
 class UserStateModel extends ChangeNotifier {
-
   bool isLoggedIn = false;
 
   UserStateModel({this.isLoggedIn = false});
@@ -14,8 +11,8 @@ class UserStateModel extends ChangeNotifier {
   }
 
   void userLoggedOut() {
+    // print('NOTIFY LOGOUT');
     isLoggedIn = false;
     notifyListeners();
   }
-
 }

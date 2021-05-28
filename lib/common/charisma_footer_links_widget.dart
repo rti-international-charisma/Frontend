@@ -13,7 +13,7 @@ class CharismaFooterLinks extends StatelessWidget {
     {'text': 'HIV Prevention: PrEP', 'url': HIVPreventionPrepPath},
     {'text': 'Male Partner Information Pack', 'url': MalePartnerInfoPath},
     {'text': 'Referrals', 'url': ReferralsPath},
-    {'text': 'Take the HEART assessment test', 'url': HALandingPagePath},
+    {'text': 'Take the HEART assessment', 'url': HALandingPagePath},
     {
       'text': 'Counselling Content',
       'links': [

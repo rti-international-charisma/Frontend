@@ -75,10 +75,10 @@ void main() {
         {
           "title": "Start Here:",
           "description":
-              "Take the HEART assessment test, and understand your relationship better",
+              "Take the HEART assessment, and understand your relationship better",
           "videoUrl": "",
           "videoImage": "/assets/ea231c41-e9fc-4ea3-acba-975c659dc3df",
-          "actionText": "Take the Test",
+          "actionText": "Take the Assessment",
           "actionLink": "/assessment/intro",
           "isPrivate": true
         }
@@ -425,7 +425,7 @@ void main() {
   });
 
   testWidgets(
-      'It displays hero image, scores and counselling module to a logged in user if he has completed the test',
+      'It displays hero image, scores and counselling module to a logged in user if he has completed the assessment',
       (WidgetTester tester) async {
     final apiClient = MockApiClient();
     SharedPreferences.setMockInitialValues({});
@@ -480,6 +480,7 @@ void main() {
     expect(find.byKey(ValueKey('CharismaSteps')), findsNothing);
     expect(find.byKey(ValueKey('VideoModules')), findsNothing);
     expect(find.byType(PartialAssessmentProgressWidget), findsNothing);
+    expect(find.byKey(ValueKey('CharismaFooterLinks')), findsOneWidget);
   });
 
   testWidgets(

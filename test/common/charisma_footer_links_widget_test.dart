@@ -12,7 +12,7 @@ void main() {
     {'text': 'HIV Prevention: PrEP', 'url': null},
     {'text': 'Male Partner Information Pack', 'url': null},
     {'text': 'Referrals', 'url': null},
-    {'text': 'Take the HEART assessment test', 'url': HALandingPagePath},
+    {'text': 'Take the HEART assessment', 'url': HALandingPagePath},
     {
       'text': 'Counselling Content',
       'links': [

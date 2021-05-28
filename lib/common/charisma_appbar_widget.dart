@@ -1,5 +1,6 @@
 import 'package:charisma/account/user_state_model.dart';
 import 'package:charisma/common/shared_preference_helper.dart';
+import 'package:charisma/constants.dart';
 import 'package:charisma/navigation/router_delegate.dart';
 import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/material.dart';
@@ -22,14 +23,19 @@ class CharismaAppBar extends StatelessWidget with PreferredSizeWidget {
       child: AppBar(
         toolbarHeight: 80,
         iconTheme: IconThemeData(color: Color(0xff2DA4FA)),
-        flexibleSpace: Padding(
-          padding: EdgeInsets.fromLTRB(50, 20, 30, 0),
-          child: Container(
-            alignment: Alignment.topLeft,
-            child: Image.asset(
-              'assets/images/charisma_logo.png',
-              key: ValueKey('CharismaLogo'),
-              fit: BoxFit.scaleDown,
+        flexibleSpace: InkWell(
+          onTap: () {
+            routerDelegate.replaceAll(HomePageConfig);
+          },
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(50, 20, 30, 0),
+            child: Container(
+              alignment: Alignment.topLeft,
+              child: Image.asset(
+                'assets/images/charisma_logo.png',
+                key: ValueKey('CharismaLogo'),
+                fit: BoxFit.scaleDown,
+              ),
             ),
           ),
         ),
@@ -38,6 +44,8 @@ class CharismaAppBar extends StatelessWidget with PreferredSizeWidget {
           Consumer<UserStateModel>(
             builder: (context, userState, child) {
               if (userState.isLoggedIn) {
+                // print('IS LOGGEED IN');
+
                 return FutureBuilder(
                     future: sharedPrefHelper.getUserData(),
                     builder: (context, data) {
@@ -55,6 +63,7 @@ class CharismaAppBar extends StatelessWidget with PreferredSizeWidget {
                           ),
                           key: ValueKey('LogoutLink'),
                           onPressed: () {
+                            // print('on  pressed');
                             sharedPrefHelper.setUserData(null);
                             userState.userLoggedOut();
                             routerDelegate.replaceAll(HomePageConfig);
@@ -63,6 +72,7 @@ class CharismaAppBar extends StatelessWidget with PreferredSizeWidget {
                       );
                     });
               } else {
+                // print('IS LOGGED OUT');
                 return Row(
                   children: [
                     Container(
@@ -72,7 +82,7 @@ class CharismaAppBar extends StatelessWidget with PreferredSizeWidget {
                         child: Text(
                           'Sign Up',
                           style: TextStyle(
-                            color: Color(0xff2DA4FA),
+                            color: linkColor,
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                           ),
@@ -98,7 +108,7 @@ class CharismaAppBar extends StatelessWidget with PreferredSizeWidget {
                         child: Text(
                           'Login',
                           style: TextStyle(
-                            color: Color(0xff2DA4FA),
+                            color: linkColor,
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                           ),

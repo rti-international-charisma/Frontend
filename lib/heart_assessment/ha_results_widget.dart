@@ -105,7 +105,7 @@ class HAResultsWidget extends StatelessWidget {
                     Container(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'HEART Assessment Test Results',
+                        'HEART Assessment Results',
                         style: TextStyle(
                           color: infoTextColor,
                           fontSize: 14,
@@ -234,7 +234,7 @@ class HAResultsWidget extends StatelessWidget {
                             child: TextButton(
                               key: ValueKey('TakeTheTestButton'),
                               child: Text(
-                                'Take the test again',
+                                'Take the assessment again',
                                 style: TextStyle(color: Colors.white),
                               ),
                               onPressed: () {

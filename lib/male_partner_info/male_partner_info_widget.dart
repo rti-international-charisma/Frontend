@@ -18,17 +18,6 @@ class MalePartnerInfoWidget extends StatelessWidget {
   final ApiClient? apiClient;
   final String? assetsUrl;
 
-  String getListOfDocuments(List<dynamic> documents) {
-    String list = '<ul>';
-
-    documents.forEach((document) {
-      list +=
-          '<li><a title="${document["title"]}" href="$assetsUrl${document["documentUrl"]}" target="_blank" rel="noopener">${document["title"]}</a></li>';
-    });
-
-    return list += '</ul>';
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,22 +75,50 @@ class MalePartnerInfoWidget extends StatelessWidget {
                               data: pageData['description'],
                               key: ValueKey('MalePartnerInfoDescription'),
                             ),
-                            Html(
-                              data: getListOfDocuments(documents),
-                              onLinkTap: (String? url,
-                                  RenderContext context,
-                                  Map<String, String> attributes,
-                                  dom.Element? element) {
-                                html.window.open(url as String, 'new tab');
-                              },
-                              style: {
-                                'li': Style(
-                                    margin: EdgeInsets.symmetric(vertical: 15)),
-                                'a': Style(
-                                  textDecoration: TextDecoration.none,
-                                )
-                              },
-                              key: ValueKey('MalePartnerInfoDocuments'),
+                            ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: documents.length,
+                              itemBuilder: (BuildContext context, int index) =>
+                                  InkWell(
+                                onTap: () {
+                                  html.window.open(
+                                      "$assetsUrl${documents[index]['documentUrl']}",
+                                      'new tab');
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Row(
+                                    key: ValueKey('MalePartnerInfoDocuments'),
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.only(right: 5),
+                                        child: Icon(
+                                          Icons.circle,
+                                          size: 5,
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.only(right: 5),
+                                        child: Text(
+                                          documents[index]['title'],
+                                          key: ValueKey(
+                                              'MalePartnerInfoDoc-$index'),
+                                        ),
+                                      ),
+                                      Icon(
+                                        Icons.picture_as_pdf_outlined,
+                                        color: linkColor,
+                                        size: 20,
+                                      ),
+                                      Icon(
+                                        Icons.link,
+                                        color: linkColor,
+                                        size: 20,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ),
                           ],
                         ),

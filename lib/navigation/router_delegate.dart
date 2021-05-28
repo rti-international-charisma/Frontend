@@ -92,6 +92,7 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
   }
 
   void replaceAll(PageConfiguration pageConfig) {
+    // print('REPLACEE ALLL');
     final shouldPushPage = _pages.isEmpty ||
         (_pages.last.arguments as PageConfiguration).uiPage !=
             pageConfig.uiPage;

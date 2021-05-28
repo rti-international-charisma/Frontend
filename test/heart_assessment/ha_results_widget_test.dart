@@ -242,7 +242,7 @@ void main() {
 
     // Verify the button exists,
     // with the expected text on it
-    // and verify that pressing it takes you to the landing page of the test
+    // and verify that pressing it takes you to the landing page of the HEART assessment
     TextButton takeTheTestButton = find
         .byKey(ValueKey('TakeTheTestButton'))
         .evaluate()
@@ -251,7 +251,7 @@ void main() {
 
     expect(find.byKey(ValueKey('TakeTheTestButton')), findsOneWidget);
     expect(((takeTheTestButton).child as Text).data,
-        equals('Take the test again'));
+        equals('Take the assessment again'));
 
     takeTheTestButton.onPressed!();
     verify(routerDelegate.push(HALandingPageConfig));

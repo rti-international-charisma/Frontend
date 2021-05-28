@@ -65,10 +65,10 @@ void main() {
         {
           "title": "Start Here:",
           "description":
-              "Take the HEART assessment test, and understand your relationship better",
+              "Take the HEART assessment, and understand your relationship better",
           "videoUrl": "",
           "videoImage": "/assets/ea231c41-e9fc-4ea3-acba-975c659dc3df",
-          "actionText": "Take the Test",
+          "actionText": "Take the Assessment",
           "actionLink": "/assessment/intro",
           "isPrivate": true
         }
@@ -80,10 +80,10 @@ void main() {
       'It displays videos widget, showing only public videos when user is not signed in',
       (WidgetTester tester) async {
     await mockNetworkImagesFor(() => tester.pumpWidget(HomePageVideos(
-      data: data['videoSection'],
-      assetsUrl: Utils.assetsUrl,
-      isLoggedIn: false,
-    ).wrapWithMaterial()));
+          data: data['videoSection'],
+          assetsUrl: Utils.assetsUrl,
+          isLoggedIn: false,
+        ).wrapWithMaterial()));
 
     expect(find.byKey(ValueKey('VideoSection')), findsOneWidget);
     expect(find.byKey(ValueKey('VideoSectionHeadline')), findsOneWidget);
@@ -130,10 +130,10 @@ void main() {
     when(sharedPreferenceHelper.getUserData()).thenAnswer((_) => userData);
 
     await mockNetworkImagesFor(() => tester.pumpWidget(HomePageVideos(
-      data: data['videoSection'],
-      assetsUrl: Utils.assetsUrl,
-      isLoggedIn: true,
-    ).wrapWithMaterial()));
+          data: data['videoSection'],
+          assetsUrl: Utils.assetsUrl,
+          isLoggedIn: true,
+        ).wrapWithMaterial()));
 
     expect(find.byKey(ValueKey('VideoSection')), findsOneWidget);
     expect(find.byKey(ValueKey('VideoSectionHeadline')), findsOneWidget);

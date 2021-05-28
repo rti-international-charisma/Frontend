@@ -26,6 +26,18 @@ void main() {
       {
         "title": "Male medical circumcision",
         "documentUrl": "/assets/6f4bc133-eafc-45ec-9524-d1a73786c82b"
+      },
+      {
+        "title": "PrEP Fact Sheet",
+        "documentUrl": "/assets/7de0dfed-2227-411e-b448-5b6cee810556"
+      },
+      {
+        "title": "HIV and Mixed Statuses",
+        "documentUrl": "/assets/8f76192b-31bb-4e8d-8a15-3dba8d9421e9"
+      },
+      {
+        "title": "HIV Testing",
+        "documentUrl": "/assets/a44c872c-267c-4df9-aa89-3ffe619b0440"
       }
     ]
   };
@@ -83,24 +95,21 @@ void main() {
             .data,
         equals(pageData['description']));
 
-    expect(find.byKey(ValueKey('MalePartnerInfoDocuments')), findsOneWidget);
-    String htmlList = '<ul>' +
-        '<li>' +
-        '<a title="${pageData["documents"][0]["title"]}" href="${Utils.assetsUrl}${pageData['documents'][0]["documentUrl"]}" target="_blank" rel="noopener">${pageData["documents"][0]["title"]}</a>' +
-        '</li>' +
-        '<li>' +
-        '<a title="${pageData["documents"][1]["title"]}" href="${Utils.assetsUrl}${pageData['documents'][1]["documentUrl"]}" target="_blank" rel="noopener">${pageData["documents"][1]["title"]}</a>' +
-        '</li>' +
-        '</ul>';
     expect(
-        (find
-                .byKey(ValueKey('MalePartnerInfoDocuments'))
-                .evaluate()
-                .single
-                .widget as Html)
-            .data,
-        equals(htmlList));
-
+        find.byKey(ValueKey('MalePartnerInfoDocuments'), skipOffstage: false),
+        findsNWidgets(5));
+    var documents = pageData['documents'];
+    for (var index = 0; index < documents.length; index++) {
+      expect(find.byKey(ValueKey('MalePartnerInfoDoc-$index')), findsOneWidget);
+      expect(
+          (find
+                  .byKey(ValueKey('MalePartnerInfoDoc-$index'))
+                  .evaluate()
+                  .single
+                  .widget as Text)
+              .data,
+          equals(documents[index]['title']));
+    }
     expect(find.byKey(ValueKey('CharismaFooterLinks')), findsOneWidget);
   });
 }
