@@ -1,5 +1,6 @@
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/charisma_circular_loader_widget.dart';
+import 'package:charisma/common/shared_preference_helper.dart';
 import 'package:charisma/navigation/router_delegate.dart';
 import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +22,13 @@ class HALandingPageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final routerDelegate = Provider.of<CharismaRouterDelegate>(context);
-    return FutureBuilder<Map<String, dynamic>?>(
-      future: apiClient?.get('/content/assessment-intro'),
+    return FutureBuilder(
+      future: Future.wait([getIntro(),getScores()]),
       builder: (context, data) {
         if (data.hasData) {
-          var pageContent = data.data;
+          var pageContent = (data.data as List)[0];
+          var scoresData = (data.data as List)[1];
+          var partiallyComplete = isPartiallyComplete(scoresData);
 
           return Scaffold(
             appBar: AppBar(
@@ -84,7 +87,7 @@ class HALandingPageWidget extends StatelessWidget {
                   routerDelegate.push(HeartAssessmentQuestionnaireConfig);
                 },
                 child: Text(
-                  'Get started',
+                  partiallyComplete ? 'Continue' : 'Get started',
                   style: TextStyle(color: Colors.white),
                 ),
                 key: ValueKey('HAGetStarted'),
@@ -102,5 +105,26 @@ class HALandingPageWidget extends StatelessWidget {
         return CharismaCircularLoader();
       },
     );
+  }
+
+  Future<dynamic> getScores() async {
+    String? userToken = await SharedPreferenceHelper().getUserToken();
+    if (userToken != null) {
+      return await apiClient!.getScores(userToken);
+    } else {
+      return Future.value(null);
+    }
+  }
+
+  Future<dynamic> getIntro() async {
+   return await apiClient?.get('/content/assessment-intro');
+  }
+
+  isPartiallyComplete(scoresData) {
+    if (scoresData == null) return false;
+    var attemptedSections = (scoresData['sections'] as List).length;
+    var totalSections = scoresData['totalSections'];
+    if (attemptedSections == 0) return false;
+    return attemptedSections < totalSections;
   }
 }
