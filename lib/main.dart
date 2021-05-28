@@ -14,17 +14,15 @@ import 'environment.dart' as environment;
 import 'constants.dart';
 
 void main() async {
-
   const env = String.fromEnvironment('ENV', defaultValue: 'local');
   String apiBaseUrl = environment.variables[env]!['baseUrl']!;
   String assetsUrl = environment.variables[env]!['assetsUrl']!;
-  print('Starting App for $env with API_BASEURL : $apiBaseUrl and ASSETS_URL: $assetsUrl');
+  print(
+      'Starting App for $env with API_BASEURL : $apiBaseUrl and ASSETS_URL: $assetsUrl');
 
   Provider.debugCheckInvalidValueType = null;
-  SharedPreferenceHelper().isUserLoggedIn().then((value) =>
-      runApp(CharismaApp(
-          ApiClient(http.Client(), apiBaseUrl), apiBaseUrl, assetsUrl, value))
-  );
+  SharedPreferenceHelper().isUserLoggedIn().then((value) => runApp(CharismaApp(
+      ApiClient(http.Client(), apiBaseUrl), apiBaseUrl, assetsUrl, value)));
 }
 
 class CharismaApp extends StatelessWidget {
@@ -36,7 +34,8 @@ class CharismaApp extends StatelessWidget {
   late CharismaBackButtonDispatcher _backButtonDispatcher;
   late bool _isLoggedIn;
 
-  CharismaApp(ApiClient apiClient, String apiBaseUrl, String assetsUrl, bool isLoggedIn) {
+  CharismaApp(ApiClient apiClient, String apiBaseUrl, String assetsUrl,
+      bool isLoggedIn) {
     _apiClient = apiClient;
     _apiBaseUrl = apiBaseUrl;
     _assetsUrl = assetsUrl;
@@ -64,7 +63,8 @@ class CharismaApp extends StatelessWidget {
           Provider<Future<SharedPreferences>>(
               create: (_) => SharedPreferences.getInstance()),
           Provider<CharismaRouterDelegate>(create: (_) => _routerDelegate),
-          ChangeNotifierProvider(create: (context) => userStateModel)
+          ChangeNotifierProvider(create: (context) => userStateModel),
+          ChangeNotifierProvider(create: (context) => _apiClient)
         ],
         child: MaterialApp.router(
             title: 'Charisma',

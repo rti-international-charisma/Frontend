@@ -90,7 +90,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 )),
                           ),
                           SizedBox(height: 20),
-                          SizedBox(
+                          Consumer<ApiClient>(
+                              builder: (context, apiClientState, child) {
+                            return SizedBox(
                               height: 39,
                               width: double.infinity,
                               child: ElevatedButton(
@@ -102,7 +104,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                     });
                                     widget._apiClient
                                         .post<Map<String, dynamic>?>('/login', {
-                                      "username": _usernameCtrl.text.toLowerCase(),
+                                      "username":
+                                          _usernameCtrl.text.toLowerCase(),
                                       "password": _passwordCtrl.text
                                     })?.then((data) async {
                                       SharedPreferenceHelper()
@@ -111,6 +114,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       setState(() {
                                         isLoading = false;
                                       });
+                                      apiClientState.setSessionState(true);
                                       routerDelegate.push(HomePageConfig);
                                     }).catchError((error) async {
                                       setState(() {
@@ -134,7 +138,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 style: ElevatedButton.styleFrom(
                                   primary: ternaryColor,
                                 ),
-                              )),
+                              ),
+                            );
+                          }),
                           SizedBox(height: 20),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,

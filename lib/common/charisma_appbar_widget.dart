@@ -1,4 +1,5 @@
 import 'package:charisma/account/user_state_model.dart';
+import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/shared_preference_helper.dart';
 import 'package:charisma/constants.dart';
 import 'package:charisma/navigation/router_delegate.dart';
@@ -41,34 +42,50 @@ class CharismaAppBar extends StatelessWidget with PreferredSizeWidget {
         ),
         backgroundColor: Colors.white,
         actions: <Widget>[
-          Consumer<UserStateModel>(
-            builder: (context, userState, child) {
+          Consumer2<UserStateModel, ApiClient>(
+            builder: (context, userState, apiClient, child) {
+              print('SESSION ACTIVE --- ${apiClient.isSessionActive}');
               if (userState.isLoggedIn) {
-                // print('IS LOGGEED IN');
-
                 return FutureBuilder(
                     future: sharedPrefHelper.getUserData(),
                     builder: (context, data) {
-                      return Container(
-                        alignment: Alignment.center,
-                        margin: EdgeInsets.fromLTRB(10, 10, 30, 10),
-                        child: TextButton(
-                          child: Text(
-                            'Logout',
-                            style: TextStyle(
-                              color: Color(0xff2DA4FA),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
+                      return Row(
+                        children: [
+                          if (apiClient.isSessionActive == false)
+                            // Over here we are using the existing logout button to do the job,
+                            // while just showing a prompt message.
+                            // But we can instead render a new button here along with the prompt message text
+                            // Pressing the button will logout the user.
+                            // For that, make the current logout button render conditionally, don't render it when 401 happens.
+                            Container(
+                              width: 120,
+                              child: Text(
+                                'Your session has expired. Click Logout here to return to home page.',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                            ),
+                          Container(
+                            alignment: Alignment.center,
+                            margin: EdgeInsets.fromLTRB(10, 10, 30, 10),
+                            child: TextButton(
+                              child: Text(
+                                'Logout',
+                                style: TextStyle(
+                                  color: Color(0xff2DA4FA),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              key: ValueKey('LogoutLink'),
+                              onPressed: () {
+                                // print('on  pressed');
+                                sharedPrefHelper.setUserData(null);
+                                userState.userLoggedOut();
+                                routerDelegate.replaceAll(HomePageConfig);
+                              },
                             ),
                           ),
-                          key: ValueKey('LogoutLink'),
-                          onPressed: () {
-                            // print('on  pressed');
-                            sharedPrefHelper.setUserData(null);
-                            userState.userLoggedOut();
-                            routerDelegate.replaceAll(HomePageConfig);
-                          },
-                        ),
+                        ],
                       );
                     });
               } else {
