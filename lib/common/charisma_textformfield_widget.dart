@@ -84,17 +84,22 @@ class _CharismaTextFieldState extends State<CharismaTextFormField> {
           ),
           getInfoText(),
           Container(
-            height: 36,
             child: TextFormField(
               controller: widget.controller,
               focusNode: widget.focusNode,
               obscureText:_obscureText,
               validator: widget.validator,
+              cursorColor: infoTextColor,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderSide: BorderSide(
                           color: textBorderColor
                       )
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: infoTextColor
+                    )
                   ),
                   errorText: widget.errorText,
                   suffixIcon: getSuffixIcon()

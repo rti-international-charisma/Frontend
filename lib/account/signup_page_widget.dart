@@ -1,4 +1,5 @@
 import 'package:charisma/apiclient/api_client.dart';
+import 'package:charisma/common/charisma_appbar_widget.dart';
 import 'package:charisma/common/charisma_dropdown_widget.dart';
 import 'package:charisma/common/charisma_textformfield_widget.dart';
 import 'package:charisma/navigation/router_delegate.dart';
@@ -72,14 +73,7 @@ class _SignupWidgetState extends State<SignUpWidget> {
       child: SafeArea(
         child: Scaffold(
           key: _scaffoldKey,
-          appBar: AppBar(
-            toolbarHeight: 98,
-            backgroundColor: Colors.white,
-            title: Image.asset(
-              'assets/images/charisma_logo.png',
-              fit: BoxFit.cover,
-            ),
-          ),
+          appBar: CharismaAppBar(),
           body: Container(
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
@@ -263,7 +257,7 @@ class _SignupWidgetState extends State<SignUpWidget> {
 
   Future<bool> validateUsername(String uname) async {
     await widget._apiClient
-        .get('/user/availability/$uname')
+        .get('/user/availability/${uname.toLowerCase()}')
         ?.then((value) => {
               setState(() {
                 _isUsernameAvailable = value?['available'];

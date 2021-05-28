@@ -1,5 +1,6 @@
 import 'package:charisma/account/user_state_model.dart';
 import 'package:charisma/apiclient/api_client.dart';
+import 'package:charisma/common/charisma_appbar_widget.dart';
 import 'package:charisma/common/charisma_textformfield_widget.dart';
 import 'package:charisma/common/shared_preference_helper.dart';
 import 'package:charisma/navigation/router_delegate.dart';
@@ -30,14 +31,7 @@ class _LoginWidgetState extends State<LoginWidget> {
     final routerDelegate = Provider.of<CharismaRouterDelegate>(context);
     final userState = Provider.of<UserStateModel>(context);
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 98,
-        backgroundColor: Colors.white,
-        title: Image.asset(
-          'assets/images/charisma_logo.png',
-          fit: BoxFit.cover,
-        ),
-      ),
+      appBar: CharismaAppBar(),
       body: Form(
         key: _formKey,
         child: SafeArea(
