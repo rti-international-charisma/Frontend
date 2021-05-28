@@ -1,7 +1,7 @@
 FROM ubuntu:20.10 as builder
 
 ARG PROJECT_DIR=/charisma-dart
-
+ARG ENVIRONMENT=stage
 
 ENV PATH=/opt/flutter/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
@@ -31,7 +31,7 @@ WORKDIR /usr/local/bin/app
 RUN flutter pub get
 
 # Build the app for the web
-RUN flutter build web --dart-define=API_BASEURL=http://charisma-alb-667612545.af-south-1.elb.amazonaws.com/api
+RUN flutter build web --dart-define=ENV=$ENVIRONMENT
 
 
 # Document the exposed port
