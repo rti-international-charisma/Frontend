@@ -181,41 +181,9 @@ void main() {
           {"questionId": "61241d26-3afb-47b7-97ce-46df9c1c42bd", "score": 1},
           {"questionId": "0008ea62-937a-4dcb-9b01-5e145d82abbd", "score": 4}
         ]
-      },
-      {
-        "sectionId": "d4dc8750-6364-4278-9c2d-2d594347cc7a",
-        "sectionType": "PARTNER ABUSE AND CONTROL",
-        "answers": [
-          {"questionId": "e2a0f3be-c756-481e-8ac4-9be8fa515708", "score": 2},
-          {"questionId": "ac4a70e8-aa40-4ffa-8769-984842d67e95", "score": 1}
-        ]
-      },
-      {
-        "sectionId": "fafcdc7a-4be6-4cf3-82e5-9ddde66479bf",
-        "sectionType": "PARTNER SUPPORT",
-        "answers": [
-          {"questionId": "15aa0bd9-2022-406f-a6b6-8bc1d70044e7", "score": 2},
-          {"questionId": "cabf12cb-4eea-484d-b6c7-f117f0550287", "score": 2}
-        ]
-      },
-      {
-        "sectionId": "b4399697-2e38-434b-9e07-94242bb91295",
-        "sectionType": "PARTNER ATTITUDE TO HIV PREVENTION",
-        "answers": [
-          {"questionId": "b3454076-f0c7-4f8e-9f4e-89e3997ec6da", "score": 2}
-        ]
-      },
-      {
-        "sectionId": "746ad99f-0ded-4fc9-95a3-162ebe94d616",
-        "sectionType": "HIV PREVENTION READINESS",
-        "answers": [
-          {"questionId": "bedd6c69-459d-4d4e-b017-46fab6b7c7e4", "score": 6},
-          {"questionId": "916eaa5a-9431-442a-9119-1efb5375b835", "score": 6},
-          {"questionId": "f8af8cb5-7707-4be3-af2a-316ac1143096", "score": 6}
-        ]
       }
     ],
-    "totalSections": 2
+    "totalSections": 6
   };
 
   Map<String, dynamic> moduleData = {

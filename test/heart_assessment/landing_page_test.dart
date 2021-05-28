@@ -5,7 +5,9 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../util/utils.dart';
+import 'dart:convert' as convert;
 
 void main() {
   var pageContent = {
@@ -22,8 +24,32 @@ void main() {
     ]
   };
 
+  var partiallyCompletedAssessmentScoresData = {
+    "sections": [
+      {
+        "sectionId": "c8aca8b8-d22e-4291-b60e-08a878dac42a",
+        "sectionType": "PARTNER CONTEXT",
+        "answers": [
+          {"questionId": "53e79da3-d07a-4f13-81af-b09170a52360", "score": 2},
+          {"questionId": "d33111eb-96fb-4a74-8162-dea5850ed4ee", "score": 1},
+          {"questionId": "1d369bb8-8373-4010-968b-313c11fa1af6", "score": 3}
+        ]
+      },
+      {
+        "sectionId": "3a9be2a0-ea29-40ee-973c-d183af87996f",
+        "sectionType": "TRADITIONAL VALUES",
+        "answers": [
+          {"questionId": "61241d26-3afb-47b7-97ce-46df9c1c42bd", "score": 1},
+          {"questionId": "0008ea62-937a-4dcb-9b01-5e145d82abbd", "score": 4}
+        ]
+      }
+    ],
+    "totalSections": 6
+  };
+
   testWidgets('It displays app bar title', (WidgetTester tester) async {
     final apiClient = MockApiClient();
+    SharedPreferences.setMockInitialValues({});
 
     when(apiClient.get("/content/assessment-intro"))
         .thenAnswer((realInvocation) {
@@ -43,6 +69,7 @@ void main() {
 
   testWidgets('It displays page content', (WidgetTester tester) async {
     final apiClient = MockApiClient();
+    SharedPreferences.setMockInitialValues({});
 
     when(apiClient.get("/content/assessment-intro"))
         .thenAnswer((realInvocation) {
@@ -70,6 +97,7 @@ void main() {
   testWidgets('It displays an action button named "Get started"',
       (WidgetTester tester) async {
     final apiClient = MockApiClient();
+    SharedPreferences.setMockInitialValues({});
 
     when(apiClient.get("/content/assessment-intro"))
         .thenAnswer((realInvocation) {
@@ -92,6 +120,7 @@ void main() {
   testWidgets('it should go to heartAssessment Page on tap of Get Started',
       (WidgetTester tester) async {
     MockRouterDelegate routerDelegate = MockRouterDelegate();
+    SharedPreferences.setMockInitialValues({});
 
     final apiClient = MockApiClient();
 
@@ -109,4 +138,40 @@ void main() {
 
     verify(routerDelegate.push(HeartAssessmentQuestionnaireConfig));
   });
+
+  testWidgets('it should show Continue text on partial assessment',
+          (WidgetTester tester) async {
+        MockRouterDelegate routerDelegate = MockRouterDelegate();
+
+        final apiClient = MockApiClient();
+
+        SharedPreferences.setMockInitialValues({});
+        String userToken = "some.jwt.token";
+        var userData = Future<Map<String, dynamic>>.value({
+          "user": {
+            "id": 1,
+            "username": "username",
+            "sec_q_id": 1,
+            "loginAttemptsLeft": 5
+          },
+          "token": userToken
+        });
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        userData.then((value) =>
+            preferences.setString('userData', convert.jsonEncode(value)));
+
+        var results = Future<Map<String, dynamic>>.value(partiallyCompletedAssessmentScoresData);
+        when(apiClient.getScores(userToken)).thenAnswer((_) => results);
+
+        when(apiClient.get("/content/assessment-intro"))
+            .thenAnswer((realInvocation) {
+          return Future<Map<String, dynamic>>.value(pageContent);
+        });
+
+        await tester.pumpWidget(HALandingPageWidget(apiClient: apiClient)
+            .wrapWithMaterialMockRouter(routerDelegate));
+        await mockNetworkImagesFor(() => tester.pump());
+
+        expect(find.text('Continue'), findsOneWidget);
+      });
 }
