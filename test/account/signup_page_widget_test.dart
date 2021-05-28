@@ -60,14 +60,14 @@ void main() {
     when(apiClient.get('/securityquestions/')).thenAnswer(
         (realInvocation) => Future<List<dynamic>>.value(secQuestions));
 
-    var username = 'Username';
+    var username = 'username';
     when(apiClient.get('/user/availability/$username')).thenAnswer(
         (realInvocation) =>
             Future<Map<String, dynamic>>.value({"available": false}));
 
     await tester.pumpWidget(SignUpWidget(apiClient).wrapWithMaterial());
 
-    await tester.enterText(find.byKey(ValueKey('username')), 'Username');
+    await tester.enterText(find.byKey(ValueKey('username')), 'username');
     await tester.pump();
 
     //Tap on different widget to loose focus
