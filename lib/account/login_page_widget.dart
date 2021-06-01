@@ -90,57 +90,51 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 )),
                           ),
                           SizedBox(height: 20),
-                          Consumer<ApiClient>(
-                              builder: (context, apiClientState, child) {
-                            return SizedBox(
-                              height: 39,
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                key: Key('LoginLoginBtnKey'),
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
+                          SizedBox(
+                            height: 39,
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              key: Key('LoginLoginBtnKey'),
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  widget._apiClient.post<Map<String, dynamic>?>(
+                                      '/login', {
+                                    "username":
+                                        _usernameCtrl.text.toLowerCase(),
+                                    "password": _passwordCtrl.text
+                                  })?.then((data) async {
+                                    SharedPreferenceHelper().setUserData(data);
+                                    userState.userLoggedIn();
                                     setState(() {
-                                      isLoading = true;
+                                      isLoading = false;
                                     });
-                                    widget._apiClient
-                                        .post<Map<String, dynamic>?>('/login', {
-                                      "username":
-                                          _usernameCtrl.text.toLowerCase(),
-                                      "password": _passwordCtrl.text
-                                    })?.then((data) async {
-                                      SharedPreferenceHelper()
-                                          .setUserData(data);
-                                      userState.userLoggedIn();
-                                      setState(() {
-                                        isLoading = false;
-                                      });
-                                      apiClientState.setSessionState(true);
-                                      routerDelegate.push(HomePageConfig);
-                                    }).catchError((error) async {
-                                      setState(() {
-                                        isLoading = false;
-                                      });
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            (((error as ErrorBody)
-                                                .body))['body'],
-                                          ),
-                                          backgroundColor: Colors.red,
+
+                                    routerDelegate.push(HomePageConfig);
+                                  }).catchError((error) async {
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          (((error as ErrorBody).body))['body'],
                                         ),
-                                      );
-                                      return null;
-                                    });
-                                  }
-                                },
-                                child: Text('Login'),
-                                style: ElevatedButton.styleFrom(
-                                  primary: ternaryColor,
-                                ),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
+                                    return null;
+                                  });
+                                }
+                              },
+                              child: Text('Login'),
+                              style: ElevatedButton.styleFrom(
+                                primary: ternaryColor,
                               ),
-                            );
-                          }),
+                            ),
+                          ),
                           SizedBox(height: 20),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,

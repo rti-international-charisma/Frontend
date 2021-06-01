@@ -64,7 +64,6 @@ class CharismaApp extends StatelessWidget {
               create: (_) => SharedPreferences.getInstance()),
           Provider<CharismaRouterDelegate>(create: (_) => _routerDelegate),
           ChangeNotifierProvider(create: (context) => userStateModel),
-          ChangeNotifierProvider(create: (context) => _apiClient)
         ],
         child: MaterialApp.router(
             title: 'Charisma',

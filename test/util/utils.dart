@@ -41,8 +41,6 @@ extension MaterialWrap on Widget {
           Provider<Future<SharedPreferences>>(
               create: (_) => SharedPreferences.getInstance()),
           ChangeNotifierProvider(create: (context) => UserStateModel()),
-          ChangeNotifierProvider(
-              create: (context) => ApiClient(http.Client(), apiBaseUrl)),
           InheritedProvider<CharismaRouterDelegate>(
             create: (ctx) => CharismaRouterDelegate(
               MockApiClient(),
@@ -65,8 +63,6 @@ extension MaterialWrap on Widget {
           Provider<Future<SharedPreferences>>(
               create: (_) => SharedPreferences.getInstance()),
           ChangeNotifierProvider(create: (context) => userStateModel),
-          ChangeNotifierProvider(
-              create: (context) => ApiClient(http.Client(), apiBaseUrl)),
           InheritedProvider<CharismaRouterDelegate>(
             create: (ctx) => CharismaRouterDelegate(
               MockApiClient(),
@@ -87,8 +83,6 @@ extension MaterialWrap on Widget {
           InheritedProvider<CharismaRouterDelegate>(
               create: (ctx) => routerDelegate),
           ChangeNotifierProvider(create: (context) => UserStateModel()),
-          ChangeNotifierProvider(
-              create: (context) => ApiClient(http.Client(), apiBaseUrl)),
         ],
         child: MaterialApp(
           home: Scaffold(
@@ -104,8 +98,6 @@ extension MaterialWrap on Widget {
           InheritedProvider<CharismaRouterDelegate>(
               create: (ctx) => routerDelegate),
           ChangeNotifierProvider(create: (context) => userStateModel),
-          ChangeNotifierProvider(
-              create: (context) => ApiClient(http.Client(), apiBaseUrl)),
         ],
         child: MaterialApp(
           home: Scaffold(

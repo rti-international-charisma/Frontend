@@ -1,25 +1,15 @@
 import 'dart:io';
-
-// import 'package:charisma/account/user_state_model.dart';
-// import 'package:charisma/common/charisma_appbar_widget.dart';
-// import 'package:charisma/common/shared_preference_helper.dart';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 
 import 'dart:convert' as convert;
 
-class ApiClient extends ChangeNotifier {
+class ApiClient {
   final Client _client;
   final String _baseUrl;
   final Map<String, String> _headers;
-  bool isSessionActive = true;
 
   ApiClient(this._client, this._baseUrl) : _headers = {};
   ApiClient._(this._client, this._baseUrl, this._headers);
-
-  void setSessionState(bool isActive) {
-    isSessionActive = isActive;
-  }
 
   Future<T>? get<T>(String path) async {
     var api = _baseUrl.endsWith("/")
@@ -88,8 +78,6 @@ class ApiClient extends ChangeNotifier {
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       return convert.jsonDecode(response.body) as T;
-    } else if (response.statusCode == 401) {
-      handleUnauthorisedAccess();
     }
 
     throw ErrorBody(response.statusCode,
@@ -132,8 +120,6 @@ class ApiClient extends ChangeNotifier {
       return (response.body.isEmpty
           ? response.body
           : convert.jsonDecode(response.body)) as T;
-    } else if (response.statusCode == 401) {
-      handleUnauthorisedAccess();
     }
 
     print("Response : Throwing error");
@@ -143,11 +129,6 @@ class ApiClient extends ChangeNotifier {
 
   ApiClient withAdditionalHeaders(Map<String, String> headers) {
     return ApiClient._(_client, _baseUrl, headers);
-  }
-
-  void handleUnauthorisedAccess() {
-    setSessionState(false);
-    notifyListeners();
   }
 }
 

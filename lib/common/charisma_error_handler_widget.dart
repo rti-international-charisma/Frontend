@@ -30,7 +30,7 @@ class CharismaErrorHandlerWidget extends StatelessWidget {
               routerDelegate.replaceAll(HomePageConfig);
             },
             child: Text(
-              'Your session has expired.\nCLICK HERE to return to home page.',
+              'Your session has expired.\nCLICK HERE to return to the home page.',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
