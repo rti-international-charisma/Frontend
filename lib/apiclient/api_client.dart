@@ -1,8 +1,4 @@
 import 'dart:io';
-
-// import 'package:charisma/account/user_state_model.dart';
-// import 'package:charisma/common/charisma_appbar_widget.dart';
-// import 'package:charisma/common/shared_preference_helper.dart';
 import 'package:http/http.dart';
 
 import 'dart:convert' as convert;
@@ -23,13 +19,14 @@ class ApiClient {
     print("Path: $api$processedPath");
     var response = await _client
         .get(Uri.parse("$api$processedPath"), headers: {..._headers});
-    // print("$path : ${response.statusCode}");
-    // print("Response : ${response.body}");
+
     if (response.statusCode >= 200 && response.statusCode < 300) {
       return convert.jsonDecode(response.body) as T;
     }
+
     print(response.body);
-    throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
+    throw ErrorBody(response.statusCode,
+        convert.jsonDecode('{"errorCode": ${response.statusCode}}'));
   }
 
   Future<T>? getCounsellingModule<T>(num score, String? consent) async {
@@ -44,7 +41,8 @@ class ApiClient {
       return convert.jsonDecode(response.body) as T;
     }
 
-    throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
+    throw ErrorBody(response.statusCode,
+        convert.jsonDecode('{"errorCode": ${response.statusCode}}'));
   }
 
   Future<T>? getCounsellingModuleWithoutScore<T>(String? moduleName) async {
@@ -60,7 +58,8 @@ class ApiClient {
       return convert.jsonDecode(response.body) as T;
     }
 
-    throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
+    throw ErrorBody(response.statusCode,
+        convert.jsonDecode('{"errorCode": ${response.statusCode}}'));
   }
 
   Future<T>? getScores<T>(String? userToken) async {
@@ -81,7 +80,8 @@ class ApiClient {
       return convert.jsonDecode(response.body) as T;
     }
 
-    throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
+    throw ErrorBody(response.statusCode,
+        convert.jsonDecode('{"errorCode": ${response.statusCode}}'));
   }
 
   Future<T>? post<T>(String path, Map<String, dynamic> body) async {
@@ -123,7 +123,8 @@ class ApiClient {
     }
 
     print("Response : Throwing error");
-    throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
+    throw ErrorBody(response.statusCode,
+        convert.jsonDecode('{"errorCode": ${response.statusCode}}'));
   }
 
   ApiClient withAdditionalHeaders(Map<String, String> headers) {

@@ -44,35 +44,35 @@ class CharismaAppBar extends StatelessWidget with PreferredSizeWidget {
           Consumer<UserStateModel>(
             builder: (context, userState, child) {
               if (userState.isLoggedIn) {
-                // print('IS LOGGEED IN');
-
                 return FutureBuilder(
                     future: sharedPrefHelper.getUserData(),
                     builder: (context, data) {
-                      return Container(
-                        alignment: Alignment.center,
-                        margin: EdgeInsets.fromLTRB(10, 10, 30, 10),
-                        child: TextButton(
-                          child: Text(
-                            'Logout',
-                            style: TextStyle(
-                              color: Color(0xff2DA4FA),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
+                      return Row(
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            margin: EdgeInsets.fromLTRB(10, 10, 30, 10),
+                            child: TextButton(
+                              child: Text(
+                                'Logout',
+                                style: TextStyle(
+                                  color: Color(0xff2DA4FA),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              key: ValueKey('LogoutLink'),
+                              onPressed: () {
+                                sharedPrefHelper.setUserData(null);
+                                userState.userLoggedOut();
+                                routerDelegate.replaceAll(HomePageConfig);
+                              },
                             ),
                           ),
-                          key: ValueKey('LogoutLink'),
-                          onPressed: () {
-                            // print('on  pressed');
-                            sharedPrefHelper.setUserData(null);
-                            userState.userLoggedOut();
-                            routerDelegate.replaceAll(HomePageConfig);
-                          },
-                        ),
+                        ],
                       );
                     });
               } else {
-                // print('IS LOGGED OUT');
                 return Row(
                   children: [
                     Container(

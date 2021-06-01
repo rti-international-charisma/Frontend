@@ -1,6 +1,7 @@
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/charisma_appbar_widget.dart';
 import 'package:charisma/common/charisma_circular_loader_widget.dart';
+import 'package:charisma/common/charisma_error_handler_widget.dart';
 import 'package:charisma/common/charisma_expandable_widget.dart';
 import 'package:charisma/common/charisma_footer_links_widget.dart';
 import 'package:charisma/constants.dart';
@@ -154,6 +155,10 @@ class ReferralsWidget extends StatelessWidget {
                         ),
                       )
                     ],
+                  );
+                } else if (data.hasError) {
+                  return CharismaErrorHandlerWidget(
+                    error: data.error as ErrorBody,
                   );
                 }
                 return CharismaCircularLoader();
