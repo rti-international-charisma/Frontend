@@ -31,7 +31,7 @@ WORKDIR /usr/local/bin/app
 RUN flutter pub get
 
 # Build the app for the web
-RUN flutter build web --dart-define=ENV=$ENVIRONMENT
+RUN flutter build web --dart-define=ENV=$ENVIRONMENT --release
 
 
 # Document the exposed port
