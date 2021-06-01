@@ -1,6 +1,6 @@
 const String HomePagePath = '/home';
 const String LoginPath = '/login';
-const String SignUpPath = '/singUp';
+const String SignUpPath = '/signUp';
 const String ProfilePath = '/profile';
 const String ForgotPasswordPath = '/forgotpassword';
 const String SetNewPasswordPath = '/setnewpassword';
