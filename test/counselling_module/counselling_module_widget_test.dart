@@ -20,7 +20,30 @@ void main() {
       "summary": null,
       "imageUrl": "/assets/89390db4-434f-4d7d-92a0-152cd1368ecd"
     },
-    "moduleVideo": {"videoUrl": "/assets/9fd45ac0-e7e3-4d26-b75f-62c0125bf6ec"},
+    "videoSection": {
+      "introduction": null,
+      "summary": null,
+      "videos": [
+        {
+          "title": "Prep use video",
+          "description": null,
+          "videoUrl": "/assets/2b22ad56-c682-4167-817b-e8c55aff51e0",
+          "videoImage": null,
+          "actionText": "Learn more",
+          "actionLink": null,
+          "isPrivate": false
+        },
+        {
+          "title": "Prep use video 2",
+          "description": null,
+          "videoUrl": "/assets/2b22ad56-c682-4167-817b-e8c5vbdsff51e0",
+          "videoImage": null,
+          "actionText": "Learn more",
+          "actionLink": null,
+          "isPrivate": false
+        }
+      ]
+    },
     "counsellingModuleSections": [
       {
         "id": "section_4",
@@ -64,19 +87,22 @@ void main() {
                 as Html)
             .data,
         equals(moduleData['introduction']));
-    expect(find.byKey(ValueKey('ModuleVideo')), findsOneWidget);
+
+    expect(find.byKey(ValueKey('ModuleVideo')), findsNWidgets(2));
+
     expect(
-        ((find.byKey(ValueKey('ModuleVideo')).evaluate().single.widget
+        ((find.byKey(ValueKey('ModuleVideo')).first.evaluate().single.widget
                     as Container)
                 .child as VideoPlayerWidget)
             .runtimeType,
         equals(VideoPlayerWidget));
     expect(
-        ((find.byKey(ValueKey('ModuleVideo')).evaluate().single.widget
+        ((find.byKey(ValueKey('ModuleVideo')).first.evaluate().single.widget
                     as Container)
                 .child as VideoPlayerWidget)
             .videoUrl,
-        equals("${Utils.assetsUrl}${moduleData['moduleVideo']!['videoUrl']}"));
+        equals(
+            "${Utils.assetsUrl}${moduleData['videoSection']['videos'][0]['videoUrl']}"));
 
     List<Map<String, dynamic>> counsellingModuleSections =
         moduleData['counsellingModuleSections'];

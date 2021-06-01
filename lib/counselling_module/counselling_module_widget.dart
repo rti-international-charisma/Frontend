@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:charisma/common/charisma_expandable_widget.dart';
 import 'package:charisma/common/video_player_widget.dart';
 import 'package:charisma/constants.dart';
@@ -20,7 +21,8 @@ class CounsellingModuleWidget extends StatelessWidget {
     var moduleSections = moduleData!['counsellingModuleSections'];
     var moduleActions = moduleData!['counsellingModuleActionPoints'];
 
-    return Column(
+    return ListView(
+      shrinkWrap: true,
       children: [
         Container(
           key: ValueKey('CounsellingModule'),
@@ -49,13 +51,41 @@ class CounsellingModuleWidget extends StatelessWidget {
                   fit: BoxFit.contain,
                   key: ValueKey('ModuleImage'),
                 ),
-              if (moduleData!['moduleVideo'] != null)
-                Container(
-                  key: ValueKey('ModuleVideo'),
-                  height: 200,
-                  width: MediaQuery.of(context).size.width,
-                  child: VideoPlayerWidget(
-                      "$assetsUrl${moduleData!['moduleVideo']['videoUrl']}"),
+              if (moduleData!['videoSection'] != null)
+                CarouselSlider.builder(
+                  key: ValueKey('ModuleVideos'),
+                  options: CarouselOptions(
+                    height: 300,
+                    enableInfiniteScroll: false,
+                    viewportFraction: 0.9,
+                  ),
+                  itemCount: moduleData!['videoSection']['videos'].length,
+                  itemBuilder: (context, index, realIndex) => Container(
+                    margin: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          offset: Offset(4, 4),
+                          blurRadius: 10,
+                        )
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                      child: Container(
+                        key: ValueKey('ModuleVideo'),
+                        height: 200,
+                        width: MediaQuery.of(context).size.width * 0.73,
+                        child: VideoPlayerWidget(
+                            "$assetsUrl${moduleData!['videoSection']['videos'][index]['videoUrl']}"),
+                      ),
+                    ),
+                  ),
                 ),
               ListView.builder(
                 shrinkWrap: true,
