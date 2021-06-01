@@ -12,7 +12,7 @@ class ApiClient extends ChangeNotifier {
   final Client _client;
   final String _baseUrl;
   final Map<String, String> _headers;
-  bool isSessionActive = false;
+  bool isSessionActive = true;
 
   ApiClient(this._client, this._baseUrl) : _headers = {};
   ApiClient._(this._client, this._baseUrl, this._headers);
@@ -29,13 +29,14 @@ class ApiClient extends ChangeNotifier {
     print("Path: $api$processedPath");
     var response = await _client
         .get(Uri.parse("$api$processedPath"), headers: {..._headers});
-    // print("$path : ${response.statusCode}");
-    // print("Response : ${response.body}");
+
     if (response.statusCode >= 200 && response.statusCode < 300) {
       return convert.jsonDecode(response.body) as T;
     }
+
     print(response.body);
-    throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
+    throw ErrorBody(response.statusCode,
+        convert.jsonDecode('{"errorCode": ${response.statusCode}}'));
   }
 
   Future<T>? getCounsellingModule<T>(num score, String? consent) async {
@@ -50,7 +51,8 @@ class ApiClient extends ChangeNotifier {
       return convert.jsonDecode(response.body) as T;
     }
 
-    throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
+    throw ErrorBody(response.statusCode,
+        convert.jsonDecode('{"errorCode": ${response.statusCode}}'));
   }
 
   Future<T>? getCounsellingModuleWithoutScore<T>(String? moduleName) async {
@@ -66,7 +68,8 @@ class ApiClient extends ChangeNotifier {
       return convert.jsonDecode(response.body) as T;
     }
 
-    throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
+    throw ErrorBody(response.statusCode,
+        convert.jsonDecode('{"errorCode": ${response.statusCode}}'));
   }
 
   Future<T>? getScores<T>(String? userToken) async {
@@ -86,12 +89,11 @@ class ApiClient extends ChangeNotifier {
     if (response.statusCode >= 200 && response.statusCode < 300) {
       return convert.jsonDecode(response.body) as T;
     } else if (response.statusCode == 401) {
-      setSessionState(false);
-      notifyListeners();
-      return convert.jsonDecode(response.body) as T;
+      handleUnauthorisedAccess();
     }
 
-    throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
+    throw ErrorBody(response.statusCode,
+        convert.jsonDecode('{"errorCode": ${response.statusCode}}'));
   }
 
   Future<T>? post<T>(String path, Map<String, dynamic> body) async {
@@ -130,14 +132,22 @@ class ApiClient extends ChangeNotifier {
       return (response.body.isEmpty
           ? response.body
           : convert.jsonDecode(response.body)) as T;
+    } else if (response.statusCode == 401) {
+      handleUnauthorisedAccess();
     }
 
     print("Response : Throwing error");
-    throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
+    throw ErrorBody(response.statusCode,
+        convert.jsonDecode('{"errorCode": ${response.statusCode}}'));
   }
 
   ApiClient withAdditionalHeaders(Map<String, String> headers) {
     return ApiClient._(_client, _baseUrl, headers);
+  }
+
+  void handleUnauthorisedAccess() {
+    setSessionState(false);
+    notifyListeners();
   }
 }
 

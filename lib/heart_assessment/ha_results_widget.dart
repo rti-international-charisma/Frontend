@@ -1,5 +1,6 @@
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/charisma_circular_loader_widget.dart';
+import 'package:charisma/common/charisma_error_handler_widget.dart';
 import 'package:charisma/common/shared_preference_helper.dart';
 import 'package:charisma/constants.dart';
 import 'package:charisma/counselling_module/counselling_module_widget.dart';
@@ -270,12 +271,20 @@ class HAResultsWidget extends StatelessWidget {
                       moduleData: moduleData,
                       assetsUrl: assetsUrl,
                     );
+                  } else if (data.hasError) {
+                    return CharismaErrorHandlerWidget(
+                      error: data.error as ErrorBody,
+                    );
                   }
 
                   return CharismaCircularLoader();
                 },
               )
             ],
+          );
+        } else if (data.hasError) {
+          return CharismaErrorHandlerWidget(
+            error: data.error as ErrorBody,
           );
         }
 

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mockito/mockito.dart';
+import 'package:http/http.dart' as http;
 
 class Utils {
   static const apiBaseUrl = 'http://0.0.0.0:5000/api';
@@ -40,6 +41,8 @@ extension MaterialWrap on Widget {
           Provider<Future<SharedPreferences>>(
               create: (_) => SharedPreferences.getInstance()),
           ChangeNotifierProvider(create: (context) => UserStateModel()),
+          ChangeNotifierProvider(
+              create: (context) => ApiClient(http.Client(), apiBaseUrl)),
           InheritedProvider<CharismaRouterDelegate>(
             create: (ctx) => CharismaRouterDelegate(
               MockApiClient(),
@@ -62,6 +65,8 @@ extension MaterialWrap on Widget {
           Provider<Future<SharedPreferences>>(
               create: (_) => SharedPreferences.getInstance()),
           ChangeNotifierProvider(create: (context) => userStateModel),
+          ChangeNotifierProvider(
+              create: (context) => ApiClient(http.Client(), apiBaseUrl)),
           InheritedProvider<CharismaRouterDelegate>(
             create: (ctx) => CharismaRouterDelegate(
               MockApiClient(),
@@ -81,7 +86,9 @@ extension MaterialWrap on Widget {
         providers: [
           InheritedProvider<CharismaRouterDelegate>(
               create: (ctx) => routerDelegate),
-          ChangeNotifierProvider(create: (context) => UserStateModel())
+          ChangeNotifierProvider(create: (context) => UserStateModel()),
+          ChangeNotifierProvider(
+              create: (context) => ApiClient(http.Client(), apiBaseUrl)),
         ],
         child: MaterialApp(
           home: Scaffold(
@@ -97,6 +104,8 @@ extension MaterialWrap on Widget {
           InheritedProvider<CharismaRouterDelegate>(
               create: (ctx) => routerDelegate),
           ChangeNotifierProvider(create: (context) => userStateModel),
+          ChangeNotifierProvider(
+              create: (context) => ApiClient(http.Client(), apiBaseUrl)),
         ],
         child: MaterialApp(
           home: Scaffold(
