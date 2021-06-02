@@ -9,3 +9,4 @@ const linkColor = Color(0xff2DA4FA);
 const primaryColor = Color(0xFF92C1E9);
 const secondaryColor = Color(0xFFe3f0fa);
 const ternaryColor = Color(0xFF244E74);
+const errorColor = Color(0xFFE57373);

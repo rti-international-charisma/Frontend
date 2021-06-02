@@ -137,7 +137,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       appBar: CharismaAppBar(),
       body: SafeArea(
           child: Consumer<UserStateModel>(builder: (ctx, userState, child) {
-        // print('HOME USER STATE -- ${userState.isLoggedIn}');
         if (userState.isLoggedIn) {
           return FutureBuilder(
             future: SharedPreferenceHelper().getUserData()?.then((data) async {

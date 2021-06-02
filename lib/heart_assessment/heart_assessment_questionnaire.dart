@@ -166,7 +166,7 @@ class _HeartAssessmentQuestionaireState
                                                   .showSnackBar(SnackBar(
                                                 content: Text((error
                                                                 as ErrorBody)
-                                                            .body['errorCode'] ==
+                                                            .code ==
                                                         401
                                                     ? 'Your session has expired. Please login again to complete the assessment.'
                                                     : 'There was an error while saving your response. Please try again.'),
@@ -361,7 +361,8 @@ class _HeartAssessmentQuestionaireState
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.asset('/images/test_complete.png', fit: BoxFit.cover),
+                Image.asset('assets/images/test_complete.png',
+                    fit: BoxFit.cover),
                 Center(
                   child: Padding(
                     padding: EdgeInsets.only(left: 42, right: 42),

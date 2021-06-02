@@ -26,7 +26,7 @@ class ApiClient {
 
     print(response.body);
     throw ErrorBody(response.statusCode,
-        convert.jsonDecode('{"errorCode": ${response.statusCode}}'));
+        convert.jsonDecode(response.body.isEmpty ? '{}' : response.body));
   }
 
   Future<T>? getCounsellingModule<T>(num score, String? consent) async {
@@ -42,7 +42,7 @@ class ApiClient {
     }
 
     throw ErrorBody(response.statusCode,
-        convert.jsonDecode('{"errorCode": ${response.statusCode}}'));
+        convert.jsonDecode(response.body.isEmpty ? '{}' : response.body));
   }
 
   Future<T>? getCounsellingModuleWithoutScore<T>(String? moduleName) async {
@@ -59,7 +59,7 @@ class ApiClient {
     }
 
     throw ErrorBody(response.statusCode,
-        convert.jsonDecode('{"errorCode": ${response.statusCode}}'));
+        convert.jsonDecode(response.body.isEmpty ? '{}' : response.body));
   }
 
   Future<T>? getScores<T>(String? userToken) async {
@@ -81,7 +81,7 @@ class ApiClient {
     }
 
     throw ErrorBody(response.statusCode,
-        convert.jsonDecode('{"errorCode": ${response.statusCode}}'));
+        convert.jsonDecode(response.body.isEmpty ? '{}' : response.body));
   }
 
   Future<T>? post<T>(String path, Map<String, dynamic> body) async {
@@ -101,7 +101,8 @@ class ApiClient {
           : convert.jsonDecode(response.body)) as T;
     }
 
-    throw ErrorBody(response.statusCode, convert.jsonDecode(response.body));
+    throw ErrorBody(response.statusCode,
+        convert.jsonDecode(response.body.isEmpty ? '{}' : response.body));
   }
 
   Future<T>? postWithHeaders<T>(String path, Map<String, dynamic>? body,
@@ -124,7 +125,7 @@ class ApiClient {
 
     print("Response : Throwing error");
     throw ErrorBody(response.statusCode,
-        convert.jsonDecode('{"errorCode": ${response.statusCode}}'));
+        convert.jsonDecode(response.body.isEmpty ? '{}' : response.body));
   }
 
   ApiClient withAdditionalHeaders(Map<String, String> headers) {
