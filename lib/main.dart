@@ -14,7 +14,7 @@ import 'environment.dart' as environment;
 import 'constants.dart';
 
 void main() async {
-  const env = String.fromEnvironment('ENV', defaultValue: 'local');
+  const env = String.fromEnvironment('ENV', defaultValue: 'stage');
   String apiBaseUrl = environment.variables[env]!['baseUrl']!;
   String assetsUrl = environment.variables[env]!['assetsUrl']!;
   print(

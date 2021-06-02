@@ -1,6 +1,8 @@
+import 'package:charisma/common/network_image_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
+import 'package:provider/provider.dart';
 
 class HeroImageWidget extends StatelessWidget {
   const HeroImageWidget({
@@ -30,13 +32,7 @@ class HeroImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(children: <Widget>[
-      new Image.network(
-        "$assetsUrl${data!['imageUrl']}",
-        fit: BoxFit.cover,
-        width: double.infinity,
-        alignment: Alignment.center,
-        key: ValueKey('HeroImage'),
-      ),
+      Provider.of<NetworkImageBuilder>(context).build("$assetsUrl${data!['imageUrl']}"),
       Positioned(
         bottom: 0,
         child: Container(
