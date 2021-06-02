@@ -19,7 +19,7 @@ jobs:
           flutter pub get
       - name: Build
         run: |
-          flutter build web --dart-define=ENV=stage
+          flutter build web --dart-define=ENV=prod
           cp -R build/web/* web_public/public/
       - uses: w9jds/firebase-action@master
         with:
