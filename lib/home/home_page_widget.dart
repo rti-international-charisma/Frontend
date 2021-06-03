@@ -2,8 +2,8 @@ import 'package:charisma/account/user_state_model.dart';
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/charisma_appbar_widget.dart';
 import 'package:charisma/common/charisma_circular_loader_widget.dart';
+import 'package:charisma/common/charisma_error_handler_widget.dart';
 import 'package:charisma/common/shared_preference_helper.dart';
-import 'package:charisma/constants.dart';
 import 'package:charisma/heart_assessment/ha_results_widget.dart';
 import 'package:charisma/home/hero_image_widget.dart';
 import 'package:charisma/common/charisma_footer_links_widget.dart';
@@ -82,11 +82,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             ),
           );
         } else if (data.hasError) {
-          return Scaffold(
-              body: Center(
-            child: Text(
-                "Oops! Looks like something went wrong. Please try again later."),
-          ));
+          return CharismaErrorHandlerWidget(
+            error: data.error as ErrorBody,
+          );
         }
         return CharismaCircularLoader();
       },
@@ -133,38 +131,40 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    double percentage = 0;
+
     return Scaffold(
       appBar: CharismaAppBar(),
       body: SafeArea(
           child: Consumer<UserStateModel>(builder: (ctx, userState, child) {
         // print('HOME USER STATE -- ${userState.isLoggedIn}');
         if (userState.isLoggedIn) {
-          return FutureBuilder<double>(
+          return FutureBuilder(
             future: SharedPreferenceHelper().getUserData()?.then((data) async {
               userData = data;
 
               String? token = await SharedPreferenceHelper().getUserToken();
 
               return await widget.apiClient?.getScores(token);
-            }).then((value) {
-              var attemptedSections = (value['sections'] as List).length;
-              var totalSections = value['totalSections'];
+            }).then((data) {
+              var attemptedSections = (data['sections'] as List).length;
+              var totalSections = data['totalSections'];
               if (totalSections == 0) return 0; //boom
-              return (attemptedSections / totalSections) * 100;
+              percentage = (attemptedSections / totalSections) * 100;
+
+              return data;
             }),
-            builder: (context, percentage) {
-              if (percentage.hasData) {
-                if (percentage.data == 100) {
+            builder: (context, data) {
+              if (data.hasData) {
+                if (percentage == 100) {
                   return getHomePageWithResults(context);
                 } else {
-                  return getGeneralHomePage(context, true, percentage.data!);
+                  return getGeneralHomePage(context, true, percentage);
                 }
-              } else if (percentage.hasError) {
-                return Scaffold(
-                    body: Center(
-                  child: Text(
-                      "Oops! Looks like something went wrong. Please try again later."),
-                ));
+              } else if (data.hasError) {
+                return CharismaErrorHandlerWidget(
+                  error: data.error as ErrorBody,
+                );
               }
               return CharismaCircularLoader();
             },

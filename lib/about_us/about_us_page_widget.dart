@@ -1,6 +1,7 @@
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/charisma_appbar_widget.dart';
 import 'package:charisma/common/charisma_circular_loader_widget.dart';
+import 'package:charisma/common/charisma_error_handler_widget.dart';
 import 'package:charisma/common/charisma_footer_links_widget.dart';
 import 'package:charisma/constants.dart';
 import 'package:flutter/material.dart';
@@ -105,13 +106,11 @@ class AboutUs extends StatelessWidget {
                     ],
                   );
                 } else if (data.hasError) {
-                  return Scaffold(
-                    body: Center(
-                      child: Text(
-                          "Oops! Looks like something went wrong. Please try again later."),
-                    ),
+                  return CharismaErrorHandlerWidget(
+                    error: data.error as ErrorBody,
                   );
                 }
+
                 return CharismaCircularLoader();
               },
             ),

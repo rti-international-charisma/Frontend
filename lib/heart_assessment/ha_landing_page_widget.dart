@@ -1,5 +1,6 @@
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/charisma_circular_loader_widget.dart';
+import 'package:charisma/common/charisma_error_handler_widget.dart';
 import 'package:charisma/common/shared_preference_helper.dart';
 import 'package:charisma/navigation/router_delegate.dart';
 import 'package:charisma/navigation/ui_pages.dart';
@@ -22,8 +23,9 @@ class HALandingPageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final routerDelegate = Provider.of<CharismaRouterDelegate>(context);
+
     return FutureBuilder(
-      future: Future.wait([getIntro(),getScores()]),
+      future: Future.wait([getIntro(), getScores()]),
       builder: (context, data) {
         if (data.hasData) {
           var pageContent = (data.data as List)[0];
@@ -95,10 +97,9 @@ class HALandingPageWidget extends StatelessWidget {
             ),
           );
         } else if (data.hasError) {
-          return Scaffold(
-              body: Center(
-            child: Text("Something went wrong"),
-          ));
+          return CharismaErrorHandlerWidget(
+            error: data.error as ErrorBody,
+          );
         }
 
         // Display a loader while waiting for the API response
@@ -117,7 +118,7 @@ class HALandingPageWidget extends StatelessWidget {
   }
 
   Future<dynamic> getIntro() async {
-   return await apiClient?.get('/content/assessment-intro');
+    return await apiClient?.get('/content/assessment-intro');
   }
 
   isPartiallyComplete(scoresData) {

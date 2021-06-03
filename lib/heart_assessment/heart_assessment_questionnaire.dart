@@ -1,5 +1,6 @@
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/charisma_circular_loader_widget.dart';
+import 'package:charisma/common/charisma_error_handler_widget.dart';
 import 'package:charisma/common/shared_preference_helper.dart';
 import 'package:charisma/heart_assessment/charisma_heart_app_bar.dart';
 import 'package:charisma/heart_assessment/heart_assessment_app_bar.dart';
@@ -122,7 +123,7 @@ class _HeartAssessmentQuestionaireState
                                       key: ValueKey(
                                           'QW_${(question as Question).id}'),
                                       index: ++i,
-                                      heartQuestion: question as Question,
+                                      heartQuestion: question,
                                       optionSelected: (qId, selectedOption) {
                                         addOrUpdateResults(
                                             heartAssessment
@@ -156,9 +157,23 @@ class _HeartAssessmentQuestionaireState
                                         await SharedPreferenceHelper()
                                             .getUserToken();
                                     postScores(
-                                        widget.apiClient,
-                                        createResultObject(heartAssessment),
-                                        userToken!);
+                                            widget.apiClient,
+                                            createResultObject(heartAssessment),
+                                            userToken!)
+                                        ?.catchError((error) => {
+                                              ScaffoldMessenger.of(_scaffoldKey
+                                                      .currentContext!)
+                                                  .showSnackBar(SnackBar(
+                                                content: Text((error
+                                                                as ErrorBody)
+                                                            .body['errorCode'] ==
+                                                        401
+                                                    ? 'Your session has expired. Please login again to complete the assessment.'
+                                                    : 'There was an error while saving your response. Please try again.'),
+                                                backgroundColor: Colors.red,
+                                              )),
+                                              Navigator.pop(context)
+                                            });
                                   }
                                   setState(() {
                                     currentDisplaySection++;
@@ -243,10 +258,8 @@ class _HeartAssessmentQuestionaireState
               ]),
             );
           } else if (data.hasError) {
-            return Scaffold(
-              body: Center(
-                child: Text('Something went wrong'),
-              ),
+            return CharismaErrorHandlerWidget(
+              error: data.error as ErrorBody,
             );
           }
           return CharismaCircularLoader();
@@ -386,8 +399,11 @@ class _HeartAssessmentQuestionaireState
                                       ScaffoldMessenger.of(
                                               _scaffoldKey.currentContext!)
                                           .showSnackBar(SnackBar(
-                                        content: Text(
-                                            'There was an error while submitting the result. Please try again'),
+                                        content: Text((error as ErrorBody)
+                                                    .body['errorCode'] ==
+                                                401
+                                            ? 'Your session has expired. Please login again to complete the assessment.'
+                                            : 'There was an error while submitting the result. Please try again'),
                                         backgroundColor: Colors.red,
                                       )),
                                       Navigator.pop(context)
