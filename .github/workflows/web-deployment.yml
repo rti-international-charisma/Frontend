@@ -19,10 +19,10 @@ jobs:
           flutter pub get
       - name: Build
         run: |
-          flutter build web --dart-define=ENV=prod
+          flutter build web --dart-define=ENV=prod --web-renderer canvaskit
           cp -R build/web/* web_public/public/
       - uses: w9jds/firebase-action@master
         with:
-          args: deploy --only hosting -P rti-charisma
+          args: deploy --only hosting -P rti-charismag
         env:
           GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
