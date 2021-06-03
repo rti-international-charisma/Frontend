@@ -87,23 +87,27 @@ void main() {
     "steps": [
       {
         "title": "Take Relationship Quiz",
+        "stepNumber": 1,
         "backgroundImageUrl": "/assets/6caced82-67c6-4434-8225-d12ad7fd1643",
         "imageUrl": "/assets/bd5c8897-fba1-4110-a3ec-cfb126526f3e"
       },
       {
+        "title": "Get Access To Available Support In Your Community",
+        "stepNumber": 4,
+        "backgroundImageUrl": "/assets/c13524f4-1b4b-4631-8779-f16026e2a4f1",
+        "imageUrl": "/assets/39626393-68ef-47bc-a1b4-5c06c52fb1fa"
+      },
+      {
         "title": "Access Counselling Content Selected Just For You",
+        "stepNumber": 2,
         "backgroundImageUrl": "/assets/38f6117e-c345-49ee-8c25-e7273cde4b9a",
         "imageUrl": "/assets/fa8de294-9d7c-46b6-b933-cbe66605d31f"
       },
       {
         "title": "Share Educational Material with Partner",
+        "stepNumber": 3,
         "backgroundImageUrl": "/assets/a9dd6f32-e04d-47f7-8865-8bc64ff65319",
         "imageUrl": "/assets/4bfe21df-9f30-48bc-ab96-50cf6bfc653c"
-      },
-      {
-        "title": "Get Access To Available Support In Your Community",
-        "backgroundImageUrl": "/assets/c13524f4-1b4b-4631-8779-f16026e2a4f1",
-        "imageUrl": "/assets/39626393-68ef-47bc-a1b4-5c06c52fb1fa"
       }
     ]
   };

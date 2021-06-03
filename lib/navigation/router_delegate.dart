@@ -176,7 +176,7 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
               apiClient: _apiClient,
               assetsUrl: _assetsUrl,
             ),
-            ReferrlasConfig);
+            ReferralsConfig);
       case Pages.CounsellingModulePrepUse:
         return PageData(
           CounsellingModulePageWidget(
@@ -202,7 +202,7 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
             assetsUrl: _assetsUrl,
             moduleName: 'partner_comm',
           ),
-          CounsellingModulePrepUseConfig,
+          CounsellingModulePartnerCommConfig,
         );
       case Pages.CounsellingModuleIPV:
         return PageData(
@@ -211,7 +211,7 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
             assetsUrl: _assetsUrl,
             moduleName: 'ipv',
           ),
-          CounsellingModulePrepUseConfig,
+          CounsellingModuleIPVConfig,
         );
     }
   }

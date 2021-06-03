@@ -118,7 +118,7 @@ const PageConfiguration CounsellingModuleIPVConfig = PageConfiguration(
   path: CounsellingModuleIPVPath,
   uiPage: Pages.CounsellingModuleIPV,
 );
-const PageConfiguration ReferrlasConfig = PageConfiguration(
+const PageConfiguration ReferralsConfig = PageConfiguration(
   key: 'Referrals',
   path: ReferralsPath,
   uiPage: Pages.Referrals,

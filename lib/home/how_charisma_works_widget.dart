@@ -9,6 +9,9 @@ class HowCharismaWorks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    (data as List).sort((prevStep, nextStep) =>
+        prevStep['stepNumber'].compareTo(nextStep['stepNumber']));
+
     return Column(
       key: ValueKey('CharismaSteps'),
       children: [

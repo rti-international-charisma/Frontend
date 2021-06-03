@@ -40,11 +40,12 @@ class CounsellingModuleWidget extends StatelessWidget {
                   key: ValueKey('CounsellingModuleTitle'),
                 ),
               ),
-              Html(
-                data: moduleData!['introduction'],
-                style: {'body': Style(color: infoTextColor)},
-                key: ValueKey('CounsellingModuleIntro'),
-              ),
+              if (moduleData!['introduction'] != null)
+                Html(
+                  data: moduleData!['introduction'],
+                  style: {'body': Style(color: infoTextColor)},
+                  key: ValueKey('CounsellingModuleIntro'),
+                ),
               if (moduleData!['moduleImage'] != null)
                 Image.network(
                   "$assetsUrl${moduleData!['moduleImage']['imageUrl']}",
@@ -138,7 +139,7 @@ class CounsellingModuleWidget extends StatelessWidget {
             ],
           ),
         ),
-        if (moduleActions != null)
+        if (moduleActions != null && moduleActions.isNotEmpty)
           Container(
             key: ValueKey('ActionPoints'),
             padding: EdgeInsets.all(20),

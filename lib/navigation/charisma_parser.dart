@@ -39,7 +39,7 @@ class CharismaParser extends RouteInformationParser<PageConfiguration> {
       case AboutUsPath:
         return AboutUsConfig;
       case ReferralsPath:
-        return ReferrlasConfig;
+        return ReferralsConfig;
       case HIVPreventionPrepPath:
         return HIVPreventionPrepConfig;
       case MalePartnerInfoPath:
@@ -65,13 +65,16 @@ class CharismaParser extends RouteInformationParser<PageConfiguration> {
       case Pages.HALandingPage:
         return const RouteInformation(location: HALandingPagePath);
       case Pages.HeartAssessmentQuestionnaire:
-        return const RouteInformation(location: HeartAssessmentQuestionnairePath);
+        return const RouteInformation(
+            location: HeartAssessmentQuestionnairePath);
       case Pages.HAResults:
         return const RouteInformation(location: HAResultsPath);
       case Pages.CounsellingModuleHealthyRelationship:
-        return const RouteInformation(location: CounsellingModuleHealthyRelationshipPath);
+        return const RouteInformation(
+            location: CounsellingModuleHealthyRelationshipPath);
       case Pages.CounsellingModulePartnerComm:
-        return const RouteInformation(location: CounsellingModulePartnerCommPath);
+        return const RouteInformation(
+            location: CounsellingModulePartnerCommPath);
       case Pages.CounsellingModulePrepUse:
         return const RouteInformation(location: CounsellingModulePrepUsePath);
       case Pages.CounsellingModuleIPV:
