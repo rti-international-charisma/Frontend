@@ -401,7 +401,7 @@ class _HeartAssessmentQuestionaireState
                                               _scaffoldKey.currentContext!)
                                           .showSnackBar(SnackBar(
                                         content: Text((error as ErrorBody)
-                                                    .body['errorCode'] ==
+                                                    .code ==
                                                 401
                                             ? 'Your session has expired. Please login again to complete the assessment.'
                                             : 'There was an error while submitting the result. Please try again'),
