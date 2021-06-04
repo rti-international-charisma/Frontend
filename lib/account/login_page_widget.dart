@@ -7,6 +7,7 @@ import 'package:charisma/navigation/router_delegate.dart';
 import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../logger.dart';
 import 'account_details_validations.dart' show Validations;
 import '../constants.dart';
 
@@ -82,7 +83,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                             child: TextButton(
                                 key: Key('LoginForgotPWordKey'),
                                 onPressed: () {
-                                  print('Forgot Password tapped');
+                                  Logger.log('Forgot Password tapped');
                                   routerDelegate.push(ForgotPasswordConfig);
                                 },
                                 child: Text(
@@ -143,7 +144,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                               TextButton(
                                   key: Key('LoginRegisterBtnKey'),
                                   onPressed: () {
-                                    print(' Register now tapped');
+                                    Logger.log(' Register now tapped');
                                     routerDelegate.push(SignUpConfig);
                                   },
                                   child: Text('Register now'))

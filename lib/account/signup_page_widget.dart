@@ -7,6 +7,7 @@ import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
+import '../logger.dart';
 import 'account_details_validations.dart' show Validations;
 
 class SignUpWidget extends StatefulWidget {
@@ -134,7 +135,7 @@ class _SignupWidgetState extends State<SignUpWidget> {
                           items: toDropDownItem(allSecurityQuestions),
                           onChanged: (CharismaDropDownItem? item) {
                             selectedItem = item;
-                            print(
+                            Logger.log(
                                 'Selected ${item?.identifier} ${item?.displayValue}');
                           },
                         ),
@@ -152,14 +153,14 @@ class _SignupWidgetState extends State<SignUpWidget> {
                           child: ElevatedButton(
                             key: Key('RegisterButtonKey'),
                             onPressed: () {
-                              print('Register Clicked');
+                              Logger.log('Register Clicked');
                               validateUsername(_usernameCtrl.text)
                                   .then((usernameAvailable) => {
                                         if (_formKey.currentState!.validate() &&
                                             usernameAvailable &&
                                             validatePasswords())
                                           {
-                                            print('All things good'),
+                                            Logger.log('All things good'),
                                             widget._apiClient
                                                 .post<Map<String, dynamic>?>(
                                                     '/signup', {
@@ -187,7 +188,7 @@ class _SignupWidgetState extends State<SignUpWidget> {
                                                           .push(LoginPageConfig)
                                                     })
                                                 .catchError((error) => {
-                                                      print(
+                                                      Logger.log(
                                                           "Signup Error : $error"),
                                                       ScaffoldMessenger.of(
                                                               context)
@@ -264,7 +265,7 @@ class _SignupWidgetState extends State<SignUpWidget> {
               })
             })
         .catchError((error) => {
-              print('Error ${(error as ErrorBody).body}'),
+              Logger.log('Error ${(error as ErrorBody).body}'),
               _isUsernameAvailable = false
             });
     return _isUsernameAvailable;
