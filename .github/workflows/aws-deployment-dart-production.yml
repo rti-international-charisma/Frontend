@@ -1,4 +1,4 @@
-name: Deploy Dart to Amazon ECS Staging
+name: Deploy Dart App to Amazon ECS Production
 
 on:
   workflow_dispatch:
@@ -13,8 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    
-    
+
     - name: Checkout source code
       uses: actions/checkout@v1
       
@@ -33,13 +32,13 @@ jobs:
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+        ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY_PRODUCTION }}
         IMAGE_TAG: latest
       run: |
           # Build a docker container and
           # push it to ECR so that it can
           # be deployed to ECS.
-          docker build --build-arg ENVIRONMENT=stage -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker build --build-arg ENVIRONMENT=prod -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
           
@@ -47,19 +46,15 @@ jobs:
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
-        task-definition: task-definition.json
-        container-name: ${{ secrets.AWS_CONTAINER_NAME }}
+        task-definition: .aws/tasks/production/task-definition.json
+        container-name: ${{ secrets.AWS_CONTAINER_NAME_PRODUCTION }}
         image: ${{ steps.build-image.outputs.image }}
     
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
-        service: ${{ secrets.SERVICE_NAME }}
-        cluster: ${{ secrets.AWS_CLUSTER }}
+        service: ${{ secrets.SERVICE_NAME_PRODUCTION }}
+        cluster: ${{ secrets.AWS_CLUSTER_PRODUCTION }}
         wait-for-service-stability: true
         
-        
-    
-      
- 
