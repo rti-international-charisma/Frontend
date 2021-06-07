@@ -2,6 +2,7 @@ import 'package:charisma/account/user_state_model.dart';
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/network_image_builder.dart';
 import 'package:charisma/common/shared_preference_helper.dart';
+import 'package:charisma/logger.dart';
 import 'package:charisma/navigation/back_dispatcher.dart';
 import 'package:charisma/navigation/charisma_parser.dart';
 import 'package:charisma/navigation/router_delegate.dart';
@@ -17,7 +18,9 @@ void main() async {
   const env = String.fromEnvironment('ENV', defaultValue: 'local');
   String apiBaseUrl = environment.variables[env]!['baseUrl']!;
   String assetsUrl = environment.variables[env]!['assetsUrl']!;
-  print(
+
+  Logger.mute = true; //Will mute all logs. Toggle from here.
+  Logger.log(
       'Starting App for $env with API_BASEURL : $apiBaseUrl and ASSETS_URL: $assetsUrl');
 
   Provider.debugCheckInvalidValueType = null;

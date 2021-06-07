@@ -6,6 +6,7 @@ import 'package:charisma/navigation/router_delegate.dart';
 import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../logger.dart';
 import 'account_details_validations.dart' show Validations;
 import '../constants.dart';
 
@@ -106,7 +107,7 @@ class _SetNewPasswordWidget extends State<SetNewPasswordWidget> {
                           key: ValueKey('SPSetPassButton'),
                           onPressed: () async {
                             if (_formKey.currentState!.validate() && validatePasswords()) {
-                              print('Ready to update password');
+                              Logger.log('Ready to update password');
                               String? token =
                               await SharedPreferenceHelper().getPasswordToken();
                               widget.apiClient.postWithHeaders('/reset-password',
@@ -117,14 +118,14 @@ class _SetNewPasswordWidget extends State<SetNewPasswordWidget> {
                                     "Authorization" : "Bearer $token"
                                   }
                               )?.then((value) {
-                                print('Update Password Success :$value');
+                                Logger.log('Update Password Success :$value');
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                   content: Text('New password set successfully.'),
                                   backgroundColor: Colors.lightGreen,
                                 ));
                                 routerDelegate.push(LoginPageConfig);
                               }).catchError((error) {
-                                print('Update Password Error');
+                                Logger.log('Update Password Error');
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                   content: Text('Something went wrong'),
                                   backgroundColor: Colors.red,
