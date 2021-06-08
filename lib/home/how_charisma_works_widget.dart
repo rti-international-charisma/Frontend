@@ -26,6 +26,7 @@ class HowCharismaWorks extends StatelessWidget {
         SizedBox(
           height: 400,
           child: new ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
             itemCount: data.length,
             itemBuilder: (BuildContext context, int index) => Column(
               children: [

@@ -51,6 +51,7 @@ class ReferralsWidget extends StatelessWidget {
         data: {'title': element.key},
         assetsUrl: assetsUrl,
         widgetContent: GridView.count(
+          physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           crossAxisCount: 2,
           crossAxisSpacing: 5,

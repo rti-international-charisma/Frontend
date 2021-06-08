@@ -28,7 +28,6 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     _chewieController = ChewieController(
       deviceOrientationsAfterFullScreen: [DeviceOrientation.portraitUp],
       videoPlayerController: _videoController,
-      autoPlay: false,
       looping: false,
       isLive: false,
       showControls: true,
@@ -42,7 +41,6 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
       placeholder: Container(
         color: Colors.black87,
       ),
-      autoInitialize: true,
       fullScreenByDefault: false,
       errorBuilder: (BuildContext context, String errorMessage) => Container(
         alignment: Alignment.bottomCenter,

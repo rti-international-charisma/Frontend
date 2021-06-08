@@ -22,6 +22,7 @@ class CounsellingModuleWidget extends StatelessWidget {
     var moduleActions = moduleData!['counsellingModuleActionPoints'];
 
     return ListView(
+      physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       children: [
         Container(
@@ -89,6 +90,7 @@ class CounsellingModuleWidget extends StatelessWidget {
                   ),
                 ),
               ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: moduleSections.length,
                 itemBuilder: (BuildContext context, int sectionIndex) => Column(
@@ -114,6 +116,7 @@ class CounsellingModuleWidget extends StatelessWidget {
                     if (moduleSections[sectionIndex]['accordionContent'] !=
                         null)
                       ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: moduleSections[sectionIndex]
                                 ['accordionContent']
@@ -160,6 +163,7 @@ class CounsellingModuleWidget extends StatelessWidget {
                   ),
                 ),
                 ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: moduleActions.length,
                   itemBuilder: (BuildContext context, int index) => Card(
