@@ -30,6 +30,12 @@ class HomePageWidget extends StatefulWidget {
 
 class _HomePageWidgetState extends State<HomePageWidget> {
   Map<String, dynamic> userData = Map();
+  final _scrollController = ScrollController();
+
+  scrollToPageBottom() {
+    _scrollController.animateTo(1300,
+        duration: Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+  }
 
   Widget getGeneralHomePage(BuildContext context, bool isLoggedIn,
       [double assessmentPercentageComplete = 0]) {
@@ -39,46 +45,44 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         if (data.hasData) {
           var homeData = data.data;
 
-          return Container(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                children: [
-                  HeroImageWidget(
-                    data: {
-                      ...homeData!['heroImage'],
-                      'heroImageCaptionTestIncomplete':
-                          homeData['heroImageCaptionTestIncomplete'],
-                    },
-                    userGreeting: isLoggedIn
-                        ? '<h2>Welcome back, ${userData['username']}!</h2>'
-                        : null,
+          return SingleChildScrollView(
+            controller: _scrollController,
+            child: Column(
+              children: [
+                HeroImageWidget(
+                  data: {
+                    ...homeData!['heroImage'],
+                    'heroImageCaptionTestIncomplete':
+                        homeData['heroImageCaptionTestIncomplete'],
+                  },
+                  userGreeting: isLoggedIn
+                      ? '<h2>Welcome back, ${userData['username']}!</h2>'
+                      : null,
+                  assetsUrl: widget.assetsUrl,
+                  isTestComplete:
+                      assessmentPercentageComplete == 0 ? null : false,
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                if (assessmentPercentageComplete == 0)
+                  HowCharismaWorks(
+                    data: homeData['steps'],
                     assetsUrl: widget.assetsUrl,
-                    isTestComplete:
-                        assessmentPercentageComplete == 0 ? null : false,
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  if (assessmentPercentageComplete == 0)
-                    HowCharismaWorks(
-                      data: homeData['steps'],
-                      assetsUrl: widget.assetsUrl,
-                    )
-                  else
-                    PartialAssessmentProgressWidget(
-                        assessmentPercentageComplete),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  HomePageVideos(
-                    data: homeData['videoSection'],
-                    assetsUrl: widget.assetsUrl,
-                    isLoggedIn: isLoggedIn,
-                  ),
-                  CharismaFooterLinks()
-                ],
-              ),
+                    scrollToPageBottom: scrollToPageBottom,
+                  )
+                else
+                  PartialAssessmentProgressWidget(assessmentPercentageComplete),
+                SizedBox(
+                  height: 30,
+                ),
+                HomePageVideos(
+                  data: homeData['videoSection'],
+                  assetsUrl: widget.assetsUrl,
+                  isLoggedIn: isLoggedIn,
+                ),
+                CharismaFooterLinks()
+              ],
             ),
           );
         } else if (data.hasError) {

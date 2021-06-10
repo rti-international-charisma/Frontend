@@ -2,6 +2,7 @@ import 'package:charisma/account/user_state_model.dart';
 import 'package:charisma/common/video_player_widget.dart';
 import 'package:charisma/home/home_page_widget.dart';
 import 'package:charisma/home/partial_assessment_progress_widget.dart';
+import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -283,12 +284,12 @@ void main() {
       assetsUrl: Utils.assetsUrl,
     ).wrapWithMaterialAndUserState(userStateModel));
 
-    await tester.pump(Duration.zero);
     await mockNetworkImagesFor(() => tester.pump());
 
     // Step 1
     expect(
-        (find.byKey(ValueKey('Step1')).evaluate().single.widget as Text).data,
+        (find.byKey(ValueKey('StepNumber1')).evaluate().single.widget as Text)
+            .data,
         equals('1'));
     expect(
         (find.byKey(ValueKey('Step1Text')).evaluate().single.widget as Text)
@@ -297,7 +298,8 @@ void main() {
 
     // Step 2
     expect(
-        (find.byKey(ValueKey('Step2')).evaluate().single.widget as Text).data,
+        (find.byKey(ValueKey('StepNumber2')).evaluate().single.widget as Text)
+            .data,
         equals('2'));
     expect(
         (find.byKey(ValueKey('Step2Text')).evaluate().single.widget as Text)
@@ -306,7 +308,8 @@ void main() {
 
     // Step 3
     expect(
-        (find.byKey(ValueKey('Step3')).evaluate().single.widget as Text).data,
+        (find.byKey(ValueKey('StepNumber3')).evaluate().single.widget as Text)
+            .data,
         equals('3'));
     expect(
         (find.byKey(ValueKey('Step3Text')).evaluate().single.widget as Text)
@@ -315,12 +318,51 @@ void main() {
 
     // Step 4
     expect(
-        (find.byKey(ValueKey('Step4')).evaluate().single.widget as Text).data,
+        (find.byKey(ValueKey('StepNumber4')).evaluate().single.widget as Text)
+            .data,
         equals('4'));
     expect(
         (find.byKey(ValueKey('Step4Text')).evaluate().single.widget as Text)
             .data,
         equals((data['steps'] as List).elementAt(3)['title']));
+  });
+
+  testWidgets('Tapping on the various steps takes you to the relevant page',
+      (WidgetTester tester) async {
+    final apiClient = MockApiClient();
+    MockRouterDelegate routerDelegate = MockRouterDelegate();
+    SharedPreferences.setMockInitialValues({});
+
+    when(apiClient.get("/home")).thenAnswer((_) {
+      return Future<Map<String, dynamic>>.value(data);
+    });
+
+    var userStateModel = UserStateModel();
+    userStateModel.userLoggedOut();
+
+    await tester.pumpWidget(HomePageWidget(
+      apiClient: apiClient,
+      assetsUrl: Utils.assetsUrl,
+    ).wrapWithMaterialMockRouterUserState(routerDelegate, userStateModel));
+
+    await mockNetworkImagesFor(() => tester.pump());
+
+    // Step 1
+    await tester.ensureVisible(find.byKey(ValueKey('Step1')));
+    await tester.tap(find.byKey(ValueKey('Step1')), pointer: 1);
+    verify(routerDelegate.push(HALandingPageConfig));
+
+    // Step 2
+    // Test for this one is not needed as we simply scroll the homepage
+    // to the bottom to make the Counselling Content footer link visible.
+
+    // Step 3
+    await tester.tap(find.byKey(ValueKey('Step3')));
+    verify(routerDelegate.push(MalePartnerInfoConfig));
+
+    // Step 4
+    await tester.tap(find.byKey(ValueKey('Step4')));
+    verify(routerDelegate.push(ReferralsConfig));
   });
 
   testWidgets(
