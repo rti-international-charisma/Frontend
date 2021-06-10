@@ -349,7 +349,7 @@ void main() {
 
     // Step 1
     await tester.ensureVisible(find.byKey(ValueKey('Step1')));
-    await tester.tap(find.byKey(ValueKey('Step1')), pointer: 1);
+    await tester.tap(find.byKey(ValueKey('Step1')));
     verify(routerDelegate.push(HALandingPageConfig));
 
     // Step 2
