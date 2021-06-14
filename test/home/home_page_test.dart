@@ -402,7 +402,8 @@ void main() {
     expect(
         (videoSummary.evaluate().single.widget as Text).data,
         equals(
-            (videoSectionData['videos'] as List).elementAt(0)['description']));
+            (videoSectionData['videos'] as List).elementAt(0)['description'] +
+                ' *test*'));
 
     String videoUrl =
         (videoSectionData['videos'] as List).elementAt(0)['videoUrl'];
