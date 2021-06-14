@@ -23,15 +23,22 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   @override
   void initState() {
     super.initState();
+  }
+
+  void videoFinished() {
+    setState(() {
+      isVideoFinished = true;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     _videoController = VideoPlayerController.network(widget.videoUrl);
 
     _chewieController = ChewieController(
       deviceOrientationsAfterFullScreen: [DeviceOrientation.portraitUp],
       videoPlayerController: _videoController,
-      looping: false,
-      isLive: false,
-      showControls: true,
-      aspectRatio: 4 / 3,
+      aspectRatio: 16 / 9,
       materialProgressColors: ChewieProgressColors(
         playedColor: Colors.transparent,
         handleColor: Colors.transparent,
@@ -41,7 +48,6 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
       placeholder: Container(
         color: Colors.black87,
       ),
-      fullScreenByDefault: false,
       errorBuilder: (BuildContext context, String errorMessage) => Container(
         alignment: Alignment.bottomCenter,
         padding: EdgeInsets.all(10),
@@ -49,6 +55,17 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
           'Oops, looks like something went wrong, please reload',
           style: TextStyle(color: Colors.white, fontSize: 10),
         ),
+      ),
+      routePageBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        _chewieControllerProvider,
+      ) =>
+          Container(
+        alignment: Alignment.center,
+        color: Colors.black,
+        child: _chewieControllerProvider,
       ),
     );
 
@@ -69,16 +86,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
         videoFinished();
       }
     });
-  }
 
-  void videoFinished() {
-    setState(() {
-      isVideoFinished = true;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Container(
       child: Chewie(
         controller: _chewieController,
