@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../constants.dart';
+import '../logger.dart';
 
 class ForgotPasswordWidget extends StatefulWidget {
 
@@ -95,7 +96,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                                     key: ValueKey('FPNewPassButton'),
                                     onPressed: () {
                                       if (_formKey.currentState!.validate() && selectedItem != null) {
-                                        print('Verifying SecQ and Ans');
+                                        Logger.log('Verifying SecQ and Ans');
                                         widget.apiClient.post('/verify-securityquestion',
                                             {
                                               "username":_usernameCtrl.text.toLowerCase(),
@@ -106,7 +107,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                                           SharedPreferenceHelper().setUserData(value);
                                           routerDelegate.push(SetNewPasswordConfig);
                                         }).catchError((error) {
-                                          print('VerifyQuestion Error');
+                                          Logger.log('VerifyQuestion Error');
                                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                             content: Text('${(error as ErrorBody).body['body']}'),
                                             backgroundColor: Colors.red,

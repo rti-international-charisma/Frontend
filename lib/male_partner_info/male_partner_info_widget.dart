@@ -77,6 +77,7 @@ class MalePartnerInfoWidget extends StatelessWidget {
                               key: ValueKey('MalePartnerInfoDescription'),
                             ),
                             ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemCount: documents.length,
                               itemBuilder: (BuildContext context, int index) =>

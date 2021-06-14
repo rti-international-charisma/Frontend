@@ -54,7 +54,7 @@ class CharismaFooterLinks extends StatelessWidget {
         child: ExpandablePanel(
           header: Container(
             height: 50,
-            padding: EdgeInsets.fromLTRB(isSubList ? 35 : 20, 10, 10, 10),
+            padding: EdgeInsets.only(left: isSubList ? 35 : 20, right: 10),
             decoration: BoxDecoration(
               color: Colors.white,
               border: Border(
@@ -147,6 +147,7 @@ class CharismaFooterLinks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: links.length,
       itemBuilder: (BuildContext context, int index) =>

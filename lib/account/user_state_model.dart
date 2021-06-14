@@ -11,7 +11,7 @@ class UserStateModel extends ChangeNotifier {
   }
 
   void userLoggedOut() {
-    // print('NOTIFY LOGOUT');
+    // Logger.log('NOTIFY LOGOUT');
     isLoggedIn = false;
     notifyListeners();
   }

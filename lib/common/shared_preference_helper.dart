@@ -51,7 +51,7 @@ class SharedPreferenceHelper {
   }
 
   setUserData(data) async {
-    // print('SET USER DATA');
+    // Logger.log('SET USER DATA');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (data == null) {
       prefs.remove('userData');

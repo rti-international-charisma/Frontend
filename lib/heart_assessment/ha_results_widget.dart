@@ -163,6 +163,7 @@ class HAResultsWidget extends StatelessWidget {
                             child: Column(
                               children: [
                                 ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   itemCount: sectionScores.length,
                                   itemBuilder:
