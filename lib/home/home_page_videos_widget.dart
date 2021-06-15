@@ -141,7 +141,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
                         child: Container(
                           alignment: Alignment.topCenter,
                           child: Text(
-                            videos[index]['description'] + ' *test*',
+                            videos[index]['description'],
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Color(0xff929292),
