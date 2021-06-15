@@ -17,6 +17,7 @@ const String AboutUsPath = '/aboutus';
 const String ReferralsPath = '/referrals';
 const String HIVPreventionPrepPath = '/hiv_prevention_prep';
 const String MalePartnerInfoPath = '/male_partner_info';
+const String FullscreenVideoPath = '/fullscreen_video';
 
 enum Pages {
   Home,
@@ -36,6 +37,7 @@ enum Pages {
   Referrals,
   HIVPreventionPrep,
   MalePartnerInfo,
+  FullscreenVideo,
 }
 
 class PageConfiguration {
@@ -132,4 +134,9 @@ const PageConfiguration MalePartnerInfoConfig = PageConfiguration(
   key: 'MalePartnerInfo',
   path: MalePartnerInfoPath,
   uiPage: Pages.MalePartnerInfo,
+);
+const PageConfiguration FullscreenVideoConfig = PageConfiguration(
+  key: 'FullscreenVideo',
+  path: FullscreenVideoPath,
+  uiPage: Pages.FullscreenVideo,
 );

@@ -1,6 +1,8 @@
 import 'package:charisma/about_us/about_us_page_widget.dart';
 import 'package:charisma/account/forgot_password_widget.dart';
 import 'package:charisma/account/set_new_password_widget.dart';
+import 'package:charisma/common/charisma_fullscreen_video_widget.dart';
+import 'package:charisma/common/video_player_widget.dart';
 import 'package:charisma/counselling_module/counselling_module_page_widget.dart';
 import 'package:charisma/heart_assessment/ha_landing_page_widget.dart';
 import 'package:charisma/heart_assessment/heart_assessment_questionnaire.dart';
@@ -212,6 +214,11 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
             moduleName: 'ipv',
           ),
           CounsellingModuleIPVConfig,
+        );
+      case Pages.FullscreenVideo:
+        return PageData(
+          VideoPlayerWidget('', true),
+          FullscreenVideoConfig,
         );
     }
   }
