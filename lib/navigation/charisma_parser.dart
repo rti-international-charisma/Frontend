@@ -46,8 +46,6 @@ class CharismaParser extends RouteInformationParser<PageConfiguration> {
         return HIVPreventionPrepConfig;
       case MalePartnerInfoPath:
         return MalePartnerInfoConfig;
-      case FullscreenVideoPath:
-        return FullscreenVideoConfig;
       default:
         return HomePageConfig;
     }
