@@ -70,7 +70,9 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
             onPressed: () {
               setState(() {
                 // Update the video position before hitting play/pause button
-                videoPosition = _videoController.value.position;
+                if (videoPosition <= _videoController.value.position) {
+                  videoPosition = _videoController.value.position;
+                }
 
                 if (_videoController.value.isPlaying) {
                   _videoController.pause();
