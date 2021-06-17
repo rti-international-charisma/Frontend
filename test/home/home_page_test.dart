@@ -432,7 +432,7 @@ void main() {
     ).wrapWithMaterial());
 
     await mockNetworkImagesFor(() => tester.pump());
-    await tester.pumpAndSettle();
+    await tester.pump();
 
     expect(find.byKey(ValueKey('CharismaAppBar')), findsOneWidget);
     expect(find.byKey(ValueKey('CharismaFooterLinks')), findsOneWidget);

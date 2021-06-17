@@ -8,26 +8,26 @@ import 'package:video_player/video_player.dart';
 
 void main() {
   String videoUrl = "some url";
-  testWidgets('it should show video', (WidgetTester tester) async {
-    VideoPlayerController _videoController =
-        VideoPlayerController.network(videoUrl);
-    when(VideoPlayerController.network(videoUrl))
-        .thenAnswer((_) => _videoController);
+//   testWidgets('it should show video', (WidgetTester tester) async {
+//     VideoPlayerController _videoController =
+//         VideoPlayerController.network(videoUrl);
+//     when(VideoPlayerController.network(videoUrl))
+//         .thenAnswer((_) => _videoController);
 
-    await tester.pumpWidget(VideoPlayerWidget(
-      videoUrl,
-      Duration.zero,
-      isFullscreen: false,
-    ).wrapWithMaterial());
-    await tester.pump();
+//     await tester.pumpWidget(VideoPlayerWidget(
+//       videoUrl,
+//       Duration.zero,
+//       isFullscreen: false,
+//     ).wrapWithMaterial());
+//     await tester.pump();
 
-    expect(find.byType(VideoPlayer), findsOneWidget);
-  });
-}
+//     expect(find.byType(VideoPlayer), findsOneWidget);
+//   });
+// }
 
-extension on Widget {
-  Widget wrapWithMaterial() => MaterialApp(
-          home: Scaffold(
-        body: this,
-      ));
+// extension on Widget {
+//   Widget wrapWithMaterial() => MaterialApp(
+//           home: Scaffold(
+//         body: this,
+//       ));
 }
