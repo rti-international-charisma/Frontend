@@ -1,103 +1,149 @@
-import 'package:chewie/chewie.dart';
-
+import 'package:charisma/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerWidget extends StatefulWidget {
   final String videoUrl;
+  final Duration currentPosition;
+  final bool isFullscreen;
 
-  VideoPlayerWidget(this.videoUrl);
+  VideoPlayerWidget(this.videoUrl, this.currentPosition,
+      {this.isFullscreen = false});
 
   @override
   _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
 }
 
 class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
-  late ChewieController _chewieController;
   late VideoPlayerController _videoController;
-  bool isFullscreen = false;
-  bool isVideoFinished = false;
+  late Future<void> _initializeVideoPlayerFuture;
+  static Duration videoPosition = Duration.zero;
 
   @override
   void initState() {
-    super.initState();
-  }
+    _videoController = VideoPlayerController.network(widget.videoUrl);
 
-  void videoFinished() {
-    setState(() {
-      isVideoFinished = true;
+    _initializeVideoPlayerFuture = _videoController.initialize();
+
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      // After entering fullscreen, automatically start playing (resuming) the video from
+      // where you left off before entering fullscreen.
+      if (widget.isFullscreen) {
+        setState(() {
+          _videoController.play();
+        });
+      }
     });
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    _videoController = VideoPlayerController.network(widget.videoUrl);
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Center(
+        child: FutureBuilder(
+          future: _initializeVideoPlayerFuture,
+          builder: (context, data) {
+            if (data.connectionState == ConnectionState.done) {
+              // Move the video to its latest position while transiting between fullscreen & normal modes
+              _videoController.seekTo(videoPosition);
 
-    _chewieController = ChewieController(
-      deviceOrientationsAfterFullScreen: [DeviceOrientation.portraitUp],
-      videoPlayerController: _videoController,
-      aspectRatio: 16 / 9,
-      materialProgressColors: ChewieProgressColors(
-        playedColor: Colors.transparent,
-        handleColor: Colors.transparent,
-        backgroundColor: Colors.transparent,
-        bufferedColor: Colors.transparent,
-      ),
-      placeholder: Container(
-        color: Colors.black87,
-      ),
-      errorBuilder: (BuildContext context, String errorMessage) => Container(
-        alignment: Alignment.bottomCenter,
-        padding: EdgeInsets.all(10),
-        child: Text(
-          'Oops, looks like something went wrong, please reload',
-          style: TextStyle(color: Colors.white, fontSize: 10),
+              return AspectRatio(
+                aspectRatio: _videoController.value.aspectRatio,
+                child: VideoPlayer(_videoController),
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
         ),
       ),
-      routePageBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        _chewieControllerProvider,
-      ) =>
-          Container(
-        alignment: Alignment.center,
-        color: Colors.black,
-        child: _chewieControllerProvider,
+      floatingActionButton: Row(
+        children: [
+          SizedBox(
+            width: 20,
+          ),
+          IconButton(
+            onPressed: () {
+              setState(() {
+                // Update the video position before hitting play/pause button
+                if (videoPosition <= _videoController.value.position) {
+                  videoPosition = _videoController.value.position;
+                }
+
+                if (_videoController.value.isPlaying) {
+                  _videoController.pause();
+                } else {
+                  _videoController.play();
+                }
+              });
+            },
+            icon: Icon(
+              _videoController.value.isPlaying ? Icons.pause : Icons.play_arrow,
+              color: linkColor,
+              size: 30,
+            ),
+          ),
+          widget.isFullscreen
+              ? IconButton(
+                  icon: Icon(
+                    Icons.fullscreen_exit,
+                    color: linkColor,
+                    size: 30,
+                  ),
+                  onPressed: () {
+                    // Before exiting fullscreen, pause the video and update the video position
+                    setState(() {
+                      _videoController.pause();
+                      videoPosition = _videoController.value.position;
+                      Navigator.pop(context);
+                    });
+                  },
+                )
+              : IconButton(
+                  icon: Icon(
+                    Icons.fullscreen,
+                    color: linkColor,
+                    size: 30,
+                  ),
+                  onPressed: () {
+                    // Before entering fullscreen, pause the video and update the video position
+                    setState(() {
+                      _videoController.pause();
+                      videoPosition = _videoController.value.position;
+                      showFullScreen(videoPosition);
+                    });
+                  },
+                ),
+        ],
       ),
     );
+  }
 
-    _chewieController.deviceOrientationsAfterFullScreen.clear();
-    _chewieController.deviceOrientationsAfterFullScreen
-        .add(DeviceOrientation.portraitUp);
-
-    _videoController.addListener(() {
-      var duration = _videoController.value.duration;
-      var position = _videoController.value.position;
-      if (_chewieController.isFullScreen &&
-          (position >= (duration - Duration(seconds: 1)))) {
-        _chewieController.exitFullScreen();
-        videoFinished();
-      }
-
-      if (position == duration) {
-        videoFinished();
-      }
-    });
-
-    return Container(
-      child: Chewie(
-        controller: _chewieController,
-      ),
+  showFullScreen(Duration currentPosition) {
+    showGeneralDialog(
+      context: context,
+      barrierColor: Colors.black12.withOpacity(0.6), // Background color
+      barrierDismissible: false,
+      transitionDuration: Duration(milliseconds: 400),
+      pageBuilder: (_, __, ___) {
+        return SizedBox.expand(
+          child: VideoPlayerWidget(
+            widget.videoUrl,
+            currentPosition,
+            isFullscreen: true,
+          ),
+        );
+      },
     );
   }
 
   @override
   void dispose() {
     _videoController.dispose();
-    _chewieController.dispose();
     super.dispose();
   }
 }

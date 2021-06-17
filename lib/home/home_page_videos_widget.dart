@@ -183,6 +183,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
                               width: MediaQuery.of(context).size.width * 0.73,
                               child: VideoPlayerWidget(
                                 "${widget.assetsUrl}${videos[index]['videoUrl']}",
+                                Duration.zero,
                               ),
                             ),
                           ],
