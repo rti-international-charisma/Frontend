@@ -1,14 +1,12 @@
-import 'package:charisma/common/charisma_circular_loader_widget.dart';
 import 'package:charisma/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerWidget extends StatefulWidget {
   final String videoUrl;
-  final Duration currentPosition;
   final bool isFullscreen;
 
-  VideoPlayerWidget(this.videoUrl, { this.currentPosition = Duration.zero, this.isFullscreen = false});
+  VideoPlayerWidget(this.videoUrl, {this.isFullscreen = false});
 
   @override
   _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
@@ -23,7 +21,6 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     _videoController = VideoPlayerController.network(widget.videoUrl);
 
     if (widget.isFullscreen) {
-      print('Init FullScreen : ${widget.isFullscreen}');
       if (!_videoController.value.isInitialized) {
         setState(() {
           isPlaying = true;
@@ -39,7 +36,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
         child: AspectRatio(
@@ -54,7 +51,6 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
           ),
           IconButton(
             onPressed: () {
-
               if (!_videoController.value.isInitialized) {
                 setState(() {
                   isPlaying = true;
@@ -63,7 +59,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                   });
                 });
               } else {
-                if (videoPosition != Duration.zero){
+                if (videoPosition >= _videoController.value.position) {
                   _videoController.seekTo(videoPosition);
                 }
               }
@@ -87,43 +83,43 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
           ),
           widget.isFullscreen
               ? IconButton(
-            icon: Icon(
-              Icons.fullscreen_exit,
-              color: linkColor,
-              size: 30,
-            ),
-            onPressed: () {
-              // Before exiting fullscreen, pause the video and update the video position
-              setState(() {
-                isPlaying = false;
-                _videoController.pause();
-                videoPosition = _videoController.value.position;
-                Navigator.pop(context);
-              });
-            },
-          )
+                  icon: Icon(
+                    Icons.fullscreen_exit,
+                    color: linkColor,
+                    size: 30,
+                  ),
+                  onPressed: () {
+                    // Before exiting fullscreen, pause the video and update the video position
+                    setState(() {
+                      isPlaying = false;
+                      _videoController.pause();
+                      videoPosition = _videoController.value.position;
+                      Navigator.pop(context);
+                    });
+                  },
+                )
               : IconButton(
-            icon: Icon(
-              Icons.fullscreen,
-              color: linkColor,
-              size: 30,
-            ),
-            onPressed: () {
-              // Before entering fullscreen, pause the video and update the video position
-              setState(() {
-                isPlaying = false;
-                _videoController.pause();
-                videoPosition = _videoController.value.position;
-                showFullScreen(videoPosition);
-              });
-            },
-          ),
+                  icon: Icon(
+                    Icons.fullscreen,
+                    color: linkColor,
+                    size: 30,
+                  ),
+                  onPressed: () {
+                    // Before entering fullscreen, pause the video and update the video position
+                    setState(() {
+                      isPlaying = false;
+                      _videoController.pause();
+                      videoPosition = _videoController.value.position;
+                      showFullScreen();
+                    });
+                  },
+                ),
         ],
       ),
     );
   }
 
-  showFullScreen(Duration currentPosition) {
+  showFullScreen() {
     showGeneralDialog(
       context: context,
       barrierColor: Colors.black12.withOpacity(0.6), // Background color
