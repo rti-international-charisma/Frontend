@@ -1,5 +1,4 @@
 import 'package:charisma/about_us/about_us_page_widget.dart';
-import 'package:charisma/common/charisma_footer_links_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -80,9 +79,9 @@ void main() {
             .data,
         equals(pageContent['summary']));
 
-    await tester.ensureVisible(
-        find.byKey(ValueKey('CharismaFooterLinks'), skipOffstage: false));
-    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+        find.byKey(ValueKey('CharismaFooterLinks'), skipOffstage: false), 300);
+    await tester.pump();
     expect(find.byKey(ValueKey('CharismaFooterLinks')), findsOneWidget);
   });
 }

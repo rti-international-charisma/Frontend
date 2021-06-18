@@ -46,9 +46,24 @@ class HIVPreventionPrepWidget extends StatelessWidget {
                     children: [
                       Container(
                         width: MediaQuery.of(context).size.width,
+                        constraints: BoxConstraints(minHeight: 250),
                         child: Image.network(
                           "$assetsUrl${pageData['heroImage']['imageUrl']}",
-                          fit: BoxFit.contain,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) return child;
+
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null,
+                              ),
+                            );
+                          },
                           key: ValueKey('HIVPreventionPrepHeroImage'),
                         ),
                       ),

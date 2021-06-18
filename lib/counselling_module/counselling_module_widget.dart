@@ -48,10 +48,27 @@ class CounsellingModuleWidget extends StatelessWidget {
                   key: ValueKey('CounsellingModuleIntro'),
                 ),
               if (moduleData!['moduleImage'] != null)
-                Image.network(
-                  "$assetsUrl${moduleData!['moduleImage']['imageUrl']}",
-                  fit: BoxFit.contain,
-                  key: ValueKey('ModuleImage'),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 250,
+                  child: Image.network(
+                    "$assetsUrl${moduleData!['moduleImage']['imageUrl']}",
+                    fit: BoxFit.contain,
+                    loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) return child;
+
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
+                      );
+                    },
+                    key: ValueKey('ModuleImage'),
+                  ),
                 ),
               if (moduleData!['videoSection'] != null)
                 CarouselSlider.builder(
