@@ -1,3 +1,4 @@
+import 'package:charisma/common/charisma_circular_loader_widget.dart';
 import 'package:charisma/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
@@ -7,8 +8,7 @@ class VideoPlayerWidget extends StatefulWidget {
   final Duration currentPosition;
   final bool isFullscreen;
 
-  VideoPlayerWidget(this.videoUrl, this.currentPosition,
-      {this.isFullscreen = false});
+  VideoPlayerWidget(this.videoUrl, { this.currentPosition = Duration.zero, this.isFullscreen = false});
 
   @override
   _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
@@ -16,49 +16,35 @@ class VideoPlayerWidget extends StatefulWidget {
 
 class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   late VideoPlayerController _videoController;
-  late Future<void> _initializeVideoPlayerFuture;
   static Duration videoPosition = Duration.zero;
-
+  var isPlaying = false;
   @override
   void initState() {
     _videoController = VideoPlayerController.network(widget.videoUrl);
 
-    _initializeVideoPlayerFuture = _videoController.initialize();
-
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      // After entering fullscreen, automatically start playing (resuming) the video from
-      // where you left off before entering fullscreen.
-      if (widget.isFullscreen) {
+    if (widget.isFullscreen) {
+      print('Init FullScreen : ${widget.isFullscreen}');
+      if (!_videoController.value.isInitialized) {
         setState(() {
-          _videoController.play();
+          isPlaying = true;
+          _videoController.initialize().then((value) {
+            _videoController.seekTo(videoPosition);
+            _videoController.play();
+          });
         });
       }
-    });
+    }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  Scaffold(
       backgroundColor: Colors.black,
       body: Center(
-        child: FutureBuilder(
-          future: _initializeVideoPlayerFuture,
-          builder: (context, data) {
-            if (data.connectionState == ConnectionState.done) {
-              // Move the video to its latest position while transiting between fullscreen & normal modes
-              _videoController.seekTo(videoPosition);
-
-              return AspectRatio(
-                aspectRatio: _videoController.value.aspectRatio,
-                child: VideoPlayer(_videoController),
-              );
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
+        child: AspectRatio(
+          aspectRatio: 16 / 9,
+          child: VideoPlayer(_videoController),
         ),
       ),
       floatingActionButton: Row(
@@ -68,56 +54,70 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
           ),
           IconButton(
             onPressed: () {
-              setState(() {
-                // Update the video position before hitting play/pause button
-                if (videoPosition <= _videoController.value.position) {
-                  videoPosition = _videoController.value.position;
-                }
 
+              if (!_videoController.value.isInitialized) {
+                setState(() {
+                  isPlaying = true;
+                  _videoController.initialize().then((value) {
+                    _videoController.play();
+                  });
+                });
+              } else {
+                if (videoPosition != Duration.zero){
+                  _videoController.seekTo(videoPosition);
+                }
+              }
+
+              setState(() {
                 if (_videoController.value.isPlaying) {
+                  isPlaying = false;
                   _videoController.pause();
                 } else {
+                  isPlaying = true;
                   _videoController.play();
                 }
+                videoPosition = _videoController.value.position;
               });
             },
             icon: Icon(
-              _videoController.value.isPlaying ? Icons.pause : Icons.play_arrow,
+              isPlaying ? Icons.pause : Icons.play_arrow,
               color: linkColor,
               size: 30,
             ),
           ),
           widget.isFullscreen
               ? IconButton(
-                  icon: Icon(
-                    Icons.fullscreen_exit,
-                    color: linkColor,
-                    size: 30,
-                  ),
-                  onPressed: () {
-                    // Before exiting fullscreen, pause the video and update the video position
-                    setState(() {
-                      _videoController.pause();
-                      videoPosition = _videoController.value.position;
-                      Navigator.pop(context);
-                    });
-                  },
-                )
+            icon: Icon(
+              Icons.fullscreen_exit,
+              color: linkColor,
+              size: 30,
+            ),
+            onPressed: () {
+              // Before exiting fullscreen, pause the video and update the video position
+              setState(() {
+                isPlaying = false;
+                _videoController.pause();
+                videoPosition = _videoController.value.position;
+                Navigator.pop(context);
+              });
+            },
+          )
               : IconButton(
-                  icon: Icon(
-                    Icons.fullscreen,
-                    color: linkColor,
-                    size: 30,
-                  ),
-                  onPressed: () {
-                    // Before entering fullscreen, pause the video and update the video position
-                    setState(() {
-                      _videoController.pause();
-                      videoPosition = _videoController.value.position;
-                      showFullScreen(videoPosition);
-                    });
-                  },
-                ),
+            icon: Icon(
+              Icons.fullscreen,
+              color: linkColor,
+              size: 30,
+            ),
+            onPressed: () {
+              // Before entering fullscreen, pause the video and update the video position
+              setState(() {
+                isPlaying = false;
+                _videoController.pause();
+                videoPosition = _videoController.value.position;
+                showFullScreen(videoPosition);
+              });
+            },
+          ),
         ],
       ),
     );
@@ -133,7 +133,6 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
         return SizedBox.expand(
           child: VideoPlayerWidget(
             widget.videoUrl,
-            currentPosition,
             isFullscreen: true,
           ),
         );

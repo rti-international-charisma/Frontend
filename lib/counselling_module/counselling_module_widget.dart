@@ -84,9 +84,7 @@ class CounsellingModuleWidget extends StatelessWidget {
                         height: 200,
                         width: MediaQuery.of(context).size.width * 0.73,
                         child: VideoPlayerWidget(
-                          "$assetsUrl${moduleData!['videoSection']['videos'][index]['videoUrl']}",
-                          Duration.zero,
-                        ),
+                          "$assetsUrl${moduleData!['videoSection']['videos'][index]['videoUrl']}"),
                       ),
                     ),
                   ),
