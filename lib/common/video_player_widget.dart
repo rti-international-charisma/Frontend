@@ -49,38 +49,39 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
-        children:[Center(
-            child:
-            AspectRatio(
-              aspectRatio: 16 / 9,
-              child: VideoPlayer(_videoController),
+          children:[
+            Center(
+              child:
+              AspectRatio(
+                aspectRatio: 16 / 9,
+                child: VideoPlayer(_videoController),
+              ),
             ),
-        ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 23),
-                    child: buildPlayPauseButton(),
-                  ),
-                  Expanded(
-                    child: _progressBar(),
-                  ),
-                  widget.isFullscreen
-                      ? Padding(
-                    padding: EdgeInsets.only(bottom: 23),
+            Align(
+                alignment: Alignment.bottomCenter,
+                child: Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 23),
+                        child: buildPlayPauseButton(),
+                      ),
+                      Expanded(
+                        child: _progressBar(),
+                      ),
+                      widget.isFullscreen
+                          ? Padding(
+                        padding: EdgeInsets.only(bottom: 23),
                         child: buildExitFullScreenButton(context),
                       )
-                      : Padding(
-                    padding: EdgeInsets.only(bottom: 23),
+                          : Padding(
+                        padding: EdgeInsets.only(bottom: 23),
                         child: buildEnterFullScreenButton(),
                       ),
-                ]
-            )
-          ),
-          _buildBufferBuilder()
-        ]
+                    ]
+                )
+            ),
+            _buildBufferBuilder()
+          ]
       ),
     );
   }
@@ -126,32 +127,28 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   IconButton buildPlayPauseButton() {
     return IconButton(
       onPressed: () {
-        if (!_videoController.value.isInitialized) {
-          setState(() {
+        setState(() {
+          if (!_videoController.value.isInitialized) {
             isPlaying = true;
             _videoController.initialize().then((value) {
               _videoController.seekTo(videoPosition);
               _videoController.play();
-
               _videoController.addListener(videoEventListener);
-
             });
-          });
-        } else {
-          if (videoPosition >= _videoController.value.position) {
-            _videoController.seekTo(videoPosition);
-          }
-        }
-
-        setState(() {
-          if (_videoController.value.isPlaying) {
-            isPlaying = false;
-            _videoController.pause();
           } else {
-            isPlaying = true;
-            _videoController.play();
+            if (videoPosition >= _videoController.value.position) {
+              _videoController.seekTo(videoPosition);
+            }
+
+            if (_videoController.value.isPlaying) {
+              isPlaying = false;
+              _videoController.pause();
+            } else {
+              isPlaying = true;
+              _videoController.play();
+            }
+            videoPosition = _videoController.value.position;
           }
-          videoPosition = _videoController.value.position;
         });
       },
       icon: Icon(
