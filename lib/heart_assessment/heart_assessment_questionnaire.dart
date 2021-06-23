@@ -88,7 +88,7 @@ class _HeartAssessmentQuestionaireState
             return Scaffold(
               key: _scaffoldKey,
               appBar: CharismaHEARTAppBar(
-                height: 180,
+                height: 190,
                 child: HeartAssessmentAppBar(
                   fieldKey: 'HAAppBar',
                   sectionCount:

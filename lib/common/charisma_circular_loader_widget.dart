@@ -10,9 +10,9 @@ class CharismaCircularLoader extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       child: Transform.scale(
-        scale: 0.1,
+        scale: 0.08,
         child: CircularProgressIndicator(
-          strokeWidth: 20,
+          strokeWidth: 40,
           valueColor: AlwaysStoppedAnimation(primaryColor),
         ),
       ),

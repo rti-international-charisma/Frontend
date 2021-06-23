@@ -10,12 +10,11 @@ class CharismaFooterLinks extends StatelessWidget {
   CharismaFooterLinks({Key? key}) : super(key: ValueKey('CharismaFooterLinks'));
 
   static const links = [
+    {'text': 'About Us', 'url': AboutUsPath},
     {'text': 'HIV Prevention: PrEP', 'url': HIVPreventionPrepPath},
-    {'text': 'Male Partner Information Pack', 'url': MalePartnerInfoPath},
-    {'text': 'Referrals', 'url': ReferralsPath},
-    {'text': 'Take the HEART assessment', 'url': HALandingPagePath},
+    {'text': 'Take the relationship quiz', 'url': HALandingPagePath},
     {
-      'text': 'Counselling Content',
+      'text': 'Counselling content',
       'links': [
         {
           'text': 'Healthy Relationships',
@@ -35,7 +34,8 @@ class CharismaFooterLinks extends StatelessWidget {
         },
       ]
     },
-    {'text': 'About Us', 'url': AboutUsPath}
+    {'text': 'Materials for your partner', 'url': MalePartnerInfoPath},
+    {'text': 'Access other support', 'url': ReferralsPath},
   ];
 
   final CharismaParser _parser = CharismaParser();

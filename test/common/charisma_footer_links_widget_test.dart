@@ -9,12 +9,11 @@ import '../util/utils.dart';
 
 void main() {
   const links = [
-    {'text': 'HIV Prevention: PrEP', 'url': null},
-    {'text': 'Male Partner Information Pack', 'url': null},
-    {'text': 'Referrals', 'url': null},
-    {'text': 'Take the HEART assessment', 'url': HALandingPagePath},
+    {'text': 'About Us', 'url': AboutUsPath},
+    {'text': 'HIV Prevention: PrEP', 'url': HIVPreventionPrepPath},
+    {'text': 'Take the relationship quiz', 'url': HALandingPagePath},
     {
-      'text': 'Counselling Content',
+      'text': 'Counselling content',
       'links': [
         {
           'text': 'Healthy Relationships',
@@ -34,7 +33,8 @@ void main() {
         },
       ]
     },
-    {'text': 'About Us', 'url': AboutUsPath}
+    {'text': 'Materials for your partner', 'url': MalePartnerInfoPath},
+    {'text': 'Access other support', 'url': ReferralsPath},
   ];
 
   Future testFooterLinks(
