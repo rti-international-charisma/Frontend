@@ -55,6 +55,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                 setState(() {
                   isPlaying = true;
                   _videoController.initialize().then((value) {
+                    _videoController.seekTo(videoPosition);
                     _videoController.play();
                   });
                 });
