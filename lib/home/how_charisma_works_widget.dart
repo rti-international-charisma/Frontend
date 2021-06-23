@@ -1,3 +1,4 @@
+import 'package:charisma/constants.dart';
 import 'package:charisma/navigation/router_delegate.dart';
 import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/material.dart';
@@ -62,44 +63,54 @@ class HowCharismaWorks extends StatelessWidget {
                   onTap: () {
                     handleStepTap(data[index]['stepNumber']);
                   },
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Stack(
-                        children: [
-                          new Image.network(
-                            "$assetsUrl${data[index]['imageUrl']}",
-                          ),
-                          new Image.network(
-                            "$assetsUrl${data[index]['backgroundImageUrl']}",
-                          ),
-                          Positioned(
-                            bottom: 20,
-                            left: 32,
-                            child: Text(
-                              (index + 1).toString(),
-                              key: ValueKey('StepNumber${index + 1}'),
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Flexible(
-                        child: Text(
-                          data[index]['title'],
-                          key: ValueKey('Step${index + 1}Text'),
-                          style: TextStyle(fontSize: 16, fontFamily: 'Lato'),
+                  child: Container(
+                    height: 80,
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 20,
                         ),
-                      ),
-                    ],
+                        new Container(
+                          width: 80.0,
+                          decoration: new BoxDecoration(
+                            shape: BoxShape.circle,
+                          ),
+                          child: Stack(
+                            children: [
+                              new Image.network(
+                                "$assetsUrl${data[index]['imageUrl']}",
+                              ),
+                              new Image.network(
+                                "$assetsUrl${data[index]['backgroundImageUrl']}",
+                              ),
+                              Positioned(
+                                bottom: 20,
+                                left: 32,
+                                child: Text(
+                                  (index + 1).toString(),
+                                  key: ValueKey('StepNumber${index + 1}'),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 32,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Flexible(
+                          child: Text(
+                            data[index]['title'],
+                            key: ValueKey('Step${index + 1}Text'),
+                            style: TextStyle(fontSize: 16, fontFamily: 'Lato'),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(

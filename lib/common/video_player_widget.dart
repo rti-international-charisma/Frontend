@@ -4,11 +4,9 @@ import 'package:video_player/video_player.dart';
 
 class VideoPlayerWidget extends StatefulWidget {
   final String videoUrl;
-  final Duration currentPosition;
   final bool isFullscreen;
 
-  VideoPlayerWidget(this.videoUrl, this.currentPosition,
-      {this.isFullscreen = false});
+  VideoPlayerWidget(this.videoUrl, {this.isFullscreen = false});
 
   @override
   _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
@@ -16,24 +14,23 @@ class VideoPlayerWidget extends StatefulWidget {
 
 class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   late VideoPlayerController _videoController;
-  late Future<void> _initializeVideoPlayerFuture;
   static Duration videoPosition = Duration.zero;
-
+  var isPlaying = false;
   @override
   void initState() {
     _videoController = VideoPlayerController.network(widget.videoUrl);
 
-    _initializeVideoPlayerFuture = _videoController.initialize();
-
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      // After entering fullscreen, automatically start playing (resuming) the video from
-      // where you left off before entering fullscreen.
-      if (widget.isFullscreen) {
+    if (widget.isFullscreen) {
+      if (!_videoController.value.isInitialized) {
         setState(() {
-          _videoController.play();
+          isPlaying = true;
+          _videoController.initialize().then((value) {
+            _videoController.seekTo(videoPosition);
+            _videoController.play();
+          });
         });
       }
-    });
+    }
     super.initState();
   }
 
@@ -42,23 +39,9 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
-        child: FutureBuilder(
-          future: _initializeVideoPlayerFuture,
-          builder: (context, data) {
-            if (data.connectionState == ConnectionState.done) {
-              // Move the video to its latest position while transiting between fullscreen & normal modes
-              _videoController.seekTo(videoPosition);
-
-              return AspectRatio(
-                aspectRatio: _videoController.value.aspectRatio,
-                child: VideoPlayer(_videoController),
-              );
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
+        child: AspectRatio(
+          aspectRatio: 16 / 9,
+          child: VideoPlayer(_videoController),
         ),
       ),
       floatingActionButton: Row(
@@ -68,21 +51,33 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
           ),
           IconButton(
             onPressed: () {
-              setState(() {
-                // Update the video position before hitting play/pause button
-                if (videoPosition <= _videoController.value.position) {
-                  videoPosition = _videoController.value.position;
+              if (!_videoController.value.isInitialized) {
+                setState(() {
+                  isPlaying = true;
+                  _videoController.initialize().then((value) {
+                    _videoController.seekTo(videoPosition);
+                    _videoController.play();
+                  });
+                });
+              } else {
+                if (videoPosition >= _videoController.value.position) {
+                  _videoController.seekTo(videoPosition);
                 }
+              }
 
+              setState(() {
                 if (_videoController.value.isPlaying) {
+                  isPlaying = false;
                   _videoController.pause();
                 } else {
+                  isPlaying = true;
                   _videoController.play();
                 }
+                videoPosition = _videoController.value.position;
               });
             },
             icon: Icon(
-              _videoController.value.isPlaying ? Icons.pause : Icons.play_arrow,
+              isPlaying ? Icons.pause : Icons.play_arrow,
               color: linkColor,
               size: 30,
             ),
@@ -97,6 +92,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                   onPressed: () {
                     // Before exiting fullscreen, pause the video and update the video position
                     setState(() {
+                      isPlaying = false;
                       _videoController.pause();
                       videoPosition = _videoController.value.position;
                       Navigator.pop(context);
@@ -112,9 +108,10 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                   onPressed: () {
                     // Before entering fullscreen, pause the video and update the video position
                     setState(() {
+                      isPlaying = false;
                       _videoController.pause();
                       videoPosition = _videoController.value.position;
-                      showFullScreen(videoPosition);
+                      showFullScreen();
                     });
                   },
                 ),
@@ -123,7 +120,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     );
   }
 
-  showFullScreen(Duration currentPosition) {
+  showFullScreen() {
     showGeneralDialog(
       context: context,
       barrierColor: Colors.black12.withOpacity(0.6), // Background color
@@ -133,7 +130,6 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
         return SizedBox.expand(
           child: VideoPlayerWidget(
             widget.videoUrl,
-            currentPosition,
             isFullscreen: true,
           ),
         );

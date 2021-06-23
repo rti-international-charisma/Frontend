@@ -43,7 +43,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       future: widget.apiClient?.get<Map<String, dynamic>?>('/home'),
       builder: (context, data) {
         if (data.hasData) {
-          var homeData = data.data;
+          var homeData = data.data as Map<String, dynamic>;
 
           return SingleChildScrollView(
             controller: _scrollController,
@@ -51,7 +51,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               children: [
                 HeroImageWidget(
                   data: {
-                    ...homeData!['heroImage'],
+                    ...homeData['heroImage'],
                     'heroImageCaptionTestIncomplete':
                         homeData['heroImageCaptionTestIncomplete'],
                   },

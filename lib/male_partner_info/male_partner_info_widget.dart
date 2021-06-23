@@ -37,9 +37,24 @@ class MalePartnerInfoWidget extends StatelessWidget {
                     children: [
                       Container(
                         width: MediaQuery.of(context).size.width,
+                        constraints: BoxConstraints(minHeight: 250),
                         child: Image.network(
                           "$assetsUrl${pageData['heroImage']['imageUrl']}",
-                          fit: BoxFit.contain,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) return child;
+
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null,
+                              ),
+                            );
+                          },
                           key: ValueKey('MalePartnerInfoHeroImage'),
                         ),
                       ),
@@ -110,12 +125,7 @@ class MalePartnerInfoWidget extends StatelessWidget {
                                       Icon(
                                         Icons.picture_as_pdf_outlined,
                                         color: linkColor,
-                                        size: 20,
-                                      ),
-                                      Icon(
-                                        Icons.link,
-                                        color: linkColor,
-                                        size: 20,
+                                        size: 25,
                                       ),
                                     ],
                                   ),

@@ -1,3 +1,4 @@
+import 'package:charisma/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
@@ -29,27 +30,48 @@ class HeroImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: <Widget>[
-      new Image.network(
-        "$assetsUrl${data!['imageUrl']}",
-        fit: BoxFit.cover,
-        width: double.infinity,
-        alignment: Alignment.center,
-        key: ValueKey('HeroImage'),
-      ),
-      Positioned(
-        bottom: 0,
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          alignment: Alignment.bottomCenter,
-          padding: EdgeInsets.all(20),
-          child: Html(
-            data: getCaption(data),
-            key: ValueKey('HeroImageText'),
-            style: {'body': Style(color: Colors.white)},
-          ),
+    return Container(
+      color: infoTextColor,
+      child: SizedBox(
+        height: 500,
+        child: Stack(
+          children: <Widget>[
+            new Image.network(
+              "$assetsUrl${data!['imageUrl']}",
+              fit: BoxFit.cover,
+              width: double.infinity,
+              alignment: Alignment.center,
+              loadingBuilder: (BuildContext context, Widget child,
+                  ImageChunkEvent? loadingProgress) {
+                if (loadingProgress == null) return child;
+
+                return Center(
+                  child: CircularProgressIndicator(
+                    value: loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                            loadingProgress.expectedTotalBytes!
+                        : null,
+                  ),
+                );
+              },
+              key: ValueKey('HeroImage'),
+            ),
+            Positioned(
+              bottom: 0,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                alignment: Alignment.bottomCenter,
+                padding: EdgeInsets.all(20),
+                child: Html(
+                  data: getCaption(data),
+                  key: ValueKey('HeroImageText'),
+                  style: {'body': Style(color: Colors.white)},
+                ),
+              ),
+            )
+          ],
         ),
-      )
-    ]);
+      ),
+    );
   }
 }

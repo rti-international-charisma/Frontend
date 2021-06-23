@@ -110,6 +110,10 @@ void main() {
               .data,
           equals(documents[index]['title']));
     }
+
+    await tester.ensureVisible(
+        find.byKey(ValueKey('CharismaFooterLinks'), skipOffstage: false));
+    await tester.pump();
     expect(find.byKey(ValueKey('CharismaFooterLinks')), findsOneWidget);
   });
 }
