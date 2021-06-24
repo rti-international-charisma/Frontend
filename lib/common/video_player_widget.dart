@@ -51,29 +51,27 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
           ),
           IconButton(
             onPressed: () {
-              if (!_videoController.value.isInitialized) {
-                setState(() {
+              setState(() {
+                if (!_videoController.value.isInitialized) {
                   isPlaying = true;
                   _videoController.initialize().then((value) {
                     _videoController.seekTo(videoPosition);
                     _videoController.play();
                   });
-                });
-              } else {
-                if (videoPosition >= _videoController.value.position) {
-                  _videoController.seekTo(videoPosition);
-                }
-              }
-
-              setState(() {
-                if (_videoController.value.isPlaying) {
-                  isPlaying = false;
-                  _videoController.pause();
                 } else {
-                  isPlaying = true;
-                  _videoController.play();
+                  if (videoPosition >= _videoController.value.position) {
+                    _videoController.seekTo(videoPosition);
+                  }
+
+                  if (_videoController.value.isPlaying) {
+                    isPlaying = false;
+                    _videoController.pause();
+                  } else {
+                    isPlaying = true;
+                    _videoController.play();
+                  }
+                  videoPosition = _videoController.value.position;
                 }
-                videoPosition = _videoController.value.position;
               });
             },
             icon: Icon(
@@ -139,6 +137,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 
   @override
   void dispose() {
+    videoPosition = Duration.zero;
     _videoController.dispose();
     super.dispose();
   }
