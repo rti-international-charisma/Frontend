@@ -87,29 +87,31 @@ class AboutUs extends StatelessWidget {
                       SizedBox(
                         height: 10,
                       ),
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.only(left: 20),
-                        child: Text(
-                          aboutUsData['images'][1]['title'],
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14,
+                      if (aboutUsData['images'].length == 2)
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          padding: EdgeInsets.only(left: 20),
+                          child: Text(
+                            aboutUsData['images'][1]['title'],
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14,
+                            ),
+                            key: ValueKey('AboutUsHEARTTitle'),
                           ),
-                          key: ValueKey('AboutUsHEARTTitle'),
                         ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                        child: new Image.network(
-                          "$assetsUrl${aboutUsData['images'][1]['imageUrl']}",
-                          fit: BoxFit.contain,
-                          width: double.infinity,
-                          height: 300,
-                          alignment: Alignment.center,
-                          key: ValueKey('AboutUsHEARTImage'),
+                      if (aboutUsData['images'].length == 2)
+                        Container(
+                          padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                          child: new Image.network(
+                            "$assetsUrl${aboutUsData['images'][1]['imageUrl']}",
+                            fit: BoxFit.contain,
+                            width: double.infinity,
+                            height: 300,
+                            alignment: Alignment.center,
+                            key: ValueKey('AboutUsHEARTImage'),
+                          ),
                         ),
-                      ),
                       Html(
                         data: aboutUsData['summary'],
                         key: ValueKey('AboutUsSummary'),
