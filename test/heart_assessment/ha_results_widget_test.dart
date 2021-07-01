@@ -270,7 +270,7 @@ String? getSectionScoreExplanation(String sectionType) {
     case 'PARTNER ABUSE AND CONTROL':
       return 'Women who score higher on these questions generally feel their partners are more controlling or abusive than women with lower scores.';
     case 'PARTNER SUPPORT':
-      return 'Women who have higher scores on these questions generally believe men should have more power than women in family or relationship decisions. ';
+      return 'Women who score higher on these questions generally feel their partners are more supportive than women with lower scores. Think about if this describes your feelings towards your partner.';
     case 'PARTNER ATTITUDE TO HIV PREVENTION':
       return 'Women who score higher on these questions generally feel their partners are resistant to using HIV prevention methods than women with lower scores.';
     case 'HIV PREVENTION READINESS':
