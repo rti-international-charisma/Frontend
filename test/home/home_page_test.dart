@@ -1,5 +1,6 @@
 import 'package:charisma/account/user_state_model.dart';
 import 'package:charisma/common/video_player_widget.dart';
+import 'package:charisma/common/youtube_player_widget.dart';
 import 'package:charisma/home/home_page_widget.dart';
 import 'package:charisma/home/partial_assessment_progress_widget.dart';
 import 'package:charisma/navigation/ui_pages.dart';
@@ -38,6 +39,7 @@ void main() {
           "description":
               "All relationships have challenges, but it’s important to know what’s healthy or not. Read more to learn about healthy and unhealthy relationship qualities. It requires you to reflect on your own relationships using what you have learned.",
           "videoUrl": "/assets/f5930b41-f299-4728-b035-919156a06675",
+          "youtubeVideoUrl": "https://www.youtube.com/watch?v=JnxzZWaJB_E",
           "videoImage": "",
           "actionText": "Learn more",
           "actionLink": "",
@@ -48,6 +50,7 @@ void main() {
           "description":
               "Communication is more than just the words you speak. Often we are not “heard” because we struggle to separate our feelings from facts when we’re upset. This section will give you skills to communicate better with your partner and use conflict to actually get what you both want and need in your relationship.",
           "videoUrl": "/assets/9fd45ac0-e7e3-4d26-b75f-62c0125bf6ec",
+          "youtubeVideoUrl": "https://www.youtube.com/watch?v=k3IvJVc_asI",
           "videoImage": "",
           "actionText": "Learn more",
           "actionLink": "",
@@ -58,6 +61,7 @@ void main() {
           "description":
               "Are you on PrEP or would like to be on PrEP but don’t know how to tell your partner about it? We’ve got you. Read more to learn about ways other women tell their male partners. And if you’re not ready you can also learn how to use PrEP without telling your partner.",
           "videoUrl": "/assets/2b22ad56-c682-4167-817b-e8c55aff51e0",
+          "youtubeVideoUrl": "https://www.youtube.com/watch?v=_QwXO1ChVPc",
           "videoImage": "",
           "actionText": "Learn more",
           "actionLink": "",
@@ -69,6 +73,7 @@ void main() {
               "Tension and conflict is common in relationships, but it should not lead to physical abuse. Are you aware that abuse is not only physical? Read more to find out what you can do if you suspect you are in an abusive relationship. It’s good to have a back-up plan to make sure you stay safe even if you’re not ready to seek help.",
           "videoUrl": "",
           "videoImage": "/assets/f9b06145-94c3-4a7f-835a-1300cbf599c4",
+          "youtubeVideoUrl": null,
           "actionText": "Learn more",
           "actionLink": "",
           "isPrivate": false
@@ -78,6 +83,7 @@ void main() {
           "description":
               "Take the HEART assessment, and understand your relationship better",
           "videoUrl": "",
+          "youtubeVideoUrl": null,
           "videoImage": "/assets/ea231c41-e9fc-4ea3-acba-975c659dc3df",
           "actionText": "Take the Assessment",
           "actionLink": "/assessment/intro",
@@ -384,11 +390,11 @@ void main() {
 
     var videoModule = find.byKey(ValueKey('VideoModules')).first;
     var videoHeading = find.descendant(
-        of: videoModule, matching: find.byKey(ValueKey('VideoHeading1')));
+        of: videoModule, matching: find.byKey(ValueKey('VideoHeading How\'s the health of your relationship?')));
     var videoSummary = find.descendant(
-        of: videoModule, matching: find.byKey(ValueKey('VideoSummary1')));
+        of: videoModule, matching: find.byKey(ValueKey('VideoSummary How\'s the health of your relationship?')));
     var videoPlayer = find.descendant(
-        of: videoModule, matching: find.byType(VideoPlayerWidget));
+        of: videoModule, matching: find.byType(YoutubePlayerWidget));
     var videoActionButton =
         find.descendant(of: videoModule, matching: find.byType(ElevatedButton));
 
@@ -405,10 +411,10 @@ void main() {
             (videoSectionData['videos'] as List).elementAt(0)['description']));
 
     String videoUrl =
-        (videoSectionData['videos'] as List).elementAt(0)['videoUrl'];
+        (videoSectionData['videos'] as List).elementAt(0)['youtubeVideoUrl'];
     expect(videoPlayer, findsWidgets);
-    expect((videoPlayer.evaluate().single.widget as VideoPlayerWidget).videoUrl,
-        equals('${Utils.assetsUrl}$videoUrl'));
+    // expect((videoPlayer.evaluate().single.widget as YoutubePlayerWidget).videoUrl,
+    //     equals('${Utils.assetsUrl}$videoUrl'));
     expect(videoActionButton, findsOneWidget);
     expect(
         ((videoActionButton.evaluate().single.widget as ElevatedButton).child

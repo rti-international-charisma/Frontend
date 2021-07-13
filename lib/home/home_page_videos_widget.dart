@@ -1,8 +1,5 @@
-import 'dart:html';
 
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:charisma/common/video_player_widget.dart';
-import 'package:charisma/common/video_player_widget2.dart';
+import 'package:charisma/common/youtube_player_widget.dart';
 import 'package:charisma/navigation/charisma_parser.dart';
 import 'package:charisma/navigation/router_delegate.dart';
 import 'package:charisma/navigation/ui_pages.dart';
@@ -103,22 +100,24 @@ class _HomePageVideosState extends State<HomePageVideos> {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
+                key: ValueKey('VideoCarousel'),
                 children:videos.map((video) =>
                     Padding(
                       padding: EdgeInsets.only(right: 20),
                       child: Container(
-                          height: 335,
-                          width: MediaQuery.of(context).size.width * 0.73,
+                          key: ValueKey('VideoModules'),
+                          height: 345,
+                          width: MediaQuery.of(context).size.width * 0.75,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: Colors.white,
                           ),
                           child:  SingleChildScrollView(
                             child: Padding(
-                              padding: EdgeInsets.all(16),
+                              padding: EdgeInsets.only(left:16, right:16),
                               child: Column(
                                   children: [
-                                    SizedBox(height: 16),
+                                    SizedBox(height: 10),
                                     Container(
                                       alignment: Alignment.topCenter,
                                       height: 35,
@@ -129,7 +128,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
                                           fontSize: 14,
                                           fontWeight: FontWeight.w700,
                                         ),
-                                        key: ValueKey('VideoHeading'),
+                                        key: ValueKey('VideoHeading ${video['title']}'),
                                       ),
                                     ),
                                     ConstrainedBox(
@@ -148,7 +147,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
                                           ),
                                           softWrap: true,
                                           overflow: TextOverflow.fade,
-                                          key: ValueKey('VideoSummary'),
+                                          key: ValueKey('VideoSummary ${video['title']}'),
                                         ),
                                       ),
                                     ),
@@ -159,11 +158,14 @@ class _HomePageVideosState extends State<HomePageVideos> {
                                       child: Text(
                                           'Read ${expandedDescriptionIndex == 1 ? 'less' : 'more'}...'),
                                     ),
-                                    if (video['videoUrl'] == null)
+                                    if (video['youtubeVideoUrl'] == null)
                                       Image.network(
                                           "${widget.assetsUrl}${video['videoImage']}")
                                      else
-                                      VideoPlayerWidget2(video['videoUrl']),
+                                      Container(
+                                        width: MediaQuery.of(context).size.width * 0.7,
+                                          child: YoutubePlayerWidget(video['youtubeVideoUrl'])
+                                      ),
 
                                     SizedBox(
                                       height: 10,

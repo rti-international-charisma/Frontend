@@ -1,25 +1,26 @@
 
+import 'package:charisma/logger.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
-class VideoPlayerWidget2 extends StatefulWidget {
+class YoutubePlayerWidget extends StatefulWidget {
   String videoUrl;
-  VideoPlayerWidget2(this.videoUrl);
+  YoutubePlayerWidget(this.videoUrl);
 
   @override
-  State<StatefulWidget> createState()  => _VideoPlayerWidget2State();
+  State<StatefulWidget> createState()  => _YoutubePlayerWidgetState();
 
 }
 
-class _VideoPlayerWidget2State extends State<VideoPlayerWidget2> {
+class _YoutubePlayerWidgetState extends State<YoutubePlayerWidget> {
 
   late YoutubePlayerController _controller;
 
   @override
   void initState() {
+    var videoId = getVideoId(widget.videoUrl);
     _controller = YoutubePlayerController(
-        initialVideoId: 'eg5ciqQzmK0',
+        initialVideoId: videoId,
         params: YoutubePlayerParams(
             autoPlay: false,
             showControls: true,
@@ -32,17 +33,6 @@ class _VideoPlayerWidget2State extends State<VideoPlayerWidget2> {
             enableCaption: false
         )
     );
-
-    // _controller.onEnterFullscreen = () {
-    //   SystemChrome.setPreferredOrientations([
-    //     DeviceOrientation.landscapeLeft,
-    //     DeviceOrientation.landscapeRight,
-    //   ]);
-    //   // Logger.log('Entered Fullscreen');
-    // };
-    // _controller.onExitFullscreen = () {
-    //   // Logger.log('Exited Fullscreen');
-    // };
   }
 
   @override
@@ -59,4 +49,9 @@ class _VideoPlayerWidget2State extends State<VideoPlayerWidget2> {
     super.dispose();
   }
 
+  getVideoId(String videoUrl) {
+    var uri = Uri.parse(videoUrl);
+    var videoId = uri.queryParameters['v'];
+    return videoId;
+  }
 }

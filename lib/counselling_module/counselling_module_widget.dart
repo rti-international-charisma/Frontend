@@ -1,10 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:charisma/common/charisma_expandable_widget.dart';
-import 'package:charisma/common/video_player_widget.dart';
+import 'package:charisma/common/youtube_player_widget.dart';
 import 'package:charisma/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
+
+import '../logger.dart';
 
 class CounsellingModuleWidget extends StatelessWidget {
   const CounsellingModuleWidget({
@@ -70,40 +72,34 @@ class CounsellingModuleWidget extends StatelessWidget {
                     key: ValueKey('ModuleImage'),
                   ),
                 ),
+              SizedBox(height: 8),
               if (moduleData!['videoSection'] != null)
-                CarouselSlider.builder(
-                  key: ValueKey('ModuleVideos'),
-                  options: CarouselOptions(
-                    height: 300,
-                    enableInfiniteScroll: false,
-                    viewportFraction: 0.9,
-                  ),
-                  itemCount: moduleData!['videoSection']['videos'].length,
-                  itemBuilder: (context, index, realIndex) => Container(
-                    margin: EdgeInsets.all(10),
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Colors.white),
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          offset: Offset(4, 4),
-                          blurRadius: 10,
-                        )
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                      child: Container(
-                        key: ValueKey('ModuleVideo'),
-                        height: 200,
-                        width: MediaQuery.of(context).size.width * 0.73,
-                        child: VideoPlayerWidget(
-                          "$assetsUrl${moduleData!['videoSection']['videos'][index]['videoUrl']}"),
-                      ),
-                    ),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: (moduleData!['videoSection']['videos'] as List).map(
+                            (video) =>
+                                Padding(
+                                  padding: EdgeInsets.only(right: 10),
+                                  child: Container(
+                                    height: 325,
+                                    width: MediaQuery.of(context).size.width * 0.92,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.white
+                                    ),
+                                    child: Padding(
+                                        padding: EdgeInsets.all(16),
+                                        child: AspectRatio(
+                                          aspectRatio: 16 / 9,
+                                          child: YoutubePlayerWidget(
+                                              "${video['youtubeVideoUrl']}"
+                                          ),
+                                        )
+                                    ),
+                                  ),
+                                )
+                    ).toList(),
                   ),
                 ),
               ListView.builder(
