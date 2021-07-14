@@ -1,5 +1,7 @@
 
 import 'package:charisma/logger.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
@@ -37,7 +39,9 @@ class _YoutubePlayerWidgetState extends State<YoutubePlayerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    const player = YoutubePlayerIFrame();
+    const player = YoutubePlayerIFrame(
+      gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{},
+    );
     return YoutubePlayerControllerProvider(
         controller: _controller,
         child: player);

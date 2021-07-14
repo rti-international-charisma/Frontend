@@ -3,6 +3,7 @@ import 'package:charisma/common/youtube_player_widget.dart';
 import 'package:charisma/navigation/charisma_parser.dart';
 import 'package:charisma/navigation/router_delegate.dart';
 import 'package:charisma/navigation/ui_pages.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -107,7 +108,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
                       child: Container(
                           key: ValueKey('VideoModules'),
                           height: 345,
-                          width: MediaQuery.of(context).size.width * 0.75,
+                          width: getItemWidth(context),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: Colors.white,
@@ -159,11 +160,13 @@ class _HomePageVideosState extends State<HomePageVideos> {
                                           'Read ${expandedDescriptionIndex == 1 ? 'less' : 'more'}...'),
                                     ),
                                     if (video['youtubeVideoUrl'] == null)
-                                      Image.network(
-                                          "${widget.assetsUrl}${video['videoImage']}")
+                                      AspectRatio(
+                                        aspectRatio: 16 / 9,
+                                        child: Image.network(
+                                            "${widget.assetsUrl}${video['videoImage']}"),
+                                      )
                                      else
                                       Container(
-                                        width: MediaQuery.of(context).size.width * 0.7,
                                           child: YoutubePlayerWidget(video['youtubeVideoUrl'])
                                       ),
 
@@ -221,48 +224,19 @@ class _HomePageVideosState extends State<HomePageVideos> {
 
 }
 
-
-
-/*
-[
-                   Container(
-                     width: 270,
-                     height: MediaQuery.of(context).size.width * 0.53,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                        ),
-                        child:  VideoPlayerWidget2()
-                    ),
-                  SizedBox(width: 10),
-                  Container(
-                      width: 270,
-                      height: MediaQuery.of(context).size.width * 0.73,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                      ),
-                      child:  VideoPlayerWidget2()
-                  ),
-                  SizedBox(width: 10),
-                  Container(
-                      width: 270,
-                      height: MediaQuery.of(context).size.width * 0.73,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                      ),
-                      child:  VideoPlayerWidget2()
-                  ),
-                  SizedBox(width: 10),
-                  Container(
-                      width: 270,
-                      height: MediaQuery.of(context).size.width * 0.73,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                      ),
-                      child:  VideoPlayerWidget2()
-                  )
-                ]
- */
+///
+/// Workaround for the width calculation.
+/// This calculates the carousel item width based on the screen width
+/// The VideoPlayer maintains the aspect ratio and bigger width increases the
+/// VideoPlayer's height.
+/// This basically calculates the width for desktop browser and phone
+///
+double getItemWidth(BuildContext context) {
+  if (MediaQuery.of(context).size.width > 800) {
+    // For Desktop browser
+    return MediaQuery.of(context).size.width * 0.25;
+  } else {
+    // For phone browser
+    return MediaQuery.of(context).size.width * 0.75;
+  }
+}
