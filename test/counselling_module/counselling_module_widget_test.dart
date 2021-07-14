@@ -1,5 +1,6 @@
 import 'package:charisma/common/charisma_expandable_widget.dart';
 import 'package:charisma/common/video_player_widget.dart';
+import 'package:charisma/common/youtube_player_widget.dart';
 import 'package:charisma/counselling_module/counselling_module_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -28,6 +29,7 @@ void main() {
           "title": "Prep use video",
           "description": null,
           "videoUrl": "/assets/2b22ad56-c682-4167-817b-e8c55aff51e0",
+          "youtubeVideoUrl": "https://www.youtube.com/watch?v=_QwXO1ChVPc",
           "videoImage": null,
           "actionText": "Learn more",
           "actionLink": null,
@@ -37,6 +39,7 @@ void main() {
           "title": "Prep use video 2",
           "description": null,
           "videoUrl": "/assets/2b22ad56-c682-4167-817b-e8c5vbdsff51e0",
+          "youtubeVideoUrl": "https://www.youtube.com/watch?v=_QwXO1ChVPc",
           "videoImage": null,
           "actionText": "Learn more",
           "actionLink": null,
@@ -88,21 +91,19 @@ void main() {
             .data,
         equals(moduleData['introduction']));
 
-    expect(find.byKey(ValueKey('ModuleVideo')), findsNWidgets(2));
-
     expect(
         ((find.byKey(ValueKey('ModuleVideo')).first.evaluate().single.widget
                     as Container)
-                .child as VideoPlayerWidget)
+                .child as YoutubePlayerWidget)
             .runtimeType,
-        equals(VideoPlayerWidget));
+        equals(YoutubePlayerWidget));
     expect(
         ((find.byKey(ValueKey('ModuleVideo')).first.evaluate().single.widget
                     as Container)
-                .child as VideoPlayerWidget)
+                .child as YoutubePlayerWidget)
             .videoUrl,
         equals(
-            "${Utils.assetsUrl}${moduleData['videoSection']['videos'][0]['videoUrl']}"));
+            "${moduleData['videoSection']['videos'][0]['youtubeVideoUrl']}"));
 
     List<Map<String, dynamic>> counsellingModuleSections =
         moduleData['counsellingModuleSections'];

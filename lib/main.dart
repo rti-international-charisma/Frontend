@@ -15,11 +15,11 @@ import 'environment.dart' as environment;
 import 'constants.dart';
 
 void main() async {
-  const env = String.fromEnvironment('ENV', defaultValue: 'local');
+  const env = String.fromEnvironment('ENV', defaultValue: 'stage');
   String apiBaseUrl = environment.variables[env]!['baseUrl']!;
   String assetsUrl = environment.variables[env]!['assetsUrl']!;
 
-  Logger.mute = true; //Will mute all logs. Toggle from here.
+  Logger.mute = false; //Will mute all logs. Toggle from here.
   Logger.log(
       'Starting App for $env with API_BASEURL : $apiBaseUrl and ASSETS_URL: $assetsUrl');
 

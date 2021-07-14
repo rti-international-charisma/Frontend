@@ -1,10 +1,12 @@
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:charisma/common/video_player_widget.dart';
+
+import 'package:charisma/common/youtube_player_widget.dart';
 import 'package:charisma/navigation/charisma_parser.dart';
 import 'package:charisma/navigation/router_delegate.dart';
 import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../constants.dart';
 
 class HomePageVideos extends StatefulWidget {
   HomePageVideos({
@@ -25,23 +27,25 @@ class HomePageVideos extends StatefulWidget {
 class _HomePageVideosState extends State<HomePageVideos> {
   int expandedDescriptionIndex = -1;
   CharismaParser _parser = CharismaParser();
+  Map<String, int> expanded = {};
 
   @override
   Widget build(BuildContext context) {
     final routerDelegate = Provider.of<CharismaRouterDelegate>(context);
-    var videos = widget.isLoggedIn
+    List videos = widget.isLoggedIn
         ? widget.data['videos']
         : (widget.data['videos'] as List)
-            .where((video) => !video['isPrivate'])
-            .toList();
+        .where((video) => !video['isPrivate'])
+        .toList();
 
     if (widget.isLoggedIn) {
       List privateVideos =
-          (videos as List).where((video) => video['isPrivate']).toList();
+      (videos as List).where((video) => video['isPrivate']).toList();
 
       List publicVideos = videos.where((video) => !video['isPrivate']).toList();
 
       videos = privateVideos + publicVideos;
+      videos.map((e) => expanded[e['title']] = 0);
     }
     return Stack(
       key: ValueKey("VideoSection"),
@@ -50,11 +54,11 @@ class _HomePageVideosState extends State<HomePageVideos> {
           height: 540,
           decoration: BoxDecoration(
               gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xff1261AA), Color(0xff2DA4FA), Color(0xff2DA4FA)],
-            stops: [0.2665, 0.9213, 0.9213],
-          )),
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Color(0xff1261AA), Color(0xff2DA4FA), Color(0xff2DA4FA)],
+                stops: [0.2665, 0.9213, 0.9213],
+              )),
         ),
         Positioned(
           top: 50,
@@ -75,7 +79,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
         Positioned(
           top: 130,
           child: Container(
-            height: 100,
+            height: 80,
             width: MediaQuery.of(context).size.width,
             alignment: Alignment.topCenter,
             padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
@@ -89,141 +93,114 @@ class _HomePageVideosState extends State<HomePageVideos> {
           ),
         ),
         Positioned(
-          top: 200,
+          top: 180,
           width: MediaQuery.of(context).size.width,
-          child: CarouselSlider.builder(
-            key: ValueKey('VideoCarousel'),
-            itemCount: videos.length,
-            options: CarouselOptions(
-              height: 310,
-              enableInfiniteScroll: false,
-              viewportFraction: 0.85,
-            ),
-            itemBuilder: (context, index, realIndex) => Container(
-              key: ValueKey('VideoModules'),
-              margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.white),
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    offset: Offset(4, 4),
-                    blurRadius: 10,
-                  )
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        alignment: Alignment.topCenter,
-                        height: 35,
-                        child: Text(
-                          videos[index]['title'],
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
+          child:  Padding(
+            padding: EdgeInsets.only(left: 16, right: 16),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                key: ValueKey('VideoCarousel'),
+                children:videos.map((video) =>
+                    Padding(
+                      padding: EdgeInsets.only(right: 20),
+                      child: Container(
+                          key: ValueKey('VideoModules'),
+                          height: 345,
+                          width: MediaQuery.of(context).size.width * 0.75,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
                           ),
-                          key: ValueKey('VideoHeading${index + 1}'),
-                        ),
-                      ),
-                      new ConstrainedBox(
-                        constraints: expandedDescriptionIndex == index
-                            ? new BoxConstraints()
-                            : new BoxConstraints(maxHeight: 25),
-                        child: Container(
-                          alignment: Alignment.topCenter,
-                          child: Text(
-                            videos[index]['description'],
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color(0xff929292),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            softWrap: true,
-                            overflow: TextOverflow.fade,
-                            key: ValueKey('VideoSummary${index + 1}'),
-                          ),
-                        ),
-                      ),
-                      new TextButton(
-                        onPressed: () => setState(() =>
-                            expandedDescriptionIndex =
-                                expandedDescriptionIndex == index ? -1 : index),
-                        child: Text(
-                            'Read ${expandedDescriptionIndex == index ? 'less' : 'more'}...'),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      if (videos[index]['videoUrl'] == null)
-                        Row(
-                          children: [
-                            Container(
-                              height: 140,
-                              width: MediaQuery.of(context).size.width * 0.73,
-                              child: Image.network(
-                                  "${widget.assetsUrl}${videos[index]['videoImage']}"),
-                            )
-                          ],
-                        )
-                      else
-                        Row(
-                          children: [
-                            Container(
-                              height: 140,
-                              width: MediaQuery.of(context).size.width * 0.73,
-                              child: VideoPlayerWidget(
-                                "${widget.assetsUrl}${videos[index]['videoUrl']}"),
-                            ),
-                          ],
-                        ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: ButtonTheme(
-                              height: 322,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  Future<PageConfiguration> pageConfigFuture =
-                                      _parser.parseRouteInformation(
-                                    RouteInformation(
-                                      location: videos[index]['actionLink'],
+                          child:  SingleChildScrollView(
+                            child: Padding(
+                              padding: EdgeInsets.only(left:16, right:16),
+                              child: Column(
+                                  children: [
+                                    SizedBox(height: 10),
+                                    Container(
+                                      alignment: Alignment.topCenter,
+                                      height: 35,
+                                      child: Text(
+                                        video!['title'],
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                        key: ValueKey('VideoHeading ${video['title']}'),
+                                      ),
                                     ),
-                                  );
+                                    ConstrainedBox(
+                                      constraints: expanded[video['title']]== 1
+                                          ? new BoxConstraints()
+                                          : new BoxConstraints(maxHeight: 25),
+                                      child: Container(
+                                        alignment: Alignment.topCenter,
+                                        child: Text(
+                                          video['description'],
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Color(0xff929292),
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                          softWrap: true,
+                                          overflow: TextOverflow.fade,
+                                          key: ValueKey('VideoSummary ${video['title']}'),
+                                        ),
+                                      ),
+                                    ),
+                                    new TextButton(
+                                      onPressed: () => setState(() =>
+                                      expanded[video['title']] =
+                                      expanded[video['title']] == 1 ? 0 : 1),
+                                      child: Text(
+                                          'Read ${expandedDescriptionIndex == 1 ? 'less' : 'more'}...'),
+                                    ),
+                                    if (video['youtubeVideoUrl'] == null)
+                                      Image.network(
+                                          "${widget.assetsUrl}${video['videoImage']}")
+                                     else
+                                      Container(
+                                        width: MediaQuery.of(context).size.width * 0.7,
+                                          child: YoutubePlayerWidget(video['youtubeVideoUrl'])
+                                      ),
 
-                                  pageConfigFuture.then((pageConfig) {
-                                    return routerDelegate.push(pageConfig);
-                                  });
-                                },
-                                child: Text(videos[index]['actionText']),
-                                style: ElevatedButton.styleFrom(
-                                  shape: new RoundedRectangleBorder(
-                                    borderRadius: new BorderRadius.circular(8),
-                                  ),
-                                  primary: Color(0xff244E74),
-                                  minimumSize: Size(0, 45),
-                                ),
-                                key: ValueKey('VideoActionButton$index'),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    SizedBox(
+                                        height: 39,
+                                        width: double.infinity,
+                                        child: ElevatedButton(
+                                          key: Key('RegisterButtonKey'),
+                                          onPressed: () {
+                                            Future<PageConfiguration> pageConfigFuture =
+                                            _parser.parseRouteInformation(
+                                              RouteInformation(
+                                                location: video['actionLink'],
+                                              ),
+                                            );
+
+                                            pageConfigFuture.then((pageConfig) {
+                                              return routerDelegate.push(pageConfig);
+                                            });
+
+                                          },
+                                          child: Text(video['actionText']),
+                                          style: ElevatedButton.styleFrom(
+                                            primary: ternaryColor,
+                                          ),
+                                        )
+                                    )
+                                  ]
                               ),
                             ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
+                          )
+                      ),
+                    )
+                ).toList(),
               ),
             ),
           ),
@@ -231,4 +208,61 @@ class _HomePageVideosState extends State<HomePageVideos> {
       ],
     );
   }
+
+  Iterable<E> mapIndexed<E, T>(
+      Iterable<T>? items, E Function(int index, T item) f) sync* {
+    var index = 0;
+
+    for (final item in items!) {
+      yield f(index, item);
+      index = index + 1;
+    }
+  }
+
 }
+
+
+
+/*
+[
+                   Container(
+                     width: 270,
+                     height: MediaQuery.of(context).size.width * 0.53,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                        ),
+                        child:  VideoPlayerWidget2()
+                    ),
+                  SizedBox(width: 10),
+                  Container(
+                      width: 270,
+                      height: MediaQuery.of(context).size.width * 0.73,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                      ),
+                      child:  VideoPlayerWidget2()
+                  ),
+                  SizedBox(width: 10),
+                  Container(
+                      width: 270,
+                      height: MediaQuery.of(context).size.width * 0.73,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                      ),
+                      child:  VideoPlayerWidget2()
+                  ),
+                  SizedBox(width: 10),
+                  Container(
+                      width: 270,
+                      height: MediaQuery.of(context).size.width * 0.73,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                      ),
+                      child:  VideoPlayerWidget2()
+                  )
+                ]
+ */
