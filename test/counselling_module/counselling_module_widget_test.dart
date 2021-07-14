@@ -91,8 +91,6 @@ void main() {
             .data,
         equals(moduleData['introduction']));
 
-    expect(find.byKey(ValueKey('ModuleVideo')), findsNWidgets(2));
-
     expect(
         ((find.byKey(ValueKey('ModuleVideo')).first.evaluate().single.widget
                     as Container)

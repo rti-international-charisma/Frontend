@@ -74,33 +74,33 @@ class CounsellingModuleWidget extends StatelessWidget {
                 ),
               SizedBox(height: 8),
               if (moduleData!['videoSection'] != null)
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: (moduleData!['videoSection']['videos'] as List).map(
-                            (video) =>
-                                Padding(
-                                  padding: EdgeInsets.only(right: 10),
-                                  child: Container(
-                                    height: 325,
-                                    width: MediaQuery.of(context).size.width * 0.92,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Colors.white
-                                    ),
-                                    child: Padding(
-                                        padding: EdgeInsets.all(16),
-                                        child: AspectRatio(
-                                          aspectRatio: 16 / 9,
+                Row(
+                  children: (moduleData!['videoSection']['videos'] as List).map(
+                          (video) =>
+                              Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: AspectRatio(
+                                    aspectRatio: 16 / 9,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Colors.white
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.all(10),
+                                        child: Container(
+                                          key: ValueKey('ModuleVideo'),
                                           child: YoutubePlayerWidget(
                                               "${video['youtubeVideoUrl']}"
                                           ),
-                                        )
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                )
-                    ).toList(),
-                  ),
+                                ),
+                              )
+                  ).toList(),
                 ),
               ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
