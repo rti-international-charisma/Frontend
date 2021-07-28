@@ -164,6 +164,9 @@ void main() {
       }
     }
 
+    await tester.ensureVisible(
+        find.byKey(ValueKey('ActionPoints'), skipOffstage: false));
+    await tester.pump();
     expect(find.byKey(ValueKey('ActionPoints')), findsOneWidget);
     List<Map<String, dynamic>> actionPoints =
         moduleData['counsellingModuleActionPoints'];

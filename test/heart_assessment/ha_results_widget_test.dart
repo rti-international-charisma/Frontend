@@ -251,7 +251,7 @@ void main() {
 
     expect(find.byKey(ValueKey('TakeTheTestButton')), findsOneWidget);
     expect(((takeTheTestButton).child as Text).data,
-        equals('Take the assessment again'));
+        equals('Take the quiz again'));
 
     takeTheTestButton.onPressed!();
     verify(routerDelegate.push(HALandingPageConfig));

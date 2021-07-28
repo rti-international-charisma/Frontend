@@ -74,33 +74,32 @@ class CounsellingModuleWidget extends StatelessWidget {
                 ),
               SizedBox(height: 8),
               if (moduleData!['videoSection'] != null)
-                Row(
-                  children: (moduleData!['videoSection']['videos'] as List).map(
-                          (video) =>
-                              Expanded(
-                                child: Padding(
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: (moduleData!['videoSection']['videos'] as List).map(
+                            (video) =>
+                                Padding(
                                   padding: EdgeInsets.all(10),
-                                  child: AspectRatio(
-                                    aspectRatio: 16 / 9,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: Colors.white
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(10),
-                                        child: Container(
-                                          key: ValueKey('ModuleVideo'),
-                                          child: YoutubePlayerWidget(
-                                              "${video['youtubeVideoUrl']}"
-                                          ),
+                                  child: Container(
+                                    width: getItemWidth(context),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.white
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(10),
+                                      child: Container(
+                                        key: ValueKey('ModuleVideo'),
+                                        child: YoutubePlayerWidget(
+                                            "${video['youtubeVideoUrl']}"
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              )
-                  ).toList(),
+                                )
+                    ).toList(),
+                  ),
                 ),
               ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
@@ -203,5 +202,15 @@ class CounsellingModuleWidget extends StatelessWidget {
           )
       ],
     );
+  }
+
+  double getItemWidth(BuildContext context) {
+    if (MediaQuery.of(context).size.width > 800) {
+      // For Desktop browser
+      return MediaQuery.of(context).size.width * 0.25;
+    } else {
+      // For phone browser
+      return MediaQuery.of(context).size.width * 0.75;
+    }
   }
 }

@@ -19,7 +19,7 @@ void main() async {
   String apiBaseUrl = environment.variables[env]!['baseUrl']!;
   String assetsUrl = environment.variables[env]!['assetsUrl']!;
 
-  Logger.mute = false; //Will mute all logs. Toggle from here.
+  Logger.mute = true; //Will mute all logs. Toggle from here.
   Logger.log(
       'Starting App for $env with API_BASEURL : $apiBaseUrl and ASSETS_URL: $assetsUrl');
 

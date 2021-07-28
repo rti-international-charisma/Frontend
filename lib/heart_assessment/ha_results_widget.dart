@@ -236,7 +236,7 @@ class HAResultsWidget extends StatelessWidget {
                             child: TextButton(
                               key: ValueKey('TakeTheTestButton'),
                               child: Text(
-                                'Take the assessment again',
+                                'Take the quiz again',
                                 style: TextStyle(color: Colors.white),
                               ),
                               onPressed: () {
