@@ -1,6 +1,7 @@
-import 'package:charisma/navigation/ui_pages.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
+
+import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferenceHelper {
   Future<T>? getUserData<T>() async {
@@ -26,6 +27,7 @@ class SharedPreferenceHelper {
   }
 
   Future<bool> isUserLoggedIn() async {
+    WidgetsFlutterBinding.ensureInitialized();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var userDataEncoded = prefs.getString('userData');
     return (userDataEncoded != null) ? true : false;
