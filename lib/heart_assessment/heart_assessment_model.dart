@@ -99,7 +99,7 @@ class Question {
 class Option {
   Option({
     this.text,
-    this.weightage,
+    this.weightage
   });
 
   String? text;

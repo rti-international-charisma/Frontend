@@ -54,6 +54,23 @@ class HAResultsWidget extends StatelessWidget {
     }
   }
 
+  Color _calcColour(String sectionType, num amount, num total) {
+    bool reverse = sectionType == "PARTNER SUPPORT" || sectionType == "PARTNER ATTITUDE TO HIV PREVENTION" ||  sectionType == "HIV PREVENTION READINESS";
+    num colourNum = (((amount / total) * 100) / 16).toInt();
+    if (reverse) {
+      colourNum = 6 - colourNum;
+    }
+    switch (colourNum.toInt()) {
+      case 5: return Colors.lightGreenAccent.shade700;
+      case 4: return Colors.lightGreenAccent;
+      case 3: return Colors.yellowAccent;
+      case 2: return Colors.yellow;
+      case 1: return Colors.orange;
+      default: return Colors.red;
+    }
+
+  }
+
   @override
   Widget build(BuildContext context) {
     final routerDelegate = Provider.of<CharismaRouterDelegate>(context);
@@ -106,7 +123,7 @@ class HAResultsWidget extends StatelessWidget {
                     Container(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'HEART Assessment Results',
+                        'HEART Quiz Results',
                         style: TextStyle(
                           color: infoTextColor,
                           fontSize: 14,
@@ -130,6 +147,92 @@ class HAResultsWidget extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                      width: 25,
+                                      height:25,
+                                      decoration: BoxDecoration(
+                                          color: Colors.lightGreenAccent.shade700,
+                                          shape: BoxShape.circle
+                                      ),
+                                    ),
+                                    Text("Excellent"),
+                                    SizedBox(width: 5),
+                                    Container(
+                                      width: 25,
+                                      height:25,
+                                      decoration: BoxDecoration(
+                                          color: Colors.lightGreenAccent,
+                                          shape: BoxShape.circle
+                                      ),
+                                    ),
+                                    Text("Good"),
+                                    SizedBox(width: 5),
+                                    Container(
+                                      width: 25,
+                                      height:25,
+                                      decoration: BoxDecoration(
+                                          color: Colors.yellowAccent,
+                                          shape: BoxShape.circle
+                                      ),
+                                    ),
+                                    Text("Average"),
+                                    SizedBox(width: 5)
+                                  ],),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                      width: 25,
+                                      height:25,
+                                      decoration: BoxDecoration(
+                                          color: Colors.yellow,
+                                          shape: BoxShape.circle
+                                      ),
+                                    ),
+                                    Text("Below Average"),
+                                    SizedBox(width: 5),
+                                    Container(
+                                      width: 25,
+                                      height:25,
+                                      decoration: BoxDecoration(
+                                          color: Colors.orange,
+                                          shape: BoxShape.circle
+                                      ),
+                                    ),
+                                    Text("Poor"),
+                                    SizedBox(width: 5),
+                                    Container(
+                                      width: 25,
+                                      height:25,
+                                      decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          shape: BoxShape.circle
+                                      ),
+                                    ),
+                                    Text("Very Poor"),
+                                    SizedBox(width: 5)
+                                  ],),
+                                SizedBox(
+                                  height: 10,
+                                ),
+
+                                Container(
+                                    padding: EdgeInsets.all(13),
+                                    decoration: BoxDecoration(
+                                    border: Border(
+                                      top: BorderSide(
+                                        color: Colors.black.withOpacity(0.04),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
                                 if (displayUserGreeting && userData != null)
                                   Text(
                                     'Hey ${userData!['username']},',
@@ -185,18 +288,18 @@ class HAResultsWidget extends StatelessWidget {
                                                   ValueKey('SectionType$index'),
                                             ),
                                           ),
-                                          Text(
-                                            '${getSectionScore(sectionScores[index]['answers'])} of ${sectionScores[index]['answers'].length * 6}',
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w700,
+                                          Container(
+                                            width: 25,
+                                            height:25,
+                                            decoration: BoxDecoration(
+                                              color: _calcColour(sectionScores[index]['sectionType'], getSectionScore(sectionScores[index]['answers']), sectionScores[index]['answers'].length * 6),
+                                              shape: BoxShape.circle
                                             ),
-                                            textAlign: TextAlign.right,
-                                            key: ValueKey('SectionScore$index'),
                                           ),
                                         ],
                                       ),
                                       Container(
+                                        alignment: Alignment.topLeft,
                                         margin: EdgeInsets.fromLTRB(3, 5, 3, 0),
                                         padding: EdgeInsets.all(10),
                                         decoration: BoxDecoration(

@@ -6,7 +6,7 @@ import '../util/utils.dart';
 
 void main() {
   testWidgets(
-      'It displays the Heart Assessment results widget and footer links',
+      'It displays the Heart Quiz results widget and footer links',
       (WidgetTester tester) async {
     final apiClient = MockApiClient();
 

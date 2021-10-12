@@ -37,7 +37,6 @@ class _QuestionWidgetState extends State<QuestionWidget> {
 
   @override
   Widget build(BuildContext context) {
-    sortOptions();
     return Container(
         key: ValueKey('HAQuestion_${widget.index}'),
         child: Padding(
@@ -136,15 +135,4 @@ class _QuestionWidgetState extends State<QuestionWidget> {
 
   }
 
-  void sortOptions() {
-    if (widget.heartQuestion.positiveNarrative) {
-      widget.heartQuestion.options!.sort((a, b) {
-        return a.weightage!.compareTo(b.weightage!);
-      });
-    } else {
-      widget.heartQuestion.options!.sort((a, b) {
-        return b.weightage!.compareTo(a.weightage!);
-      });
-    }
-  }
 }

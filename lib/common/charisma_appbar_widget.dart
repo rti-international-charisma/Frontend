@@ -1,4 +1,5 @@
 import 'package:charisma/account/user_state_model.dart';
+import 'package:charisma/common/charisma_menu_widget.dart';
 import 'package:charisma/common/shared_preference_helper.dart';
 import 'package:charisma/constants.dart';
 import 'package:charisma/navigation/router_delegate.dart';
@@ -21,6 +22,8 @@ class CharismaAppBar extends StatelessWidget with PreferredSizeWidget {
 
     return PreferredSize(
       child: AppBar(
+        leading: CharismaMenuWidget(),
+        automaticallyImplyLeading: false,
         toolbarHeight: 80,
         iconTheme: IconThemeData(color: Color(0xff2DA4FA)),
         flexibleSpace: InkWell(
