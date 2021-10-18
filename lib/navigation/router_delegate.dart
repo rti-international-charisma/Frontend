@@ -7,6 +7,7 @@ import 'package:charisma/heart_assessment/heart_assessment_questionnaire.dart';
 import 'package:charisma/heart_assessment/ha_results_page_widget.dart';
 import 'package:charisma/hiv_prevention_prep/hiv_prevention_prep_widget.dart';
 import 'package:charisma/male_partner_info/male_partner_info_widget.dart';
+import 'package:charisma/navigation/analytics_route_observer.dart';
 import 'package:charisma/referrals/referrals_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:charisma/account/login_page_widget.dart';
@@ -17,6 +18,7 @@ import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/material.dart';
 
 import '../account/signup_page_widget.dart';
+import 'package:firebase/firebase.dart';
 
 class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<PageConfiguration> {
@@ -36,6 +38,7 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
   @override
   Widget build(BuildContext context) {
     return Navigator(
+      observers: [AnalyticsRouteObserver(analytics: analytics())],
       key: navigatorKey,
       onPopPage: _onPopPage,
       pages: List.of(_pages),

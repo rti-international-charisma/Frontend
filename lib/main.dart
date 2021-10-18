@@ -61,10 +61,8 @@ class CharismaApp extends StatelessWidget {
 
     return MultiProvider(
         providers: [
-          Provider<NetworkImageBuilder>(
-              create: (context) => NetworkImageBuilder()),
-          Provider<Future<SharedPreferences>>(
-              create: (_) => SharedPreferences.getInstance()),
+          Provider<NetworkImageBuilder>(create: (context) => NetworkImageBuilder()),
+          Provider<Future<SharedPreferences>>(create: (_) => SharedPreferences.getInstance()),
           Provider<CharismaRouterDelegate>(create: (_) => _routerDelegate),
           ChangeNotifierProvider(create: (context) => userStateModel),
         ],
