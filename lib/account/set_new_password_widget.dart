@@ -123,7 +123,7 @@ class _SetNewPasswordWidget extends State<SetNewPasswordWidget> {
                                   content: Text('New password set successfully.'),
                                   backgroundColor: Colors.lightGreen,
                                 ));
-                                routerDelegate.push(LoginPageConfig);
+                                routerDelegate.replace(LoginPageConfig);
                               }).catchError((error) {
                                 Logger.log('Update Password Error');
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(

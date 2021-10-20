@@ -105,7 +105,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                                             }
                                         )?.then((value) {
                                           SharedPreferenceHelper().setUserData(value);
-                                          routerDelegate.push(SetNewPasswordConfig);
+                                          routerDelegate.replace(SetNewPasswordConfig);
                                         }).catchError((error) {
                                           Logger.log('VerifyQuestion Error');
                                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -138,7 +138,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                               TextButton(
                                   key: Key('FPRegisterButtonKey'),
                                   onPressed: () {
-                                    routerDelegate.push(SignUpConfig);
+                                    routerDelegate.replace(SignUpConfig);
                                   },
                                   child: Text('Register for a new account')
                               )

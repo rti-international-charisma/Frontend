@@ -254,7 +254,7 @@ void main() {
         equals('Take the quiz again'));
 
     takeTheTestButton.onPressed!();
-    verify(routerDelegate.push(HALandingPageConfig));
+    verify(routerDelegate.replace(HALandingPageConfig));
   });
 }
 

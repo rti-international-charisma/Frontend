@@ -28,7 +28,7 @@ class CharismaErrorHandlerWidget extends StatelessWidget {
             onPressed: () {
               sharedPrefHelper.setUserData(null);
               userState.userLoggedOut();
-              routerDelegate.replaceAll(HomePageConfig);
+              routerDelegate.replace(HomePageConfig);
             },
             child: Text(
               'Your session has expired.\nCLICK HERE to return to the home page.',

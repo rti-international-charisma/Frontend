@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:firebase/firebase.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +13,7 @@ class AnalyticsRouteObserver extends RouteObserver<PageRoute<dynamic>> {
     var pageName = route.settings.name;
     if (null != analytics) {
       analytics!.setCurrentScreen(pageName);
+      analytics!.logEvent(pageName!, new HashMap());
     } else {
       print('pageName: $pageName');
     }

@@ -187,7 +187,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
                                             );
 
                                             pageConfigFuture.then((pageConfig) {
-                                              return routerDelegate.push(pageConfig);
+                                              return routerDelegate.replace(pageConfig);
                                             });
 
                                           },

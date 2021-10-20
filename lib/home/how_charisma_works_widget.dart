@@ -26,16 +26,16 @@ class HowCharismaWorks extends StatelessWidget {
     handleStepTap(int stepNumber) {
       switch (stepNumber) {
         case 1:
-          routerDelegate.push(HALandingPageConfig);
+          routerDelegate.replace(HALandingPageConfig);
           break;
         case 2:
           scrollToPageBottom!();
           break;
         case 3:
-          routerDelegate.push(MalePartnerInfoConfig);
+          routerDelegate.replace(MalePartnerInfoConfig);
           break;
         case 4:
-          routerDelegate.push(ReferralsConfig);
+          routerDelegate.replace(ReferralsConfig);
           break;
       }
     }

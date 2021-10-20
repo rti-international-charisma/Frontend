@@ -213,7 +213,7 @@ class _SignupWidgetState extends State<SignUpWidget> {
                             TextButton(
                                 key: Key('loginButtonkey'),
                                 onPressed: () {
-                                  routerDelegate.push(LoginPageConfig);
+                                  routerDelegate.replace(LoginPageConfig);
                                 },
                                 child: Text('Login now'))
                           ],

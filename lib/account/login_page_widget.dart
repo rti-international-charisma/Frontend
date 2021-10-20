@@ -84,7 +84,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 key: Key('LoginForgotPWordKey'),
                                 onPressed: () {
                                   Logger.log('Forgot Password tapped');
-                                  routerDelegate.push(ForgotPasswordConfig);
+                                  routerDelegate.replace(ForgotPasswordConfig);
                                 },
                                 child: Text(
                                   'Forgot Password?',
@@ -113,7 +113,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       isLoading = false;
                                     });
 
-                                    routerDelegate.push(HomePageConfig);
+                                    routerDelegate.replace(HomePageConfig);
                                   }).catchError((error) async {
                                     setState(() {
                                       isLoading = false;
@@ -145,7 +145,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   key: Key('LoginRegisterBtnKey'),
                                   onPressed: () {
                                     Logger.log(' Register now tapped');
-                                    routerDelegate.push(SignUpConfig);
+                                    routerDelegate.replace(SignUpConfig);
                                   },
                                   child: Text('Register now'))
                             ],

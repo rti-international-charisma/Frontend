@@ -343,7 +343,7 @@ class HAResultsWidget extends StatelessWidget {
                                 style: TextStyle(color: Colors.white),
                               ),
                               onPressed: () {
-                                routerDelegate.push(HALandingPageConfig);
+                                routerDelegate.replace(HALandingPageConfig);
                               },
                             ),
                           )

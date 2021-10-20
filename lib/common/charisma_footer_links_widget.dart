@@ -100,7 +100,7 @@ class CharismaFooterLinks extends StatelessWidget {
                             );
 
                             pageConfigFuture.then((pageConfig) {
-                              return routerDelegate.push(pageConfig);
+                              return routerDelegate.replace(pageConfig);
                             });
                           },
                           key: ValueKey(

@@ -68,7 +68,7 @@ class PartialAssessmentProgressWidget extends StatelessWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        routerDelegate.push(HALandingPageConfig);
+                        routerDelegate.replace(HALandingPageConfig);
                       },
                       child: Text('Continue quiz!'),
                       style: ElevatedButton.styleFrom(

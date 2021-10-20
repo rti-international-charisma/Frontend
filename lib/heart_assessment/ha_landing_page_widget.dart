@@ -86,7 +86,7 @@ class HALandingPageWidget extends StatelessWidget {
               height: 40,
               child: TextButton(
                 onPressed: () {
-                  routerDelegate.push(HeartAssessmentQuestionnaireConfig);
+                  routerDelegate.replace(HeartAssessmentQuestionnaireConfig);
                 },
                 child: Text(
                   partiallyComplete ? 'Continue' : 'Get started',

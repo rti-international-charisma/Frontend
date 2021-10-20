@@ -69,7 +69,7 @@ void main() {
       footerLink.onPressed!();
       await tester.pump(Duration.zero);
       pageConfigFuture
-          .then((pageConfig) => verify(routerDelegate.push(pageConfig)));
+          .then((pageConfig) => verify(routerDelegate.replace(pageConfig)));
     }
   }
 

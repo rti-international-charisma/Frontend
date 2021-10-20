@@ -31,7 +31,7 @@ void main() {
     await tester.tap(find.byKey(ValueKey('LoginRegisterBtnKey')));
     await tester.pump();
 
-    verify(routerDelegate.push(SignUpConfig));
+    verify(routerDelegate.replace(SignUpConfig));
   });
 
   testWidgets('tapping on forgot password should take to Reset Password page',
@@ -42,7 +42,7 @@ void main() {
     await tester.tap(find.byKey(ValueKey('LoginForgotPWordKey')));
     await tester.pump();
 
-    verify(routerDelegate.push(ForgotPasswordConfig));
+    verify(routerDelegate.replace(ForgotPasswordConfig));
   });
 
   testWidgets('should show error if username is empty',
@@ -108,6 +108,6 @@ void main() {
     await tester.tap(find.byKey(ValueKey('LoginLoginBtnKey')));
     await tester.pump();
 
-    verify(routerDelegate.push(HomePageConfig));
+    verify(routerDelegate.replace(HomePageConfig));
   });
 }

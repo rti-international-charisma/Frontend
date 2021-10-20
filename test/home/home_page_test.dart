@@ -356,7 +356,7 @@ void main() {
     // Step 1
     await tester.ensureVisible(find.byKey(ValueKey('Step1')));
     await tester.tap(find.byKey(ValueKey('Step1')));
-    verify(routerDelegate.push(HALandingPageConfig));
+    verify(routerDelegate.replace(HALandingPageConfig));
 
     // Step 2
     // Test for this one is not needed as we simply scroll the homepage
@@ -364,11 +364,11 @@ void main() {
 
     // Step 3
     await tester.tap(find.byKey(ValueKey('Step3')));
-    verify(routerDelegate.push(MalePartnerInfoConfig));
+    verify(routerDelegate.replace(MalePartnerInfoConfig));
 
     // Step 4
     await tester.tap(find.byKey(ValueKey('Step4')));
-    verify(routerDelegate.push(ReferralsConfig));
+    verify(routerDelegate.replace(ReferralsConfig));
   });
 
   testWidgets(

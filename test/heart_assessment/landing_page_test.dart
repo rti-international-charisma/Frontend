@@ -136,7 +136,7 @@ void main() {
     await tester.tap(find.byKey(ValueKey('HAGetStarted')));
     await tester.pump();
 
-    verify(routerDelegate.push(HeartAssessmentQuestionnaireConfig));
+    verify(routerDelegate.replace(HeartAssessmentQuestionnaireConfig));
   });
 
   testWidgets('it should show Continue text on partial assessment',

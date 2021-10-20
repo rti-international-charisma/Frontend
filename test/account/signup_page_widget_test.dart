@@ -53,7 +53,7 @@ void main() {
     await tester.tap(find.byKey(ValueKey('loginButtonkey')));
     await tester.pump();
 
-    verify(routerDelegate.push(LoginPageConfig));
+    verify(routerDelegate.replace(LoginPageConfig));
   });
 
   testWidgets('should show username exist error', (WidgetTester tester) async {

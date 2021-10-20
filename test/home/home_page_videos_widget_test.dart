@@ -219,7 +219,7 @@ void main() {
   //
   //     await tester.pump(Duration.zero);
   //     pageConfigFuture.then((pageConfig) {
-  //       verify(routerDelegate.push(pageConfig));
+  //       verify(routerDelegate.replace(pageConfig));
   //     });
   //   }
   // });

@@ -16,23 +16,23 @@ class CharismaMenuWidget extends StatelessWidget {
         itemBuilder: (BuildContext context) => <PopupMenuEntry> [
           PopupMenuItem(
             value: 'About Us',
-            onTap: () => routerDelegate.push(HIVPreventionPrepConfig),
+            onTap: () => routerDelegate.replace(HIVPreventionPrepConfig),
             child: Text('About Us',
               style: blackStyle),
           ),
           PopupMenuItem(
             value: 'Take the relationship quiz',
-            onTap: () => routerDelegate.push(HeartAssessmentQuestionnaireConfig),
+            onTap: () => routerDelegate.replace(HeartAssessmentQuestionnaireConfig),
             child: Text('Take the relationship quiz',style: blackStyle),
           ),
           PopupMenuItem(
             value: 'Materials for your partner',
-            onTap: () => routerDelegate.push(MalePartnerInfoConfig),
+            onTap: () => routerDelegate.replace(MalePartnerInfoConfig),
             child: Text('Materials for your partner', style: blackStyle),
           ),
           PopupMenuItem(
             value: 'Access other support',
-            onTap: () => routerDelegate.push(ReferralsConfig),
+            onTap: () => routerDelegate.replace(ReferralsConfig),
             child: Text('Access other support', style: blackStyle),
           ),
           PopupMenuItem(
@@ -41,21 +41,21 @@ class CharismaMenuWidget extends StatelessWidget {
               itemBuilder:  (BuildContext context) => <PopupMenuEntry>[
                 PopupMenuItem(
                   value: 'Healthy Relationships',
-                  onTap: () => routerDelegate.push(CounsellingModuleHealthyRelationshipConfig),
+                  onTap: () => routerDelegate.replace(CounsellingModuleHealthyRelationshipConfig),
                   child: Text('Healthy Relationships',  style: blackStyle),
                 ),
                 PopupMenuItem(
                     value: 'Partner Communication',
-                    onTap: () => routerDelegate.push(CounsellingModulePartnerCommConfig),
+                    onTap: () => routerDelegate.replace(CounsellingModulePartnerCommConfig),
                     child: Text('Partner Communication',  style: blackStyle)),
                 PopupMenuItem(
                     value: 'PrEP Disclosure',
-                    onTap: () => routerDelegate.push(CounsellingModulePrepUseConfig),
+                    onTap: () => routerDelegate.replace(CounsellingModulePrepUseConfig),
                     child: Text('PrEP Disclosure',  style: blackStyle)
                 ),
                 PopupMenuItem(
                     value: 'Intimate Partner Violence',
-                    onTap: () => routerDelegate.push(CounsellingModuleIPVConfig),
+                    onTap: () => routerDelegate.replace(CounsellingModuleIPVConfig),
                     child: Text('Intimate Partner Violence',  style: blackStyle)
                 ),
               ],
@@ -64,7 +64,7 @@ class CharismaMenuWidget extends StatelessWidget {
           PopupMenuDivider(),
           PopupMenuItem(
             value: 'Healthy Relationships',
-            onTap: () => routerDelegate.push(CounsellingModuleHealthyRelationshipConfig),
+            onTap: () => routerDelegate.replace(CounsellingModuleHealthyRelationshipConfig),
             child: Text('Healthy Relationships', style: blackStyle),
           ),
 

@@ -28,7 +28,7 @@ class CharismaAppBar extends StatelessWidget with PreferredSizeWidget {
         iconTheme: IconThemeData(color: Color(0xff2DA4FA)),
         flexibleSpace: InkWell(
           onTap: () {
-            routerDelegate.replaceAll(HomePageConfig);
+            routerDelegate.replace(HomePageConfig);
           },
           child: Padding(
             padding: EdgeInsets.fromLTRB(50, 20, 30, 0),
@@ -68,7 +68,7 @@ class CharismaAppBar extends StatelessWidget with PreferredSizeWidget {
                               onPressed: () {
                                 sharedPrefHelper.setUserData(null);
                                 userState.userLoggedOut();
-                                routerDelegate.replaceAll(HomePageConfig);
+                                routerDelegate.replace(HomePageConfig);
                               },
                             ),
                           ),
@@ -92,7 +92,7 @@ class CharismaAppBar extends StatelessWidget with PreferredSizeWidget {
                         ),
                         key: ValueKey('SignUpLink'),
                         onPressed: () {
-                          routerDelegate.push(SignUpConfig);
+                          routerDelegate.replace(SignUpConfig);
                         },
                       ),
                     ),
@@ -118,7 +118,7 @@ class CharismaAppBar extends StatelessWidget with PreferredSizeWidget {
                         ),
                         key: ValueKey('LoginLink'),
                         onPressed: () {
-                          routerDelegate.push(LoginPageConfig);
+                          routerDelegate.replace(LoginPageConfig);
                         },
                       ),
                     )

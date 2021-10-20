@@ -46,7 +46,7 @@ void main() {
     await tester.tap(find.byKey(ValueKey('FPRegisterButtonKey')));
     await tester.pump();
 
-    verify(routerDelegate.push(SignUpConfig));
+    verify(routerDelegate.replace(SignUpConfig));
 
   });
 

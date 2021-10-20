@@ -414,7 +414,7 @@ class _HeartAssessmentQuestionaireState
                                 .setResultsData(results);
                           }
 
-                          routerDelegate.push(HAResultsConfig);
+                          routerDelegate.replace(HAResultsConfig);
                         },
                         child: Text('Check out the results'),
                         style: ElevatedButton.styleFrom(
