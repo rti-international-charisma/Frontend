@@ -2,9 +2,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:charisma/common/charisma_expandable_widget.dart';
 import 'package:charisma/common/youtube_player_widget.dart';
 import 'package:charisma/constants.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../logger.dart';
 
@@ -151,8 +153,30 @@ class CounsellingModuleWidget extends StatelessWidget {
                   ],
                 ),
               ),
-            ],
-          ),
+              Html( data:"<h3>Healthy Relationships</h3>"),
+              Container(
+                alignment: Alignment.topLeft,
+                padding: EdgeInsets.only(left: 10),
+                child: RichText(
+                  textAlign: TextAlign.left,
+                  text: new TextSpan(
+                    children: [
+                      new TextSpan(
+                        text: 'Curious about other aspects of “Healthy Relationships” click ',
+                        style: new TextStyle(color: Colors.black),
+                      ),
+                      new TextSpan(
+                        text: 'here.',
+                        style: new TextStyle(color: Colors.blue),
+                        recognizer: new TapGestureRecognizer()
+                          ..onTap = () { launch('#/module/prep_use', webOnlyWindowName:'_self');
+                          },
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ])
         ),
         if (moduleActions != null && moduleActions.isNotEmpty)
           Container(

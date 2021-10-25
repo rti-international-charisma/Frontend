@@ -25,7 +25,6 @@ class HAResultsPageWidget extends StatelessWidget {
               assetsUrl: assetsUrl,
               displayUserGreeting: true,
             ),
-            CharismaFooterLinks(),
           ],
         ),
       ),

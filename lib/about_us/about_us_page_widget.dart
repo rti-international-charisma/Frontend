@@ -131,7 +131,6 @@ class AboutUs extends StatelessWidget {
                 return CharismaCircularLoader();
               },
             ),
-            CharismaFooterLinks(),
           ],
         ),
       ),

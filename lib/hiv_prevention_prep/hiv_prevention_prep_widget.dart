@@ -202,7 +202,6 @@ class HIVPreventionPrepWidget extends StatelessWidget {
                 return CharismaCircularLoader();
               },
             ),
-            CharismaFooterLinks(),
           ],
         ),
       ),

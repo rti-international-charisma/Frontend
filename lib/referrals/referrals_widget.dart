@@ -180,7 +180,6 @@ class ReferralsWidget extends StatelessWidget {
                 return CharismaCircularLoader();
               },
             ),
-            CharismaFooterLinks(),
           ],
         ),
       ),

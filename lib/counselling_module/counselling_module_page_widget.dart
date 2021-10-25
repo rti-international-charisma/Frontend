@@ -74,7 +74,6 @@ class CounsellingModulePageWidget extends StatelessWidget {
                 return CharismaCircularLoader();
               },
             ),
-            CharismaFooterLinks(),
           ],
         ),
       ),

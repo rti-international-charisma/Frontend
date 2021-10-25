@@ -56,7 +56,7 @@ class CharismaFooterLinks extends StatelessWidget {
             height: 50,
             padding: EdgeInsets.only(left: isSubList ? 35 : 20, right: 10),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Colors.green,
               border: Border(
                 bottom: BorderSide(
                   color: Colors.black.withOpacity(0.2),

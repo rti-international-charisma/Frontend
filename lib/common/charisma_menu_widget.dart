@@ -16,9 +16,14 @@ class CharismaMenuWidget extends StatelessWidget {
         itemBuilder: (BuildContext context) => <PopupMenuEntry> [
           PopupMenuItem(
             value: 'About Us',
-            onTap: () => routerDelegate.replace(HIVPreventionPrepConfig),
+            onTap: () => routerDelegate.replace(AboutUsConfig),
             child: Text('About Us',
-              style: blackStyle),
+                style: blackStyle),
+          ),
+          PopupMenuItem(
+            value: 'HIV Prevention: PrEP',
+            onTap: () => routerDelegate.replace(HIVPreventionPrepConfig),
+            child: Text('HIV Prevention: PrEP', style: blackStyle),
           ),
           PopupMenuItem(
             value: 'Take the relationship quiz',
@@ -61,13 +66,6 @@ class CharismaMenuWidget extends StatelessWidget {
               ],
             )
           ),
-          PopupMenuDivider(),
-          PopupMenuItem(
-            value: 'Healthy Relationships',
-            onTap: () => routerDelegate.replace(CounsellingModuleHealthyRelationshipConfig),
-            child: Text('Healthy Relationships', style: blackStyle),
-          ),
-
     ]);
   }
 

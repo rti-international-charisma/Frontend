@@ -54,19 +54,17 @@ class HAResultsWidget extends StatelessWidget {
     }
   }
 
-  Color _calcColour(String sectionType, num amount, num total) {
-    bool reverse = sectionType == "PARTNER SUPPORT" || sectionType == "PARTNER ATTITUDE TO HIV PREVENTION" ||  sectionType == "HIV PREVENTION READINESS";
-    num colourNum = (((amount / total) * 100) / 16).toInt();
-    if (reverse) {
-      colourNum = 6 - colourNum;
-    }
+  Color _calcColour(String sectionType, num amount, num total, bool reverse) {
+    amount = reverse ? amount : total - amount ;
+    num colourNum = (((amount / total) * 100) / 33.33).toInt();
     switch (colourNum.toInt()) {
-      case 5: return Colors.lightGreenAccent.shade700;
-      case 4: return Colors.lightGreenAccent;
-      case 3: return Colors.yellowAccent;
-      case 2: return Colors.yellow;
-      case 1: return Colors.orange;
-      default: return Colors.red;
+      case 0: return Colors.red;
+      // case 1: return Colors.orange;
+      case 1: return Colors.yellow;
+      // case 3: return Colors.yellowAccent;
+      // case 4: return Colors.lightGreenAccent;
+      case 3: return Colors.lightGreenAccent.shade700;
+      default: return Colors.lightGreenAccent.shade700;
     }
 
   }
@@ -158,17 +156,7 @@ class HAResultsWidget extends StatelessWidget {
                                           shape: BoxShape.circle
                                       ),
                                     ),
-                                    Text("Excellent"),
-                                    SizedBox(width: 5),
-                                    Container(
-                                      width: 25,
-                                      height:25,
-                                      decoration: BoxDecoration(
-                                          color: Colors.lightGreenAccent,
-                                          shape: BoxShape.circle
-                                      ),
-                                    ),
-                                    Text("Good"),
+                                    Text("High"),
                                     SizedBox(width: 5),
                                     Container(
                                       width: 25,
@@ -179,33 +167,6 @@ class HAResultsWidget extends StatelessWidget {
                                       ),
                                     ),
                                     Text("Average"),
-                                    SizedBox(width: 5)
-                                  ],),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Container(
-                                      width: 25,
-                                      height:25,
-                                      decoration: BoxDecoration(
-                                          color: Colors.yellow,
-                                          shape: BoxShape.circle
-                                      ),
-                                    ),
-                                    Text("Below Average"),
-                                    SizedBox(width: 5),
-                                    Container(
-                                      width: 25,
-                                      height:25,
-                                      decoration: BoxDecoration(
-                                          color: Colors.orange,
-                                          shape: BoxShape.circle
-                                      ),
-                                    ),
-                                    Text("Poor"),
                                     SizedBox(width: 5),
                                     Container(
                                       width: 25,
@@ -215,9 +176,46 @@ class HAResultsWidget extends StatelessWidget {
                                           shape: BoxShape.circle
                                       ),
                                     ),
-                                    Text("Very Poor"),
+                                    Text("Low"),
                                     SizedBox(width: 5)
                                   ],),
+                                // SizedBox(
+                                //   height: 10,
+                                // ),
+                                // Row(
+                                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                //   children: [
+                                //     Container(
+                                //       width: 25,
+                                //       height:25,
+                                //       decoration: BoxDecoration(
+                                //           color: Colors.yellow,
+                                //           shape: BoxShape.circle
+                                //       ),
+                                //     ),
+                                //     Text("Below Average"),
+                                //     // SizedBox(width: 5),
+                                //     // Container(
+                                //     //   width: 25,
+                                //     //   height:25,
+                                //     //   decoration: BoxDecoration(
+                                //     //       color: Colors.orange,
+                                //     //       shape: BoxShape.circle
+                                //     //   ),
+                                //     // ),
+                                //     // Text("Poor"),
+                                //     SizedBox(width: 5),
+                                //     Container(
+                                //       width: 25,
+                                //       height:25,
+                                //       decoration: BoxDecoration(
+                                //           color: Colors.red,
+                                //           shape: BoxShape.circle
+                                //       ),
+                                //     ),
+                                //     Text("Low"),
+                                //     SizedBox(width: 5)
+                                //   ],),
                                 SizedBox(
                                   height: 10,
                                 ),
@@ -292,7 +290,7 @@ class HAResultsWidget extends StatelessWidget {
                                             width: 25,
                                             height:25,
                                             decoration: BoxDecoration(
-                                              color: _calcColour(sectionScores[index]['sectionType'], getSectionScore(sectionScores[index]['answers']), sectionScores[index]['answers'].length * 6),
+                                              color: _calcColour(sectionScores[index]['sectionType'], getSectionScore(sectionScores[index]['answers']), sectionScores[index]['answers'].length * 6, isReverse(sectionScores[index]['sectionType'])),
                                               shape: BoxShape.circle
                                             ),
                                           ),
@@ -395,5 +393,10 @@ class HAResultsWidget extends StatelessWidget {
         return CharismaCircularLoader();
       },
     );
+  }
+
+  bool isReverse(String type) {
+    var bool =  type == 'PARTNER SUPPORT' || type == 'HIV PREVENTION READINESS';
+    return bool;
   }
 }

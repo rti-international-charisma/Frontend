@@ -146,7 +146,6 @@ class MalePartnerInfoWidget extends StatelessWidget {
                 return CharismaCircularLoader();
               },
             ),
-            CharismaFooterLinks(),
           ],
         ),
       ),

@@ -81,7 +81,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   assetsUrl: widget.assetsUrl,
                   isLoggedIn: isLoggedIn,
                 ),
-                CharismaFooterLinks()
               ],
             ),
           );
@@ -127,7 +126,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             assetsUrl: widget.assetsUrl,
             displayUserGreeting: false,
           ),
-          CharismaFooterLinks(),
         ],
       ),
     );
