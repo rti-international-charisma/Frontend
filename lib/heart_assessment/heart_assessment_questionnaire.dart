@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/charisma_circular_loader_widget.dart';
 import 'package:charisma/common/charisma_error_handler_widget.dart';
@@ -11,6 +13,7 @@ import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase/firebase.dart';
 
 import '../constants.dart';
 import 'heart_assessment_question.dart';
@@ -20,8 +23,9 @@ class HeartAssessmentQuestionnaireWidget extends StatefulWidget {
   State<StatefulWidget> createState() => _HeartAssessmentQuestionaireState();
 
   final ApiClient apiClient;
+  final Analytics? analytics;
 
-  HeartAssessmentQuestionnaireWidget({Key? key, required this.apiClient})
+  HeartAssessmentQuestionnaireWidget({Key? key, required this.apiClient, @required this.analytics})
       : super(key: key);
 }
 
@@ -35,6 +39,7 @@ class _HeartAssessmentQuestionaireState
   bool isLoading = false;
 
   var scoresCache, questionsCache;
+
 
   Future<dynamic> getScores() async {
     String? userToken = await SharedPreferenceHelper().getUserToken();
@@ -279,8 +284,7 @@ class _HeartAssessmentQuestionaireState
     result[sectionId]![qId] = selectedOption;
   }
 
-  Map<String, Map<String, int>> mapScoreResultToResult(
-      HeartAssessmentResult? heartAssessmentResult) {
+  Map<String, Map<String, int>> mapScoreResultToResult(HeartAssessmentResult? heartAssessmentResult) {
     Map<String, Map<String, int>> tempMap = {};
     heartAssessmentResult?.sections.map((section) {
       Map<String, int> qMap = {};
@@ -308,6 +312,10 @@ class _HeartAssessmentQuestionaireState
   }
 
   HeartAssessmentResult createResultObject(HeartAssessment heartAssessment) {
+    var pageName = "/heart_assessment_questionnaire/question_" + (currentDisplaySection + 1).toString();
+    widget.analytics!.setCurrentScreen(pageName);
+    widget.analytics!.logEvent(pageName, new HashMap());
+
     List<Section> sectionsList = result
         .map((sectionId, QnAMap) {
           List<Answer> answers = [];
@@ -332,21 +340,18 @@ class _HeartAssessmentQuestionaireState
     return assessmentResult;
   }
 
-  String? getSectionTypeFromSectionId(
-      HeartAssessment heartAssessment, String sectionId) {
+  String? getSectionTypeFromSectionId(HeartAssessment heartAssessment, String sectionId) {
     return heartAssessment.assessment!
         .firstWhere((element) => element.id == sectionId)
         .section;
   }
 
-  Future? postScores(
-      ApiClient apiClient, HeartAssessmentResult result, String token) {
+  Future? postScores(ApiClient apiClient, HeartAssessmentResult result, String token) {
     return apiClient.postWithHeaders('assessment/scores', result.toJson(),
         {'Authorization': 'Bearer $token'});
   }
 
-  Future<void> showTestDonePopup(HeartAssessment heartAssessment,
-      ApiClient apiClient, CharismaRouterDelegate routerDelegate) async {
+  Future<void> showTestDonePopup(HeartAssessment heartAssessment, ApiClient apiClient, CharismaRouterDelegate routerDelegate) async {
     var results = createResultObject(heartAssessment);
 
     return showDialog<void>(
