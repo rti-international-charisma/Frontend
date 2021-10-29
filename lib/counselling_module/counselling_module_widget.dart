@@ -24,7 +24,6 @@ class CounsellingModuleWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var moduleSections = moduleData!['counsellingModuleSections'];
     var moduleActions = moduleData!['counsellingModuleActionPoints'];
-
     return ListView(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
@@ -153,8 +152,10 @@ class CounsellingModuleWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              Html( data:"<h3>Healthy Relationships</h3>"),
-              Container(
+              if (!moduleData!["title"].toString().contains("healthy relationship"))
+                Html( data:"<h3>Healthy Relationships</h3>"),
+              if (!moduleData!["title"].toString().contains("healthy relationship"))
+                Container(
                 alignment: Alignment.topLeft,
                 padding: EdgeInsets.only(left: 10),
                 child: RichText(
