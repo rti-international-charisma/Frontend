@@ -169,7 +169,7 @@ class CounsellingModuleWidget extends StatelessWidget {
                         text: 'here.',
                         style: new TextStyle(color: Colors.blue),
                         recognizer: new TapGestureRecognizer()
-                          ..onTap = () { launch('#/module/prep_use', webOnlyWindowName:'_self');
+                          ..onTap = () { launch('#/module/healthy_relationship', webOnlyWindowName:'_self');
                           },
                       ),
                     ],

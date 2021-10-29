@@ -29,15 +29,15 @@ class HAResultsWidget extends StatelessWidget {
   String? getSectionScoreExplanation(String sectionType) {
     switch (sectionType) {
       case 'TRADITIONAL VALUES':
-        return 'Women who have higher scores on these questions generally believe men should have more power than women in family or relationship decisions.';
+        return 'Green means you tend to think women and men have more equal power. Red means you think men should have more power.';
       case 'PARTNER ABUSE AND CONTROL':
-        return 'Women who score higher on these questions generally feel their partners are more controlling or abusive than women with lower scores.';
+        return 'Green means your partner isn’t abusive or controlling. If you scored red, you may feel he is controlling or abusive.';
       case 'PARTNER SUPPORT':
-        return 'Women who score higher on these questions generally feel their partners are more supportive than women with lower scores. Think about if this describes your feelings towards your partner.';
+        return 'Green means your partner is generally supportive. Red means your partner may not be very supportive of you.';
       case 'PARTNER ATTITUDE TO HIV PREVENTION':
-        return 'Women who score higher on these questions generally feel their partners are resistant to using HIV prevention methods than women with lower scores.';
+        return 'Green means your partner is supportive of HIV prevention. Red means your partner may be resistant to using HIV prevention.';
       case 'HIV PREVENTION READINESS':
-        return 'Women who score higher on these questions generally feel more ready to use HIV prevention methods than women with lower scores.';
+        return 'If you scored green, you’re ready to use HIV prevention. Red means you may not feel ready to use HIV prevention.';
     }
   }
 
