@@ -151,16 +151,10 @@ class _HeartAssessmentQuestionaireState
                             onPressed: () async {
                               if (currentDisplaySection <
                                   (heartAssessment.assessment!.length - 1)) {
-                                if (areAllQuestionsInCurrentSectionCompleted(
-                                    heartAssessment,
-                                    result,
-                                    currentDisplaySection)) {
+                                if (areAllQuestionsInCurrentSectionCompleted(heartAssessment, result, currentDisplaySection)) {
                                   // If User is logged in. Post Score Async
-                                  if (await SharedPreferenceHelper()
-                                      .isUserLoggedIn()) {
-                                    var userToken =
-                                        await SharedPreferenceHelper()
-                                            .getUserToken();
+                                  if (await SharedPreferenceHelper().isUserLoggedIn()) {
+                                    var userToken = await SharedPreferenceHelper().getUserToken();
                                     postScores(
                                             widget.apiClient,
                                             createResultObject(heartAssessment),
@@ -312,9 +306,7 @@ class _HeartAssessmentQuestionaireState
   }
 
   HeartAssessmentResult createResultObject(HeartAssessment heartAssessment) {
-    var pageName = "/heart_assessment_questionnaire/question_page" + (currentDisplaySection + 1).toString();
-    widget.analytics!.setCurrentScreen(pageName);
-    widget.analytics!.logEvent(pageName, new HashMap());
+
 
     List<Section> sectionsList = result
         .map((sectionId, QnAMap) {
@@ -347,6 +339,9 @@ class _HeartAssessmentQuestionaireState
   }
 
   Future? postScores(ApiClient apiClient, HeartAssessmentResult result, String token) {
+    var pageName = "/heart_assessment_questionnaire/question_page" + (currentDisplaySection + 1).toString();
+    widget.analytics!.setCurrentScreen(pageName);
+    widget.analytics!.logEvent(pageName, new HashMap());
     return apiClient.postWithHeaders('assessment/scores', result.toJson(),
         {'Authorization': 'Bearer $token'});
   }

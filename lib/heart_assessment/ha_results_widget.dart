@@ -374,8 +374,8 @@ class HAResultsWidget extends StatelessWidget {
                   if (data.hasData) {
                     var moduleData = data.data as Map<String, dynamic>;
                     var title = (moduleData['title'] as String).replaceAll(" ", "_");
-                    analytics!.setCurrentScreen("recommend/" + title);
-                    analytics!.logEvent("recommend/" + title, new HashMap());
+                    analytics!.setCurrentScreen("/recommend/" + title);
+                    analytics!.logEvent("/recommend/" + title, new HashMap());
 
                     return CounsellingModuleWidget(
                       moduleData: moduleData,
