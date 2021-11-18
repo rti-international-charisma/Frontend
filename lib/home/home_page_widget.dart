@@ -13,16 +13,19 @@ import 'package:charisma/home/partial_assessment_progress_widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase/firebase.dart';
 
 class HomePageWidget extends StatefulWidget {
   HomePageWidget({
     Key? key,
     this.apiClient,
     this.assetsUrl,
+    this.analytics
   }) : super(key: key);
 
   final ApiClient? apiClient;
   final String? assetsUrl;
+  final Analytics? analytics;
 
   @override
   _HomePageWidgetState createState() => _HomePageWidgetState();
@@ -125,6 +128,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             apiClient: widget.apiClient,
             assetsUrl: widget.assetsUrl,
             displayUserGreeting: false,
+            analytics: widget.analytics
           ),
         ],
       ),

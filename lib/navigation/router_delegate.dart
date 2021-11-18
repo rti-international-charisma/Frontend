@@ -146,6 +146,7 @@ class CharismaRouterDelegate extends RouterDelegate<PageConfiguration>
           HAResultsPageWidget(
             apiClient: _apiClient,
             assetsUrl: _assetsUrl,
+            analytics: analytics(),
           ),
           HAResultsConfig,
         );

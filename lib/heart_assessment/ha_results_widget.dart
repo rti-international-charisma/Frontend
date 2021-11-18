@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:charisma/apiclient/api_client.dart';
 import 'package:charisma/common/charisma_circular_loader_widget.dart';
 import 'package:charisma/common/charisma_error_handler_widget.dart';
@@ -8,6 +10,7 @@ import 'package:charisma/navigation/router_delegate.dart';
 import 'package:charisma/navigation/ui_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase/firebase.dart';
 
 class HAResultsWidget extends StatelessWidget {
   const HAResultsWidget({
@@ -15,11 +18,13 @@ class HAResultsWidget extends StatelessWidget {
     required this.apiClient,
     required this.assetsUrl,
     required this.displayUserGreeting,
+    required this.analytics
   }) : super(key: key);
 
   final ApiClient? apiClient;
   final String? assetsUrl;
   final bool displayUserGreeting;
+  final Analytics? analytics;
 
   num getSectionScore(List answersList) {
     return answersList.fold(
@@ -368,6 +373,9 @@ class HAResultsWidget extends StatelessWidget {
                 builder: (context, data) {
                   if (data.hasData) {
                     var moduleData = data.data as Map<String, dynamic>;
+                    var title = (moduleData['title'] as String).replaceAll(" ", "_");
+                    analytics!.setCurrentScreen("recommend/" + title);
+                    analytics!.logEvent("recommend/" + title, new HashMap());
 
                     return CounsellingModuleWidget(
                       moduleData: moduleData,

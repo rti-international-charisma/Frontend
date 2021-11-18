@@ -312,7 +312,7 @@ class _HeartAssessmentQuestionaireState
   }
 
   HeartAssessmentResult createResultObject(HeartAssessment heartAssessment) {
-    var pageName = "/heart_assessment_questionnaire/question_" + (currentDisplaySection + 1).toString();
+    var pageName = "/heart_assessment_questionnaire/question_page" + (currentDisplaySection + 1).toString();
     widget.analytics!.setCurrentScreen(pageName);
     widget.analytics!.logEvent(pageName, new HashMap());
 
