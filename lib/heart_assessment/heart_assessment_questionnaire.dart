@@ -339,11 +339,25 @@ class _HeartAssessmentQuestionaireState
   }
 
   Future? postScores(ApiClient apiClient, HeartAssessmentResult result, String token) {
-    var pageName = "/heart_assessment_questionnaire/question_page" + (currentDisplaySection + 1).toString();
+    var pageName = "/heart_assessment_questionnaire/question_page" + toWord((currentDisplaySection + 1));
     widget.analytics!.setCurrentScreen(pageName);
     widget.analytics!.logEvent(pageName, new HashMap());
     return apiClient.postWithHeaders('assessment/scores', result.toJson(),
         {'Authorization': 'Bearer $token'});
+  }
+
+  String toWord(int num) {
+
+      switch(num) {
+        case 1: return "One";
+        case 2: return "Two";
+        case 3: return "Three";
+        case 4: return "Four";
+        case 5: return "Five";
+        case 6: return "Six";
+        case 7: return "Seven";
+      }
+      return "";
   }
 
   Future<void> showTestDonePopup(HeartAssessment heartAssessment, ApiClient apiClient, CharismaRouterDelegate routerDelegate) async {
