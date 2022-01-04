@@ -9,8 +9,8 @@ ENV PATH=/opt/flutter/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbi
 
 RUN apt update && apt install -y curl git unzip xz-utils zip libglu1-mesa openjdk-8-jdk wget
 RUN apt-get update
-RUN apt-get install -y curl git wget unzip libgconf-2-4 libstdc++6 libglu1-mesa  fonts-droid-fallback lib32stdc++6 psmisc python3.10
-# RUN apt-get install -y gdb
+RUN apt-get install -y curl git wget unzip libgconf-2-4 libstdc++6 libglu1-mesa  fonts-droid-fallback lib32stdc++6 psmisc
+RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get  install -y python3
 RUN apt-get clean
 # Install flutter
 
