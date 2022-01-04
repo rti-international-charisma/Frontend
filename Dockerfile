@@ -1,4 +1,4 @@
-FROM ubuntu:20.10 as builder
+FROM ubuntu:22.04 as builder
 
 ARG PROJECT_DIR=/charisma-dart
 ARG ENVIRONMENT=stage
@@ -9,7 +9,7 @@ ENV PATH=/opt/flutter/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbi
 
 RUN apt update && apt install -y curl git unzip xz-utils zip libglu1-mesa openjdk-8-jdk wget
 RUN apt-get update 
-RUN apt-get install -y curl git wget unzip libgconf-2-4 gdb libstdc++6 libglu1-mesa fonts-droid-fallback lib32stdc++6 python3 psmisc
+# RUN apt-get install -y curl git wget unzip libgconf-2-4 gdb libstdc++6 libglu1-mesa fonts-droid-fallback lib32stdc++6 python3 psmisc
 RUN apt-get clean
 # Install flutter
 
