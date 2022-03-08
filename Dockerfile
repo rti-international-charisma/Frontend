@@ -31,7 +31,7 @@ WORKDIR /usr/local/bin/app
 RUN flutter pub get
 
 # Build the app for the web
-RUN flutter build web --dart-define=ENV=$ENVIRONMENT --web-renderer canvaskit --release
+RUN flutter build web --dart-define=ENV=$ENVIRONMENT --dart-define=FLUTTER_WEB_MAXIMUM_SURFACES=1 --web-renderer canvaskit --release
 
 
 # Document the exposed port
