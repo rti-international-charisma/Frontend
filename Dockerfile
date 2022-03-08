@@ -14,7 +14,7 @@ RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get  install -y python3
 RUN apt-get clean
 # Install flutter
 
-RUN curl -L https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_2.5.2-stable.tar.xz | tar -C /opt -xJ
+RUN curl -L https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_2.10.3-stable.tar.xz | tar -C /opt -xJ
 
 
 # Enable web capabilities
@@ -31,7 +31,7 @@ WORKDIR /usr/local/bin/app
 RUN flutter pub get
 
 # Build the app for the web
-RUN flutter build web --dart-define=ENV=$ENVIRONMENT --dart-define=FLUTTER_WEB_MAXIMUM_SURFACES=1 --release
+RUN flutter build web --dart-define=ENV=$ENVIRONMENT --dart-define=FLUTTER_WEB_MAXIMUM_SURFACES=1 --web-renderer html --release
 
 
 # Document the exposed port
