@@ -1,4 +1,5 @@
-# charisma
+# Charisma Flutter Web Frontend Home @github
+
 
 Charisma Flutter project.
 
@@ -30,3 +31,16 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+##  Related projects
+
+This project has counterpart projects:
+
+- [Charisma-API: APIS's this application will integrate with](https://github.com/rti-international-charisma/charisma-api)
+- [Charisma-CMS: Default content for this project](https://github.com/rti-international-charisma/charisma-directus)
+
+## License information
+
+This project is licensed under the [Apache 2.0 open-source license](https://www.apache.org/licenses/LICENSE-2.0)
+
+*This mobile website was developed by RTI International, Wits Reproductive Health and Research Institute, and FHI360 with technical support from Equal Experts and Fluidity Software. It was funded through Digital Square, a PATH-led initiative funded and designed by the United States Agency for International Development, the Bill & Melinda Gates Foundation, and a consortium of other donors. It was made possible by the generous support of the American people through the United States Agency for International Development (USAID). The contents are the responsibility of PATH and do not necessarily reflect the views of USAID or the United States Government.*
